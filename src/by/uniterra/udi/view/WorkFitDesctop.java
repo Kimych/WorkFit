@@ -33,6 +33,9 @@ package by.uniterra.udi.view;
  */
 public class WorkFitDesctop
 {
-	ghjghghgh
+	public static void main(String[] args)
+	{
+	    System.out.println("HelloWord");
+	}
 
 }
