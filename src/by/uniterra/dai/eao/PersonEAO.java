@@ -31,7 +31,7 @@ package by.uniterra.dai.eao;
 
 import javax.persistence.EntityManager;
 
-import by.uniterra.dai.business.Person;
+import by.uniterra.dai.entity.Person;
 
 /**
  * The <code>PersonEAO</code> is used to access Person data in DB

@@ -55,7 +55,7 @@ import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXTextField;
 import org.jdesktop.swingx.error.ErrorInfo;
 
-import by.uniterra.dai.business.Person;
+import by.uniterra.dai.entity.Person;
 import by.uniterra.dai.iface.IPerson;
 import by.uniterra.dai.model.EModelState;
 import by.uniterra.dai.model.ESex;

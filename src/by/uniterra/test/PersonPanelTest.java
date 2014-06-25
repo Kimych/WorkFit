@@ -30,7 +30,7 @@ package by.uniterra.test;
 
 import javax.swing.JOptionPane;
 
-import by.uniterra.dai.business.Person;
+import by.uniterra.dai.entity.Person;
 import by.uniterra.system.main.SystemFactory;
 import by.uniterra.system.main.UserSystemFactory;
 import by.uniterra.system.util.Log;
@@ -48,7 +48,6 @@ public class PersonPanelTest
     {
         //initialize system factory
         SystemFactory.setSystemFactory(new UserSystemFactory());
-        Log.info(PersonPanelTest.class, "\n\n\n");
         //create Persin UDI panel
         PersonPanel objTestPanel = new PersonPanel();
         objTestPanel.setModel(new Person());

@@ -26,7 +26,7 @@
  * last check in  : $Date: $
  */
 
-package by.uniterra.dai.business;
+package by.uniterra.dai.entity;
 
 import java.io.Serializable;
 import java.util.Date;
