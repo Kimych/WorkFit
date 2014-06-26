@@ -33,7 +33,6 @@ import javax.swing.JOptionPane;
 import by.uniterra.dai.entity.Person;
 import by.uniterra.system.main.SystemFactory;
 import by.uniterra.system.main.UserSystemFactory;
-import by.uniterra.system.util.Log;
 import by.uniterra.udi.view.PersonPanel;
 
 /**
@@ -48,9 +47,16 @@ public class PersonPanelTest
     {
         //initialize system factory
         SystemFactory.setSystemFactory(new UserSystemFactory());
+        //create a new Person model
+        Person pPerson = new Person();
+        pPerson.setFirstName("Антон");
+        pPerson.setSecondName("Недбайло");
+        pPerson.setThirdName("Кимович");
         //create Persin UDI panel
         PersonPanel objTestPanel = new PersonPanel();
-        objTestPanel.setModel(new Person());
+        //set model
+        objTestPanel.setModel(pPerson);
+        //bring model data to UI components
         objTestPanel.readValues();
         //show the panel
         JOptionPane.showMessageDialog(null, objTestPanel, "Пример UDI основанного на Swing и SwingX", JOptionPane.PLAIN_MESSAGE);

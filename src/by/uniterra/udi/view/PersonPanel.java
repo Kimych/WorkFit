@@ -141,11 +141,11 @@ public class PersonPanel extends AbstractModelOwnedPanel implements ActionListen
         //first line
         add(new JXLabel("Фамилия:"), new GridBagConstraints(iXpos = 0, ++iYpos, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE, insLabelInsets, 0, 0));
         add(tfSecondName, new GridBagConstraints(++iXpos, iYpos, 2, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, insCommonInsets, 0, 0));
-        add(new JXLabel("Имя:"), new GridBagConstraints(iXpos += 2, iYpos, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE, insLabelInsets, 0, 0));
+        add(new JXLabel("Имя:"), new GridBagConstraints(iXpos = 0, ++iYpos, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE, insLabelInsets, 0, 0));
         add(tfFirstName, new GridBagConstraints(++iXpos, iYpos, 1, 1, 0.5, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, insCommonInsets, 0, 0));
-        add(new JXLabel("Отчество"), new GridBagConstraints(++iXpos, iYpos, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE, insLabelInsets, 0, 0));
+        add(new JXLabel("Отчество"), new GridBagConstraints(iXpos = 0, ++iYpos, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE, insLabelInsets, 0, 0));
         add(tfThirdName, new GridBagConstraints(++iXpos, iYpos, 1, 1, 0.5, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, insCommonInsets, 0, 0));
-        add(new JXLabel("Дата рождения:"), new GridBagConstraints(++iXpos, iYpos, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE, insLabelInsets, 0, 0));
+        add(new JXLabel("Дата рождения:"), new GridBagConstraints(iXpos = 0, ++iYpos, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE, insLabelInsets, 0, 0));
         add(dpDateOfBirth, new GridBagConstraints(++iXpos, iYpos, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, insCommonInsets, 0, 0));
         //second line
         add(new JXLabel("Пол:"), new GridBagConstraints(iXpos = 0, ++iYpos, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE, insLabelInsets, 0, 0));
