@@ -8,60 +8,47 @@ public class testFileIO
 {
     public static void main(String[] args)
     {
-	
+
 	System.out.println("Start!");
-	
-	/*while(true)
-	{ 
-	  System.out.println("Select:\n" + 
-	"1 - Create.\n" + "2 - Delete.\n" + "3 - Exit.");
+
+	while (true)
+	{
+	    System.out.println("Select:\n" + "1 - Create.\n" + "2 - Delete.\n"
+		    + "3 - Exit.");
 	    Reader r = new Reader();
 	    r.Scan();
-	    switch(r.s)
+	    switch (r.s)
 	    {
-	    	case 1: 
-		    System.out.println("Creating...");
-		 // create first directory
-		    	int n = 3; // number of folders
-		    	System.out.println("user.home - " + System.getProperty("user.home"));
-	                File f = new File(System.getProperty("user.home"),"TEMP123")
-			f.mkdir();
-			String path3 = f.getPath();
-			// create sub-directory
-			subDirCreate(path3, n);
-			break;
-		case 2: 
-
-		    System.out.println("Delete...");
-		    File f2 = new File("TEMP123");
+	    case 1:
+		System.out.println("Creating...");
+		// create first directory
+		int n = 3; // number of folders
+		System.out.println("user.home - "
+			+ System.getProperty("user.home"));
+		File f = new File(System.getProperty("user.home"), "TEMP123");
+		f.mkdir();
+		subDirCreate(f.getPath(), n);
+		break;
+	    case 2:
+		File f2 = new File(System.getProperty("user.home"), "TEMP123");
+		if (f2.exists())
+		{
 		    delDir(f2);
-			break;
-		case 3:
-		    System.out.println("Exit OK!");
-		    System.exit(0);
-		default: 
-		    System.out.println("Not...");;
-		    break; 
+		    System.out.println("Successfully removed...");
+		} else
+		{
+		    System.out.println("Not found...");
+		}
+		break;
+	    case 3:
+		System.out.println("Exit OK!");
+		System.exit(0);
+	    default:
+		System.out.println("Not...");
+		;
+		break;
 	    }
-	}*/
-	int n = 5; // number of folders
-
-	// create first directory
-	File f = new File(System.getProperty("user.home"),"TEMP123");
-	f.mkdir();
-	String path3 = f.getPath();
-	// create sub-directory
-	subDirCreate(path3, n);
-
-/*	String path3 = f.getPath();
-	// create sub-directory
-	subDirCreate(path3, n);*/
-
-
-	
-
-	
-
+	}
     }
 
     public static void subDirCreate(String parentPath, int count)
@@ -72,7 +59,6 @@ public class testFileIO
 	    File f2 = new File(parentPath, nameNewDir);
 	    f2.mkdir();
 	    String path2 = f2.getPath();
-	    //String name2 = f2.getName();
 
 	    try
 	    {
@@ -81,33 +67,28 @@ public class testFileIO
 	    {
 		e.printStackTrace();
 	    }
-//in  test work
-	    /*for (int i2 = Integer.parseInt(f2.getName()); i2 < 2*count; i2++)
+
+	    for (int i2 = count * (i + 1); i2 < (count * (i + 1) + count); i2++)
 	    {
-		String nameNewDir2 = Integer.toString(i2+count);
-		File f3 = new File(path2, nameNewDir2);
+		// String nameNewDir2 = Integer.toString(i2);
+		File f3 = new File(path2, Integer.toString(i2));
 		f3.mkdir();
 		String path3 = f3.getPath();
+
 		try
 		{
 		    new FileWriter(path3 + ".tmp"); // create a *.tmp files in
 						    // the sub-directories
-		    for (int i3 = 0; i3 < count; i3++)
+		    for (int i3 = count * (i2 + 1); i3 < (count * (i2 + 1) + count); i3++)
 		    {
-			new FileWriter(path3 + "/" + i3 + ".tmp"); // create a
-								   // *.tmp
-								   // files in
-								   // the last
-								   // folders
+			new FileWriter(path3 + "/" + i3 + ".tmp");
 		    }
 
 		} catch (IOException e)
 		{
 		    e.printStackTrace();
 		}
-
-	    }*/
-
+	    }
 	}
     }
 
