@@ -31,7 +31,7 @@ package by.uniterra.test;
  * @author Anton Nedbailo
  * @since Jul 8, 2014
  */
-public class HelloWord
+public class HelloWorld
 {
 
     /**
