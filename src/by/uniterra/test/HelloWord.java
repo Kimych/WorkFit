@@ -2,40 +2,45 @@
  * Filename  : HelloWord.java
  *
  * ***************************************************************************
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- ***************************************************************************
- * Project    : WorkFit
+ * Copyright (C) 2001-2014 by ENVINET GmbH
+ * Hans-Pinsel-Str. 4 
+ * 85540 Haar / Munich
+ * info@envinet.com
+ *                                                      
+ * This material is a CONFIDENTIAL, unpublished work of authorship
+ * created in 2001 and subsequently updated. It is a TRADE SECRET which
+ * is property of ENVINET GmbH.
  *
- * Author     : Sergio Alecky
+ * All use, disclosure, and/or reproduction not specifically authorized
+ * by ENVINET GmbH in writing is prohibited. All rights reserved.
+ ***************************************************************************
+ * Project    : NMC
+ *
+ * Author     : Anton Nedbailo
  *
  * last change by : $Author:$ 
  * last check in  : $Date: $
+ *
  */
 
 package by.uniterra.test;
 
 /**
- * The <code>HelloWord</code> is used for ...
+ * The <code>HelloWord</code> is used for "Hello world" app
  *
- * @author Sergio Alecky
- * @since 20 θώνÿ 2014 γ.
+ * @author Anton Nedbailo
+ * @since Jul 8, 2014
  */
 public class HelloWord
 {
+
+    /**
+     * @param args
+     */
+    public static void main(String[] args)
+    {
+        // TODO Auto-generated method stub
+
+    }
 
 }
