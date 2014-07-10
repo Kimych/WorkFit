@@ -1,6 +1,7 @@
 package by.uniterra.dai.entity;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
 
 /**
@@ -100,4 +101,14 @@ public class Worker implements Serializable
 	this.department = department;
     }
 
+    @Override
+    public String toString()
+    {
+	return "Worker [workersId=" + workersId + ", firstName=" + firstName
+		+ ", sekondName=" + sekondName + ", telNumber=" + telNumber
+		+ ", thirdName=" + thirdName + ", department=" + department
+		+ "]";
+    }
+
+    
 }
