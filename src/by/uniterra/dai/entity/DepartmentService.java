@@ -1,20 +1,14 @@
 package by.uniterra.dai.entity;
 
 import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-//import javax.persistence.Persistence;
-//import javax.persistence.TypedQuery;
-
-
-
-
 
 public class DepartmentService
 {
-    //ok
-    public Department save(EntityManager em,Department department)
+    private EntityManager em = Main.factory.createEntityManager();
+
+    public Department save(Department department)
     {
 	Department depFromDB = null;
 	try
@@ -31,8 +25,8 @@ public class DepartmentService
 	return depFromDB;
 
     }
-    //ок
-    public Department delete(EntityManager em, int id)
+
+    public Department delete(int id)
     {
 	Department department = em.find(Department.class, id);
 	try
@@ -48,8 +42,8 @@ public class DepartmentService
 	}
 	return department;
     }
-    //ок
-    public void PrintAllDepartments(EntityManager em)
+    
+    public void PrintAllDepartments()
     {
 	Query q = em.createQuery("select d from Department d");
 	@SuppressWarnings("unchecked")
@@ -61,17 +55,8 @@ public class DepartmentService
 	System.out.println("Size: " + depList.size());
     }
 
-    /*private Department get(EntityManager em, int id)
+    public void emClose()
     {
-	return em.find(Department.class, id);
-    }*/
-
-
-/*    public List<Department> getAll(EntityManager em)
-    {
-	TypedQuery<Department> namedQuery = em.createNamedQuery(
-		"Department.getAll", Department.class);
-	return namedQuery.getResultList();
+	em.close();
     }
-*/
 }

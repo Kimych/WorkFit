@@ -1,7 +1,6 @@
 package by.uniterra.dai.entity;
 
 import java.io.Serializable;
-
 import javax.persistence.*;
 
 /**
@@ -16,7 +15,7 @@ public class Worker implements Serializable
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "WORKERS_ID")
     private int workersId;
 

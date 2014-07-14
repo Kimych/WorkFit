@@ -1,14 +1,16 @@
 package by.uniterra.dai.entity;
 
 import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 
 public class WorkerrService
 {
-    public Worker save(EntityManager em, Worker worker)
+    
+    private EntityManager em = Main.factory.createEntityManager();
+	    
+    public Worker save( Worker worker)
     {
 	Worker workFromDB = null;
 	try
@@ -26,7 +28,7 @@ public class WorkerrService
 
     }
     
-    public Worker delete(EntityManager em, int id)
+    public Worker delete(int id)
     {
 	Worker worker = em.find(Worker.class, id);
 	try
@@ -43,7 +45,7 @@ public class WorkerrService
 	return worker;
     }
     
-    public void PrintAllWorkers(EntityManager em)
+    public void PrintAllWorkers()
     {
 	Query q = em.createQuery("select w from Worker w");
 	@SuppressWarnings("unchecked")
@@ -54,5 +56,12 @@ public class WorkerrService
 	}
 	System.out.println("Size: " + workList.size());
     }
+    
+    public void emClose()
+    {
+	em.close();
+    }
+ 
+    
 
 }
