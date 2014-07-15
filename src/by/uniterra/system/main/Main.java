@@ -3,6 +3,7 @@ package by.uniterra.system.main;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
@@ -15,10 +16,16 @@ public class Main
 {
 
     private static final String PERSISTENCE_UNIT_NAME = "WorkFit";
-    public static EntityManagerFactory factory;
     public static int ID_DEL_WORKER = 6;
+    
+    private static EntityManagerFactory emfFactory;
+    private static EntityManager emManager;
+    
 
-    public static EntityManagerFactory connectDB()
+    /**
+     * Extablish a new onnection to target DB
+     */
+    public static void connectToDB()
     {
         Map<String, String> mapCustomProp = new HashMap<String, String>();
         // put system configuration properties
@@ -28,16 +35,34 @@ public class Main
         mapCustomProp.put(PersistenceUnitProperties.JDBC_DRIVER, "com.mysql.jdbc.Driver");
         // the correct way to disable the shared cache (L2 cache)
         mapCustomProp.put("eclipselink.cache.shared.default", "false");
-
-        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME, mapCustomProp);
-        return factory;
+        //a new connection (factory) to target DB
+        emfFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME, mapCustomProp);
+        emManager = emfFactory.createEntityManager();
     }
+    
+    /**
+     * Disconnect from target DB
+     */
+    public static void disconnectFromDb()
+    {
+        // close EntityManager
+        if (emManager != null && emManager.isOpen())
+        {
+            emManager.close();
+        }
+        // close EntityManagerFactory
+        if (emfFactory != null && emfFactory.isOpen())
+        {
+            emfFactory.close();
+        }
+    }
+    
 
     public static void main(String[] args)
     {
 
         // 2.1 Подключиться из приложения к базе данных.
-        connectDB();
+        connectToDB();
 
         // 2.2 Прочитать всех Worker и вывезти в консоль все детали (имена,
         // фамилии, ID, детали связанного Department и т.п.).
@@ -48,7 +73,7 @@ public class Main
         // without "em" in arguments (like service.PrintAllWorkers(),
         // service.save(work1)).
 
-        WorkerrService service = new WorkerrService();
+        WorkerrService service = new WorkerrService(emManager);
         service.PrintAllWorkers();
 
         // 2.3 Добавить нового Worker в базу данных.
@@ -63,31 +88,28 @@ public class Main
         // TODO you should close EntityManager (em) before factory too
 
         // 2.4 Разорвать соединение с базой данных.
-        service.emClose();
-        factory.close();
+        disconnectFromDb();
 
         // 2.5 Опять подключиться и вывести данные о всех Worker (убедиться что
         // наша новая запись в базе).
-        connectDB();
-        WorkerrService service2 = new WorkerrService();
+        connectToDB();
+        WorkerrService service2 = new WorkerrService(emManager);
         service2.PrintAllWorkers();
 
         // 2.6 Удалить нашу запись из базы.
         service2.delete(ID_DEL_WORKER);
 
         // 2.7 Разорвать соединение с базой данных.
-        service2.emClose();
-        factory.close();
+        disconnectFromDb();
 
         // 2.8 Опять подключиться и вывести данные о всех Worker (убедиться что
         // наша новая запись была удалена из базы).
-        connectDB();
-        WorkerrService service3 = new WorkerrService();
+        connectToDB();
+        WorkerrService service3 = new WorkerrService(emManager);
         service3.PrintAllWorkers();
 
         // close connection
-        service3.emClose();
-        factory.close();
+        disconnectFromDb();
     }
 
 }

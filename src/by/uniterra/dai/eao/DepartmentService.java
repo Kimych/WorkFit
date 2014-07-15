@@ -6,11 +6,22 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import by.uniterra.dai.entity.Department;
-import by.uniterra.system.main.Main;
 
 public class DepartmentService
 {
-    private EntityManager em = Main.factory.createEntityManager();
+    private EntityManager em;
+
+    /**
+     * 
+     * Constructor.
+     *
+     * @param em - EntityManager to be used in the class
+     */
+    public DepartmentService(EntityManager em)
+    {
+        super();
+        this.em = em;
+    }
 
     public Department save(Department department)
     {
@@ -59,8 +70,4 @@ public class DepartmentService
         System.out.println("Size: " + depList.size());
     }
 
-    public void emClose()
-    {
-        em.close();
-    }
 }

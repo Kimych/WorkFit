@@ -6,13 +6,25 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import by.uniterra.dai.entity.Worker;
-import by.uniterra.system.main.Main;
 
 
 public class WorkerrService
 {
 
-    private EntityManager em = Main.factory.createEntityManager();
+    private EntityManager em;
+    
+    
+    /**
+     * 
+     * Constructor.
+     *
+     * @param em - EntityManager to be used in the class
+     */
+    public WorkerrService(EntityManager em)
+    {
+        super();
+        this.em = em;
+    }
 
     public Worker save(Worker worker)
     {
@@ -60,11 +72,5 @@ public class WorkerrService
         }
         System.out.println("Size: " + workList.size());
     }
-
-    public void emClose()
-    {
-        em.close();
-    }
-
 
 }
