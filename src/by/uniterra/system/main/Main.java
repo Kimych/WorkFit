@@ -67,12 +67,6 @@ public class Main
         // 2.2 Прочитать всех Worker и вывезти в консоль все детали (имена,
         // фамилии, ID, детали связанного Department и т.п.).
 
-        // TODO codehack: add EntityManager to a WorkerrService class like a
-        // member, initialize it in a constructor (like new WorkerrService(em))
-        // and after that you can call "PrintAllWorkers" and "save" methods
-        // without "em" in arguments (like service.PrintAllWorkers(),
-        // service.save(work1)).
-
         WorkerrService service = new WorkerrService(emManager);
         service.printAllWorkers();
 
@@ -84,8 +78,6 @@ public class Main
         work1.setTelNumber("888888888888");
         work1.setDepartment(null);
         service.save(work1);
-
-        // TODO you should close EntityManager (em) before factory too
 
         // 2.4 Разорвать соединение с базой данных.
         disconnectFromDb();
