@@ -68,7 +68,7 @@ public class Main
         // фамилии, ID, детали связанного Department и т.п.).
 
         WorkerrService service = new WorkerrService(emManager);
-        service.printAllWorkers();
+        service.printAllItems();
 
         // 2.3 Добавить нового Worker в базу данных.
         Worker work1 = new Worker();
@@ -86,7 +86,7 @@ public class Main
         // наша новая запись в базе).
         connectToDB();
         WorkerrService service2 = new WorkerrService(emManager);
-        service2.printAllWorkers();
+        service2.printAllItems();
 
         // 2.6 Удалить нашу запись из базы.
         service2.delete(ID_DEL_WORKER);
@@ -98,7 +98,7 @@ public class Main
         // наша новая запись была удалена из базы).
         connectToDB();
         WorkerrService service3 = new WorkerrService(emManager);
-        service3.printAllWorkers();
+        service3.printAllItems();
 
         // close connection
         disconnectFromDb();
