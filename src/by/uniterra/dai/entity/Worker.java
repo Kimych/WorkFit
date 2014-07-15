@@ -42,72 +42,70 @@ public class Worker implements Serializable
 
     public int getWorkersId()
     {
-	return this.workersId;
+        return this.workersId;
     }
 
     public void setWorkersId(int workersId)
     {
-	this.workersId = workersId;
+        this.workersId = workersId;
     }
 
     public String getFirstName()
     {
-	return this.firstName;
+        return this.firstName;
     }
 
     public void setFirstName(String firstName)
     {
-	this.firstName = firstName;
+        this.firstName = firstName;
     }
 
     public String getSekondName()
     {
-	return this.sekondName;
+        return this.sekondName;
     }
 
     public void setSekondName(String sekondName)
     {
-	this.sekondName = sekondName;
+        this.sekondName = sekondName;
     }
 
     public String getTelNumber()
     {
-	return this.telNumber;
+        return this.telNumber;
     }
 
     public void setTelNumber(String telNumber)
     {
-	this.telNumber = telNumber;
+        this.telNumber = telNumber;
     }
 
     public String getThirdName()
     {
-	return this.thirdName;
+        return this.thirdName;
     }
 
     public void setThirdName(String thirdName)
     {
-	this.thirdName = thirdName;
+        this.thirdName = thirdName;
     }
 
     public Department getDepartment()
     {
-	return this.department;
+        return this.department;
     }
 
     public void setDepartment(Department department)
     {
-	this.department = department;
+        this.department = department;
     }
 
     @Override
     public String toString()
     {
-	return "Worker [workersId=" + workersId + ", firstName=" + firstName
-		+ ", sekondName=" + sekondName + ", telNumber=" + telNumber
-		+ ", thirdName=" + thirdName + ", department=" + department
-		+ "]";
+        return "Worker [workersId=" + workersId + ", firstName=" + firstName + ", sekondName=" + sekondName + ", telNumber=" + telNumber + ", thirdName="
+               + thirdName + ", department=" + department + "]";
     }
 
-    
+
 }

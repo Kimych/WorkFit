@@ -25,8 +25,8 @@ public class Department implements Serializable
     private String note;
 
     // bi-directional many-to-one association to Worker
-    //@OneToMany(mappedBy = "department")
-    //private List<Worker> workers;
+    // @OneToMany(mappedBy = "department")
+    // private List<Worker> workers;
 
     public Department()
     {
@@ -34,65 +34,54 @@ public class Department implements Serializable
 
     public int getDepartmentId()
     {
-	return this.departmentId;
+        return this.departmentId;
     }
 
     public void setDepartmentId(int departmentId)
     {
-	this.departmentId = departmentId;
+        this.departmentId = departmentId;
     }
 
     public String getDepartmentName()
     {
-	return this.departmentName;
+        return this.departmentName;
     }
 
     public void setDepartmentName(String departmentName)
     {
-	this.departmentName = departmentName;
+        this.departmentName = departmentName;
     }
 
     public String getNote()
     {
-	return this.note;
+        return this.note;
     }
 
     public void setNote(String note)
     {
-	this.note = note;
+        this.note = note;
     }
 
-    /*public List<Worker> getWorkers()
-    {
-	return this.workers;
-    }
-
-    public void setWorkers(List<Worker> workers)
-    {
-	this.workers = workers;
-    }
-
-    public Worker addWorker(Worker worker)
-    {
-	getWorkers().add(worker);
-	worker.setDepartment(this);
-
-	return worker;
-    }
-
-    public Worker removeWorker(Worker worker)
-    {
-	getWorkers().remove(worker);
-	worker.setDepartment(null);
-
-	return worker;
-    }*/
+    /*
+     * public List<Worker> getWorkers() { return this.workers; }
+     * 
+     * public void setWorkers(List<Worker> workers) { this.workers = workers; }
+     * 
+     * public Worker addWorker(Worker worker) { getWorkers().add(worker);
+     * worker.setDepartment(this);
+     * 
+     * return worker; }
+     * 
+     * public Worker removeWorker(Worker worker) { getWorkers().remove(worker);
+     * worker.setDepartment(null);
+     * 
+     * return worker; }
+     */
 
     @Override
     public String toString()
     {
-	return "Department [departmentId=" + departmentId + ", departmentName="
-		+ departmentName + ", note=" + note + "]";
+        return "Department [departmentId=" + departmentId + ", departmentName=" + departmentName + ", note=" + note + "]";
     }
 
 }
