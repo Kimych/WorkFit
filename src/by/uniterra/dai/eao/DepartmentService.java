@@ -1,8 +1,12 @@
-package by.uniterra.dai.entity;
+package by.uniterra.dai.eao;
 
 import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+
+import by.uniterra.dai.entity.Department;
+import by.uniterra.system.main.Main;
 
 public class DepartmentService
 {

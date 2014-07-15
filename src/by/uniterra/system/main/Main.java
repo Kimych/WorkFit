@@ -1,10 +1,15 @@
-package by.uniterra.dai.entity;
+package by.uniterra.system.main;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+
 import org.eclipse.persistence.config.PersistenceUnitProperties;
+
+import by.uniterra.dai.eao.WorkerrService;
+import by.uniterra.dai.entity.Worker;
 
 public class Main
 {
