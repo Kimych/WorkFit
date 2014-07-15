@@ -74,7 +74,7 @@ public class Main
         // service.save(work1)).
 
         WorkerrService service = new WorkerrService(emManager);
-        service.PrintAllWorkers();
+        service.printAllWorkers();
 
         // 2.3 Добавить нового Worker в базу данных.
         Worker work1 = new Worker();
@@ -94,7 +94,7 @@ public class Main
         // наша новая запись в базе).
         connectToDB();
         WorkerrService service2 = new WorkerrService(emManager);
-        service2.PrintAllWorkers();
+        service2.printAllWorkers();
 
         // 2.6 Удалить нашу запись из базы.
         service2.delete(ID_DEL_WORKER);
@@ -106,7 +106,7 @@ public class Main
         // наша новая запись была удалена из базы).
         connectToDB();
         WorkerrService service3 = new WorkerrService(emManager);
-        service3.PrintAllWorkers();
+        service3.printAllWorkers();
 
         // close connection
         disconnectFromDb();

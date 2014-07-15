@@ -61,7 +61,7 @@ public class WorkerrService
         return worker;
     }
 
-    public void PrintAllWorkers()
+    public void printAllWorkers()
     {
         Query q = em.createQuery("select w from Worker w");
         @SuppressWarnings("unchecked")

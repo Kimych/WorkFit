@@ -58,7 +58,7 @@ public class DepartmentService
         return department;
     }
 
-    public void PrintAllDepartments()
+    public void printAllDepartments()
     {
         Query q = em.createQuery("select d from Department d");
         @SuppressWarnings("unchecked")
