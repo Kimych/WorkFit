@@ -1,0 +1,29 @@
+UPDATE `workfit`.`month`
+SET
+`WORKING_DAYS_COUNT` = 20
+WHERE `MONTH_ID` = 1;
+
+UPDATE `workfit`.`month`
+SET
+`WORKING_DAYS_COUNT` = 20
+WHERE `MONTH_ID` = 2;
+
+UPDATE `workfit`.`month`
+SET
+`WORKING_DAYS_COUNT` = 22
+WHERE `MONTH_ID` = 3;
+
+UPDATE `workfit`.`month`
+SET
+`WORKING_DAYS_COUNT` = 20
+WHERE `MONTH_ID` = 4;
+
+UPDATE `workfit`.`month`
+SET
+`WORKING_DAYS_COUNT` = 20
+WHERE `MONTH_ID` = 5;
+
+UPDATE `workfit`.`month`
+SET
+`WORKING_DAYS_COUNT` = 22
+WHERE `MONTH_ID` = 6;
