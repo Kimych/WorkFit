@@ -5,5 +5,14 @@
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 		<class>by.uniterra.dai.entity.Department</class>
 		<class>by.uniterra.dai.entity.Worker</class>
+		<class>model.DaysOfWork</class>
+		<class>model.Holiday</class>
+		<class>model.HolidayPK</class>
+		<class>model.Month</class>
+		<class>model.NameMonth</class>
+		<class>model.SpentHoliday</class>
+		<class>model.SpentHolidayPK</class>
+		<class>model.Worker</class>
+		<class>model.Year</class>
 	</persistence-unit>
 </persistence>
