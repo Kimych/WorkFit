@@ -3,16 +3,14 @@
 	
 	<persistence-unit name="WorkFit">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-		<class>by.uniterra.dai.entity.Department</class>
+		<class>by.uniterra.dai.entity.DaysOfWork</class>
+		<class>by.uniterra.dai.entity.Holiday</class>
+		<class>by.uniterra.dai.entity.HolidayPK</class>
+		<class>by.uniterra.dai.entity.Month</class>
+		<class>by.uniterra.dai.entity.NameMonth</class>
+		<class>by.uniterra.dai.entity.SpentHoliday</class>
+		<class>by.uniterra.dai.entity.SpentHolidayPK</class>
 		<class>by.uniterra.dai.entity.Worker</class>
-		<class>model.DaysOfWork</class>
-		<class>model.Holiday</class>
-		<class>model.HolidayPK</class>
-		<class>model.Month</class>
-		<class>model.NameMonth</class>
-		<class>model.SpentHoliday</class>
-		<class>model.SpentHolidayPK</class>
-		<class>model.Worker</class>
-		<class>model.Year</class>
+		<class>by.uniterra.dai.entity.Year</class>
 	</persistence-unit>
 </persistence>

@@ -1,4 +1,4 @@
-package model;
+package by.uniterra.dai.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;

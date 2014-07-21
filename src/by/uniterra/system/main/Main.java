@@ -1,4 +1,4 @@
-package by.uniterra.system.main;
+/*package by.uniterra.system.main;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +10,7 @@ import javax.persistence.Persistence;
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 
 import by.uniterra.dai.eao.WorkerrService;
-import by.uniterra.dai.entity.Worker;
+import by.uniterra.dai.entity.OLD_Worker;
 
 public class Main
 {
@@ -22,9 +22,9 @@ public class Main
     private static EntityManager emManager;
     
 
-    /**
+    *//**,
      * Extablish a new onnection to target DB
-     */
+     *//*
     public static void connectToDB()
     {
         Map<String, String> mapCustomProp = new HashMap<String, String>();
@@ -40,9 +40,9 @@ public class Main
         emManager = emfFactory.createEntityManager();
     }
     
-    /**
+    *//**
      * Disconnect from target DB
-     */
+     *//*
     public static void disconnectFromDb()
     {
         // close EntityManager
@@ -71,7 +71,7 @@ public class Main
         service.printAllItems();
 
         // 2.3 Добавить нового Worker в базу данных.
-        Worker work1 = new Worker();
+        OLD_Worker work1 = new OLD_Worker();
         work1.setFirstName("worker6");
         work1.setSekondName("sekond_w6");
         work1.setThirdName("third_w6");
@@ -105,3 +105,4 @@ public class Main
     }
 
 }
+*/

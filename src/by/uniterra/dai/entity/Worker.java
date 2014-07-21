@@ -2,110 +2,142 @@ package by.uniterra.dai.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.List;
+
 
 /**
- * The persistent class for the workers database table.
+ * The persistent class for the worker database table.
  * 
  */
 @Entity
-@Table(name = "workers")
-@NamedQuery(name = "Worker.findAll", query = "SELECT w FROM Worker w")
-public class Worker implements Serializable
-{
-    private static final long serialVersionUID = 1L;
+@NamedQuery(name="Worker.findAll", query="SELECT w FROM Worker w")
+public class Worker implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "WORKERS_ID")
-    private int workersId;
+	@Id
+	@Column(name="WORKER_ID")
+	private int workerId;
 
-    @Column(name = "FIRST_NAME")
-    private String firstName;
+	@Column(name="FIRST_NAME")
+	private String firstName;
 
-    @Column(name = "SEKOND_NAME")
-    private String sekondName;
+	@Column(name="SECOND_NAME")
+	private String secondName;
 
-    @Column(name = "TEL_NUMBER")
-    private String telNumber;
+	@Column(name="THIRD_NAME")
+	private String thirdName;
 
-    @Column(name = "THIRD_NAME")
-    private String thirdName;
+	//bi-directional many-to-one association to DaysOfWork
+	@OneToMany(mappedBy="worker")
+	private List<DaysOfWork> daysOfWorks;
 
-    // bi-directional many-to-one association to Department
-    @ManyToOne
-    @JoinColumn(name = "DEPARTMENT_ID")
-    private Department department;
+	//bi-directional many-to-one association to Holiday
+	@OneToMany(mappedBy="worker")
+	private List<Holiday> holidays;
 
-    public Worker()
-    {
-    }
+	//bi-directional many-to-one association to SpentHoliday
+	@OneToMany(mappedBy="worker")
+	private List<SpentHoliday> spentHolidays;
 
-    public int getWorkersId()
-    {
-        return this.workersId;
-    }
+	public Worker() {
+	}
 
-    public void setWorkersId(int workersId)
-    {
-        this.workersId = workersId;
-    }
+	public int getWorkerId() {
+		return this.workerId;
+	}
 
-    public String getFirstName()
-    {
-        return this.firstName;
-    }
+	public void setWorkerId(int workerId) {
+		this.workerId = workerId;
+	}
 
-    public void setFirstName(String firstName)
-    {
-        this.firstName = firstName;
-    }
+	public String getFirstName() {
+		return this.firstName;
+	}
 
-    public String getSekondName()
-    {
-        return this.sekondName;
-    }
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 
-    public void setSekondName(String sekondName)
-    {
-        this.sekondName = sekondName;
-    }
+	public String getSecondName() {
+		return this.secondName;
+	}
 
-    public String getTelNumber()
-    {
-        return this.telNumber;
-    }
+	public void setSecondName(String secondName) {
+		this.secondName = secondName;
+	}
 
-    public void setTelNumber(String telNumber)
-    {
-        this.telNumber = telNumber;
-    }
+	public String getThirdName() {
+		return this.thirdName;
+	}
 
-    public String getThirdName()
-    {
-        return this.thirdName;
-    }
+	public void setThirdName(String thirdName) {
+		this.thirdName = thirdName;
+	}
 
-    public void setThirdName(String thirdName)
-    {
-        this.thirdName = thirdName;
-    }
+	public List<DaysOfWork> getDaysOfWorks() {
+		return this.daysOfWorks;
+	}
 
-    public Department getDepartment()
-    {
-        return this.department;
-    }
+	public void setDaysOfWorks(List<DaysOfWork> daysOfWorks) {
+		this.daysOfWorks = daysOfWorks;
+	}
 
-    public void setDepartment(Department department)
-    {
-        this.department = department;
-    }
+	public DaysOfWork addDaysOfWork(DaysOfWork daysOfWork) {
+		getDaysOfWorks().add(daysOfWork);
+		daysOfWork.setWorker(this);
 
-    @Override
-    public String toString()
-    {
-        return "Worker [workersId=" + workersId + ", firstName=" + firstName + ", sekondName=" + sekondName + ", telNumber=" + telNumber + ", thirdName="
-               + thirdName + ", department=" + department + "]";
-    }
+		return daysOfWork;
+	}
 
+	public DaysOfWork removeDaysOfWork(DaysOfWork daysOfWork) {
+		getDaysOfWorks().remove(daysOfWork);
+		daysOfWork.setWorker(null);
+
+		return daysOfWork;
+	}
+
+	public List<Holiday> getHolidays() {
+		return this.holidays;
+	}
+
+	public void setHolidays(List<Holiday> holidays) {
+		this.holidays = holidays;
+	}
+
+	public Holiday addHoliday(Holiday holiday) {
+		getHolidays().add(holiday);
+		holiday.setWorker(this);
+
+		return holiday;
+	}
+
+	public Holiday removeHoliday(Holiday holiday) {
+		getHolidays().remove(holiday);
+		holiday.setWorker(null);
+
+		return holiday;
+	}
+
+	public List<SpentHoliday> getSpentHolidays() {
+		return this.spentHolidays;
+	}
+
+	public void setSpentHolidays(List<SpentHoliday> spentHolidays) {
+		this.spentHolidays = spentHolidays;
+	}
+
+	public SpentHoliday addSpentHoliday(SpentHoliday spentHoliday) {
+		getSpentHolidays().add(spentHoliday);
+		spentHoliday.setWorker(this);
+
+		return spentHoliday;
+	}
+
+	public SpentHoliday removeSpentHoliday(SpentHoliday spentHoliday) {
+		getSpentHolidays().remove(spentHoliday);
+		spentHoliday.setWorker(null);
+
+		return spentHoliday;
+	}
 
 }
