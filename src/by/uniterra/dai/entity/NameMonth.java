@@ -75,4 +75,10 @@ public class NameMonth implements Serializable
 		return month;
 	}
 
+	@Override
+	public String toString()
+	{
+		return "NameMonth [nameMonthId=" + nameMonthId + ", name=" + name + "]";
+	}
+
 }

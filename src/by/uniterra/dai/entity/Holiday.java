@@ -73,4 +73,11 @@ public class Holiday implements Serializable
 		this.worker = worker;
 	}
 
+	@Override
+	public String toString()
+	{
+		return "Holiday [id=" + id + ", countDays=" + countDays + ", year="
+				+ year + ", worker=" + worker + "]";
+	}
+
 }

@@ -161,4 +161,12 @@ public class Worker implements Serializable
 		return spentHoliday;
 	}
 
+	@Override
+	public String toString()
+	{
+		return "Worker [workerId=" + workerId + ", firstName=" + firstName
+				+ ", secondName=" + secondName + ", thirdName=" + thirdName
+				+ "]";
+	}
+
 }

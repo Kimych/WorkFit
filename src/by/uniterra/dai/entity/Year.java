@@ -116,4 +116,11 @@ public class Year implements Serializable
 		return month;
 	}
 
+	@Override
+	public String toString()
+	{
+		return "Year [yearId=" + yearId + ", deskription=" + deskription
+				+ ", number=" + number + "]";
+	}
+
 }

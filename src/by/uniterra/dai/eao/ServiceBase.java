@@ -10,7 +10,7 @@ import javax.persistence.Query;
 public class ServiceBase<T extends Serializable>
 {
     protected EntityManager em;
-    protected Class<?> classType;
+    protected Class<T> classType;
 
     public ServiceBase(EntityManager em, Class<T> classType)
     {
@@ -71,6 +71,14 @@ public class ServiceBase<T extends Serializable>
             System.out.println(entity);
         }
         System.out.println("Size: " + lstEntities.size());
+    }
+    
+    public T find(Object id)
+    {
+        //get object
+        T tObject = em.find(classType, id);
+        //return refreshed item
+        return tObject;
     }
 
 }
