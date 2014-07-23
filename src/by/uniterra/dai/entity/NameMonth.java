@@ -13,66 +13,66 @@ import java.util.List;
 @NamedQuery(name = "NameMonth.findAll", query = "SELECT n FROM NameMonth n")
 public class NameMonth implements Serializable
 {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @Column(name = "NAME_MONTH_ID")
-    private int nameMonthId;
+	@Id
+	@Column(name = "NAME_MONTH_ID")
+	private int nameMonthId;
 
-    private String name;
+	private String name;
 
-    // bi-directional many-to-one association to Month
-    @OneToMany(mappedBy = "nameMonth")
-    private List<Month> months;
+	// bi-directional many-to-one association to Month
+	@OneToMany(mappedBy = "nameMonth")
+	private List<Month> months;
 
-    public NameMonth()
-    {
-    }
+	public NameMonth()
+	{
+	}
 
-    public int getNameMonthId()
-    {
-	return this.nameMonthId;
-    }
+	public int getNameMonthId()
+	{
+		return this.nameMonthId;
+	}
 
-    public void setNameMonthId(int nameMonthId)
-    {
-	this.nameMonthId = nameMonthId;
-    }
+	public void setNameMonthId(int nameMonthId)
+	{
+		this.nameMonthId = nameMonthId;
+	}
 
-    public String getName()
-    {
-	return this.name;
-    }
+	public String getName()
+	{
+		return this.name;
+	}
 
-    public void setName(String name)
-    {
-	this.name = name;
-    }
+	public void setName(String name)
+	{
+		this.name = name;
+	}
 
-    public List<Month> getMonths()
-    {
-	return this.months;
-    }
+	public List<Month> getMonths()
+	{
+		return this.months;
+	}
 
-    public void setMonths(List<Month> months)
-    {
-	this.months = months;
-    }
+	public void setMonths(List<Month> months)
+	{
+		this.months = months;
+	}
 
-    public Month addMonth(Month month)
-    {
-	getMonths().add(month);
-	month.setNameMonth(this);
+	public Month addMonth(Month month)
+	{
+		getMonths().add(month);
+		month.setNameMonth(this);
 
-	return month;
-    }
+		return month;
+	}
 
-    public Month removeMonth(Month month)
-    {
-	getMonths().remove(month);
-	month.setNameMonth(null);
+	public Month removeMonth(Month month)
+	{
+		getMonths().remove(month);
+		month.setNameMonth(null);
 
-	return month;
-    }
+		return month;
+	}
 
 }
