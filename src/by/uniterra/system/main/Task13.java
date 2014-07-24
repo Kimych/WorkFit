@@ -108,16 +108,18 @@ public class Task13
 		service4.printAllItems();
 
 		
+
+		
 		
 		// add Holiday
 		Holiday holiday = new Holiday();
 		holiday.setCountDays(24);
 		
-		/*WorkerService sericeAddWorker = new WorkerService(emManager);
+		WorkerService sericeAddWorker = new WorkerService(emManager);
 		YearService serviceAddYear = new YearService(emManager);
-		holiday.setWorker(sericeAddWorker.find(ID_WORKER_ADD_HOLIDAY));
-		holiday.setYear(serviceAddYear.find(ID_YEAR_ADD_HOLIDAY));
-		service4.save(holiday);*/
+		holiday.setWorker(sericeAddWorker.find(1));
+		holiday.setYear(serviceAddYear.find(1));
+		service4.save(holiday);
 
 		service4.printAllItems();
 
