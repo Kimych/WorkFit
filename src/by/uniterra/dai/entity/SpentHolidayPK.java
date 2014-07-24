@@ -23,6 +23,12 @@ public class SpentHolidayPK implements Serializable
 	{
 	}
 
+	public SpentHolidayPK(int wrkID, int montID)
+	{
+		this.workerId = wrkID;
+		this.monthId = montID;
+	}
+
 	public int getMonthId()
 	{
 		return this.monthId;

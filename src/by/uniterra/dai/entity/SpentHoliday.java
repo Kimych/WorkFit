@@ -86,4 +86,12 @@ public class SpentHoliday implements Serializable
 		this.month = month;
 	}
 
+	@Override
+	public String toString()
+	{
+		return "SpentHoliday [id=" + id + ", countDays=" + countDays
+				+ ", description=" + description + ", worker=" + worker
+				+ ", month=" + month + "]";
+	}
+
 }

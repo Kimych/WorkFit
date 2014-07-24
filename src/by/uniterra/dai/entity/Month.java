@@ -148,4 +148,13 @@ public class Month implements Serializable
 		return spentHoliday;
 	}
 
+	@Override
+	public String toString()
+	{
+		return "Month [monthId=" + monthId + ", description=" + description
+				+ ", workingDaysCount=" + workingDaysCount + ", daysOfWorks="
+				+ daysOfWorks + ", nameMonth=" + nameMonth + ", year=" + year
+				+ ", spentHolidays=" + spentHolidays + "]";
+	}
+
 }

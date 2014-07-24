@@ -127,4 +127,14 @@ public class DaysOfWork implements Serializable
 		this.month = month;
 	}
 
+	@Override
+	public String toString()
+	{
+		return "DaysOfWork [daysOfWorkId=" + daysOfWorkId
+				+ ", aktualWorkedDays=" + aktualWorkedDays + ", bonusTime="
+				+ bonusTime + ", bonusTimeDescription=" + bonusTimeDescription
+				+ ", timestamp=" + timestamp + ", worklog=" + worklog
+				+ ", worker=" + worker + ", month=" + month + "]";
+	}
+
 }
