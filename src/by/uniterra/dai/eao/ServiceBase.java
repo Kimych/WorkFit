@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 
 public class ServiceBase<T extends Serializable>
@@ -27,15 +28,20 @@ public class ServiceBase<T extends Serializable>
 	public T save(T entity)
 	{
 		T newEntity = null;
+		EntityTransaction tx = null;
 		try
 		{
-			em.getTransaction().begin();
+		    tx = em.getTransaction();
+		    tx.begin();
 			newEntity = em.merge(entity);
-			em.getTransaction().commit();
+			tx.commit();
 		}
 		catch (Exception e)
 		{
-			em.getTransaction().rollback();
+		    if(tx != null && tx.isActive())
+		    {
+		        tx.rollback();
+		    }
 			throw e;
 		}
 		return newEntity;
@@ -50,15 +56,20 @@ public class ServiceBase<T extends Serializable>
 	 */
 	public void delete(Object id)
 	{
+	    EntityTransaction tx = null;
 		try
 		{
-			em.getTransaction().begin();
+		    tx = em.getTransaction();
+		    tx.begin();
 			em.remove(id.getClass().equals(classType) ? id : em.find(classType, id));
-			em.getTransaction().commit();
+			tx.commit();
 		}
 		catch (Exception e)
 		{
-			em.getTransaction().rollback();
+		    if(tx != null && tx.isActive())
+            {
+                tx.rollback();
+            }
 			throw e;
 		}
 	}
@@ -88,15 +99,20 @@ public class ServiceBase<T extends Serializable>
 	{
 		if (entity != null)
 		{
+		    EntityTransaction tx = null;
 			try
 			{
-				em.getTransaction().begin();
+				tx = em.getTransaction();
+				tx.begin();
 				em.remove(entity);
-				em.getTransaction().commit();
+				tx.commit();
 			}
 			catch (Exception e)
 			{
-				em.getTransaction().rollback();
+			    if(tx != null && tx.isActive())
+	            {
+	                tx.rollback();
+	            }
 				throw e;
 			}
 		}
