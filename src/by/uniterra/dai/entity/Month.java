@@ -1,7 +1,9 @@
 package by.uniterra.dai.entity;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.List;
 
 /**
@@ -16,6 +18,7 @@ public class Month implements Serializable
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "MONTH_ID")
 	private int monthId;
 

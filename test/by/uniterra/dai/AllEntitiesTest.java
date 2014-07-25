@@ -41,28 +41,25 @@ public class AllEntitiesTest
 	private static EntityManagerFactory emfFactory;
 	private static EntityManager emManager;
 
-	public static int ID_DEL_YEAR = 6;
-	public static int ID_DEL_MONTH_NAME = 13;
-	public static int ID_DEL_WORKER = 4;
 	public static int ID_WORKER_ADD_HOLIDAY = 2;
 	public static int ID_YEAR_ADD_HOLIDAY = 1;
 	public static int ID_WORKER_ADD_SPENT_HOLIDAY = 2;
 	public static int ID_MONTH_ADD_SPENT_HOLIDAY = 1;
 	public static int ID_NAME_MONTH_ADD_MONTH = 8;
 	public static int ID_YEAR_ADD_MONTH = 1;
-	public static int ID_DEL_MONTH = 7;
 	public static int ID_MONTH_ADD_DAYS_OF_WORK = 4;
 	public static int ID_WORKER_ADD_DAYS_OF_WORK = 1;
-	public static int ID_DEL_DAYS_OF_WORK = 16;
 
-	public static void connectToDB()
+	@Before
+	public void setUp() throws Exception
 	{
+		System.out.println("connect");
 		Map<String, String> mapCustomProp = new HashMap<String, String>();
 		// put system configuration properties
 		mapCustomProp.put(PersistenceUnitProperties.JDBC_URL,
-                "jdbc:mysql://192.168.1.19:3306/Workfit");
-        mapCustomProp.put(PersistenceUnitProperties.JDBC_USER, "testdb");
-        mapCustomProp.put(PersistenceUnitProperties.JDBC_PASSWORD, "testdb");
+				"jdbc:mysql://192.168.1.19:3306/Workfit");
+		mapCustomProp.put(PersistenceUnitProperties.JDBC_USER, "testdb");
+		mapCustomProp.put(PersistenceUnitProperties.JDBC_PASSWORD, "testdb");
 		mapCustomProp.put(PersistenceUnitProperties.JDBC_DRIVER,
 				"com.mysql.jdbc.Driver");
 		// the correct way to disable the shared cache (L2 cache)
@@ -73,7 +70,8 @@ public class AllEntitiesTest
 		emManager = emfFactory.createEntityManager();
 	}
 
-	public static void disconnectFromDb()
+	@After
+	public void tearDown() throws Exception
 	{
 		// close EntityManager
 		if (emManager != null && emManager.isOpen())
@@ -85,31 +83,68 @@ public class AllEntitiesTest
 		{
 			emfFactory.close();
 		}
+		System.out.println("disconnect");
 	}
 
-	public static void addDellNameMonth()
+	@Test
+	public void testYearTable() throws UnknownUserException
+	{
+		// create a new entity instance
+		Year year = new Year();
+		year.setNumber(2015);
+		year.setDeskription("test description");
+		try
+		{
+			YearService yearEAO = new YearService(emManager);
+			// save it into DB
+			year = yearEAO.save(year);
+			// delete it from DB
+			yearEAO.delete(year);
+		}
+		catch (Exception e)
+		{
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	public void testNameMonthTable() throws UnknownUserException
 	{
 		NameMonth nameMonth = new NameMonth();
-		nameMonth.setNameMonthId(ID_DEL_MONTH_NAME);
 		nameMonth.setName("Небритябрь");
-		new NameMonthService(emManager).save(nameMonth);
-
-		new NameMonthService(emManager).delete(ID_DEL_MONTH_NAME);
+		try
+		{
+			NameMonthService monthEAO = new NameMonthService(emManager);
+			nameMonth = monthEAO.save(nameMonth);
+			monthEAO.delete(nameMonth);
+		}
+		catch (Exception e)
+		{
+			fail(e.getMessage());
+		}
 	}
 
-	public static void addDellWorker()
+	@Test
+	public void testWorkerTable() throws UnknownUserException
 	{
 		Worker worker = new Worker();
-		worker.setWorkerId(ID_DEL_WORKER);
-		worker.setFirstName("");
+		worker.setFirstName("Первое имя");
 		worker.setSecondName("Второе имя");
 		worker.setThirdName("Третье имя");
-		new WorkerService(emManager).save(worker);
-
-		new WorkerService(emManager).delete(ID_DEL_WORKER);
+		try
+		{
+			WorkerService workerEAO = new WorkerService(emManager);
+			worker = workerEAO.save(worker);
+			workerEAO.delete(worker);
+		}
+		catch (Exception e)
+		{
+			fail(e.getMessage());
+		}
 	}
 
-	public static void addDellHoliday()
+	@Test
+	public void testHolidayTable() throws UnknownUserException
 	{
 		Holiday holiday = new Holiday();
 		holiday.setId(new HolidayPK(ID_WORKER_ADD_HOLIDAY, ID_YEAR_ADD_HOLIDAY));
@@ -117,14 +152,20 @@ public class AllEntitiesTest
 		holiday.setWorker(new WorkerService(emManager)
 				.find(ID_WORKER_ADD_HOLIDAY));
 		holiday.setYear(new YearService(emManager).find(ID_YEAR_ADD_HOLIDAY));
-		new HolidayService(emManager).save(holiday);
-
-		new HolidayService(emManager)
-				.remove(new HolidayService(emManager).find(new HolidayPK(
-						ID_WORKER_ADD_HOLIDAY, ID_YEAR_ADD_HOLIDAY)));
+		try
+		{
+			HolidayService holidayEAO = new HolidayService(emManager);
+			holiday = holidayEAO.save(holiday);
+			holidayEAO.remove(holiday);
+		}
+		catch (Exception e)
+		{
+			fail(e.getMessage());
+		}
 	}
 
-	public static void addDellSpentHoliday()
+	@Test
+	public void testSpentHolidayTable() throws UnknownUserException
 	{
 		SpentHoliday spholiday = new SpentHoliday();
 		spholiday.setId(new SpentHolidayPK(ID_WORKER_ADD_SPENT_HOLIDAY,
@@ -135,32 +176,44 @@ public class AllEntitiesTest
 				.find(ID_WORKER_ADD_SPENT_HOLIDAY));
 		spholiday.setMonth(new MonthService(emManager)
 				.find(ID_MONTH_ADD_SPENT_HOLIDAY));
-		new SpentHolidayService(emManager).save(spholiday);
-
-		new SpentHolidayService(emManager).remove(new SpentHolidayService(
-				emManager).find(new SpentHolidayPK(ID_WORKER_ADD_SPENT_HOLIDAY,
-				ID_MONTH_ADD_SPENT_HOLIDAY)));
-
+		try
+		{
+			SpentHolidayService spHolidayEAO = new SpentHolidayService(
+					emManager);
+			spholiday = spHolidayEAO.save(spholiday);
+			spHolidayEAO.remove(spholiday);
+		}
+		catch (Exception e)
+		{
+			fail(e.getMessage());
+		}
 	}
 
-	public static void addDellMonth()
+	@Test
+	public void testMonthTable() throws UnknownUserException
 	{
 		Month month = new Month();
-		month.setMonthId(ID_DEL_MONTH);
 		month.setWorkingDaysCount(20);
 		month.setDescription("тестовая запись месяца");
 		month.setNameMonth(new NameMonthService(emManager)
 				.find(ID_NAME_MONTH_ADD_MONTH));
 		month.setYear(new YearService(emManager).find(ID_YEAR_ADD_MONTH));
-		new MonthService(emManager).save(month);
-
-		new MonthService(emManager).delete(ID_DEL_MONTH);
+		try
+		{
+			MonthService monthEAO = new MonthService(emManager);
+			month = monthEAO.save(month);
+			monthEAO.delete(month);
+		}
+		catch (Exception e)
+		{
+			fail(e.getMessage());
+		}
 	}
 
-	public static void addDellDaysOfWork()
+	@Test
+	public void testDaysOfWorkTable() throws UnknownUserException
 	{
 		DaysOfWork days = new DaysOfWork();
-		days.setDaysOfWorkId(ID_DEL_DAYS_OF_WORK);
 		days.setAktualWorkedDays(0);
 		days.setBonusTime(33.5);
 		days.setBonusTimeDescription("test");
@@ -170,81 +223,16 @@ public class AllEntitiesTest
 		days.setWorker(new WorkerService(emManager)
 				.find(ID_WORKER_ADD_DAYS_OF_WORK));
 		days.setWorklog(25.3);
-		new DaysOfWorkService(emManager).save(days);
-
-		new DaysOfWorkService(emManager).delete(ID_DEL_DAYS_OF_WORK);
-	}
-
-	@Before
-	public void setUp() throws Exception
-	{
-		System.out.println("connect");
-		connectToDB();
-	}
-
-	@After
-	public void tearDown() throws Exception
-	{
-		disconnectFromDb();
-		System.out.println("disconnect");
-	}
-
-	@Test
-	public void testYearTable() throws UnknownUserException
-	{
-	    // create a new entity instance 
-	    Year year = new Year();
-        year.setNumber(2015);
-        year.setDeskription("test description");
-        
-        try
-        {
-            YearService yearEAO = new YearService(emManager);
-            // save it into DB
-            year = yearEAO.save(year);
-            // delete it from DB
-            yearEAO.delete(year);
-        }
-        catch(Exception e)
-        {
-            fail(e.getMessage());
-        }
-	}
-
-	@Test
-	public void testNameMonthTable() throws UnknownUserException
-	{
-		addDellNameMonth();
-	}
-
-	@Test
-	public void testWorkerTable() throws UnknownUserException
-	{
-		addDellWorker();
-	}
-
-	@Test
-	public void testHolidayTable() throws UnknownUserException
-	{
-		addDellHoliday();
-	}
-
-	@Test
-	public void testSpentHolidayTable() throws UnknownUserException
-	{
-		addDellSpentHoliday();
-	}
-
-	@Test
-	public void testMonthTable() throws UnknownUserException
-	{
-		addDellMonth();
-	}
-
-	@Test
-	public void testDaysOfWorkTable() throws UnknownUserException
-	{
-		addDellDaysOfWork();
+		try
+		{
+			DaysOfWorkService daysEAO = new DaysOfWorkService(emManager);
+			days = daysEAO.save(days);
+			daysEAO.delete(days);
+		}
+		catch (Exception e)
+		{
+			fail(e.getMessage());
+		}
 	}
 
 }

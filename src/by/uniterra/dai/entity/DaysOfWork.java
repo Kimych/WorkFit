@@ -1,7 +1,9 @@
 package by.uniterra.dai.entity;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.Date;
 
 /**
@@ -16,6 +18,7 @@ public class DaysOfWork implements Serializable
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "DAYS_OF_WORK_ID")
 	private int daysOfWorkId;
 
