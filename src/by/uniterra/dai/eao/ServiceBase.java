@@ -53,7 +53,7 @@ public class ServiceBase<T extends Serializable>
 		try
 		{
 			em.getTransaction().begin();
-			em.remove(em.find(classType, id));
+			em.remove(id.getClass().equals(classType) ? id : em.find(classType, id));
 			em.getTransaction().commit();
 		}
 		catch (Exception e)

@@ -1,5 +1,7 @@
 package by.uniterra.dai;
 
+import static org.junit.Assert.fail;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -58,9 +60,9 @@ public class AllEntitiesTest
 		Map<String, String> mapCustomProp = new HashMap<String, String>();
 		// put system configuration properties
 		mapCustomProp.put(PersistenceUnitProperties.JDBC_URL,
-				"jdbc:mysql://192.168.1.19:3306/Workfit");
-		mapCustomProp.put(PersistenceUnitProperties.JDBC_USER, "testdb");
-		mapCustomProp.put(PersistenceUnitProperties.JDBC_PASSWORD, "testdb");
+                "jdbc:mysql://192.168.1.19:3306/Workfit");
+        mapCustomProp.put(PersistenceUnitProperties.JDBC_USER, "testdb");
+        mapCustomProp.put(PersistenceUnitProperties.JDBC_PASSWORD, "testdb");
 		mapCustomProp.put(PersistenceUnitProperties.JDBC_DRIVER,
 				"com.mysql.jdbc.Driver");
 		// the correct way to disable the shared cache (L2 cache)
@@ -83,17 +85,6 @@ public class AllEntitiesTest
 		{
 			emfFactory.close();
 		}
-	}
-
-	public static void addDellYear()
-	{
-		Year year = new Year();
-		year.setYearId(ID_DEL_YEAR);
-		year.setNumber(2015);
-		year.setDeskription("test description");
-		new YearService(emManager).save(year);
-
-		new YearService(emManager).delete(ID_DEL_YEAR);
 	}
 
 	public static void addDellNameMonth()
@@ -201,7 +192,23 @@ public class AllEntitiesTest
 	@Test
 	public void testYearTable() throws UnknownUserException
 	{
-		addDellYear();
+	    // create a new entity instance 
+	    Year year = new Year();
+        year.setNumber(2015);
+        year.setDeskription("test description");
+        
+        try
+        {
+            YearService yearEAO = new YearService(emManager);
+            // save it into DB
+            year = yearEAO.save(year);
+            // delete it from DB
+            yearEAO.delete(year);
+        }
+        catch(Exception e)
+        {
+            fail(e.getMessage());
+        }
 	}
 
 	@Test
