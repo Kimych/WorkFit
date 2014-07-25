@@ -33,7 +33,14 @@ public class Holiday implements Serializable
 	{
 	}
 
-	public HolidayPK getId()
+	public Holiday(Worker wWorker, Year yYear)
+    {
+	    id = new HolidayPK(wWorker.getWorkerId(), yYear.getYearId());
+	    worker = wWorker;
+	    year = yYear;
+    }
+
+    public HolidayPK getId()
 	{
 		return this.id;
 	}

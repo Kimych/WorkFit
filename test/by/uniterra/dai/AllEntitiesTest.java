@@ -57,9 +57,9 @@ public class AllEntitiesTest
 		Map<String, String> mapCustomProp = new HashMap<String, String>();
 		// put system configuration properties
 		mapCustomProp.put(PersistenceUnitProperties.JDBC_URL,
-				"jdbc:mysql://192.168.1.19:3306/Workfit");
-		mapCustomProp.put(PersistenceUnitProperties.JDBC_USER, "testdb");
-		mapCustomProp.put(PersistenceUnitProperties.JDBC_PASSWORD, "testdb");
+                "jdbc:mysql://192.168.1.19:3306/Workfit");
+        mapCustomProp.put(PersistenceUnitProperties.JDBC_USER, "testdb");
+        mapCustomProp.put(PersistenceUnitProperties.JDBC_PASSWORD, "testdb");
 		mapCustomProp.put(PersistenceUnitProperties.JDBC_DRIVER,
 				"com.mysql.jdbc.Driver");
 		// the correct way to disable the shared cache (L2 cache)
@@ -146,16 +146,18 @@ public class AllEntitiesTest
 	@Test
 	public void testHolidayTable() throws UnknownUserException
 	{
-		Holiday holiday = new Holiday();
-		holiday.setId(new HolidayPK(ID_WORKER_ADD_HOLIDAY, ID_YEAR_ADD_HOLIDAY));
-		holiday.setCountDays(24);
-		holiday.setWorker(new WorkerService(emManager)
-				.find(ID_WORKER_ADD_HOLIDAY));
-		holiday.setYear(new YearService(emManager).find(ID_YEAR_ADD_HOLIDAY));
+	    // retrieve existing values
+	    Worker wExistingWorker = new WorkerService(emManager).find(ID_WORKER_ADD_HOLIDAY);
+	    Year yExistingYear = new YearService(emManager).find(ID_YEAR_ADD_HOLIDAY);
+        // create a new entry
+	    Holiday holiday = new Holiday(wExistingWorker, yExistingYear);
+        holiday.setCountDays(24);
 		try
 		{
+		    // save new entry
 			HolidayService holidayEAO = new HolidayService(emManager);
 			holiday = holidayEAO.save(holiday);
+			// delete saved entry
 			holidayEAO.remove(holiday);
 		}
 		catch (Exception e)
