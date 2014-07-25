@@ -80,126 +80,111 @@ public class Task13
 		}
 	}
 
+	public static void addAllData()
+	{
+		Year year = new Year();
+		year.setYearId(ID_DEL_YEAR);
+		year.setNumber(2015);
+		year.setDeskription("test description");
+		new YearService(emManager).save(year);
+
+		NameMonth nameMonth = new NameMonth();
+		nameMonth.setNameMonthId(ID_DEL_MONTH_NAME);
+		nameMonth.setName("Небритябрь");
+		new NameMonthService(emManager).save(nameMonth);
+
+		Worker worker = new Worker();
+		worker.setWorkerId(ID_DEL_WORKER);
+		worker.setFirstName("");
+		worker.setSecondName("Второе имя");
+		worker.setThirdName("Третье имя");
+		new WorkerService(emManager).save(worker);
+
+		Holiday holiday = new Holiday();
+		holiday.setId(new HolidayPK(ID_WORKER_ADD_HOLIDAY, ID_YEAR_ADD_HOLIDAY));
+		holiday.setCountDays(24);
+		holiday.setWorker(new WorkerService(emManager)
+				.find(ID_WORKER_ADD_HOLIDAY));
+		holiday.setYear(new YearService(emManager).find(ID_YEAR_ADD_HOLIDAY));
+		new HolidayService(emManager).save(holiday);
+
+		SpentHoliday spholiday = new SpentHoliday();
+		spholiday.setId(new SpentHolidayPK(ID_WORKER_ADD_SPENT_HOLIDAY,
+				ID_MONTH_ADD_SPENT_HOLIDAY));
+		spholiday.setCountDays(5);
+		spholiday.setDescription("тестовая запись");
+		spholiday.setWorker(new WorkerService(emManager)
+				.find(ID_WORKER_ADD_SPENT_HOLIDAY));
+		spholiday.setMonth(new MonthService(emManager)
+				.find(ID_MONTH_ADD_SPENT_HOLIDAY));
+		new SpentHolidayService(emManager).save(spholiday);
+
+		Month month = new Month();
+		month.setMonthId(ID_DEL_MONTH);
+		month.setWorkingDaysCount(20);
+		month.setDescription("тестовая запись месяца");
+		month.setNameMonth(new NameMonthService(emManager)
+				.find(ID_NAME_MONTH_ADD_MONTH));
+		month.setYear(new YearService(emManager).find(ID_YEAR_ADD_MONTH));
+		new MonthService(emManager).save(month);
+
+		DaysOfWork days = new DaysOfWork();
+		days.setDaysOfWorkId(ID_DEL_DAYS_OF_WORK);
+		days.setAktualWorkedDays(0);
+		days.setBonusTime(33.5);
+		days.setBonusTimeDescription("test");
+		days.setMonth(new MonthService(emManager)
+				.find(ID_MONTH_ADD_DAYS_OF_WORK));
+		days.setTimestamp(new Date());
+		days.setWorker(new WorkerService(emManager)
+				.find(ID_WORKER_ADD_DAYS_OF_WORK));
+		days.setWorklog(25.3);
+		new DaysOfWorkService(emManager).save(days);
+
+	}
+
+	public static void printAllData()
+	{
+		new YearService(emManager).printAllItems();
+		new NameMonthService(emManager).printAllItems();
+		new WorkerService(emManager).printAllItems();
+		new HolidayService(emManager).printAllItems();
+		new SpentHolidayService(emManager).printAllItems();
+		new MonthService(emManager).printAllItems();
+		new DaysOfWorkService(emManager).printAllItems();
+	}
+
+	public static void dellAllData()
+	{
+		new YearService(emManager).delete(ID_DEL_YEAR);
+		new NameMonthService(emManager).delete(ID_DEL_MONTH_NAME);
+		new WorkerService(emManager).delete(ID_DEL_WORKER);
+		new HolidayService(emManager)
+				.remove(new HolidayService(emManager).find(new HolidayPK(
+						ID_WORKER_ADD_HOLIDAY, ID_YEAR_ADD_HOLIDAY)));
+		new SpentHolidayService(emManager).remove(new SpentHolidayService(
+				emManager).find(new SpentHolidayPK(ID_WORKER_ADD_SPENT_HOLIDAY,
+				ID_MONTH_ADD_SPENT_HOLIDAY)));
+		new MonthService(emManager).delete(ID_DEL_MONTH);
+		new DaysOfWorkService(emManager).delete(ID_DEL_DAYS_OF_WORK);
+	}
+
 	public static void main(String[] args)
 	{
 		connectToDB();
 
-		/*
-		 * // print Year YearService service = new YearService(emManager);
-		 * service.printAllItems();
-		 * 
-		 * // add new Year Year year = new Year(); year.setNumber(2015);
-		 * year.setDeskription("test description"); service.save(year);
-		 * 
-		 * // print Year service.printAllItems();
-		 * 
-		 * // dell Year YearService serviceDell = new YearService(emManager);
-		 * serviceDell.delete(ID_DEL_YEAR); serviceDell.printAllItems();
-		 * 
-		 * //print Name NameMonthService service2 = new
-		 * NameMonthService(emManager); service2.printAllItems();
-		 * 
-		 * // add new Name NameMonth nameMonth = new NameMonth();
-		 * nameMonth.setName("Небритябрь"); service2.save(nameMonth);
-		 * service2.printAllItems();
-		 * 
-		 * // dell Name NameMonthService service2Dell = new
-		 * NameMonthService(emManager); service2Dell.delete(ID_DEL_MONTH_NAME);
-		 * service2Dell.printAllItems();
-		 * 
-		 * //print Worker WorkerService service3 = new WorkerService(emManager);
-		 * service3.printAllItems();
-		 * 
-		 * //add new Worker Worker worker = new Worker();
-		 * worker.setFirstName(""); worker.setSecondName("Второе имя");
-		 * worker.setThirdName("Третье имя"); service3.save(worker);
-		 * service3.printAllItems();
-		 * 
-		 * //dell Worker WorkerService service3Dell = new
-		 * WorkerService(emManager); service3Dell.delete(ID_DEL_WORKER);
-		 * service3Dell.printAllItems();
-		 */
+		printAllData();
 
-		
-		
-		// print Holiday
-		HolidayService service4 = new HolidayService(emManager);
-		service4.printAllItems();
+		addAllData();
 
-		// add Holiday
-/*		Holiday holiday = new Holiday();
-		holiday.setCountDays(24);
-		holiday.setId(new HolidayPK(ID_WORKER_ADD_HOLIDAY, ID_YEAR_ADD_HOLIDAY));
-		holiday.setWorker(new WorkerService(emManager).find(ID_WORKER_ADD_HOLIDAY));
-		holiday.setYear(new YearService(emManager).find(ID_YEAR_ADD_HOLIDAY));
-		service4.save(holiday);
-		service4.printAllItems();*/
-		
-		//dell Holiday ???
-		HolidayService service4Dell = new HolidayService(emManager);
-		Holiday holidayDel = new Holiday();
-		holidayDel.setId(new HolidayPK(ID_WORKER_ADD_HOLIDAY, ID_YEAR_ADD_HOLIDAY));
-/*		holidayDel.setCountDays(24);
-		holidayDel.setWorker(new WorkerService(emManager).find(ID_WORKER_ADD_HOLIDAY));
-		holidayDel.setYear(new YearService(emManager).find(ID_YEAR_ADD_HOLIDAY));*/
-		service4Dell.remove(holidayDel);
-		service4Dell.printAllItems();
-		
-/*		//print SpentHoliday
-		SpentHolidayService service5 = new SpentHolidayService(emManager);
-		service5.printAllItems();
-		
-		//add SpentHoliday
-		SpentHoliday spholiday = new SpentHoliday();
-		spholiday.setCountDays(5);
-		spholiday.setDescription("тестовая запись");
-		spholiday.setWorker(new WorkerService(emManager).find(ID_WORKER_ADD_SPENT_HOLIDAY));
-		spholiday.setMonth(new MonthService(emManager).find(ID_MONTH_ADD_SPENT_HOLIDAY));
-		spholiday.setId(new SpentHolidayPK(ID_WORKER_ADD_SPENT_HOLIDAY, ID_MONTH_ADD_SPENT_HOLIDAY));
-		service5.save(spholiday);
-		service5.printAllItems();
-		
-		//dell SpentHoliday ???
-*/		
-		
-/*		//print Month
-		MonthService service6 = new MonthService(emManager);
-		service6.printAllItems();
-		
-		//add Month
-		Month month = new Month();
-		month.setWorkingDaysCount(20);
-		month.setDescription("тестовая запись месяца");
-		month.setNameMonth(new NameMonthService(emManager).find(ID_NAME_MONTH_ADD_MONTH));
-		month.setYear(new YearService(emManager).find(ID_YEAR_ADD_MONTH));
-		service6.save(month);
-		service6.printAllItems();
-		
-		//dell Month
-		new MonthService(emManager).delete(ID_DEL_MONTH);
-		service6.printAllItems();*/
-		
-/*		//print DaysOfWork
-		DaysOfWorkService service7 = new DaysOfWorkService(emManager);
-		service7.printAllItems();
-		
-		//add DaysOfWork
-		DaysOfWork days = new DaysOfWork();
-		days.setAktualWorkedDays(0);
-		days.setBonusTime(33.5);
-		days.setBonusTimeDescription("test");
-		days.setMonth(new MonthService(emManager).find(ID_MONTH_ADD_DAYS_OF_WORK));
-		days.setTimestamp(new Date());
-		days.setWorker(new WorkerService(emManager).find(ID_WORKER_ADD_DAYS_OF_WORK));
-		days.setWorklog(25.3);
-		service7.save(days);
-		service7.printAllItems();
-		
-		//dell 
-		new DaysOfWorkService(emManager).delete(ID_DEL_DAYS_OF_WORK);
-		service7.printAllItems();*/
-		
+		printAllData();
+
+		dellAllData();
+
+		printAllData();
+
 		disconnectFromDb();
+
 	}
 
 }
