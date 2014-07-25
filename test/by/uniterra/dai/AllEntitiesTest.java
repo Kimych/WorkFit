@@ -26,11 +26,9 @@ import by.uniterra.dai.eao.WorkerService;
 import by.uniterra.dai.eao.YearService;
 import by.uniterra.dai.entity.DaysOfWork;
 import by.uniterra.dai.entity.Holiday;
-import by.uniterra.dai.entity.HolidayPK;
 import by.uniterra.dai.entity.Month;
 import by.uniterra.dai.entity.NameMonth;
 import by.uniterra.dai.entity.SpentHoliday;
-import by.uniterra.dai.entity.SpentHolidayPK;
 import by.uniterra.dai.entity.Worker;
 import by.uniterra.dai.entity.Year;
 
@@ -57,9 +55,9 @@ public class AllEntitiesTest
 		Map<String, String> mapCustomProp = new HashMap<String, String>();
 		// put system configuration properties
 		mapCustomProp.put(PersistenceUnitProperties.JDBC_URL,
-                "jdbc:mysql://192.168.1.19:3306/Workfit");
-        mapCustomProp.put(PersistenceUnitProperties.JDBC_USER, "testdb");
-        mapCustomProp.put(PersistenceUnitProperties.JDBC_PASSWORD, "testdb");
+				"jdbc:mysql://192.168.1.19:3306/Workfit");
+		mapCustomProp.put(PersistenceUnitProperties.JDBC_USER, "testdb");
+		mapCustomProp.put(PersistenceUnitProperties.JDBC_PASSWORD, "testdb");
 		mapCustomProp.put(PersistenceUnitProperties.JDBC_DRIVER,
 				"com.mysql.jdbc.Driver");
 		// the correct way to disable the shared cache (L2 cache)
@@ -146,15 +144,17 @@ public class AllEntitiesTest
 	@Test
 	public void testHolidayTable() throws UnknownUserException
 	{
-	    // retrieve existing values
-	    Worker wExistingWorker = new WorkerService(emManager).find(ID_WORKER_ADD_HOLIDAY);
-	    Year yExistingYear = new YearService(emManager).find(ID_YEAR_ADD_HOLIDAY);
-        // create a new entry
-	    Holiday holiday = new Holiday(wExistingWorker, yExistingYear);
-        holiday.setCountDays(24);
+		// retrieve existing values
+		Worker wExistingWorker = new WorkerService(emManager)
+				.find(ID_WORKER_ADD_HOLIDAY);
+		Year yExistingYear = new YearService(emManager)
+				.find(ID_YEAR_ADD_HOLIDAY);
+		// create a new entry
+		Holiday holiday = new Holiday(wExistingWorker, yExistingYear);
+		holiday.setCountDays(24);
 		try
 		{
-		    // save new entry
+			// save new entry
 			HolidayService holidayEAO = new HolidayService(emManager);
 			holiday = holidayEAO.save(holiday);
 			// delete saved entry
@@ -169,9 +169,12 @@ public class AllEntitiesTest
 	@Test
 	public void testSpentHolidayTable() throws UnknownUserException
 	{
-		SpentHoliday spholiday = new SpentHoliday();
-		spholiday.setId(new SpentHolidayPK(ID_WORKER_ADD_SPENT_HOLIDAY,
-				ID_MONTH_ADD_SPENT_HOLIDAY));
+		Worker wExistingWorker2 = new WorkerService(emManager)
+				.find(ID_WORKER_ADD_SPENT_HOLIDAY);
+		Month mExistingMonth = new MonthService(emManager)
+				.find(ID_MONTH_ADD_SPENT_HOLIDAY);
+		SpentHoliday spholiday = new SpentHoliday(wExistingWorker2,
+				mExistingMonth);
 		spholiday.setCountDays(5);
 		spholiday.setDescription("тестовая запись");
 		spholiday.setWorker(new WorkerService(emManager)

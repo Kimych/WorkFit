@@ -1,6 +1,7 @@
 package by.uniterra.dai.entity;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
 
 /**
@@ -35,6 +36,13 @@ public class SpentHoliday implements Serializable
 	public SpentHoliday()
 	{
 	}
+	
+	public SpentHoliday(Worker wWorker, Month mMonth)
+    {
+	    id = new SpentHolidayPK(wWorker.getWorkerId(), mMonth.getMonthId());
+	    worker = wWorker;
+	    month = mMonth;
+    }
 
 	public SpentHolidayPK getId()
 	{
