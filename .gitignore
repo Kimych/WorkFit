@@ -7,3 +7,4 @@ log/
 *.classpath
 *.project
 >>>>>>> 34806b4d4d77dec2992ff855558627d0f9591e3b
+.pmd
