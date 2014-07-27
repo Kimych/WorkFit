@@ -49,7 +49,12 @@ public class Month implements Serializable
 	{
 	}
 
-	public int getMonthId()
+	public Month(Year yAssciatedYear)
+    {
+	    year = yAssciatedYear;
+    }
+
+    public int getMonthId()
 	{
 		return this.monthId;
 	}

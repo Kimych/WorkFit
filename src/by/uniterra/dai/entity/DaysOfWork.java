@@ -50,7 +50,13 @@ public class DaysOfWork implements Serializable
 	{
 	}
 
-	public int getDaysOfWorkId()
+	public DaysOfWork(Month mAssociatedMonth, Worker wAssociatedWorker)
+    {
+	    month = mAssociatedMonth;
+	    worker = wAssociatedWorker;
+    }
+
+    public int getDaysOfWorkId()
 	{
 		return this.daysOfWorkId;
 	}
