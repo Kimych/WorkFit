@@ -20,7 +20,16 @@ public class YearTablePanel extends JPanel
 	{
 		super.setBackground(Color.BLACK);
 		super.setLayout(new GridBagLayout());
-		YearTableModel ytm = new YearTableModel();
+		
+		String []str = new String[3];
+		str[0] = "1";
+		str[1] = "test record 1";
+		str[2] = "test record 2";
+		
+		YearTableModel ytm = new YearTableModel();;
+		
+		ytm.addDate(str);
+		
 		JScrollPane YearTableScrollPage = new JScrollPane(new JTable(ytm));
 		YearTableScrollPage.setPreferredSize(new Dimension(400, 400));
 		super.add(YearTableScrollPage, new GridBagConstraints(2, 1, 1, 1, 1, 1,

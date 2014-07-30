@@ -11,6 +11,8 @@ public class ServiceBase<T extends Serializable>
 {
 	protected EntityManager em;
 	protected Class<T> classType;
+	//objects refresh flag
+    protected boolean m_bRefreshCachedObjects = true;
 
 	public ServiceBase(EntityManager em, Class<T> classType)
 	{
@@ -117,5 +119,16 @@ public class ServiceBase<T extends Serializable>
 			}
 		}
 	}
+	
+	public List<T> loadAll()
+    {
+        List<T> lstObjects = em.createQuery(getBasicSQL(), classType).getResultList(); 
+        return lstObjects;
+    }
+	
+    protected String getBasicSQL()
+    {
+        return "select o from " + classType.getSimpleName() + " o ";
+    }
 
 }
