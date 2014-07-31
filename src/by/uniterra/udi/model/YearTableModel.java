@@ -1,13 +1,12 @@
 package by.uniterra.udi.model;
 
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-import org.eclipse.persistence.sdo.types.SDOWrapperType.YearWrapperImpl;
-
-import by.uniterra.dai.eao.YearService;
 import by.uniterra.dai.entity.Year;
 
 
@@ -17,37 +16,24 @@ public class YearTableModel extends AbstractTableModel
 	/** TODO document <code>serialVersionUID</code> */
 	private static final long serialVersionUID = -5232340455887109379L;
 
-	private int columpCount = 3;
 	private List<Year> dataArrayList;
+	private List<String> arrColumnNames ;
 	
 	public YearTableModel()
 	{
 		dataArrayList = new ArrayList<Year>();
-		for (int i = 0; i < dataArrayList.size(); i++)
-		{
-			//YearTableModel.YearTableModel.dataArrayList.addAll(new String[getColumnCount()]);
-		}
+		arrColumnNames = Arrays.asList(new String[]{"ID", "Number", "Description"});
 	}
 	
-/*	public void addDate(String[] row)
-	{
-		String[] rowTable = new String[getColumnCount()];
-		rowTable = row;
-		dataArrayList.add(rowTable);
-
-	}*/
-	public void addDate(java.util.List<Year> arrData)
+	public void addData(List<Year> arrData)
 	{
 		this.dataArrayList = new ArrayList<Year>(arrData);
-		
 	}
-	//-----------------------------------------
-
 
 	@Override
 	public int getColumnCount()
 	{
-		return columpCount;
+		return arrColumnNames.size();
 	}
 
 	@Override
@@ -59,22 +45,13 @@ public class YearTableModel extends AbstractTableModel
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex)
 	{
-		String[] rows = dataArrayList.get(rowIndex);
-		return rows[columnIndex];
+		/*String[] rows = dataArrayList.get(rowIndex);
+		return rows[columnIndex];*/
+	    return null;
 	}
 
 	public String getColumnName(int columnIndex) // возвращает название колонок
 	{
-		switch (columnIndex)
-		{
-		case 0:
-			return "#id";
-		case 1:
-			return "year";
-		case 2:
-			return "description";
-		}
-		return "";
-
+	    return arrColumnNames.get(columnIndex);
 	}
 }

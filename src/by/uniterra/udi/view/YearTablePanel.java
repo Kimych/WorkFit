@@ -23,7 +23,9 @@ public class YearTablePanel extends JPanel
 	/** TODO document <code>serialVersionUID</code> */
 	private static final long serialVersionUID = -3705271245863973712L;
 	
-	
+    // members
+    private YearTableModel ytm;
+
 	private static final String PERSISTENCE_UNIT_NAME = "WorkFit";
 	private static EntityManagerFactory emfFactory;
 	private static EntityManager emManager;
@@ -60,11 +62,6 @@ public class YearTablePanel extends JPanel
 		}
 	}
 	
-	
-	
-	// members
-	private YearTableModel ytm;
-
 	public YearTablePanel()
 	{
 	    // create UI
@@ -87,17 +84,8 @@ public class YearTablePanel extends JPanel
     private void readValues()
     {
     	connectToDB();
-    	YearTableModel ytm = new YearTableModel();
     	
-    	ytm.addDate(new YearService(emManager).loadAll());
-    	
-    	
-        
-        /*String []str = new String[3];
-        str[0] = "1";
-        str[1] = "test record 1";
-        str[2] = "test record 2";
-        ytm.addDate(str);*/
+    	ytm.addData(new YearService(emManager).loadAll());
         
     }
 
