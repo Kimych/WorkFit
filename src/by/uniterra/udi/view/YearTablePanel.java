@@ -5,22 +5,19 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.swing.AbstractAction;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
 
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 
@@ -36,6 +33,8 @@ public class YearTablePanel extends JPanel
     private YearTableModel ytm;
 
     private JTable tTable;
+
+    private KeyEventDispatcher keyDispatcher;
 
 	private static final String PERSISTENCE_UNIT_NAME = "WorkFit";
 	private static EntityManagerFactory emfFactory;
@@ -83,6 +82,19 @@ public class YearTablePanel extends JPanel
 	    
 	    // save data from view to Db
 	    writeValues();
+	    
+	    // unregister key dispatcher on shutdown action
+	    Runtime.getRuntime().addShutdownHook(new Thread()
+        {
+            @Override
+            public void run()
+            {
+                if (keyDispatcher != null)
+                {
+                    KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(keyDispatcher);
+                }
+            }
+        });
 
 	}
 
@@ -115,28 +127,25 @@ public class YearTablePanel extends JPanel
         YearTableScrollPage.setPreferredSize(new Dimension(400, 400));
         super.add(YearTableScrollPage,
                   new GridBagConstraints(2, 1, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
-        
-        // add F5 key listener
-        tTable.addKeyListener(new KeyAdapter()
+
+        // Register keyboard
+        keyDispatcher = new KeyEventDispatcher()
         {
             @Override
-            public void keyPressed(KeyEvent e)
+            public boolean dispatchKeyEvent(KeyEvent e)
             {
-                if (e.getKeyCode() == KeyEvent.VK_F5 )
+                // check key ID (reakt only on KEY_RELEASED event) and code (react only on F5)
+                boolean bResult = e.getID() == KeyEvent.KEY_RELEASED && e.getKeyCode() == KeyEvent.VK_F5;
+                // check result
+                if (bResult)
                 {
                     // do table data refresh 
                     readValues();
                 }
+                return bResult;
             }
-        });
-
-    }
-    
-    public static void main(String[] args)
-	{
-    	
-    	
-	}
-    
-    
+        };
+        // register new KeyEventDispatcher
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(keyDispatcher);
+    }   
 }
