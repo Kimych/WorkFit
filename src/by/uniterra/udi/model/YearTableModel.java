@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
 
+import by.uniterra.dai.eao.YearService;
+
+
 public class YearTableModel extends AbstractTableModel
 {
 
@@ -27,6 +30,14 @@ public class YearTableModel extends AbstractTableModel
 		String[] rowTable = new String[getColumnCount()];
 		rowTable = row;
 		dataArrayList.add(rowTable);
+
+	}
+	
+	//-----------------------------------------
+	public void addDate(YearService yservice)
+	{
+		yservice.loadAll();
+		
 
 	}
 
