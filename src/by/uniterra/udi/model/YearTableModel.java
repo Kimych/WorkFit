@@ -45,8 +45,16 @@ public class YearTableModel extends AbstractTableModel
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex)
 	{
-		/*String[] rows = dataArrayList.get(rowIndex);
-		return rows[columnIndex];*/
+		Year year = dataArrayList.get(rowIndex);
+		switch(columnIndex)
+		{
+		case 0:
+			return year.getYearId();
+		case 1:
+			return year.getNumber();
+		case 2:
+			return year.getDeskription();			
+		}
 	    return null;
 	}
 
