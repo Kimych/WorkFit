@@ -28,6 +28,8 @@ public class YearTableModel extends AbstractTableModel
 	public void addData(List<Year> arrData)
 	{
 		this.dataArrayList = new ArrayList<Year>(arrData);
+		// notify "view" about changed model data
+		fireTableDataChanged();
 	}
 
 	@Override

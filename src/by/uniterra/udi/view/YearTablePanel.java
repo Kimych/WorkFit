@@ -5,13 +5,22 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.swing.*;
+import javax.swing.AbstractAction;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 
@@ -26,6 +35,8 @@ public class YearTablePanel extends JPanel
     // members
     private YearTableModel ytm;
 
+    private JTable tTable;
+
 	private static final String PERSISTENCE_UNIT_NAME = "WorkFit";
 	private static EntityManagerFactory emfFactory;
 	private static EntityManager emManager;
@@ -35,9 +46,9 @@ public class YearTablePanel extends JPanel
 		Map<String, String> mapCustomProp = new HashMap<String, String>();
 		// put system configuration properties
 		mapCustomProp.put(PersistenceUnitProperties.JDBC_URL,
-				"jdbc:mysql://192.168.1.19:3306/Workfit");
-		mapCustomProp.put(PersistenceUnitProperties.JDBC_USER, "testdb");
-		mapCustomProp.put(PersistenceUnitProperties.JDBC_PASSWORD, "testdb");
+				"jdbc:mysql://192.168.56.102:3306/Workfit");
+		mapCustomProp.put(PersistenceUnitProperties.JDBC_USER, "workfit");
+		mapCustomProp.put(PersistenceUnitProperties.JDBC_PASSWORD, "workfit");
 		mapCustomProp.put(PersistenceUnitProperties.JDBC_DRIVER,
 				"com.mysql.jdbc.Driver");
 		// the correct way to disable the shared cache (L2 cache)
@@ -86,6 +97,8 @@ public class YearTablePanel extends JPanel
     	connectToDB();
     	
     	ytm.addData(new YearService(emManager).loadAll());
+    	
+    	disconnectFromDb();
         
     }
 
@@ -95,11 +108,28 @@ public class YearTablePanel extends JPanel
         setLayout(new GridBagLayout());
         
         ytm = new YearTableModel();
+        tTable = new JTable(ytm);
 
-        JScrollPane YearTableScrollPage = new JScrollPane(new JTable(ytm));
+        JScrollPane YearTableScrollPage = new JScrollPane(tTable);
+        
         YearTableScrollPage.setPreferredSize(new Dimension(400, 400));
         super.add(YearTableScrollPage,
                   new GridBagConstraints(2, 1, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+        
+        // add F5 key listener
+        tTable.addKeyListener(new KeyAdapter()
+        {
+            @Override
+            public void keyPressed(KeyEvent e)
+            {
+                if (e.getKeyCode() == KeyEvent.VK_F5 )
+                {
+                    // do table data refresh 
+                    readValues();
+                }
+            }
+        });
+
     }
     
     public static void main(String[] args)
