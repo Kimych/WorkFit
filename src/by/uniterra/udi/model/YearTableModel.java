@@ -1,10 +1,14 @@
 package by.uniterra.udi.model;
 
-import java.util.ArrayList;
+
+import java.util.*;
 
 import javax.swing.table.AbstractTableModel;
 
+import org.eclipse.persistence.sdo.types.SDOWrapperType.YearWrapperImpl;
+
 import by.uniterra.dai.eao.YearService;
+import by.uniterra.dai.entity.Year;
 
 
 public class YearTableModel extends AbstractTableModel
@@ -14,32 +18,31 @@ public class YearTableModel extends AbstractTableModel
 	private static final long serialVersionUID = -5232340455887109379L;
 
 	private int columpCount = 3;
-	private ArrayList<String[]> dataArrayList;
+	private List<Year> dataArrayList;
 	
 	public YearTableModel()
 	{
-		dataArrayList = new ArrayList<String[]>();
+		dataArrayList = new ArrayList<Year>();
 		for (int i = 0; i < dataArrayList.size(); i++)
 		{
-			dataArrayList.add(new String[getColumnCount()]);
+			//YearTableModel.YearTableModel.dataArrayList.addAll(new String[getColumnCount()]);
 		}
 	}
 	
-	public void addDate(String[] row)
+/*	public void addDate(String[] row)
 	{
 		String[] rowTable = new String[getColumnCount()];
 		rowTable = row;
 		dataArrayList.add(rowTable);
 
-	}
-	
-	//-----------------------------------------
-	public void addDate(YearService yservice)
+	}*/
+	public void addDate(java.util.List<Year> arrData)
 	{
-		yservice.loadAll();
+		this.dataArrayList = new ArrayList<Year>(arrData);
 		
-
 	}
+	//-----------------------------------------
+
 
 	@Override
 	public int getColumnCount()
@@ -74,5 +77,4 @@ public class YearTableModel extends AbstractTableModel
 		return "";
 
 	}
-
 }
