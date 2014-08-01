@@ -7,14 +7,21 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
@@ -122,18 +129,32 @@ public class YearTablePanel extends JPanel
 		ytm = new YearTableModel();
 		tTable = new JTable(ytm);
 
-		JScrollPane YearTableScrollPage = new JScrollPane(tTable);
-		/*JButton buttonEdit = new JButton("Изменить");
-		buttonEdit.addActionListener(new ButtonEditActionListener());*/
+		final JScrollPane YearTableScrollPage = new JScrollPane(tTable);
 
+		//popup
+		final JPopupMenu popup = new JPopupMenu();
+		JMenuItem menuItem1 = new JMenuItem("item1");
+		menuItem1.getAccessibleContext().setAccessibleDescription("Item1");
+		menuItem1.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				JOptionPane.showMessageDialog(YearTableScrollPage,"item1 cliced!");
+			}
+
+		});
+		popup.add(menuItem1);
+
+		
 		YearTableScrollPage.setPreferredSize(new Dimension(400, 400));
 		super.add(YearTableScrollPage, new GridBagConstraints(2, 1, 1, 1, 1, 1,
 				GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(
 						1, 1, 1, 1), 0, 0));
 
-		/*super.add(buttonEdit, new GridBagConstraints(2, 2, 1, 1, 1, 1,
-				GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(
-						1, 1, 1, 1), 0, 0));*/
+		
+
 		// Register keyboard
 		keyDispatcher = new KeyEventDispatcher()
 		{
@@ -156,17 +177,30 @@ public class YearTablePanel extends JPanel
 		// register new KeyEventDispatcher
 		KeyboardFocusManager.getCurrentKeyboardFocusManager()
 				.addKeyEventDispatcher(keyDispatcher);
+
+		super.addMouseListener(new MouseAdapter()
+		{
+
+			@Override
+			public void mousePressed(MouseEvent e)
+			{
+				showPopup(e);
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e)
+			{
+				showPopup(e);
+			}
+
+			private void showPopup(MouseEvent e)
+			{
+				if (e.isPopupTrigger())
+				{
+					popup.show(e.getComponent(), e.getX(), e.getY());
+				}
+			}
+		});
 	}
 
-/*	public class ButtonEditActionListener implements ActionListener
-	{
-
-		@Override
-		public void actionPerformed(ActionEvent e)
-		{
-			//
-
-		}
-
-	}*/
 }

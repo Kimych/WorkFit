@@ -68,10 +68,10 @@ public class YearTableModel extends AbstractTableModel
 		switch(columnIndex)
 		{
 		case 0:
-			year.setYearId(Integer.parseInt((String) editNewData));
+			year.setYearId(Integer.valueOf((String) editNewData));
 			break;
 		case 1:
-			year.setNumber(Integer.parseInt((String) editNewData));
+			year.setNumber(Integer.valueOf((String) editNewData));
 			break;
 		case 2:
 			year.setDeskription((String)editNewData);	

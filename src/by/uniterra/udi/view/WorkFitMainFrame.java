@@ -1,12 +1,16 @@
 package by.uniterra.udi.view;
 
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import org.eclipse.persistence.config.PersistenceUnitProperties;
