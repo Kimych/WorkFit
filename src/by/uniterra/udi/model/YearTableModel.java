@@ -1,15 +1,12 @@
 package by.uniterra.udi.model;
 
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-
 import by.uniterra.dai.entity.Year;
-
 
 public class YearTableModel extends AbstractTableModel
 {
@@ -18,14 +15,15 @@ public class YearTableModel extends AbstractTableModel
 	private static final long serialVersionUID = -5232340455887109379L;
 
 	private List<Year> dataArrayList;
-	private List<String> arrColumnNames ;
-	
+	private List<String> arrColumnNames;
+
 	public YearTableModel()
 	{
 		dataArrayList = new ArrayList<Year>();
-		arrColumnNames = Arrays.asList(new String[]{"ID", "Number", "Description"});
+		arrColumnNames = Arrays.asList(new String[] { "ID", "Number",
+				"Description" });
 	}
-	
+
 	public void addData(List<Year> arrData)
 	{
 		this.dataArrayList = new ArrayList<Year>(arrData);
@@ -49,23 +47,23 @@ public class YearTableModel extends AbstractTableModel
 	public Object getValueAt(int rowIndex, int columnIndex)
 	{
 		Year year = dataArrayList.get(rowIndex);
-		switch(columnIndex)
+		switch (columnIndex)
 		{
 		case 0:
 			return year.getYearId();
 		case 1:
 			return year.getNumber();
 		case 2:
-			return year.getDeskription();			
+			return year.getDeskription();
 		}
-	    return null;
+		return null;
 	}
-	
+
 	@Override
-	public void setValueAt(Object editNewData, int rowIndex, int columnIndex) 
+	public void setValueAt(Object editNewData, int rowIndex, int columnIndex)
 	{
 		Year year = dataArrayList.get(rowIndex);
-		switch(columnIndex)
+		switch (columnIndex)
 		{
 		case 0:
 			year.setYearId(Integer.valueOf((String) editNewData));
@@ -74,24 +72,23 @@ public class YearTableModel extends AbstractTableModel
 			year.setNumber(Integer.valueOf((String) editNewData));
 			break;
 		case 2:
-			year.setDeskription((String)editNewData);	
+			year.setDeskription((String) editNewData);
 			break;
 		}
-		
+
 		fireTableDataChanged();
-	
+
 	}
 
 	public String getColumnName(int columnIndex) // возвращает название колонок
 	{
-	    return arrColumnNames.get(columnIndex);
+		return arrColumnNames.get(columnIndex);
 	}
-	
+
 	@Override
-    public boolean isCellEditable(int row, int column) {
-            return true;
-    }
-	
-	
+	public boolean isCellEditable(int row, int column)
+	{
+		return true;
+	}
 
 }

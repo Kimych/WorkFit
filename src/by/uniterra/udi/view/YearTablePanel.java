@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -24,6 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 
@@ -131,7 +133,7 @@ public class YearTablePanel extends JPanel
 
 		final JScrollPane YearTableScrollPage = new JScrollPane(tTable);
 
-		//popup
+		// popup
 		final JPopupMenu popup = new JPopupMenu();
 		JMenuItem menuItem1 = new JMenuItem("item1");
 		menuItem1.getAccessibleContext().setAccessibleDescription("Item1");
@@ -141,19 +143,17 @@ public class YearTablePanel extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				JOptionPane.showMessageDialog(YearTableScrollPage,"item1 cliced!");
+				JOptionPane.showMessageDialog(YearTableScrollPage,
+						"item1 cliced!");
 			}
 
 		});
 		popup.add(menuItem1);
 
-		
 		YearTableScrollPage.setPreferredSize(new Dimension(400, 400));
 		super.add(YearTableScrollPage, new GridBagConstraints(2, 1, 1, 1, 1, 1,
 				GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(
 						1, 1, 1, 1), 0, 0));
-
-		
 
 		// Register keyboard
 		keyDispatcher = new KeyEventDispatcher()
@@ -178,7 +178,7 @@ public class YearTablePanel extends JPanel
 		KeyboardFocusManager.getCurrentKeyboardFocusManager()
 				.addKeyEventDispatcher(keyDispatcher);
 
-		super.addMouseListener(new MouseAdapter()
+		tTable.addMouseListener(new MouseAdapter()
 		{
 
 			@Override
@@ -197,7 +197,21 @@ public class YearTablePanel extends JPanel
 			{
 				if (e.isPopupTrigger())
 				{
-					popup.show(e.getComponent(), e.getX(), e.getY());
+					// popup.show(e.getComponent(), e.getX(), e.getY());
+					// get the coordinates of the mouse click
+					Point p = e.getPoint();
+					// get source
+					JTable jtTable = (JTable) e.getSource();
+					// get the row index that contains that coordinate
+					int rowNumber = jtTable.rowAtPoint(p);
+					// Get the ListSelectionModel of the JTable
+					ListSelectionModel model = jtTable.getSelectionModel();
+					// set the selected interval of rows. Using the "rowNumber"
+					// variable for the beginning and end selects only that one
+					// row.
+					model.setSelectionInterval(rowNumber, rowNumber);
+					// show popup menu
+					popup.show(jtTable, e.getX(), e.getY());
 				}
 			}
 		});
