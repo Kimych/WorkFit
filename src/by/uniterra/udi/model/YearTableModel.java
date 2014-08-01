@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+
 import by.uniterra.dai.entity.Year;
 
 
@@ -59,9 +60,38 @@ public class YearTableModel extends AbstractTableModel
 		}
 	    return null;
 	}
+	
+	@Override
+	public void setValueAt(Object editNewData, int rowIndex, int columnIndex) 
+	{
+		Year year = dataArrayList.get(rowIndex);
+		switch(columnIndex)
+		{
+		case 0:
+			year.setYearId(Integer.parseInt((String) editNewData));
+			break;
+		case 1:
+			year.setNumber(Integer.parseInt((String) editNewData));
+			break;
+		case 2:
+			year.setDeskription((String)editNewData);	
+			break;
+		}
+		
+		fireTableDataChanged();
+	
+	}
 
 	public String getColumnName(int columnIndex) // возвращает название колонок
 	{
 	    return arrColumnNames.get(columnIndex);
 	}
+	
+	@Override
+    public boolean isCellEditable(int row, int column) {
+            return true;
+    }
+	
+	
+
 }
