@@ -4,7 +4,7 @@ import javax.persistence.EntityManager;
 
 import by.uniterra.dai.entity.Year;
 
-public class YearService extends ServiceBase<Year>
+public class YearService extends ServiceBaseEAO<Year>
 {
 	/**
 	 * 

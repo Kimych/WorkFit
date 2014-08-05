@@ -4,7 +4,7 @@ import javax.persistence.EntityManager;
 
 import by.uniterra.dai.entity.Worker;
 
-public class WorkerService extends ServiceBase<Worker>
+public class WorkerService extends ServiceBaseEAO<Worker>
 {
 	/**
 	 * 

@@ -4,7 +4,7 @@ import javax.persistence.EntityManager;
 
 import by.uniterra.dai.entity.DaysOfWork;
 
-public class DaysOfWorkService extends ServiceBase<DaysOfWork>
+public class DaysOfWorkService extends ServiceBaseEAO<DaysOfWork>
 {
 	/**
 	 * 

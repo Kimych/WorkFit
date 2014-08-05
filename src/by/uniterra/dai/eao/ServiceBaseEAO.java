@@ -7,14 +7,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 
-public class ServiceBase<T extends Serializable>
+public class ServiceBaseEAO<T extends Serializable>
 {
 	protected EntityManager em;
 	protected Class<T> classType;
 	//objects refresh flag
     protected boolean m_bRefreshCachedObjects = true;
 
-	public ServiceBase(EntityManager em, Class<T> classType)
+	public ServiceBaseEAO(EntityManager em, Class<T> classType)
 	{
 		this.em = em;
 		this.classType = classType;

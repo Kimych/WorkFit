@@ -15,7 +15,7 @@ public class YearTableModel extends AbstractTableModel
 	private static final long serialVersionUID = -5232340455887109379L;
 
 	private List<Year> dataArrayList;
-	private List<String> arrColumnNames;
+	public List<String> arrColumnNames;
 
 	public YearTableModel()
 	{
@@ -89,6 +89,11 @@ public class YearTableModel extends AbstractTableModel
 	public boolean isCellEditable(int row, int column)
 	{
 		return true;
+	}
+
+	public List<Year> setData()
+	{
+		return dataArrayList;
 	}
 
 }

@@ -4,7 +4,7 @@ import javax.persistence.EntityManager;
 
 import by.uniterra.dai.entity.Month;
 
-public class MonthService extends ServiceBase<Month>
+public class MonthService extends ServiceBaseEAO<Month>
 {
 	/**
 	 * 
