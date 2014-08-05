@@ -2,9 +2,9 @@ package by.uniterra.dai.eao;
 
 import javax.persistence.EntityManager;
 
-import by.uniterra.dai.entity.NameMonth;
+import by.uniterra.dai.entity.Year;
 
-public class NameMonthService extends ServiceBaseEAO<NameMonth>
+public class YearEAO extends ServiceBaseEAO<Year>
 {
 	/**
 	 * 
@@ -13,9 +13,9 @@ public class NameMonthService extends ServiceBaseEAO<NameMonth>
 	 * @param em
 	 *            - EntityManager to be used in the class
 	 */
-	public NameMonthService(EntityManager em)
+	public YearEAO(EntityManager em)
 	{
-		super(em, NameMonth.class);
+		super(em, Year.class);
 	}
 
 }

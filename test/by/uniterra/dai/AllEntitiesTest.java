@@ -17,13 +17,13 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.omg.CORBA.UnknownUserException;
 
-import by.uniterra.dai.eao.DaysOfWorkService;
-import by.uniterra.dai.eao.HolidayService;
-import by.uniterra.dai.eao.MonthService;
-import by.uniterra.dai.eao.NameMonthService;
-import by.uniterra.dai.eao.SpentHolidayService;
-import by.uniterra.dai.eao.WorkerService;
-import by.uniterra.dai.eao.YearService;
+import by.uniterra.dai.eao.DaysOfWorkEAO;
+import by.uniterra.dai.eao.HolidayEAO;
+import by.uniterra.dai.eao.MonthEAO;
+import by.uniterra.dai.eao.NameMonthEAO;
+import by.uniterra.dai.eao.SpentHolidayEAO;
+import by.uniterra.dai.eao.WorkerEAO;
+import by.uniterra.dai.eao.YearEAO;
 import by.uniterra.dai.entity.DaysOfWork;
 import by.uniterra.dai.entity.Holiday;
 import by.uniterra.dai.entity.Month;
@@ -93,7 +93,7 @@ public class AllEntitiesTest
         year.setDeskription("test description");
         try
         {
-            YearService yearEAO = new YearService(emManager);
+            YearEAO yearEAO = new YearEAO(emManager);
             // save it into DB
             year = yearEAO.save(year);
             // delete it from DB
@@ -112,7 +112,7 @@ public class AllEntitiesTest
         nameMonth.setName("Небритябрь");
         try
         {
-            NameMonthService monthEAO = new NameMonthService(emManager);
+            NameMonthEAO monthEAO = new NameMonthEAO(emManager);
             nameMonth = monthEAO.save(nameMonth);
             monthEAO.delete(nameMonth);
         }
@@ -131,7 +131,7 @@ public class AllEntitiesTest
         worker.setThirdName("Третье имя");
         try
         {
-            WorkerService workerEAO = new WorkerService(emManager);
+            WorkerEAO workerEAO = new WorkerEAO(emManager);
             worker = workerEAO.save(worker);
             workerEAO.delete(worker);
         }
@@ -145,15 +145,15 @@ public class AllEntitiesTest
     public void testHolidayTable() throws UnknownUserException
     {
         // retrieve existing values
-        Worker wExistingWorker = new WorkerService(emManager).find(ID_WORKER_ADD_HOLIDAY);
-        Year yExistingYear = new YearService(emManager).find(ID_YEAR_ADD_HOLIDAY);
+        Worker wExistingWorker = new WorkerEAO(emManager).find(ID_WORKER_ADD_HOLIDAY);
+        Year yExistingYear = new YearEAO(emManager).find(ID_YEAR_ADD_HOLIDAY);
         // create a new entry
         Holiday holiday = new Holiday(wExistingWorker, yExistingYear);
         holiday.setCountDays(24);
         try
         {
             // save new entry
-            HolidayService holidayEAO = new HolidayService(emManager);
+            HolidayEAO holidayEAO = new HolidayEAO(emManager);
             holiday = holidayEAO.save(holiday);
             // delete saved entry
             holidayEAO.remove(holiday);
@@ -168,15 +168,15 @@ public class AllEntitiesTest
     public void testSpentHolidayTable() throws UnknownUserException
     {
         // retrieve existing values
-        Worker wExistingWorker2 = new WorkerService(emManager).find(ID_WORKER_ADD_SPENT_HOLIDAY);
-        Month mExistingMonth = new MonthService(emManager).find(ID_MONTH_ADD_SPENT_HOLIDAY);
+        Worker wExistingWorker2 = new WorkerEAO(emManager).find(ID_WORKER_ADD_SPENT_HOLIDAY);
+        Month mExistingMonth = new MonthEAO(emManager).find(ID_MONTH_ADD_SPENT_HOLIDAY);
         // create a new entry
         SpentHoliday spholiday = new SpentHoliday(wExistingWorker2, mExistingMonth);
         spholiday.setCountDays(5);
         spholiday.setDescription("тестовая запись");
         try
         {
-            SpentHolidayService spHolidayEAO = new SpentHolidayService(emManager);
+            SpentHolidayEAO spHolidayEAO = new SpentHolidayEAO(emManager);
             spholiday = spHolidayEAO.save(spholiday);
             spHolidayEAO.remove(spholiday);
         }
@@ -190,15 +190,15 @@ public class AllEntitiesTest
     public void testMonthTable() throws UnknownUserException
     {
         // retrieve existing values
-        Year yAssciatedYear = new YearService(emManager).find(ID_YEAR_ADD_MONTH);
+        Year yAssciatedYear = new YearEAO(emManager).find(ID_YEAR_ADD_MONTH);
         // create a new entry
         Month month = new Month(yAssciatedYear);
         month.setWorkingDaysCount(20);
         month.setDescription("тестовая запись месяца");
-        month.setNameMonth(new NameMonthService(emManager).find(ID_NAME_MONTH_ADD_MONTH));
+        month.setNameMonth(new NameMonthEAO(emManager).find(ID_NAME_MONTH_ADD_MONTH));
         try
         {
-            MonthService monthEAO = new MonthService(emManager);
+            MonthEAO monthEAO = new MonthEAO(emManager);
             month = monthEAO.save(month);
             monthEAO.delete(month);
         }
@@ -212,8 +212,8 @@ public class AllEntitiesTest
     public void testDaysOfWorkTable() throws UnknownUserException
     {
         // retrieve existing values
-        Month mAssociatedMonth = new MonthService(emManager).find(ID_MONTH_ADD_DAYS_OF_WORK);
-        Worker wAssociatedWorker = new WorkerService(emManager).find(ID_WORKER_ADD_DAYS_OF_WORK);
+        Month mAssociatedMonth = new MonthEAO(emManager).find(ID_MONTH_ADD_DAYS_OF_WORK);
+        Worker wAssociatedWorker = new WorkerEAO(emManager).find(ID_WORKER_ADD_DAYS_OF_WORK);
         // create a new entry
         DaysOfWork days = new DaysOfWork(mAssociatedMonth, wAssociatedWorker);
         days.setAktualWorkedDays(0);
@@ -223,7 +223,7 @@ public class AllEntitiesTest
         days.setWorklog(25.3);
         try
         {
-            DaysOfWorkService daysEAO = new DaysOfWorkService(emManager);
+            DaysOfWorkEAO daysEAO = new DaysOfWorkEAO(emManager);
             days = daysEAO.save(days);
             daysEAO.delete(days);
         }

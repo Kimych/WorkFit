@@ -13,25 +13,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 
-import org.eclipse.persistence.config.PersistenceUnitProperties;
-
-import by.uniterra.dai.eao.YearService;
+import by.uniterra.dai.eao.ServiceBaseEAO;
+import by.uniterra.dai.eao.YearEAO;
 import by.uniterra.dai.entity.Year;
 import by.uniterra.udi.model.YearTableModel;
 
@@ -46,83 +38,6 @@ public class YearTablePanel extends JPanel
 	private JTable tTable;
 
 	private KeyEventDispatcher keyDispatcher;
-
-	private static final String PERSISTENCE_UNIT_NAME = "WorkFit";
-	private static final String CUSTOMER_PROPERTIES = "custom.properties";
-	private static final String PROPERTIES_FILE_EXTENSION = ".properties";
-
-	private static EntityManagerFactory emfFactory;
-	private static EntityManager emManager;
-
-	public static void connectToDB()
-	{
-		Map<String, String> mapCustomProp = new HashMap<String, String>();
-		// put system configuration properties
-		mapCustomProp.put(PersistenceUnitProperties.JDBC_URL,
-				"jdbc:mysql://192.168.1.19:3306/Workfit");
-		mapCustomProp.put(PersistenceUnitProperties.JDBC_USER, "testdb");
-		mapCustomProp.put(PersistenceUnitProperties.JDBC_PASSWORD, "testdb");
-		mapCustomProp.put(PersistenceUnitProperties.JDBC_DRIVER,
-				"com.mysql.jdbc.Driver");
-		// the correct way to disable the shared cache (L2 cache)
-		mapCustomProp.put("eclipselink.cache.shared.default", "false");
-		// try to override hardcoded settigs by custom properties
-		overrideSettingsFromResource(mapCustomProp, CUSTOMER_PROPERTIES);
-		// a new connection (factory) to target DB
-		emfFactory = Persistence.createEntityManagerFactory(
-				PERSISTENCE_UNIT_NAME, mapCustomProp);
-		emManager = emfFactory.createEntityManager();
-	}
-
-	/**
-	 * Override some DB settings by data from given resource file
-	 * 
-	 * @param mapCustomProp
-	 *            - properties map
-	 * @param strResourceName
-	 *            - resource file name
-	 */
-	private static void overrideSettingsFromResource(
-			Map<String, String> mapCustomProp, String strResourceName)
-	{
-		// check if according property file exists
-		if (YearTablePanel.class.getClassLoader().getResource(strResourceName) != null)
-		{
-			try
-			{
-				// load properties (we should ignore ".properties" extension for
-				// the resource file name)
-				ResourceBundle res = ResourceBundle.getBundle(strResourceName
-						.replace(PROPERTIES_FILE_EXTENSION, ""));
-				mapCustomProp.put(PersistenceUnitProperties.JDBC_URL,
-						res.getString("db.url"));
-				mapCustomProp.put(PersistenceUnitProperties.JDBC_USER,
-						res.getString("db.user"));
-				mapCustomProp.put(PersistenceUnitProperties.JDBC_PASSWORD,
-						res.getString("db.pwd"));
-				mapCustomProp.put(PersistenceUnitProperties.JDBC_DRIVER,
-						res.getString("db.driver"));
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-		}
-	}
-
-	public static void disconnectFromDb()
-	{
-		// close EntityManager
-		if (emManager != null && emManager.isOpen())
-		{
-			emManager.close();
-		}
-		// close EntityManagerFactory
-		if (emfFactory != null && emfFactory.isOpen())
-		{
-			emfFactory.close();
-		}
-	}
 
 	public YearTablePanel()
 	{
@@ -159,11 +74,11 @@ public class YearTablePanel extends JPanel
 
 	private void readValues()
 	{
-		connectToDB();
+		ServiceBaseEAO.connectToDB();
 
-		ytm.addData(new YearService(emManager).loadAll());
+		ytm.addData(new YearEAO(ServiceBaseEAO.connectToDB()).loadAll());
 
-		disconnectFromDb();
+		ServiceBaseEAO.disconnectFromDb();
 
 	}
 
@@ -248,14 +163,12 @@ public class YearTablePanel extends JPanel
 			public void mousePressed(MouseEvent e)
 			{
 				showPopup(e);
-				System.out.println("mousePressed");
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent e)
 			{
 				showPopup(e);
-				System.out.println("mouseReleased");
 			}
 
 			private void showPopup(MouseEvent e)
@@ -277,7 +190,6 @@ public class YearTablePanel extends JPanel
 					model.setSelectionInterval(rowNumber, rowNumber);
 					// show popup menu
 					popup.show(jtTable, e.getX(), e.getY());
-					System.out.println("Popup");
 				}
 			}
 		});

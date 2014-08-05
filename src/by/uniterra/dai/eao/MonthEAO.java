@@ -2,9 +2,9 @@ package by.uniterra.dai.eao;
 
 import javax.persistence.EntityManager;
 
-import by.uniterra.dai.entity.DaysOfWork;
+import by.uniterra.dai.entity.Month;
 
-public class DaysOfWorkService extends ServiceBaseEAO<DaysOfWork>
+public class MonthEAO extends ServiceBaseEAO<Month>
 {
 	/**
 	 * 
@@ -13,9 +13,9 @@ public class DaysOfWorkService extends ServiceBaseEAO<DaysOfWork>
 	 * @param em
 	 *            - EntityManager to be used in the class
 	 */
-	public DaysOfWorkService(EntityManager em)
+	public MonthEAO(EntityManager em)
 	{
-		super(em, DaysOfWork.class);
+		super(em, Month.class);
 	}
 
 }

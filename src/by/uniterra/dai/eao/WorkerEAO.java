@@ -4,7 +4,7 @@ import javax.persistence.EntityManager;
 
 import by.uniterra.dai.entity.Worker;
 
-public class WorkerService extends ServiceBaseEAO<Worker>
+public class WorkerEAO extends ServiceBaseEAO<Worker>
 {
 	/**
 	 * 
@@ -13,7 +13,7 @@ public class WorkerService extends ServiceBaseEAO<Worker>
 	 * @param em
 	 *            - EntityManager to be used in the class
 	 */
-	public WorkerService(EntityManager em)
+	public WorkerEAO(EntityManager em)
 	{
 		super(em, Worker.class);
 	}

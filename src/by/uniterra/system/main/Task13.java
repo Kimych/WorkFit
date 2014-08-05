@@ -10,13 +10,13 @@ import javax.persistence.Persistence;
 
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 
-import by.uniterra.dai.eao.DaysOfWorkService;
-import by.uniterra.dai.eao.HolidayService;
-import by.uniterra.dai.eao.MonthService;
-import by.uniterra.dai.eao.NameMonthService;
-import by.uniterra.dai.eao.SpentHolidayService;
-import by.uniterra.dai.eao.WorkerService;
-import by.uniterra.dai.eao.YearService;
+import by.uniterra.dai.eao.DaysOfWorkEAO;
+import by.uniterra.dai.eao.HolidayEAO;
+import by.uniterra.dai.eao.MonthEAO;
+import by.uniterra.dai.eao.NameMonthEAO;
+import by.uniterra.dai.eao.SpentHolidayEAO;
+import by.uniterra.dai.eao.WorkerEAO;
+import by.uniterra.dai.eao.YearEAO;
 import by.uniterra.dai.entity.DaysOfWork;
 import by.uniterra.dai.entity.Holiday;
 import by.uniterra.dai.entity.HolidayPK;
@@ -86,87 +86,87 @@ public class Task13
 		year.setYearId(ID_DEL_YEAR);
 		year.setNumber(2015);
 		year.setDeskription("test description");
-		new YearService(emManager).save(year);
+		new YearEAO(emManager).save(year);
 
 		NameMonth nameMonth = new NameMonth();
 		nameMonth.setNameMonthId(ID_DEL_MONTH_NAME);
 		nameMonth.setName("Небритябрь");
-		new NameMonthService(emManager).save(nameMonth);
+		new NameMonthEAO(emManager).save(nameMonth);
 
 		Worker worker = new Worker();
 		worker.setWorkerId(ID_DEL_WORKER);
 		worker.setFirstName("");
 		worker.setSecondName("Второе имя");
 		worker.setThirdName("Третье имя");
-		new WorkerService(emManager).save(worker);
+		new WorkerEAO(emManager).save(worker);
 
 		Holiday holiday = new Holiday();
 		holiday.setId(new HolidayPK(ID_WORKER_ADD_HOLIDAY, ID_YEAR_ADD_HOLIDAY));
 		holiday.setCountDays(24);
-		holiday.setWorker(new WorkerService(emManager)
+		holiday.setWorker(new WorkerEAO(emManager)
 				.find(ID_WORKER_ADD_HOLIDAY));
-		holiday.setYear(new YearService(emManager).find(ID_YEAR_ADD_HOLIDAY));
-		new HolidayService(emManager).save(holiday);
+		holiday.setYear(new YearEAO(emManager).find(ID_YEAR_ADD_HOLIDAY));
+		new HolidayEAO(emManager).save(holiday);
 
 		SpentHoliday spholiday = new SpentHoliday();
 		spholiday.setId(new SpentHolidayPK(ID_WORKER_ADD_SPENT_HOLIDAY,
 				ID_MONTH_ADD_SPENT_HOLIDAY));
 		spholiday.setCountDays(5);
 		spholiday.setDescription("тестовая запись");
-		spholiday.setWorker(new WorkerService(emManager)
+		spholiday.setWorker(new WorkerEAO(emManager)
 				.find(ID_WORKER_ADD_SPENT_HOLIDAY));
-		spholiday.setMonth(new MonthService(emManager)
+		spholiday.setMonth(new MonthEAO(emManager)
 				.find(ID_MONTH_ADD_SPENT_HOLIDAY));
-		new SpentHolidayService(emManager).save(spholiday);
+		new SpentHolidayEAO(emManager).save(spholiday);
 
 		Month month = new Month();
 		month.setMonthId(ID_DEL_MONTH);
 		month.setWorkingDaysCount(20);
 		month.setDescription("тестовая запись месяца");
-		month.setNameMonth(new NameMonthService(emManager)
+		month.setNameMonth(new NameMonthEAO(emManager)
 				.find(ID_NAME_MONTH_ADD_MONTH));
-		month.setYear(new YearService(emManager).find(ID_YEAR_ADD_MONTH));
-		new MonthService(emManager).save(month);
+		month.setYear(new YearEAO(emManager).find(ID_YEAR_ADD_MONTH));
+		new MonthEAO(emManager).save(month);
 
 		DaysOfWork days = new DaysOfWork();
 		days.setDaysOfWorkId(ID_DEL_DAYS_OF_WORK);
 		days.setAktualWorkedDays(0);
 		days.setBonusTime(33.5);
 		days.setBonusTimeDescription("test");
-		days.setMonth(new MonthService(emManager)
+		days.setMonth(new MonthEAO(emManager)
 				.find(ID_MONTH_ADD_DAYS_OF_WORK));
 		days.setTimestamp(new Date());
-		days.setWorker(new WorkerService(emManager)
+		days.setWorker(new WorkerEAO(emManager)
 				.find(ID_WORKER_ADD_DAYS_OF_WORK));
 		days.setWorklog(25.3);
-		new DaysOfWorkService(emManager).save(days);
+		new DaysOfWorkEAO(emManager).save(days);
 
 	}
 
 	public static void printAllData()
 	{
-		new YearService(emManager).printAllItems();
-		new NameMonthService(emManager).printAllItems();
-		new WorkerService(emManager).printAllItems();
-		new HolidayService(emManager).printAllItems();
-		new SpentHolidayService(emManager).printAllItems();
-		new MonthService(emManager).printAllItems();
-		new DaysOfWorkService(emManager).printAllItems();
+		new YearEAO(emManager).printAllItems();
+		new NameMonthEAO(emManager).printAllItems();
+		new WorkerEAO(emManager).printAllItems();
+		new HolidayEAO(emManager).printAllItems();
+		new SpentHolidayEAO(emManager).printAllItems();
+		new MonthEAO(emManager).printAllItems();
+		new DaysOfWorkEAO(emManager).printAllItems();
 	}
 
 	public static void dellAllData()
 	{
-		new YearService(emManager).delete(ID_DEL_YEAR);
-		new NameMonthService(emManager).delete(ID_DEL_MONTH_NAME);
-		new WorkerService(emManager).delete(ID_DEL_WORKER);
-		new HolidayService(emManager)
-				.remove(new HolidayService(emManager).find(new HolidayPK(
+		new YearEAO(emManager).delete(ID_DEL_YEAR);
+		new NameMonthEAO(emManager).delete(ID_DEL_MONTH_NAME);
+		new WorkerEAO(emManager).delete(ID_DEL_WORKER);
+		new HolidayEAO(emManager)
+				.remove(new HolidayEAO(emManager).find(new HolidayPK(
 						ID_WORKER_ADD_HOLIDAY, ID_YEAR_ADD_HOLIDAY)));
-		new SpentHolidayService(emManager).remove(new SpentHolidayService(
+		new SpentHolidayEAO(emManager).remove(new SpentHolidayEAO(
 				emManager).find(new SpentHolidayPK(ID_WORKER_ADD_SPENT_HOLIDAY,
 				ID_MONTH_ADD_SPENT_HOLIDAY)));
-		new MonthService(emManager).delete(ID_DEL_MONTH);
-		new DaysOfWorkService(emManager).delete(ID_DEL_DAYS_OF_WORK);
+		new MonthEAO(emManager).delete(ID_DEL_MONTH);
+		new DaysOfWorkEAO(emManager).delete(ID_DEL_DAYS_OF_WORK);
 	}
 
 	public static void addDellYear()
@@ -177,7 +177,7 @@ public class Task13
 		year.setDeskription("test description");
 		try
 		{
-			YearService yearEAO = new YearService(emManager);
+			YearEAO yearEAO = new YearEAO(emManager);
 			// save it into DB
 			year = yearEAO.save(year);
 			// delete it from DB
@@ -195,7 +195,7 @@ public class Task13
 		nameMonth.setName("Небритябрь");
 		try
 		{
-			NameMonthService monthEAO = new NameMonthService(emManager);
+			NameMonthEAO monthEAO = new NameMonthEAO(emManager);
 			nameMonth = monthEAO.save(nameMonth);
 			monthEAO.delete(nameMonth);
 		}
@@ -213,7 +213,7 @@ public class Task13
 		worker.setThirdName("Третье имя");
 		try
 		{
-			WorkerService workerEAO = new WorkerService(emManager);
+			WorkerEAO workerEAO = new WorkerEAO(emManager);
 			worker = workerEAO.save(worker);
 			workerEAO.delete(worker);
 		}
@@ -228,12 +228,12 @@ public class Task13
 		Holiday holiday = new Holiday();
 		holiday.setId(new HolidayPK(ID_WORKER_ADD_HOLIDAY, ID_YEAR_ADD_HOLIDAY));
 		holiday.setCountDays(24);
-		holiday.setWorker(new WorkerService(emManager)
+		holiday.setWorker(new WorkerEAO(emManager)
 				.find(ID_WORKER_ADD_HOLIDAY));
-		holiday.setYear(new YearService(emManager).find(ID_YEAR_ADD_HOLIDAY));
+		holiday.setYear(new YearEAO(emManager).find(ID_YEAR_ADD_HOLIDAY));
 		try
 		{
-			HolidayService holidayEAO = new HolidayService(emManager);
+			HolidayEAO holidayEAO = new HolidayEAO(emManager);
 			holiday = holidayEAO.save(holiday);
 			holidayEAO.remove(holiday);
 		}
@@ -250,13 +250,13 @@ public class Task13
 				ID_MONTH_ADD_SPENT_HOLIDAY));
 		spholiday.setCountDays(5);
 		spholiday.setDescription("тестовая запись");
-		spholiday.setWorker(new WorkerService(emManager)
+		spholiday.setWorker(new WorkerEAO(emManager)
 				.find(ID_WORKER_ADD_SPENT_HOLIDAY));
-		spholiday.setMonth(new MonthService(emManager)
+		spholiday.setMonth(new MonthEAO(emManager)
 				.find(ID_MONTH_ADD_SPENT_HOLIDAY));
 		try
 		{
-			SpentHolidayService spHolidayEAO = new SpentHolidayService(
+			SpentHolidayEAO spHolidayEAO = new SpentHolidayEAO(
 					emManager);
 			spholiday = spHolidayEAO.save(spholiday);
 			spHolidayEAO.remove(spholiday);
@@ -272,12 +272,12 @@ public class Task13
 		Month month = new Month();
 		month.setWorkingDaysCount(20);
 		month.setDescription("тестовая запись месяца");
-		month.setNameMonth(new NameMonthService(emManager)
+		month.setNameMonth(new NameMonthEAO(emManager)
 				.find(ID_NAME_MONTH_ADD_MONTH));
-		month.setYear(new YearService(emManager).find(ID_YEAR_ADD_MONTH));
+		month.setYear(new YearEAO(emManager).find(ID_YEAR_ADD_MONTH));
 		try
 		{
-			MonthService monthEAO = new MonthService(emManager);
+			MonthEAO monthEAO = new MonthEAO(emManager);
 			month = monthEAO.save(month);
 			monthEAO.delete(month);
 		}
@@ -293,15 +293,15 @@ public class Task13
 		days.setAktualWorkedDays(0);
 		days.setBonusTime(33.5);
 		days.setBonusTimeDescription("test");
-		days.setMonth(new MonthService(emManager)
+		days.setMonth(new MonthEAO(emManager)
 				.find(ID_MONTH_ADD_DAYS_OF_WORK));
 		days.setTimestamp(new Date());
-		days.setWorker(new WorkerService(emManager)
+		days.setWorker(new WorkerEAO(emManager)
 				.find(ID_WORKER_ADD_DAYS_OF_WORK));
 		days.setWorklog(25.3);
 		try
 		{
-			DaysOfWorkService daysEAO = new DaysOfWorkService(emManager);
+			DaysOfWorkEAO daysEAO = new DaysOfWorkEAO(emManager);
 			days = daysEAO.save(days);
 			daysEAO.delete(days);
 		}

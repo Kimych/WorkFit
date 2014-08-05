@@ -4,7 +4,7 @@ import javax.persistence.EntityManager;
 
 import by.uniterra.dai.entity.SpentHoliday;
 
-public class SpentHolidayService extends ServiceBaseEAO<SpentHoliday>
+public class SpentHolidayEAO extends ServiceBaseEAO<SpentHoliday>
 {
 	/**
 	 * 
@@ -13,7 +13,7 @@ public class SpentHolidayService extends ServiceBaseEAO<SpentHoliday>
 	 * @param em
 	 *            - EntityManager to be used in the class
 	 */
-	public SpentHolidayService(EntityManager em)
+	public SpentHolidayEAO(EntityManager em)
 	{
 		super(em, SpentHoliday.class);
 	}
