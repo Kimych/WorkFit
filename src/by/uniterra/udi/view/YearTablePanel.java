@@ -13,9 +13,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
@@ -58,8 +59,7 @@ public class YearTablePanel extends JPanel
 			{
 				if (keyDispatcher != null)
 				{
-					KeyboardFocusManager.getCurrentKeyboardFocusManager()
-							.removeKeyEventDispatcher(keyDispatcher);
+					KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(keyDispatcher);
 				}
 			}
 		});
@@ -76,7 +76,7 @@ public class YearTablePanel extends JPanel
 	{
 		ServiceBaseEAO.connectToDB();
 
-		ytm.addData(new YearEAO(ServiceBaseEAO.connectToDB()).loadAll());
+		ytm.setTableData(new YearEAO(ServiceBaseEAO.connectToDB()).loadAll());
 
 		ServiceBaseEAO.disconnectFromDb();
 
@@ -92,11 +92,10 @@ public class YearTablePanel extends JPanel
 
 		final JScrollPane YearTableScrollPage = new JScrollPane(tTable);
 
-		// popup
+		// popup menu
 		final JPopupMenu popup = new JPopupMenu();
 		JMenuItem menuItemAddNewRow = new JMenuItem("Add new Row");
-		menuItemAddNewRow.getAccessibleContext().setAccessibleDescription(
-				"Item1");
+		menuItemAddNewRow.getAccessibleContext().setAccessibleDescription("Item1");
 		JMenuItem menuItemDelRow = new JMenuItem("Delete Row");
 		menuItemDelRow.getAccessibleContext().setAccessibleDescription("Item2");
 
@@ -106,9 +105,7 @@ public class YearTablePanel extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				List<Year> lst = ytm.setData();
-				lst.add(new Year());
-				ytm.addData(lst);
+				ytm.addTableData(new Year());
 			}
 
 		});
@@ -119,19 +116,76 @@ public class YearTablePanel extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				List<Year> lst = ytm.setData();
-				lst.remove(tTable.getSelectedRow());
-				ytm.addData(lst);
+				int[] arrSelIndexes = tTable.getSelectedRows();
+				for (int i = 0; i < arrSelIndexes.length; i++)
+				{
+					// convert view to model index number
+					int iModelIndex = (tTable.convertRowIndexToModel(arrSelIndexes[i]));
+					// get data by index value
+					Year idCurYear = (Year) ytm.getRowData(iModelIndex);
+					// check for existing model
+					if (idCurYear.getYearId() != 0)
+					{
+						// setDocsToRemove.add(idCurDoc);
+						new YearEAO(ServiceBaseEAO.connectToDB()).delete(idCurYear.getYearId());
+					}
+
+				}
+				// ytm.removeRowData(tTable.getSelectedRow());
+				readValues();
+				ServiceBaseEAO.disconnectFromDb();
+
 			}
 
 		});
 		popup.add(menuItemAddNewRow);
 		popup.add(menuItemDelRow);
 
+		// add new row in db
+		JButton buttonSaveDB = new JButton("Новая запись");
+		super.add(buttonSaveDB, new GridBagConstraints(2, 2, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+		buttonSaveDB.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0)
+			{
+				YearOptionPanel yop = new YearOptionPanel();
+				int res = JOptionPane.showConfirmDialog(tTable, yop, "Enter data", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if (res == JOptionPane.OK_OPTION)
+				{
+					Year year = new Year();
+					// year.setYearId();
+					year.setNumber(Integer.valueOf(yop.getYearNumber()));
+					year.setDeskription(yop.getYearDeskription());
+					new YearEAO(ServiceBaseEAO.connectToDB()).save(year);
+					readValues();
+					ServiceBaseEAO.disconnectFromDb();
+
+				}
+				else
+				{
+					System.out.println("Input Canceled");
+				}
+			}
+		});
+
+		JButton buttonRefreshDB = new JButton("Refresh");
+		buttonRefreshDB.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0)
+			{
+				readValues();
+			}
+		});
+
+		super.add(buttonRefreshDB, new GridBagConstraints(2, 3, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+
 		YearTableScrollPage.setPreferredSize(new Dimension(400, 400));
-		super.add(YearTableScrollPage, new GridBagConstraints(2, 1, 1, 1, 1, 1,
-				GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(
-						1, 1, 1, 1), 0, 0));
+		super.add(YearTableScrollPage,
+				new GridBagConstraints(2, 1, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
 		// Register keyboard
 		keyDispatcher = new KeyEventDispatcher()
@@ -141,8 +195,7 @@ public class YearTablePanel extends JPanel
 			{
 				// check key ID (reakt only on KEY_RELEASED event) and code
 				// (react only on F5)
-				boolean bResult = e.getID() == KeyEvent.KEY_RELEASED
-						&& e.getKeyCode() == KeyEvent.VK_F5;
+				boolean bResult = e.getID() == KeyEvent.KEY_RELEASED && e.getKeyCode() == KeyEvent.VK_F5;
 				// check result
 				if (bResult)
 				{
@@ -153,8 +206,7 @@ public class YearTablePanel extends JPanel
 			}
 		};
 		// register new KeyEventDispatcher
-		KeyboardFocusManager.getCurrentKeyboardFocusManager()
-				.addKeyEventDispatcher(keyDispatcher);
+		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(keyDispatcher);
 
 		tTable.addMouseListener(new MouseAdapter()
 		{

@@ -1,38 +1,44 @@
 package by.uniterra.udi.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
-import javax.swing.table.AbstractTableModel;
 
 import by.uniterra.dai.entity.Year;
 
-public class YearTableModel extends AbstractTableModel
+public class YearTableModel extends AbstractFlexTableModel
 {
 
 	/** TODO document <code>serialVersionUID</code> */
 	private static final long serialVersionUID = -5232340455887109379L;
-
+	
+	private final static int COL_ID_YEAR = 0;
+    private final static int COL_NUMBER_YEAR = 1;
+    private final static int COL__DESC_YEAR = 2;
+    
 	private List<Year> dataArrayList;
 	public List<String> arrColumnNames;
 
 	public YearTableModel()
 	{
-		dataArrayList = new ArrayList<Year>();
+		/*dataArrayList = new ArrayList<Year>();
 		arrColumnNames = Arrays.asList(new String[] { "ID", "Number",
-				"Description" });
+				"Description" });*/
+		addColumn(COL_ID_YEAR, "#ID", String.class);
+        addColumn(COL_NUMBER_YEAR, "Номер", String.class);
+        addColumn(COL__DESC_YEAR , "Примечание", String.class);
 	}
 
-	public void addData(List<Year> arrData)
+/*	public void addData(List<Year> arrData)
 	{
 		this.dataArrayList = new ArrayList<Year>(arrData);
 		// notify "view" about changed model data
 		fireTableDataChanged();
-	}
+	}*/
 
-	@Override
-	public int getColumnCount()
+	//@Override
+	/*public int getColumnCount()
 	{
 		return arrColumnNames.size();
 	}
@@ -41,9 +47,9 @@ public class YearTableModel extends AbstractTableModel
 	public int getRowCount()
 	{
 		return dataArrayList.size();
-	}
+	}*/
 
-	@Override
+/*	@Override
 	public Object getValueAt(int rowIndex, int columnIndex)
 	{
 		Year year = dataArrayList.get(rowIndex);
@@ -57,9 +63,10 @@ public class YearTableModel extends AbstractTableModel
 			return year.getDeskription();
 		}
 		return null;
-	}
+	}*/
+	
 
-	@Override
+	/*@Override
 	public void setValueAt(Object editNewData, int rowIndex, int columnIndex)
 	{
 		Year year = dataArrayList.get(rowIndex);
@@ -78,12 +85,12 @@ public class YearTableModel extends AbstractTableModel
 
 		fireTableDataChanged();
 
-	}
+	}*/
 
-	public String getColumnName(int columnIndex) // возвращает название колонок
+/*	public String getColumnName(int columnIndex) // возвращает название колонок
 	{
 		return arrColumnNames.get(columnIndex);
-	}
+	}*/
 
 	@Override
 	public boolean isCellEditable(int row, int column)
@@ -91,9 +98,31 @@ public class YearTableModel extends AbstractTableModel
 		return true;
 	}
 
-	public List<Year> setData()
+/*	public List<Year> setData()
 	{
 		return dataArrayList;
+	}*/
+
+	@Override
+	public Object getValueById(int rowIndex, int columnId)
+	{
+		Object objResult = null;
+        Year idData = (Year)getRowData(rowIndex);
+        switch( columnId )
+        {
+            case COL_ID_YEAR:
+                objResult = idData.getYearId();
+                break;
+            case COL_NUMBER_YEAR:
+                objResult = idData.getNumber();
+                break;
+            case COL__DESC_YEAR:
+                objResult = idData.getDeskription();
+                break;
+            default:
+                break;
+        }
+        return objResult;
 	}
 
 }
