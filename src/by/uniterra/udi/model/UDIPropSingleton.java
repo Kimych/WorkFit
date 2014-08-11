@@ -20,7 +20,7 @@ import org.w3c.dom.NodeList;
  */
 public class UDIPropSingleton
 {
-    private static final String SZ_PROPERTYFILE_NAME = "e:/GitHub/WorkFit/bin/config/udi/WorkFit.xml";
+    private static final String SZ_PROPERTYFILE_NAME = "/config/udi/WorkFit.xml";
     private static final String SZ_NO_RESOURCE = "";
     private static final String DEF_LOCALE = "ru";
 
@@ -58,7 +58,7 @@ public class UDIPropSingleton
 	    factory.setNamespaceAware(true);
 	    DocumentBuilder builder = factory.newDocumentBuilder();
 
-	    xml_Doc = builder.parse(new FileInputStream(SZ_PROPERTYFILE_NAME), "UTF-8");
+	    xml_Doc = builder.parse(UDIPropSingleton.class.getResourceAsStream(SZ_PROPERTYFILE_NAME), "UTF-8");
 	} catch (Exception e)
 	{
 	    e.printStackTrace();
