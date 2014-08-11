@@ -1,6 +1,5 @@
 package by.uniterra.udi.view;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -28,16 +27,14 @@ import by.uniterra.dai.eao.YearEAO;
 import by.uniterra.dai.entity.Year;
 import by.uniterra.udi.model.YearTableModel;
 
-public class YearTablePanel extends JPanel
+public class YearTablePanel extends JPanel implements ActionListener
 {
 	/** TODO document <code>serialVersionUID</code> */
 	private static final long serialVersionUID = -3705271245863973712L;
 
 	// members
 	private YearTableModel ytm;
-
 	private JTable tTable;
-
 	private KeyEventDispatcher keyDispatcher;
 
 	public YearTablePanel()
@@ -47,9 +44,6 @@ public class YearTablePanel extends JPanel
 
 		// bring data from DB to view
 		readValues();
-
-		// save data from view to Db
-		writeValues();
 
 		// unregister key dispatcher on shutdown action
 		Runtime.getRuntime().addShutdownHook(new Thread()
@@ -66,12 +60,6 @@ public class YearTablePanel extends JPanel
 
 	}
 
-	private void writeValues()
-	{
-		// TODO Auto-generated method stub
-
-	}
-
 	private void readValues()
 	{
 		ServiceBaseEAO.connectToDB();
@@ -84,9 +72,7 @@ public class YearTablePanel extends JPanel
 
 	private void jbInit()
 	{
-		setBackground(Color.BLACK);
 		setLayout(new GridBagLayout());
-
 		ytm = new YearTableModel();
 		tTable = new JTable(ytm);
 
@@ -156,9 +142,16 @@ public class YearTablePanel extends JPanel
 				{
 					Year year = new Year();
 					// year.setYearId();
-					year.setNumber(Integer.valueOf(yop.getYearNumber()));
-					year.setDeskription(yop.getYearDeskription());
-					new YearEAO(ServiceBaseEAO.connectToDB()).save(year);
+					try
+					{
+						year.setNumber(Integer.valueOf(yop.getYearNumber()));
+						year.setDeskription(yop.getYearDeskription());
+						new YearEAO(ServiceBaseEAO.connectToDB()).save(year);
+					}
+					catch (NumberFormatException ex)
+					{
+						JOptionPane.showMessageDialog(null, "Неверный формат строки.", "Ошибка!", JOptionPane.ERROR_MESSAGE);
+					}
 					readValues();
 					ServiceBaseEAO.disconnectFromDb();
 
@@ -173,7 +166,6 @@ public class YearTablePanel extends JPanel
 		JButton buttonRefreshDB = new JButton("Refresh");
 		buttonRefreshDB.addActionListener(new ActionListener()
 		{
-
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
@@ -245,6 +237,13 @@ public class YearTablePanel extends JPanel
 				}
 			}
 		});
+		
 	}
 
+	@Override
+	public void actionPerformed(ActionEvent arg0)
+	{
+	
+		
+	}
 }
