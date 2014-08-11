@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<by.uniterra.udi.view.WorkFitMainFrame>
+		<YearTableFrame.title ru="Года" en="Year table" />
+	</by.uniterra.udi.view.WorkFitMainFrame>
+	<by.uniterra.udi.view.YearTablePanel>
+		<menuItemDelRow.label ru="Удалить запись" en="Delete Row" />
+	</by.uniterra.udi.view.YearTablePanel>
+</root>
+
