@@ -73,8 +73,7 @@ public class YearTablePanel extends JPanel implements ActionListener
     private void writeValues()
     {
         YearOptionPanel yop = new YearOptionPanel();
-        int res = JOptionPane.showConfirmDialog(tTable, yop, "Enter data", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-        if (res == JOptionPane.OK_OPTION)
+        if (JOptionPane.showConfirmDialog(tTable, yop, "Enter data", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION)
         {
             Year year = new Year();
             try
@@ -121,8 +120,6 @@ public class YearTablePanel extends JPanel implements ActionListener
         ytm = new YearTableModel();
         tTable = new JTable(ytm);
 
-        final JScrollPane YearTableScrollPage = new JScrollPane(tTable);
-
         // popup menu
         final JPopupMenu popup = new JPopupMenu();
         JMenuItem menuItemDelRow = new JMenuItem(UDIPropSingleton.getString(this, "menuItemDelRow.label"));
@@ -141,8 +138,9 @@ public class YearTablePanel extends JPanel implements ActionListener
         buttonRefreshDB.addActionListener(this);
         super.add(buttonRefreshDB, new GridBagConstraints(2, 3, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
-        YearTableScrollPage.setPreferredSize(new Dimension(400, 400));
-        super.add(YearTableScrollPage,
+        final JScrollPane yearTableScrollPage = new JScrollPane(tTable);
+        yearTableScrollPage.setPreferredSize(new Dimension(400, 400));
+        super.add(yearTableScrollPage,
                 new GridBagConstraints(2, 1, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
         // Register keyboard

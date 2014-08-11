@@ -19,16 +19,20 @@ public class YearOptionPanel extends JPanel
 
     public YearOptionPanel()
     {
+        super(new GridBagLayout());
         jbInit();
     }
 
     public void jbInit()
     {
-        new GridBagLayout();
         jlNumber = new JLabel("Number:");
         jlDesk = new JLabel("Desk:");
         tfNuber = new JTextField(10);
-        tfDeskription = new JTextArea(10, 20);
+        tfDeskription = new JTextArea();
+        tfDeskription.setColumns(30);
+        tfDeskription.setRows(5);
+        tfDeskription.setLineWrap(true);
+
         add(jlNumber, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
         add(tfNuber, new GridBagConstraints(1, 0, 1, 1, 1, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
         add(jlDesk, new GridBagConstraints(0, 1, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 0, 5), 0, 0));
