@@ -22,6 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 
+
 import by.uniterra.dai.eao.ServiceBaseEAO;
 import by.uniterra.dai.eao.YearEAO;
 import by.uniterra.dai.entity.Year;
@@ -36,7 +37,12 @@ public class YearTablePanel extends JPanel implements ActionListener
 	private YearTableModel ytm;
 	private JTable tTable;
 	private KeyEventDispatcher keyDispatcher;
-
+	
+	private static final String ACTION_SAVE_DB_YEAR = "New Records";
+	private static final String ACTION_REFRESH_YEAR_TABLE = "Refresh";
+	private static final String ACTION_DEL_ROW = "Delete row";
+	
+	
 	public YearTablePanel()
 	{
 		// create UI
@@ -68,6 +74,33 @@ public class YearTablePanel extends JPanel implements ActionListener
 
 		ServiceBaseEAO.disconnectFromDb();
 
+	}
+	
+	private void writeValues()
+	{
+		YearOptionPanel yop = new YearOptionPanel();
+		int res = JOptionPane.showConfirmDialog(tTable, yop, "Enter data", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+		if (res == JOptionPane.OK_OPTION)
+		{
+			Year year = new Year();
+			try
+			{
+				year.setNumber(Integer.valueOf(yop.getYearNumber()));
+				year.setDeskription(yop.getYearDeskription());
+				new YearEAO(ServiceBaseEAO.connectToDB()).save(year);
+			}
+			catch (NumberFormatException ex)
+			{
+				JOptionPane.showMessageDialog(null, "Неверный формат строки.", "Ошибка!", JOptionPane.ERROR_MESSAGE);
+			}
+			readValues();
+			ServiceBaseEAO.disconnectFromDb();
+
+		}
+		else
+		{
+			System.out.println("Input Canceled");
+		}
 	}
 
 	private void jbInit()
@@ -129,50 +162,13 @@ public class YearTablePanel extends JPanel implements ActionListener
 
 		// add new row in db
 		JButton buttonSaveDB = new JButton("Новая запись");
+		buttonSaveDB.setActionCommand(ACTION_SAVE_DB_YEAR);
+		buttonSaveDB.addActionListener(this);
 		super.add(buttonSaveDB, new GridBagConstraints(2, 2, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
-		buttonSaveDB.addActionListener(new ActionListener()
-		{
-
-			@Override
-			public void actionPerformed(ActionEvent arg0)
-			{
-				YearOptionPanel yop = new YearOptionPanel();
-				int res = JOptionPane.showConfirmDialog(tTable, yop, "Enter data", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-				if (res == JOptionPane.OK_OPTION)
-				{
-					Year year = new Year();
-					// year.setYearId();
-					try
-					{
-						year.setNumber(Integer.valueOf(yop.getYearNumber()));
-						year.setDeskription(yop.getYearDeskription());
-						new YearEAO(ServiceBaseEAO.connectToDB()).save(year);
-					}
-					catch (NumberFormatException ex)
-					{
-						JOptionPane.showMessageDialog(null, "Неверный формат строки.", "Ошибка!", JOptionPane.ERROR_MESSAGE);
-					}
-					readValues();
-					ServiceBaseEAO.disconnectFromDb();
-
-				}
-				else
-				{
-					System.out.println("Input Canceled");
-				}
-			}
-		});
-
-		JButton buttonRefreshDB = new JButton("Refresh");
-		buttonRefreshDB.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent arg0)
-			{
-				readValues();
-			}
-		});
-
+		
+		JButton buttonRefreshDB = new JButton("Обновить");
+		buttonRefreshDB.setActionCommand(ACTION_REFRESH_YEAR_TABLE);
+		buttonRefreshDB.addActionListener(this);
 		super.add(buttonRefreshDB, new GridBagConstraints(2, 3, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
 		YearTableScrollPage.setPreferredSize(new Dimension(400, 400));
@@ -244,6 +240,24 @@ public class YearTablePanel extends JPanel implements ActionListener
 	public void actionPerformed(ActionEvent arg0)
 	{
 	
+		try
+        {
+            switch (arg0.getActionCommand())
+            {
+                case ACTION_SAVE_DB_YEAR:
+                	writeValues();
+                    break;
+                case ACTION_REFRESH_YEAR_TABLE:
+                	readValues();
+                	break;
+         
+                default:
+                    break;
+            }
+        } catch (Exception e)
+        {
+        	System.out.println("actionPerformed expressions");
+        }
 		
 	}
 }
