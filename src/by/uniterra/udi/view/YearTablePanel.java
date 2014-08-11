@@ -22,7 +22,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 
-
 import by.uniterra.dai.eao.ServiceBaseEAO;
 import by.uniterra.dai.eao.YearEAO;
 import by.uniterra.dai.entity.Year;
@@ -37,12 +36,11 @@ public class YearTablePanel extends JPanel implements ActionListener
 	private YearTableModel ytm;
 	private JTable tTable;
 	private KeyEventDispatcher keyDispatcher;
-	
+
 	private static final String ACTION_SAVE_DB_YEAR = "New Records";
 	private static final String ACTION_REFRESH_YEAR_TABLE = "Refresh";
 	private static final String ACTION_DEL_ROW = "Delete row";
-	
-	
+
 	public YearTablePanel()
 	{
 		// create UI
@@ -75,7 +73,7 @@ public class YearTablePanel extends JPanel implements ActionListener
 		ServiceBaseEAO.disconnectFromDb();
 
 	}
-	
+
 	private void writeValues()
 	{
 		YearOptionPanel yop = new YearOptionPanel();
@@ -103,6 +101,29 @@ public class YearTablePanel extends JPanel implements ActionListener
 		}
 	}
 
+	private void deleteValues()
+	{
+		int[] arrSelIndexes = tTable.getSelectedRows();
+		for (int i = 0; i < arrSelIndexes.length; i++)
+		{
+			// convert view to model index number
+			int iModelIndex = (tTable.convertRowIndexToModel(arrSelIndexes[i]));
+			// get data by index value
+			Year idCurYear = (Year) ytm.getRowData(iModelIndex);
+			// check for existing model
+			if (idCurYear.getYearId() != 0)
+			{
+				// setDocsToRemove.add(idCurDoc);
+				new YearEAO(ServiceBaseEAO.connectToDB()).delete(idCurYear.getYearId());
+			}
+
+		}
+		// ytm.removeRowData(tTable.getSelectedRow());
+		readValues();
+		ServiceBaseEAO.disconnectFromDb();
+
+	}
+
 	private void jbInit()
 	{
 		setLayout(new GridBagLayout());
@@ -113,51 +134,9 @@ public class YearTablePanel extends JPanel implements ActionListener
 
 		// popup menu
 		final JPopupMenu popup = new JPopupMenu();
-		JMenuItem menuItemAddNewRow = new JMenuItem("Add new Row");
-		menuItemAddNewRow.getAccessibleContext().setAccessibleDescription("Item1");
 		JMenuItem menuItemDelRow = new JMenuItem("Delete Row");
-		menuItemDelRow.getAccessibleContext().setAccessibleDescription("Item2");
-
-		menuItemAddNewRow.addActionListener(new ActionListener()
-		{
-
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				ytm.addTableData(new Year());
-			}
-
-		});
-
-		menuItemDelRow.addActionListener(new ActionListener()
-		{
-
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				int[] arrSelIndexes = tTable.getSelectedRows();
-				for (int i = 0; i < arrSelIndexes.length; i++)
-				{
-					// convert view to model index number
-					int iModelIndex = (tTable.convertRowIndexToModel(arrSelIndexes[i]));
-					// get data by index value
-					Year idCurYear = (Year) ytm.getRowData(iModelIndex);
-					// check for existing model
-					if (idCurYear.getYearId() != 0)
-					{
-						// setDocsToRemove.add(idCurDoc);
-						new YearEAO(ServiceBaseEAO.connectToDB()).delete(idCurYear.getYearId());
-					}
-
-				}
-				// ytm.removeRowData(tTable.getSelectedRow());
-				readValues();
-				ServiceBaseEAO.disconnectFromDb();
-
-			}
-
-		});
-		popup.add(menuItemAddNewRow);
+		menuItemDelRow.setActionCommand(ACTION_DEL_ROW);
+		menuItemDelRow.addActionListener(this);
 		popup.add(menuItemDelRow);
 
 		// add new row in db
@@ -165,7 +144,7 @@ public class YearTablePanel extends JPanel implements ActionListener
 		buttonSaveDB.setActionCommand(ACTION_SAVE_DB_YEAR);
 		buttonSaveDB.addActionListener(this);
 		super.add(buttonSaveDB, new GridBagConstraints(2, 2, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
-		
+
 		JButton buttonRefreshDB = new JButton("Обновить");
 		buttonRefreshDB.setActionCommand(ACTION_REFRESH_YEAR_TABLE);
 		buttonRefreshDB.addActionListener(this);
@@ -233,31 +212,34 @@ public class YearTablePanel extends JPanel implements ActionListener
 				}
 			}
 		});
-		
+
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0)
 	{
-	
+
 		try
-        {
-            switch (arg0.getActionCommand())
-            {
-                case ACTION_SAVE_DB_YEAR:
-                	writeValues();
-                    break;
-                case ACTION_REFRESH_YEAR_TABLE:
-                	readValues();
-                	break;
-         
-                default:
-                    break;
-            }
-        } catch (Exception e)
-        {
-        	System.out.println("actionPerformed expressions");
-        }
-		
+		{
+			switch (arg0.getActionCommand())
+			{
+			case ACTION_SAVE_DB_YEAR:
+				writeValues();
+				break;
+			case ACTION_REFRESH_YEAR_TABLE:
+				readValues();
+				break;
+			case ACTION_DEL_ROW:
+				deleteValues();
+				break;
+			default:
+				break;
+			}
+		}
+		catch (Exception e)
+		{
+			System.out.println("actionPerformed expressions");
+		}
+
 	}
 }
