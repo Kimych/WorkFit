@@ -67,12 +67,7 @@ public class YearTablePanel extends JPanel implements ActionListener
 
     private void readValues()
     {
-        ServiceBaseEAO.connectToDB();
-
         ytm.setTableData(new YearEAO(ServiceBaseEAO.getDefaultEM()).loadAll());
-
-        ServiceBaseEAO.disconnectFromDb();
-
     }
 
     private void writeValues()
@@ -93,8 +88,6 @@ public class YearTablePanel extends JPanel implements ActionListener
                 JOptionPane.showMessageDialog(null, "Неверный формат строки.", "Ошибка!", JOptionPane.ERROR_MESSAGE);
             }
             readValues();
-            ServiceBaseEAO.disconnectFromDb();
-
         }
         else
         {
@@ -119,10 +112,7 @@ public class YearTablePanel extends JPanel implements ActionListener
             }
 
         }
-        // ytm.removeRowData(tTable.getSelectedRow());
         readValues();
-        ServiceBaseEAO.disconnectFromDb();
-
     }
 
     private void jbInit()
