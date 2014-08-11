@@ -149,7 +149,7 @@ public class ServiceBaseEAO<T extends Serializable>
 		return "select o from " + classType.getSimpleName() + " o ";
 	}
 
-	public static EntityManager connectToDB()
+	public static void connectToDB()
 	{
 		Map<String, String> mapCustomProp = new HashMap<String, String>();
 		// put system configuration properties
@@ -166,6 +166,12 @@ public class ServiceBaseEAO<T extends Serializable>
 		// a new connection (factory) to target DB
 		emfFactory = Persistence.createEntityManagerFactory(
 				PERSISTENCE_UNIT_NAME, mapCustomProp);
+		/*emManager = emfFactory.createEntityManager();
+		return emManager;*/
+	}
+	
+	public static EntityManager getDefaultEM()
+	{
 		emManager = emfFactory.createEntityManager();
 		return emManager;
 	}
