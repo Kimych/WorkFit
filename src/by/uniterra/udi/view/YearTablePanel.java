@@ -25,6 +25,7 @@ import javax.swing.ListSelectionModel;
 import by.uniterra.dai.eao.ServiceBaseEAO;
 import by.uniterra.dai.eao.YearEAO;
 import by.uniterra.dai.entity.Year;
+import by.uniterra.udi.model.UDIPropSingleton;
 import by.uniterra.udi.model.YearTableModel;
 
 public class YearTablePanel extends JPanel implements ActionListener
@@ -134,7 +135,7 @@ public class YearTablePanel extends JPanel implements ActionListener
 
         // popup menu
         final JPopupMenu popup = new JPopupMenu();
-        JMenuItem menuItemDelRow = new JMenuItem("Delete Row");
+        JMenuItem menuItemDelRow = new JMenuItem(UDIPropSingleton.getString(this, "menuItemDelRow.label"));
         menuItemDelRow.setActionCommand(ACTION_DEL_ROW);
         menuItemDelRow.addActionListener(this);
         popup.add(menuItemDelRow);
