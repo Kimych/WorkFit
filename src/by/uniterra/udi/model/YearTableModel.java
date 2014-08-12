@@ -30,12 +30,12 @@ public class YearTableModel extends AbstractFlexTableModel
         addColumn(COL__DESC_YEAR , "Примечание", String.class);
 	}
 
-/*	public void addData(List<Year> arrData)
+	public void addData(List<Year> arrData)
 	{
 		this.dataArrayList = new ArrayList<Year>(arrData);
 		// notify "view" about changed model data
 		fireTableDataChanged();
-	}*/
+	}
 
 	//@Override
 	/*public int getColumnCount()
@@ -98,10 +98,10 @@ public class YearTableModel extends AbstractFlexTableModel
 		return true;
 	}
 
-/*	public List<Year> setData()
+	public List<Year> setData()
 	{
 		return dataArrayList;
-	}*/
+	}
 
 	@Override
 	public Object getValueById(int rowIndex, int columnId)

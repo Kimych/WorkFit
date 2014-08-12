@@ -6,6 +6,8 @@ import java.awt.Insets;
 
 import javax.swing.*;
 
+import by.uniterra.dai.entity.Year;
+
 public class YearOptionPanel extends JPanel
 {
 
@@ -47,6 +49,18 @@ public class YearOptionPanel extends JPanel
     public String getYearDeskription()
     {
         return tfDeskription.getText();
+    }
+
+    public void setModel(Year year)
+    {
+        
+        
+    }
+
+    public Year getModel()
+    {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

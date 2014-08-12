@@ -178,8 +178,7 @@ public abstract class AbstractFlexTableModel extends AbstractTableModel
     public void addTableData(Object newData )
     {
         ((List<Object>)lstData).add(newData);
-        fireTableRowsInserted(lstData.size() - 1, lstData.size() - 1);
-        Class clData;
+        fireTableRowsInserted(lstData.size() - 2, lstData.size() - 1);
     }
     
     /**

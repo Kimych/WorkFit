@@ -13,9 +13,12 @@ public class WorkFitMainFrame
         // Locale.setDefault(new Locale("en"));
 
         ServiceBaseEAO.connectToDB();
-
-        JOptionPane.showMessageDialog(null, new YearTablePanel(), UDIPropSingleton.getString(WorkFitMainFrame.class, "YearTableFrame.title"),
+        YearTablePanel panelYear = new YearTablePanel();
+        JOptionPane.showMessageDialog(null, panelYear, UDIPropSingleton.getString(WorkFitMainFrame.class, "YearTableFrame.title"),
                 JOptionPane.PLAIN_MESSAGE);
+        // save to DB
+        panelYear.writeValues();
+        
 
         ServiceBaseEAO.disconnectFromDb();
 
