@@ -1,7 +1,6 @@
 package by.uniterra.udi.model;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
@@ -95,7 +94,7 @@ public class YearTableModel extends AbstractFlexTableModel
 	@Override
 	public boolean isCellEditable(int row, int column)
 	{
-		return true;
+		return false;
 	}
 
 	public List<Year> setData()

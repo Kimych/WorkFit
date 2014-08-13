@@ -181,6 +181,12 @@ public abstract class AbstractFlexTableModel extends AbstractTableModel
         fireTableRowsInserted(lstData.size() - 2, lstData.size() - 1);
     }
     
+    public void setTableData(Object newData, int iModelIndex)
+    {
+        ((List<Object>)lstData).set(iModelIndex, newData);
+        fireTableRowsUpdated(iModelIndex, iModelIndex);
+    }
+    
     /**
      * Return data by given row index 
      * 

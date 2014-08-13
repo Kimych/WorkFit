@@ -5,6 +5,7 @@
 	</by.uniterra.udi.view.WorkFitMainFrame>
 	<by.uniterra.udi.view.YearTablePanel>
 		<menuItemDelRow.label ru="Удалить запись" en="Delete Row" />
+		<menuItemEditRow.label ru="Редактировать запись" en="Edit Row" />
 	</by.uniterra.udi.view.YearTablePanel>
 </root>
 

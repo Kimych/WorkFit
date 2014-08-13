@@ -14,10 +14,12 @@ public class YearOptionPanel extends JPanel
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = -5254096192556277102L;
 
-    private JTextField tfNuber;
+    private JTextField tfNumber;
     private JTextArea tfDeskription;
     private JLabel jlNumber;
     private JLabel jlDesk;
+
+    private Year year;
 
     public YearOptionPanel()
     {
@@ -29,38 +31,44 @@ public class YearOptionPanel extends JPanel
     {
         jlNumber = new JLabel("Number:");
         jlDesk = new JLabel("Desk:");
-        tfNuber = new JTextField(10);
+        tfNumber = new JTextField(10);
         tfDeskription = new JTextArea();
         tfDeskription.setColumns(30);
         tfDeskription.setRows(5);
         tfDeskription.setLineWrap(true);
 
         add(jlNumber, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
-        add(tfNuber, new GridBagConstraints(1, 0, 1, 1, 1, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
+        add(tfNumber, new GridBagConstraints(1, 0, 1, 1, 1, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
         add(jlDesk, new GridBagConstraints(0, 1, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 0, 5), 0, 0));
         add(tfDeskription, new GridBagConstraints(1, 1, 1, 1, 1, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 0, 0), 0, 0));
     }
-
+/*
     public String getYearNumber()
     {
-        return tfNuber.getText();
+        return tfNumber.getText();
     }
 
     public String getYearDeskription()
     {
         return tfDeskription.getText();
-    }
+    }*/
 
     public void setModel(Year year)
     {
-        
-        
+        this.year = year;
+        tfNumber.setText(String.valueOf(year.getNumber()));
+        tfDeskription.setText(year.getDeskription());
     }
 
     public Year getModel()
     {
-        // TODO Auto-generated method stub
-        return null;
+        if (year == null)
+        {
+            year = new Year();
+        }
+        year.setNumber(Integer.valueOf(tfNumber.getText()));
+        year.setDeskription(tfDeskription.getText());
+        return year;
     }
 
 }
