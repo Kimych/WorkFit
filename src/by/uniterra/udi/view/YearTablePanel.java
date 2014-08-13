@@ -41,6 +41,7 @@ public class YearTablePanel extends JPanel implements ActionListener
     private KeyEventDispatcher keyDispatcher;
 
     private List<Year> lstChangedRows;
+    private List<Year> lstYearsToDelete;
 
     private static final String ACTION_SAVE_DB_YEAR = "New Records";
     private static final String ACTION_REFRESH_YEAR_TABLE = "Refresh";
@@ -50,6 +51,8 @@ public class YearTablePanel extends JPanel implements ActionListener
     public YearTablePanel()
     {
         lstChangedRows = new ArrayList<Year>();
+        lstYearsToDelete = new ArrayList<Year>();
+
         // create UI
         jbInit();
 
@@ -79,43 +82,15 @@ public class YearTablePanel extends JPanel implements ActionListener
     public void writeValues()
     {
         YearEAO eaoYear = new YearEAO(ServiceBaseEAO.getDefaultEM());
+        for (Year year : lstYearsToDelete)
+        {
+            eaoYear.delete(year);
+        }
         for (Year year : lstChangedRows)
         {
             eaoYear.save(year);
         }
-        /*
-         * YearOptionPanel yop = new YearOptionPanel(); if
-         * (JOptionPane.showConfirmDialog(tTable, yop, "Enter data",
-         * JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) { Year year =
-         * new Year(); try {
-         * year.setNumber(Integer.valueOf(yop.getYearNumber()));
-         * year.setDeskription(yop.getYearDeskription());
-         * 
-         * new YearEAO(ServiceBaseEAO.getDefaultEM()).save(year); } catch
-         * (NumberFormatException ex) { JOptionPane.showMessageDialog(null,
-         * "Неверный формат строки.", "Ошибка!", JOptionPane.ERROR_MESSAGE); }
-         * readValues(); } else { System.out.println("Input Canceled"); }
-         */
-    }
 
-    private void deleteValues()
-    {
-        int[] arrSelIndexes = tTable.getSelectedRows();
-        for (int i = 0; i < arrSelIndexes.length; i++)
-        {
-            // convert view to model index number
-            int iModelIndex = (tTable.convertRowIndexToModel(arrSelIndexes[i]));
-            // get data by index value
-            Year idCurYear = (Year) ytm.getRowData(iModelIndex);
-            // check for existing model
-            if (idCurYear.getYearId() != 0)
-            {
-                // setDocsToRemove.add(idCurDoc);
-                new YearEAO(ServiceBaseEAO.getDefaultEM()).delete(idCurYear.getYearId());
-            }
-
-        }
-        readValues();
     }
 
     private void jbInit()
@@ -123,6 +98,7 @@ public class YearTablePanel extends JPanel implements ActionListener
         setLayout(new GridBagLayout());
         ytm = new YearTableModel();
         tTable = new JTable(ytm);
+        tTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         // popup menu del row
         final JPopupMenu popup = new JPopupMenu();
@@ -138,12 +114,12 @@ public class YearTablePanel extends JPanel implements ActionListener
         popup.add(menuItemEditRow);
 
         // add new row in db
-        JButton buttonSaveDB = new JButton("Новая запись");
+        JButton buttonSaveDB = new JButton(UDIPropSingleton.getString(this, "buttonSaveDB.label"));
         buttonSaveDB.setActionCommand(ACTION_SAVE_DB_YEAR);
         buttonSaveDB.addActionListener(this);
         super.add(buttonSaveDB, new GridBagConstraints(2, 2, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
-        JButton buttonRefreshDB = new JButton("Обновить");
+        JButton buttonRefreshDB = new JButton(UDIPropSingleton.getString(this, "buttonRefreshDB.label"));
         buttonRefreshDB.setActionCommand(ACTION_REFRESH_YEAR_TABLE);
         buttonRefreshDB.addActionListener(this);
         super.add(buttonRefreshDB, new GridBagConstraints(2, 3, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
@@ -171,6 +147,7 @@ public class YearTablePanel extends JPanel implements ActionListener
                 return bResult;
             }
         };
+
         // register new KeyEventDispatcher
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(keyDispatcher);
 
@@ -181,37 +158,8 @@ public class YearTablePanel extends JPanel implements ActionListener
             {
                 if (e.getClickCount() == 2)
                 {
-                    int[] arrSelIndexes = tTable.getSelectedRows();
-                    // convert view to model index number
-                    int iModelIndex = (tTable.convertRowIndexToModel(arrSelIndexes[0]));
-                    // get data by index value
-                    Year yearEditedModel = (Year) ytm.getRowData(iModelIndex); 
-                    
-                    YearOptionPanel yop = new YearOptionPanel();
-                    yop.setModel(yearEditedModel);
-                    if (JOptionPane.showConfirmDialog(tTable, yop, "Enter data", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION)
-                    {
-                        Year year = yop.getModel();
-                        
-                        ytm.setTableData(year, iModelIndex);
-                        
-                        //FIXME check if we already edited the same value
-                        lstChangedRows.add(year);
-                    }
-                    else
-                    {
-                        System.out.println("Input Canceled");
-                    } 
+                    editValuesFromModel();
                 }
-            }
-
-            private Year getSelectedFromTable()
-            {
-                int[] arrSelIndexes = tTable.getSelectedRows();
-                // convert view to model index number
-                int iModelIndex = (tTable.convertRowIndexToModel(arrSelIndexes[0]));
-                // get data by index value
-                return (Year) ytm.getRowData(iModelIndex);
             }
 
             @Override
@@ -248,13 +196,11 @@ public class YearTablePanel extends JPanel implements ActionListener
                 }
             }
         });
-
     }
 
     @Override
     public void actionPerformed(ActionEvent arg0)
     {
-
         try
         {
             switch (arg0.getActionCommand())
@@ -266,10 +212,10 @@ public class YearTablePanel extends JPanel implements ActionListener
                 readValues();
                 break;
             case ACTION_DEL_ROW:
-                deleteValues();
+                removeValuesFromModel();
                 break;
             case ACTION_EDIT_ROW:
-                System.out.println("edit action");
+                editValuesFromModel();
                 break;
             default:
                 break;
@@ -279,33 +225,101 @@ public class YearTablePanel extends JPanel implements ActionListener
         {
             System.out.println("actionPerformed expressions");
         }
-
     }
 
     public void saveValuesToModel()
     {
         YearOptionPanel yop = new YearOptionPanel();
         yop.setModel(new Year());
-        if (JOptionPane.showConfirmDialog(tTable, yop, "Enter data", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION)
+        if (JOptionPane.showConfirmDialog(tTable, yop, UDIPropSingleton.getString(this, "addYearOptionPanel.title"), JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION)
         {
-            Year year = yop.getModel();
-            ytm.addTableData(year);
-
-            lstChangedRows.add(year);
-
-  /*          try
+            try
             {
-
+                Year year = yop.getModel();
+                ytm.addTableData(year);
+                lstChangedRows.add(year);
             }
             catch (NumberFormatException ex)
             {
-                JOptionPane.showMessageDialog(null, "Неверный формат строки.", "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                showNumberErrorMessage();
             }
-            readValues();*/
         }
         else
         {
             System.out.println("Input Canceled");
         }
+    }
+
+    public void removeValuesFromModel()
+    {
+        int[] arrSelIndexes = tTable.getSelectedRows();
+
+        for (int i = 0; i < arrSelIndexes.length; i++)
+        {
+            // convert view to model index number
+            int iModelIndex = (tTable.convertRowIndexToModel(arrSelIndexes[i]));
+            Year yCurYear = (Year) ytm.getRowData(iModelIndex);
+
+            // check if it exists in DB
+            if (yCurYear.getYearId() != 0)
+            {
+                lstYearsToDelete.add(yCurYear);
+            }
+
+            // check if we edited the entity
+            if (lstChangedRows.contains(yCurYear))
+            {
+                lstChangedRows.remove(yCurYear);
+            }
+
+            // dell data by index value
+            ytm.removeTableData(iModelIndex);
+        }
+    }
+
+    public void editValuesFromModel()
+    {
+        int[] arrSelIndexes = tTable.getSelectedRows();
+        // convert view to model index number
+        int iModelIndex = (tTable.convertRowIndexToModel(arrSelIndexes[0]));
+        // get data by index value
+        Year yearEditedModel = (Year) ytm.getRowData(iModelIndex);
+        // check if it's already in changed list
+        int iChangedListIndex = lstChangedRows.indexOf(yearEditedModel);
+
+        YearOptionPanel yop = new YearOptionPanel();
+        yop.setModel(yearEditedModel);
+        if (JOptionPane.showConfirmDialog(tTable, yop, UDIPropSingleton.getString(this, "editYearOptionPanel.title"), JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION)
+        {
+            try
+            {
+                Year year = yop.getModel();
+                ytm.setTableData(year, iModelIndex);
+                // FIXME check if we already edited the same value
+                if (iChangedListIndex != -1)
+                {
+                    lstChangedRows.set(iChangedListIndex, year);
+                }
+                else
+                {
+                    lstChangedRows.add(year);
+                }
+            }
+            catch (NumberFormatException ex)
+            {
+                showNumberErrorMessage();
+            }
+
+        }
+        else
+        {
+            System.out.println("Input Canceled");
+        }
+    }
+
+    public void showNumberErrorMessage()
+    {
+        JOptionPane.showMessageDialog(null, UDIPropSingleton.getString(this, "errorMessageDialog.lable"),
+                UDIPropSingleton.getString(this, "errorMessageDialog.title"), JOptionPane.ERROR_MESSAGE);
     }
 }

@@ -7,6 +7,7 @@ import java.awt.Insets;
 import javax.swing.*;
 
 import by.uniterra.dai.entity.Year;
+import by.uniterra.udi.model.UDIPropSingleton;
 
 public class YearOptionPanel extends JPanel
 {
@@ -29,8 +30,8 @@ public class YearOptionPanel extends JPanel
 
     public void jbInit()
     {
-        jlNumber = new JLabel("Number:");
-        jlDesk = new JLabel("Desk:");
+        jlNumber = new JLabel(UDIPropSingleton.getString(this, "jlNumber.label"));
+        jlDesk = new JLabel(UDIPropSingleton.getString(this, "jlDesk.label"));
         tfNumber = new JTextField(10);
         tfDeskription = new JTextArea();
         tfDeskription.setColumns(30);
@@ -42,16 +43,6 @@ public class YearOptionPanel extends JPanel
         add(jlDesk, new GridBagConstraints(0, 1, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 0, 5), 0, 0));
         add(tfDeskription, new GridBagConstraints(1, 1, 1, 1, 1, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 0, 0), 0, 0));
     }
-/*
-    public String getYearNumber()
-    {
-        return tfNumber.getText();
-    }
-
-    public String getYearDeskription()
-    {
-        return tfDeskription.getText();
-    }*/
 
     public void setModel(Year year)
     {

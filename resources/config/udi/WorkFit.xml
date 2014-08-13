@@ -3,9 +3,30 @@
 	<by.uniterra.udi.view.WorkFitMainFrame>
 		<YearTableFrame.title ru="Года" en="Year table" />
 	</by.uniterra.udi.view.WorkFitMainFrame>
+
 	<by.uniterra.udi.view.YearTablePanel>
 		<menuItemDelRow.label ru="Удалить запись" en="Delete Row" />
-		<menuItemEditRow.label ru="Редактировать запись" en="Edit Row" />
+		<menuItemEditRow.label ru="Редактировать запись"
+			en="Edit Row" />
+		<addYearOptionPanel.title ru="Добавление данных"
+			en="Add new data" />
+		<editYearOptionPanel.title ru="Редактирование данных"
+			en="Edit data" />
+		<buttonSaveDB.label ru="Новая запись" en="New data" />
+		<buttonRefreshDB.label ru="Обновить" en="Refresh" />
+		<errorMessageDialog.title ru="Ошибка!" en="Error!" />
+		<errorMessageDialog.lable ru="Может быть только числом."
+			en="Number only." />
 	</by.uniterra.udi.view.YearTablePanel>
+
+	<by.uniterra.udi.view.YearOptionPanel>
+		<jlNumber.label ru="Год" en="Number" />
+		<jlDesk.label ru="Примечание" en="Description" />
+	</by.uniterra.udi.view.YearOptionPanel>
+
+	<by.uniterra.udi.model.YearTableModel>
+		<ColNumberYear.column ru="Год" en="Year" />
+		<ColDescYear.column ru="Примечание" en="Description" />
+	</by.uniterra.udi.model.YearTableModel>
 </root>
 
