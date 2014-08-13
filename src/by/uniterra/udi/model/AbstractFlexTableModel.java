@@ -177,10 +177,23 @@ public abstract class AbstractFlexTableModel extends AbstractTableModel
      */
     public void addTableData(Object newData )
     {
+        // last record index before insert
+        int iInitialIndex = lstData.size() > 0 ? lstData.size() - 1: 0;
+        // add new record
         ((List<Object>)lstData).add(newData);
-        fireTableRowsInserted(lstData.size() - 2, lstData.size() - 1);
+        // fire data update event
+        fireTableRowsInserted(iInitialIndex, lstData.size() - 1);
     }
     
+    /**
+     * Set given data object into given position
+     * 
+     * @param newData - data to set (replace)
+     * @param iModelIndex - model owned index
+     *
+     * @author Anton Niadbaila
+     * @date Aug 13, 2014
+     */
     public void setTableData(Object newData, int iModelIndex)
     {
         ((List<Object>)lstData).set(iModelIndex, newData);
@@ -198,14 +211,14 @@ public abstract class AbstractFlexTableModel extends AbstractTableModel
     }
     
     /**
-     * Remove data from given row index
+     * Remove data from table by row index
      * 
      * @param iRowIndex - row index of data to remove
      *
      * @author Anton Nedbailo
      * @date 22 ���. 2013 �.
      */
-    public void removeRowData(int iRowIndex)
+    public void removeTableData(int iRowIndex)
     {
         if (iRowIndex < lstData.size())
         {
