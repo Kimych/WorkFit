@@ -13,7 +13,7 @@
 		<editYearOptionPanel.title ru="Редактирование данных"
 			en="Edit data" />
 		<buttonSaveDB.label ru="Новая запись" en="New data" />
-		<buttonRefreshDB.label ru="Обновить" en="Refresh" />
+		<buttonRefreshDB.label ru="Отменить изменения" en="Rollback" />
 		<errorMessageDialog.title ru="Ошибка!" en="Error!" />
 		<errorMessageDialog.lable ru="Может быть только числом."
 			en="Number only." />
@@ -28,5 +28,20 @@
 		<ColNumberYear.column ru="Год" en="Year" />
 		<ColDescYear.column ru="Примечание" en="Description" />
 	</by.uniterra.udi.model.YearTableModel>
+	
+	<by.uniterra.udi.view.MonthTablePanel>
+	<menuItemDelRow.label ru="Удалить запись" en="Delete Row" />
+		<menuItemEditRow.label ru="Редактировать запись"
+			en="Edit Row" />
+		<addMonthOptionPanel.title ru="Добавление данных"
+			en="Add new data" />
+		<editMonthOptionPanel.title ru="Редактирование данных"
+			en="Edit data" />
+		<buttonSaveDB.label ru="Новая запись" en="New data" />
+		<buttonRefreshDB.label ru="Отменить изменения" en="Rollback" />
+		<errorMessageDialog.title ru="Ошибка!" en="Error!" />
+		<errorMessageDialog.lable ru="Неверный формат данных"
+			en="only." />
+	</by.uniterra.udi.view.MonthTablePanel>
 </root>
 

@@ -24,35 +24,36 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 
+import by.uniterra.dai.eao.MonthEAO;
 import by.uniterra.dai.eao.ServiceBaseEAO;
-import by.uniterra.dai.eao.YearEAO;
-import by.uniterra.dai.entity.Year;
+import by.uniterra.dai.entity.Month;
+import by.uniterra.udi.model.MonthTableModel;
 import by.uniterra.udi.model.UDIPropSingleton;
-import by.uniterra.udi.model.YearTableModel;
 
-public class YearTablePanel extends JPanel implements ActionListener
+
+public class MonthTablePanel extends JPanel implements ActionListener
 {
+
     /** TODO document <code>serialVersionUID</code> */
-    private static final long serialVersionUID = -3705271245863973712L;
+    private static final long serialVersionUID = 6992479839840204367L;
 
     // members
-    private YearTableModel ytm;
+    private MonthTableModel mtm;
     private JTable tTable;
     private KeyEventDispatcher keyDispatcher;
 
-    private List<Year> lstChangedRows;
-    private List<Year> lstYearsToDelete;
+    private List<Month> lstChangedRows;
+    private List<Month> lstMonthToDelete;
 
     private static final String ACTION_SAVE_TO_MODEL = "Save to model";
     private static final String ACTION_REFRESH_TABLE = "Refresh";
     private static final String ACTION_DEL_ROW = "Delete row";
     private static final String ACTION_EDIT_ROW = "Edit row";
 
-    public YearTablePanel()
+    public MonthTablePanel()
     {
-        lstChangedRows = new ArrayList<Year>();
-        lstYearsToDelete = new ArrayList<Year>();
-
+        lstChangedRows = new ArrayList<Month>();
+        lstMonthToDelete = new ArrayList<Month>();
         // create UI
         jbInit();
 
@@ -71,26 +72,25 @@ public class YearTablePanel extends JPanel implements ActionListener
                 }
             }
         });
-
     }
 
     private void readValues()
     {
-        lstYearsToDelete.clear();
+        lstMonthToDelete.clear();
         lstChangedRows.clear();
-        ytm.setTableData(new YearEAO(ServiceBaseEAO.getDefaultEM()).loadAll());
+        mtm.setTableData(new MonthEAO(ServiceBaseEAO.getDefaultEM()).loadAll());
     }
 
     public void writeValues()
     {
-        YearEAO eaoYear = new YearEAO(ServiceBaseEAO.getDefaultEM());
-        for (Year year : lstYearsToDelete)
+        MonthEAO eaoMonth = new MonthEAO(ServiceBaseEAO.getDefaultEM());
+        for (Month month : lstMonthToDelete)
         {
-            eaoYear.delete(year);
+            eaoMonth.delete(month);
         }
-        for (Year year : lstChangedRows)
+        for (Month month : lstChangedRows)
         {
-            eaoYear.save(year);
+            eaoMonth.save(month);
         }
 
     }
@@ -98,8 +98,8 @@ public class YearTablePanel extends JPanel implements ActionListener
     private void jbInit()
     {
         setLayout(new GridBagLayout());
-        ytm = new YearTableModel();
-        tTable = new JTable(ytm);
+        mtm = new MonthTableModel();
+        tTable = new JTable(mtm);
         tTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         // popup menu del row
@@ -227,19 +227,20 @@ public class YearTablePanel extends JPanel implements ActionListener
         {
             System.out.println("actionPerformed expressions");
         }
+
     }
 
     public void saveValuesToModel()
     {
-        YearOptionPanel yop = new YearOptionPanel();
-        yop.setModel(new Year());
-        if (JOptionPane.showConfirmDialog(tTable, yop, UDIPropSingleton.getString(this, "addYearOptionPanel.title"), JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION)
+        MonthOptionPanel mop = new MonthOptionPanel();
+        mop.setModel(new Month());
+        if (JOptionPane.showConfirmDialog(tTable, mop, UDIPropSingleton.getString(this, "addMonthOptionPanel.title"), JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION)
         {
             try
             {
-                Year year = yop.getModel();
-                ytm.addTableData(year);
-                lstChangedRows.add(year);
+                Month month = mop.getModel();
+                mtm.addTableData(month);
+                lstChangedRows.add(month);
             }
             catch (NumberFormatException ex)
             {
@@ -260,22 +261,22 @@ public class YearTablePanel extends JPanel implements ActionListener
         {
             // convert view to model index number
             int iModelIndex = (tTable.convertRowIndexToModel(arrSelIndexes[i]));
-            Year yCurYear = (Year) ytm.getRowData(iModelIndex);
+            Month yCurMonth = (Month) mtm.getRowData(iModelIndex);
 
             // check if it exists in DB
-            if (yCurYear.getYearId() != 0)
+            if (yCurMonth.getMonthId() != 0)
             {
-                lstYearsToDelete.add(yCurYear);
+                lstMonthToDelete.add(yCurMonth);
             }
 
             // check if we edited the entity
-            if (lstChangedRows.contains(yCurYear))
+            if (lstChangedRows.contains(yCurMonth))
             {
-                lstChangedRows.remove(yCurYear);
+                lstChangedRows.remove(yCurMonth);
             }
 
             // dell data by index value
-            ytm.removeTableData(iModelIndex);
+            mtm.removeTableData(iModelIndex);
         }
     }
 
@@ -285,26 +286,26 @@ public class YearTablePanel extends JPanel implements ActionListener
         // convert view to model index number
         int iModelIndex = (tTable.convertRowIndexToModel(arrSelIndexes[0]));
         // get data by index value
-        Year yearEditedModel = (Year) ytm.getRowData(iModelIndex);
+        Month monthEditedModel = (Month) mtm.getRowData(iModelIndex);
         // check if it's already in changed list
-        int iChangedListIndex = lstChangedRows.indexOf(yearEditedModel);
+        int iChangedListIndex = lstChangedRows.indexOf(monthEditedModel);
 
-        YearOptionPanel yop = new YearOptionPanel();
-        yop.setModel(yearEditedModel);
-        if (JOptionPane.showConfirmDialog(tTable, yop, UDIPropSingleton.getString(this, "editYearOptionPanel.title"), JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION)
+        MonthOptionPanel mop = new MonthOptionPanel();
+        mop.setModel(monthEditedModel);
+        if (JOptionPane.showConfirmDialog(tTable, mop, UDIPropSingleton.getString(this, "editMonthOptionPanel.title"), JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION)
         {
             try
             {
-                Year year = yop.getModel();
-                ytm.setTableData(year, iModelIndex);
+                Month month = mop.getModel();
+                mtm.setTableData(month, iModelIndex);
                 // FIXME check if we already edited the same value
                 if (iChangedListIndex != -1)
                 {
-                    lstChangedRows.set(iChangedListIndex, year);
+                    lstChangedRows.set(iChangedListIndex, month);
                 }
                 else
                 {
-                    lstChangedRows.add(year);
+                    lstChangedRows.add(month);
                 }
             }
             catch (NumberFormatException ex)
