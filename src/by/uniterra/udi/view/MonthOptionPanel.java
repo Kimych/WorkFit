@@ -18,10 +18,10 @@ import by.uniterra.dai.eao.YearEAO;
 import by.uniterra.dai.entity.Month;
 import by.uniterra.dai.entity.NameMonth;
 import by.uniterra.dai.entity.Year;
+import by.uniterra.udi.iface.IModelOwner;
 
-public class MonthOptionPanel extends JPanel
+public class MonthOptionPanel extends JPanel implements IModelOwner
 {
-
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 3210721310184243056L;
     private JTextField tfNumber;
@@ -66,15 +66,23 @@ public class MonthOptionPanel extends JPanel
 
     }
 
-    public void setModel(Month month)
+    /**
+     * @see by.uniterra.udi.view.IModelOwner#setModel(java.lang.Object)
+     */
+    @Override
+    public void setModel(Object objMonth)
     {
-        this.month = month;
+        this.month = (Month) month;
         tfNumber.setText(String.valueOf(month.getWorkingDaysCount()));
         tfDeskription.setText(month.getDescription());
         cbYear.setSelectedItem(month.getYear());
         cbMonth.setSelectedItem(month.getNameMonth());
     }
 
+    /* (non-Javadoc)
+     * @see by.uniterra.udi.view.IModelOwner#getModel()
+     */
+    @Override
     public Month getModel()
     {
         if (month == null)
