@@ -7,9 +7,10 @@ import java.awt.Insets;
 import javax.swing.*;
 
 import by.uniterra.dai.entity.Year;
+import by.uniterra.udi.iface.IModelOwner;
 import by.uniterra.udi.model.UDIPropSingleton;
 
-public class YearOptionPanel extends JPanel
+public class YearOptionPanel extends JPanel implements IModelOwner
 {
 
     /** TODO document <code>serialVersionUID</code> */
@@ -44,14 +45,16 @@ public class YearOptionPanel extends JPanel
         add(tfDeskription, new GridBagConstraints(1, 1, 1, 1, 1, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 0, 0), 0, 0));
     }
 
-    public void setModel(Year year)
+    @Override
+    public void setModel(Object objYear)
     {
-        this.year = year;
+        this.year = (Year) objYear;
         tfNumber.setText(String.valueOf(year.getNumber()));
         tfDeskription.setText(year.getDeskription());
     }
-
-    public Year getModel()
+    
+    @Override
+    public Object getModel()
     {
         if (year == null)
         {

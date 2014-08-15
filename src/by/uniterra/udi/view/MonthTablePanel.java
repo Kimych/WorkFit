@@ -34,7 +34,6 @@ import by.uniterra.udi.model.UDIPropSingleton;
 
 public class MonthTablePanel extends JPanel implements ActionListener
 {
-
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 6992479839840204367L;
 

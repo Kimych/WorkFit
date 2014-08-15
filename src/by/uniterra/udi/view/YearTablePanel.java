@@ -27,6 +27,7 @@ import javax.swing.ListSelectionModel;
 import by.uniterra.dai.eao.ServiceBaseEAO;
 import by.uniterra.dai.eao.YearEAO;
 import by.uniterra.dai.entity.Year;
+import by.uniterra.udi.iface.IModelOwner;
 import by.uniterra.udi.model.UDIPropSingleton;
 import by.uniterra.udi.model.YearTableModel;
 
@@ -237,7 +238,7 @@ public class YearTablePanel extends JPanel implements ActionListener
         {
             try
             {
-                Year year = yop.getModel();
+                Year year = (Year) yop.getModel();
                 ytm.addTableData(year);
                 lstChangedRows.add(year);
             }
@@ -289,13 +290,13 @@ public class YearTablePanel extends JPanel implements ActionListener
         // check if it's already in changed list
         int iChangedListIndex = lstChangedRows.indexOf(yearEditedModel);
 
-        YearOptionPanel yop = new YearOptionPanel();
+        IModelOwner yop = new YearOptionPanel();
         yop.setModel(yearEditedModel);
         if (JOptionPane.showConfirmDialog(tTable, yop, UDIPropSingleton.getString(this, "editYearOptionPanel.title"), JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION)
         {
             try
             {
-                Year year = yop.getModel();
+                Year year = (Year) yop.getModel();
                 ytm.setTableData(year, iModelIndex);
                 // FIXME check if we already edited the same value
                 if (iChangedListIndex != -1)
