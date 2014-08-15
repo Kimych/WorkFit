@@ -1,3 +1,32 @@
+/**
+ * Filename  : CommonDataTablePanel.java
+ *
+ * ***************************************************************************
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ ***************************************************************************
+ * Project    : WorkFit
+ *
+ * Author     : Anton Nedbailo
+ *
+ * last change by : $Author:$ 
+ * last check in  : $Date: $
+ */
+
 package by.uniterra.udi.view;
 
 import java.awt.Dimension;
@@ -23,23 +52,27 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.table.AbstractTableModel;
 
 import by.uniterra.dai.eao.MonthEAO;
 import by.uniterra.dai.eao.ServiceBaseEAO;
 import by.uniterra.dai.entity.Month;
 import by.uniterra.udi.iface.IModelOwner;
-import by.uniterra.udi.model.MonthTableModel;
+import by.uniterra.udi.model.AbstractFlexTableModel;
 import by.uniterra.udi.model.UDIPropSingleton;
 
-
-public class MonthTablePanel extends JPanel implements ActionListener
+/**
+ * The <code>CommonDataTablePanel</code> is used for editind some DB table values
+ *
+ * @author Anton Nedbailo
+ * @since 15 авг. 2014 г.
+ */
+public class CommonDataTablePanel extends JPanel implements ActionListener
 {
-
-    /** TODO document <code>serialVersionUID</code> */
-    private static final long serialVersionUID = 6992479839840204367L;
-
+    private static final long serialVersionUID = -8892734531119563251L;
+    
     // members
-    private MonthTableModel mtm;
+    private AbstractFlexTableModel model;
     private JTable tTable;
     private KeyEventDispatcher keyDispatcher;
 
@@ -51,10 +84,13 @@ public class MonthTablePanel extends JPanel implements ActionListener
     private static final String ACTION_DEL_ROW = "Delete row";
     private static final String ACTION_EDIT_ROW = "Edit row";
 
-    public MonthTablePanel()
+    public CommonDataTablePanel(AbstractFlexTableModel atmModel)
     {
         lstChangedRows = new ArrayList<Month>();
         lstMonthToDelete = new ArrayList<Month>();
+        // init members
+        this.model = atmModel;
+        
         // create UI
         jbInit();
 
@@ -79,7 +115,7 @@ public class MonthTablePanel extends JPanel implements ActionListener
     {
         lstMonthToDelete.clear();
         lstChangedRows.clear();
-        mtm.setTableData(new MonthEAO(ServiceBaseEAO.getDefaultEM()).loadAll());
+        model.setTableData(new MonthEAO(ServiceBaseEAO.getDefaultEM()).loadAll());
     }
 
     public void writeValues()
@@ -99,8 +135,7 @@ public class MonthTablePanel extends JPanel implements ActionListener
     private void jbInit()
     {
         setLayout(new GridBagLayout());
-        mtm = new MonthTableModel();
-        tTable = new JTable(mtm);
+        tTable = new JTable(model);
         tTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         // popup menu del row
@@ -240,7 +275,7 @@ public class MonthTablePanel extends JPanel implements ActionListener
             try
             {
                 Month month = (Month) mop.getModel();
-                mtm.addTableData(month);
+                model.addTableData(month);
                 lstChangedRows.add(month);
             }
             catch (NumberFormatException ex)
@@ -262,7 +297,7 @@ public class MonthTablePanel extends JPanel implements ActionListener
         {
             // convert view to model index number
             int iModelIndex = (tTable.convertRowIndexToModel(arrSelIndexes[i]));
-            Month yCurMonth = (Month) mtm.getRowData(iModelIndex);
+            Month yCurMonth = (Month) model.getRowData(iModelIndex);
 
             // check if it exists in DB
             if (yCurMonth.getMonthId() != 0)
@@ -277,7 +312,7 @@ public class MonthTablePanel extends JPanel implements ActionListener
             }
 
             // dell data by index value
-            mtm.removeTableData(iModelIndex);
+            model.removeTableData(iModelIndex);
         }
     }
 
@@ -287,7 +322,7 @@ public class MonthTablePanel extends JPanel implements ActionListener
         // convert view to model index number
         int iModelIndex = (tTable.convertRowIndexToModel(arrSelIndexes[0]));
         // get data by index value
-        Month monthEditedModel = (Month) mtm.getRowData(iModelIndex);
+        Month monthEditedModel = (Month) model.getRowData(iModelIndex);
         // check if it's already in changed list
         int iChangedListIndex = lstChangedRows.indexOf(monthEditedModel);
 
@@ -298,7 +333,7 @@ public class MonthTablePanel extends JPanel implements ActionListener
             try
             {
                 Month month = (Month) mop.getModel();
-                mtm.setTableData(month, iModelIndex);
+                model.setTableData(month, iModelIndex);
                 // FIXME check if we already edited the same value
                 if (iChangedListIndex != -1)
                 {
