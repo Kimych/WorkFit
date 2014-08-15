@@ -72,7 +72,7 @@ public class MonthOptionPanel extends JPanel implements IModelOwner
     @Override
     public void setModel(Object objMonth)
     {
-        this.month = (Month) month;
+        this.month = (Month) objMonth;
         tfNumber.setText(String.valueOf(month.getWorkingDaysCount()));
         tfDeskription.setText(month.getDescription());
         cbYear.setSelectedItem(month.getYear());

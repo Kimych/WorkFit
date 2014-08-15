@@ -41,6 +41,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,15 +49,12 @@ import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
+import javax.swing.JPopupMenu;    
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.table.AbstractTableModel;
 
-import by.uniterra.dai.eao.MonthEAO;
 import by.uniterra.dai.eao.ServiceBaseEAO;
-import by.uniterra.dai.entity.Month;
 import by.uniterra.udi.iface.IModelOwner;
 import by.uniterra.udi.model.AbstractFlexTableModel;
 import by.uniterra.udi.model.UDIPropSingleton;
@@ -74,22 +72,28 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
     // members
     private AbstractFlexTableModel model;
     private JTable tTable;
+    @SuppressWarnings("rawtypes")
+    private ServiceBaseEAO eaoCommon;
     private KeyEventDispatcher keyDispatcher;
 
-    private List<Month> lstChangedRows;
-    private List<Month> lstMonthToDelete;
+    private List<Serializable> lstChangedRows;
+    private List<Serializable> lstMonthToDelete;
+
+    private IModelOwner moPanel;
 
     private static final String ACTION_SAVE_TO_MODEL = "Save to model";
     private static final String ACTION_REFRESH_TABLE = "Refresh";
     private static final String ACTION_DEL_ROW = "Delete row";
     private static final String ACTION_EDIT_ROW = "Edit row";
 
-    public CommonDataTablePanel(AbstractFlexTableModel atmModel)
+    public CommonDataTablePanel(AbstractFlexTableModel atmModel, IModelOwner moPanel, @SuppressWarnings("rawtypes") ServiceBaseEAO eaoCommon)
     {
-        lstChangedRows = new ArrayList<Month>();
-        lstMonthToDelete = new ArrayList<Month>();
+        lstChangedRows = new ArrayList<Serializable>();
+        lstMonthToDelete = new ArrayList<Serializable>();
         // init members
         this.model = atmModel;
+        this.moPanel = moPanel;
+        this.eaoCommon = eaoCommon;
         
         // create UI
         jbInit();
@@ -115,21 +119,21 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
     {
         lstMonthToDelete.clear();
         lstChangedRows.clear();
-        model.setTableData(new MonthEAO(ServiceBaseEAO.getDefaultEM()).loadAll());
+        
+        model.setTableData(eaoCommon.loadAll());
     }
 
+    @SuppressWarnings("unchecked")
     public void writeValues()
     {
-        MonthEAO eaoMonth = new MonthEAO(ServiceBaseEAO.getDefaultEM());
-        for (Month month : lstMonthToDelete)
+        for (Serializable obj : lstMonthToDelete)
         {
-            eaoMonth.delete(month);
+            eaoCommon.delete(obj);
         }
-        for (Month month : lstChangedRows)
+        for (Serializable obj : lstChangedRows)
         {
-            eaoMonth.save(month);
+            eaoCommon.save(obj);
         }
-
     }
 
     private void jbInit()
@@ -244,7 +248,7 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
             switch (arg0.getActionCommand())
             {
             case ACTION_SAVE_TO_MODEL:
-                saveValuesToModel();
+                addValuesToModel();
                 break;
             case ACTION_REFRESH_TABLE:
                 readValues();
@@ -262,19 +266,27 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
         catch (Exception e)
         {
             System.out.println("actionPerformed expressions");
+            e.printStackTrace();
         }
 
     }
 
-    public void saveValuesToModel()
+    public void addValuesToModel()
     {
-        IModelOwner mop = new MonthOptionPanel();
-        mop.setModel(new Month());
-        if (JOptionPane.showConfirmDialog(tTable, mop, UDIPropSingleton.getString(this, "addMonthOptionPanel.title"), JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION)
+        try
+        {
+            moPanel.setModel(eaoCommon.getClassType().newInstance());
+        }
+        catch (InstantiationException | IllegalAccessException e)
+        {
+            System.out.println("addValuesToModel error ");
+        }
+        
+        if (JOptionPane.showConfirmDialog(tTable, moPanel, UDIPropSingleton.getString(this, "addMonthOptionPanel.title"), JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION)
         {
             try
             {
-                Month month = (Month) mop.getModel();
+                Serializable month = (Serializable) moPanel.getModel();
                 model.addTableData(month);
                 lstChangedRows.add(month);
             }
@@ -297,10 +309,10 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
         {
             // convert view to model index number
             int iModelIndex = (tTable.convertRowIndexToModel(arrSelIndexes[i]));
-            Month yCurMonth = (Month) model.getRowData(iModelIndex);
+            Serializable yCurMonth = (Serializable) model.getRowData(iModelIndex);
 
             // check if it exists in DB
-            if (yCurMonth.getMonthId() != 0)
+            if (eaoCommon.contains(yCurMonth))
             {
                 lstMonthToDelete.add(yCurMonth);
             }
@@ -322,17 +334,16 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
         // convert view to model index number
         int iModelIndex = (tTable.convertRowIndexToModel(arrSelIndexes[0]));
         // get data by index value
-        Month monthEditedModel = (Month) model.getRowData(iModelIndex);
+        Serializable monthEditedModel = (Serializable) model.getRowData(iModelIndex);
         // check if it's already in changed list
         int iChangedListIndex = lstChangedRows.indexOf(monthEditedModel);
 
-        IModelOwner mop = new MonthOptionPanel();
-        mop.setModel(monthEditedModel);
-        if (JOptionPane.showConfirmDialog(tTable, mop, UDIPropSingleton.getString(this, "editMonthOptionPanel.title"), JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION)
+        moPanel.setModel(monthEditedModel);
+        if (JOptionPane.showConfirmDialog(tTable, moPanel, UDIPropSingleton.getString(this, "editMonthOptionPanel.title"), JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION)
         {
             try
             {
-                Month month = (Month) mop.getModel();
+                Serializable month = (Serializable) moPanel.getModel();
                 model.setTableData(month, iModelIndex);
                 // FIXME check if we already edited the same value
                 if (iChangedListIndex != -1)

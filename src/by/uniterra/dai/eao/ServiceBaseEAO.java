@@ -36,6 +36,10 @@ public class ServiceBaseEAO<T extends Serializable>
         this.classType = classType;
     }
 
+    public boolean contains(Object objItem)
+    {
+        return em.contains(objItem);
+    }
     /**
      * Save given entity
      * 
@@ -111,6 +115,8 @@ public class ServiceBaseEAO<T extends Serializable>
         // return refreshed item
         return tObject;
     }
+    
+    
 
     public void remove(T entity)
     {
@@ -215,5 +221,10 @@ public class ServiceBaseEAO<T extends Serializable>
         {
             emfFactory.close();
         }
+    }
+
+    public Class<T> getClassType()
+    {
+        return classType;
     }
 }
