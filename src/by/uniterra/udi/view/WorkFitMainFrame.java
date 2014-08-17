@@ -21,11 +21,11 @@ public class WorkFitMainFrame
         // save to DB
         //panelYear.writeValues();
 
-        MonthTablePanel panelMonth = new MonthTablePanel();
+       /* MonthTablePanel panelMonth = new MonthTablePanel();
         JOptionPane.showMessageDialog(null, panelMonth, "Количество рабочих дней", JOptionPane.PLAIN_MESSAGE);
         panelMonth.writeValues();
 
         ServiceBaseEAO.disconnectFromDb();
-
+*/
     }
 }

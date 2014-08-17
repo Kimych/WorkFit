@@ -49,9 +49,8 @@ public class MonthOptionPanel extends JPanel implements IModelOwner
         cbMonth = new JComboBox(new DefaultComboBoxModel(nameMonthArrayList.toArray()));
         yearArrayList = new YearEAO(ServiceBaseEAO.getDefaultEM()).loadAll();
         cbYear = new JComboBox(new DefaultComboBoxModel(yearArrayList.toArray()));
-        /*
-         * for(Year ymo: yearArrayList) { cbYear.addItem(ymo.getNumber()); }
-         */
+        
+        
         tfDeskription = new JTextArea();
         tfDeskription.setColumns(30);
         tfDeskription.setRows(5);

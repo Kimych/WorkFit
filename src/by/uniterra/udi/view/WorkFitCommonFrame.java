@@ -5,8 +5,10 @@ import javax.swing.JPanel;
 
 import by.uniterra.dai.eao.MonthEAO;
 import by.uniterra.dai.eao.ServiceBaseEAO;
+import by.uniterra.dai.eao.WorkerEAO;
 import by.uniterra.dai.eao.YearEAO;
 import by.uniterra.udi.model.MonthTableModel;
+import by.uniterra.udi.model.WorkerTableModel;
 import by.uniterra.udi.model.YearTableModel;
 
 public class WorkFitCommonFrame
@@ -16,15 +18,17 @@ public class WorkFitCommonFrame
     {
         CommonDataTablePanel panelYear = new CommonDataTablePanel(new YearTableModel(), new YearOptionPanel(), new YearEAO(ServiceBaseEAO.getDefaultEM()));
         CommonDataTablePanel panelMonth = new CommonDataTablePanel(new MonthTableModel(), new MonthOptionPanel(), new MonthEAO(ServiceBaseEAO.getDefaultEM()));
+        CommonDataTablePanel panelWorker = new CommonDataTablePanel(new WorkerTableModel(), new WorkerOptionPanel(), new WorkerEAO(ServiceBaseEAO.getDefaultEM()));
         JPanel panelCommon = new JPanel();
         panelCommon.add(panelMonth);
         panelCommon.add(panelYear);
+        panelCommon.add(panelWorker);
         // show editor
         JOptionPane.showMessageDialog(null, panelCommon, "Количество рабочих дней", JOptionPane.PLAIN_MESSAGE);
         // save to DB
         panelMonth.writeValues();
-        
-        panelYear.writeValues();
+        panelYear.writeValues();   
+        panelWorker.writeValues();
 
         ServiceBaseEAO.disconnectFromDb();
     }
