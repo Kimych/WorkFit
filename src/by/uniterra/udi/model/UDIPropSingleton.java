@@ -4,9 +4,9 @@
 package by.uniterra.udi.model;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.Locale;
 
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
@@ -20,10 +20,11 @@ import org.w3c.dom.NodeList;
  */
 public class UDIPropSingleton
 {
-    private static final String SZ_PROPERTYFILE_PATH = "/config/udi/";
-    private static final String SZ_DEFAULT_LOCALE = "/config/udi/en.xml";
+    private static final String ROPERTYFILE_PATH = "/config/udi/";
+    private static final String FILE_EXTENSION = ".xml";
+
+    private static final String DEF_LOCALE = "en";
     private static final String SZ_NO_RESOURCE = "";
-    private static final String DEF_LOCALE = "ru";
 
     
     private static Document xml_Doc = null;
@@ -53,28 +54,22 @@ public class UDIPropSingleton
      */
     private static void loadDoc()
     {
-        String CURENT_LOCALE = Locale.getDefault().getLanguage();
-        boolean  FILE_LOCATION;
-        System.out.println(SZ_PROPERTYFILE_PATH + CURENT_LOCALE + ".xml");
-        File file = new File(UDIPropSingleton.class.getResource(SZ_PROPERTYFILE_PATH + CURENT_LOCALE + ".xml").getFile());
-        FILE_LOCATION = (file.exists()&&file.isFile());
-       
-	try
+	// get current locale
+        String strCurLocaleName = Locale.getDefault().getLanguage();
+        System.out.println("Current locale is " + strCurLocaleName);
+        // try to find according file
+        InputStream isCurrentResourceFile = UDIPropSingleton.class.getResourceAsStream(ROPERTYFILE_PATH + strCurLocaleName + FILE_EXTENSION);
+        if (isCurrentResourceFile == null)
+        {
+            // we didn't find according resource, use default one
+            isCurrentResourceFile = UDIPropSingleton.class.getResourceAsStream(ROPERTYFILE_PATH + DEF_LOCALE + File.separator + FILE_EXTENSION);
+        }
+        // load data from the resource
+        try
 	{
 	    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 	    factory.setNamespaceAware(true);
-	    DocumentBuilder builder = factory.newDocumentBuilder();
-	    
-
-	    if((CURENT_LOCALE == "en")||(CURENT_LOCALE == null)||(!FILE_LOCATION))
-	    {
-	        xml_Doc = builder.parse(UDIPropSingleton.class.getResourceAsStream(SZ_DEFAULT_LOCALE), "UTF-8");
-	        System.out.println("EN DEFAULT LOCATION!");
-	    } else 
-	    {
-	        xml_Doc = builder.parse(UDIPropSingleton.class.getResourceAsStream(SZ_PROPERTYFILE_PATH + CURENT_LOCALE + ".xml"), "UTF-8");
-	        System.out.println("RU CUSTOM LOCATION!");
-	    }
+	    xml_Doc = factory.newDocumentBuilder().parse(isCurrentResourceFile, "UTF-8");
 	} catch (Exception e)
 	{
 	    e.printStackTrace();
