@@ -56,18 +56,9 @@ public class UDIPropSingleton
         String CURENT_LOCALE = Locale.getDefault().getLanguage();
         boolean  FILE_LOCATION;
         System.out.println(SZ_PROPERTYFILE_PATH + CURENT_LOCALE + ".xml");
-        File file = new File(SZ_PROPERTYFILE_PATH + CURENT_LOCALE + ".xml");
+        File file = new File(UDIPropSingleton.class.getResource(SZ_PROPERTYFILE_PATH + CURENT_LOCALE + ".xml").getFile());
         FILE_LOCATION = (file.exists()&&file.isFile());
-        
-
-        if(FILE_LOCATION)
-        {
-            System.out.println("OK");
-        } else
-        {
-            System.out.println("NOT ОК");
-        }
-        
+       
 	try
 	{
 	    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -78,7 +69,7 @@ public class UDIPropSingleton
 	    if((CURENT_LOCALE == "en")||(CURENT_LOCALE == null)||(!FILE_LOCATION))
 	    {
 	        xml_Doc = builder.parse(UDIPropSingleton.class.getResourceAsStream(SZ_DEFAULT_LOCALE), "UTF-8");
-	        System.out.println("EN DEFALT LOCATION!");
+	        System.out.println("EN DEFAULT LOCATION!");
 	    } else 
 	    {
 	        xml_Doc = builder.parse(UDIPropSingleton.class.getResourceAsStream(SZ_PROPERTYFILE_PATH + CURENT_LOCALE + ".xml"), "UTF-8");
@@ -180,7 +171,8 @@ public class UDIPropSingleton
 			nodeCurNode = nlstItemsList.item(j);
 			if (nodeCurNode.getNodeType() == Node.ELEMENT_NODE && nodeCurNode.getLocalName().equals(szKey))
 			{
-			    szRes = nodeCurNode.getAttributes().getNamedItem(szLocale).getNodeValue();
+			    //szRes = nodeCurNode.getAttributes().getNamedItem(szLocale).getNodeValue();
+			    szRes = nodeCurNode.getTextContent();
 			    break;
 			}
 		    }

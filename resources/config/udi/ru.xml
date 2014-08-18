@@ -1,64 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
 	<by.uniterra.udi.view.WorkFitMainFrame>
-		<YearTableFrame.title ru="Года" en="Year table" />
+		<YearTableFrame.title ru="Года" />
 	</by.uniterra.udi.view.WorkFitMainFrame>
 
 	<by.uniterra.udi.view.YearTablePanel>
-		<menuItemDelRow.label ru="Удалить запись" en="Delete Row" />
-		<menuItemEditRow.label ru="Редактировать запись"
-			en="Edit Row" />
-		<addYearOptionPanel.title ru="Добавление данных"
-			en="Add new data" />
-		<editYearOptionPanel.title ru="Редактирование данных"
-			en="Edit data" />
-		<buttonSaveDB.label ru="Новая запись" en="New data" />
-		<buttonRefreshDB.label ru="Отменить изменения"
-			en="Rollback" />
-		<errorMessageDialog.title ru="Ошибка!" en="Error!" />
-		<errorMessageDialog.lable ru="Может быть только числом."
-			en="Number only." />
+		<menuItemDelRow.label ru="Удалить запись" />
+		<menuItemEditRow.label ru="Редактировать запись" />
+		<addYearOptionPanel.title ru="Добавление данных" />
+		<editYearOptionPanel.title en="Edit data" />
+		<buttonSaveDB.label ru="Новая запись" />
+		<buttonRefreshDB.label ru="Отменить изменения" />
+		<errorMessageDialog.title ru="Ошибка!" />
+		<errorMessageDialog.lable ru="Может быть только числом." />
 	</by.uniterra.udi.view.YearTablePanel>
 
 	<by.uniterra.udi.view.YearOptionPanel>
-		<jlNumber.label ru="Год" en="Number" />
-		<jlDesk.label ru="Примечание" en="Description" />
+		<jlNumber.label ru="Год" />
+		<jlDesk.label ru="Примечание" />
 	</by.uniterra.udi.view.YearOptionPanel>
 
 	<by.uniterra.udi.model.YearTableModel>
-		<ColNumberYear.column ru="Год" en="Year" />
-		<ColDescYear.column ru="Примечание" en="Description" />
+		<ColNumberYear.column ru="Год" />
+		<ColDescYear.column ru="Примечание" />
 	</by.uniterra.udi.model.YearTableModel>
 
 	<by.uniterra.udi.view.MonthTablePanel>
-		<menuItemDelRow.label ru="Удалить запись" en="Delete Row" />
-		<menuItemEditRow.label ru="Редактировать запись"
-			en="Edit Row" />
-		<addMonthOptionPanel.title ru="Добавление данных"
-			en="Add new data" />
-		<editMonthOptionPanel.title ru="Редактирование данных"
-			en="Edit data" />
-		<buttonSaveDB.label ru="Новая запись" en="New data" />
-		<buttonRefreshDB.label ru="Отменить изменения"
-			en="Rollback" />
-		<errorMessageDialog.title ru="Ошибка!" en="Error!" />
-		<errorMessageDialog.lable ru="Неверный формат данных"
-			en="only." />
+		<menuItemDelRow.label ru="Удалить запись" />
+		<menuItemEditRow.label ru="Редактировать запись" />
+		<addMonthOptionPanel.title ru="Добавление данных" />
+		<editMonthOptionPanel.title ru="Редактирование данных" />
+		<buttonSaveDB.label ru="Новая запись" />
+		<buttonRefreshDB.label ru="Отменить изменения" />
+		<errorMessageDialog.title ru="Ошибка!" />
+		<errorMessageDialog.lable ru="Неверный формат данных" />
 	</by.uniterra.udi.view.MonthTablePanel>
 	<by.uniterra.udi.view.CommonDataTablePanel>
-		<menuItemDelRow.label ru="Удалить запись" en="Delete Row" />
-		<menuItemEditRow.label ru="Редактировать запись"
-			en="Edit Row" />
-		<addMonthOptionPanel.title ru="Добавление данных"
-			en="Add new data" />
-		<editMonthOptionPanel.title ru="Редактирование данных"
-			en="Edit data" />
-		<buttonSaveDB.label ru="Новая запись" en="New data" />
-		<buttonRefreshDB.label ru="Отменить изменения"
-			en="Rollback" />
-		<errorMessageDialog.title ru="Ошибка!" en="Error!" />
-		<errorMessageDialog.lable ru="Неверный формат данных"
-			en="only." />
+		<menuItemDelRow.label ru="Удалить запись" />
+		<menuItemEditRow.label ru="Редактировать запись" />
+		<addMonthOptionPanel.title ru="Добавление данных" />
+		<editMonthOptionPanel.title ru="Редактирование данных" />
+		<buttonSaveDB.label ru="Новая запись" />
+		<buttonRefreshDB.label ru="Отменить изменения" />
+		<errorMessageDialog.title ru="Ошибка!" />
+		<errorMessageDialog.lable ru="Неверный формат данных" />
 	</by.uniterra.udi.view.CommonDataTablePanel>
 </root>
 
