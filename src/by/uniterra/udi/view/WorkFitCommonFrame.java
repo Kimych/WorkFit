@@ -18,7 +18,7 @@ public class WorkFitCommonFrame
 
     public static void main(String[] args)
     {
-        Locale.setDefault(new Locale("en"));
+        //Locale.setDefault(new Locale("en"));
         CommonDataTablePanel panelYear = new CommonDataTablePanel(new YearTableModel(), new YearOptionPanel(), new YearEAO(ServiceBaseEAO.getDefaultEM()));
         CommonDataTablePanel panelMonth = new CommonDataTablePanel(new MonthTableModel(), new MonthOptionPanel(), new MonthEAO(ServiceBaseEAO.getDefaultEM()));
         CommonDataTablePanel panelWorker = new CommonDataTablePanel(new WorkerTableModel(), new WorkerOptionPanel(), new WorkerEAO(

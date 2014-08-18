@@ -14,6 +14,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.sun.org.apache.regexp.internal.recompile;
+
 /**
  * @author vnedbailo
  *
@@ -22,12 +24,11 @@ public class UDIPropSingleton
 {
     private static final String ROPERTYFILE_PATH = "/config/udi/";
     private static final String FILE_EXTENSION = ".xml";
-
     private static final String DEF_LOCALE = "en";
-    private static final String SZ_NO_RESOURCE = "";
-
+    private static final String SZ_NO_RESOURCE = "!!!unknown!!!";
     
-    private static Document xml_Doc = null;
+    private static Document xml_Doc;
+    private static Document xml_DefDoc;
 
     /**
      * Get current localization document
@@ -40,7 +41,7 @@ public class UDIPropSingleton
     {
 	if (xml_Doc == null)
 	{
-	    loadDoc();
+	    xml_Doc = loadDoc(Locale.getDefault().getLanguage());
 	}
 	return xml_Doc;
     }
@@ -52,11 +53,9 @@ public class UDIPropSingleton
      * @author Anton Niadbaila
      * @date Aug 11, 2014
      */
-    private static void loadDoc()
+    private static Document loadDoc(String strCurLocaleName)
     {
-	// get current locale
-        String strCurLocaleName = Locale.getDefault().getLanguage();
-        System.out.println("Current locale is " + strCurLocaleName);
+        Document docResult = null;
         // try to find according file
         InputStream isCurrentResourceFile = UDIPropSingleton.class.getResourceAsStream(ROPERTYFILE_PATH + strCurLocaleName + FILE_EXTENSION);
         if (isCurrentResourceFile == null)
@@ -69,13 +68,13 @@ public class UDIPropSingleton
 	{
 	    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 	    factory.setNamespaceAware(true);
-	    xml_Doc = factory.newDocumentBuilder().parse(isCurrentResourceFile, "UTF-8");
+	    docResult = factory.newDocumentBuilder().parse(isCurrentResourceFile, "UTF-8");
 	} catch (Exception e)
 	{
 	    e.printStackTrace();
 	    System.out.println("NO UDI XML-based file found...");
-	    xml_Doc = null;
 	}
+        return docResult;
     }
 
     /**
@@ -151,35 +150,59 @@ public class UDIPropSingleton
      */
     synchronized public static String getString(String szClass, String szKey, String szLocale)
     {
-	String szRes = SZ_NO_RESOURCE;
-	try
+	String szRes = getString(szClass, szKey, getPropRoot());
+	if (szRes == SZ_NO_RESOURCE)
 	{
-	    NodeList nlstClassesList = getPropRoot().getChildNodes();
-	    for (int i = 0; i < nlstClassesList.getLength(); i++)
-	    {
-		Node nodeCurNode = nlstClassesList.item(i);
-		if (nodeCurNode.getNodeType() == Node.ELEMENT_NODE && nodeCurNode.getLocalName().equals(szClass))
-		{
-		    NodeList nlstItemsList = nodeCurNode.getChildNodes();
-		    for (int j = 0; j < nlstItemsList.getLength(); j++)
-		    {
-			nodeCurNode = nlstItemsList.item(j);
-			if (nodeCurNode.getNodeType() == Node.ELEMENT_NODE && nodeCurNode.getLocalName().equals(szKey))
-			{
-			    //szRes = nodeCurNode.getAttributes().getNamedItem(szLocale).getNodeValue();
-			    szRes = nodeCurNode.getTextContent();
-			    break;
-			}
-		    }
-		    break;
-		}
-	    }
-
-	} catch (Exception e)
-	{
-	    e.printStackTrace();
+	    szRes = getString(szClass, szKey, getDefRoot());
 	}
 	return szRes;
+    }
+    
+    private static Element getDefRoot()
+    {
+        return getDefDoc() != null ? getDefDoc().getDocumentElement() : null;
+    }
+
+    private static Document getDefDoc()
+    {
+        if (xml_DefDoc == null)
+        {
+            xml_DefDoc = loadDoc(DEF_LOCALE);
+        }
+        return xml_DefDoc;
+    }
+
+    synchronized public static String getString(String szClass, String szKey, Element elTargetLocaleRoot)
+    {
+        String szRes = SZ_NO_RESOURCE;
+        try
+        {
+            NodeList nlstClassesList = elTargetLocaleRoot.getChildNodes();
+            for (int i = 0; i < nlstClassesList.getLength(); i++)
+            {
+                Node nodeCurNode = nlstClassesList.item(i);
+                if (nodeCurNode.getNodeType() == Node.ELEMENT_NODE && nodeCurNode.getLocalName().equals(szClass))
+                {
+                    NodeList nlstItemsList = nodeCurNode.getChildNodes();
+                    for (int j = 0; j < nlstItemsList.getLength(); j++)
+                    {
+                        nodeCurNode = nlstItemsList.item(j);
+                        if (nodeCurNode.getNodeType() == Node.ELEMENT_NODE && nodeCurNode.getLocalName().equals(szKey))
+                        {
+                            //szRes = nodeCurNode.getAttributes().getNamedItem(szLocale).getNodeValue();
+                            szRes = nodeCurNode.getTextContent();
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return szRes;
     }
 
     /**
