@@ -167,9 +167,7 @@ public class Worker implements Serializable
 	@Override
 	public String toString()
 	{
-		return "Worker [workerId=" + workerId + ", firstName=" + firstName
-				+ ", secondName=" + secondName + ", thirdName=" + thirdName
-				+ "]";
+	    return String.valueOf(secondName + " " + firstName + " " + thirdName);
 	}
 
 }
