@@ -4,6 +4,7 @@
 		<YearTableFrame.title ru="Года" en="Year table" />
 	</by.uniterra.udi.view.WorkFitMainFrame>
 
+<!-- 
 	<by.uniterra.udi.view.YearTablePanel>
 		<menuItemDelRow.label ru="Удалить запись" en="Delete Row" />
 		<menuItemEditRow.label ru="Редактировать запись"
@@ -19,6 +20,7 @@
 		<errorMessageDialog.lable ru="Может быть только числом."
 			en="Number only." />
 	</by.uniterra.udi.view.YearTablePanel>
+-->
 
 	<by.uniterra.udi.view.YearOptionPanel>
 		<jlNumber.label ru="Год" en="Number" />

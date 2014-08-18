@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 
 import by.uniterra.dai.entity.Worker;
 import by.uniterra.udi.iface.IModelOwner;
+import by.uniterra.udi.model.UDIPropSingleton;
 
 public class WorkerOptionPanel extends JPanel implements IModelOwner
 {
@@ -35,9 +36,9 @@ public class WorkerOptionPanel extends JPanel implements IModelOwner
     
     public void jbInit()
     {
-        jlFirstName = new JLabel("Имя");
-        jlSecondName = new JLabel("Фамилия");
-        jlThirdName = new JLabel("Отчество");
+        jlFirstName = new JLabel(UDIPropSingleton.getString(this, "jlFirstName.label"));
+        jlSecondName = new JLabel(UDIPropSingleton.getString(this, "jlSecondName.label"));
+        jlThirdName = new JLabel(UDIPropSingleton.getString(this, "jlThirdName.label"));
         tfFirstName = new JTextField();
         tfSecondName = new JTextField();
         tfThirdName = new JTextField();

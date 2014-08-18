@@ -1,20 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
+	<!-- Main frame -->
 	<by.uniterra.udi.view.WorkFitMainFrame>
 		<YearTableFrame.title>Year table</YearTableFrame.title>
 	</by.uniterra.udi.view.WorkFitMainFrame>
 
-	<by.uniterra.udi.view.YearTablePanel>
-		<menuItemDelRow.lable>Delete Row </menuItemDelRow.lable>
-		<menuItemEditRow.label>Edit Row</menuItemEditRow.label>
-		<addYearOptionPanel.titleAdd>New data</addYearOptionPanel.titleAdd>
-		<editYearOptionPanel.title>Edit data</editYearOptionPanel.title>
-		<buttonSaveDB.label>New data</buttonSaveDB.label>
-		<buttonRefreshDB.label>Rollback</buttonRefreshDB.label>
-		<errorMessageDialog.title>Error</errorMessageDialog.title>
-		<errorMessageDialog.lable>Number only</errorMessageDialog.lable>
-	</by.uniterra.udi.view.YearTablePanel>
-
+	<!-- Year Table -->
 	<by.uniterra.udi.view.YearOptionPanel>
 		<jlNumber.label>Number</jlNumber.label>
 		<jlDesk.label>Description</jlDesk.label>
@@ -25,17 +16,34 @@
 		<ColDescYear.column>Description</ColDescYear.column>
 	</by.uniterra.udi.model.YearTableModel>
 
-	<by.uniterra.udi.view.MonthTablePanel>
-		<menuItemDelRow.label>Delete Row</menuItemDelRow.label>
-		<menuItemEditRow.label>Edit Row</menuItemEditRow.label>
-		<addMonthOptionPanel.title>Add new data</addMonthOptionPanel.title>
-		<editMonthOptionPanel.title>Edit data</editMonthOptionPanel.title>
-		<buttonSaveDB.label>New data</buttonSaveDB.label>
-		<buttonRefreshDB.label>Rollback</buttonRefreshDB.label>
-		<errorMessageDialog.title>Error!</errorMessageDialog.title>
-		<errorMessageDialog.lable>only</errorMessageDialog.lable>
-	</by.uniterra.udi.view.MonthTablePanel>
-	
+	<!-- Month table -->
+	<by.uniterra.udi.model.MonthTableModel>
+		<ColNameMounts.column>Month</ColNameMounts.column>
+		<ColYearMonth.column>Year</ColYearMonth.column>
+		<ColWorkingDaysCountMonth.column>Working days
+		</ColWorkingDaysCountMonth.column>
+		<ColDescMonth.column>Note</ColDescMonth.column>
+	</by.uniterra.udi.model.MonthTableModel>
+
+	<by.uniterra.udi.view.MonthOptionPanel>
+		<jlNumber.label>Working days</jlNumber.label>
+		<jlDesk.label>Note</jlDesk.label>
+	</by.uniterra.udi.view.MonthOptionPanel>
+
+	<!-- Worker Table -->
+	<by.uniterra.udi.model.WorkerTableModel>
+		<FirstName.column>First name</FirstName.column>
+		<SecondName.column>Second name</SecondName.column>
+		<ThirdName.column>Third name</ThirdName.column>
+	</by.uniterra.udi.model.WorkerTableModel>
+
+	<by.uniterra.udi.view.WorkerOptionPanel>
+		<jlFirstName.label>First name</jlFirstName.label>
+		<jlSecondName.label>Second name</jlSecondName.label>
+		<jlThirdName.label>Third name</jlThirdName.label>
+	</by.uniterra.udi.view.WorkerOptionPanel>
+
+
 	<by.uniterra.udi.view.CommonDataTablePanel>
 		<menuItemDelRow.label>Delete Row</menuItemDelRow.label>
 		<menuItemEditRow.label>Edit Row</menuItemEditRow.label>
@@ -46,4 +54,8 @@
 		<errorMessageDialog.title>Error!</errorMessageDialog.title>
 		<errorMessageDialog.lable>only</errorMessageDialog.lable>
 	</by.uniterra.udi.view.CommonDataTablePanel>
+
+
+
+
 </root>

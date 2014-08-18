@@ -21,16 +21,17 @@ public class WorkFitCommonFrame
         Locale.setDefault(new Locale("en"));
         CommonDataTablePanel panelYear = new CommonDataTablePanel(new YearTableModel(), new YearOptionPanel(), new YearEAO(ServiceBaseEAO.getDefaultEM()));
         CommonDataTablePanel panelMonth = new CommonDataTablePanel(new MonthTableModel(), new MonthOptionPanel(), new MonthEAO(ServiceBaseEAO.getDefaultEM()));
-        CommonDataTablePanel panelWorker = new CommonDataTablePanel(new WorkerTableModel(), new WorkerOptionPanel(), new WorkerEAO(ServiceBaseEAO.getDefaultEM()));
+        CommonDataTablePanel panelWorker = new CommonDataTablePanel(new WorkerTableModel(), new WorkerOptionPanel(), new WorkerEAO(
+                ServiceBaseEAO.getDefaultEM()));
         JPanel panelCommon = new JPanel();
         panelCommon.add(panelMonth);
         panelCommon.add(panelYear);
         panelCommon.add(panelWorker);
         // show editor
-        JOptionPane.showMessageDialog(null, panelCommon, "Количество рабочих дней", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(null, panelCommon, "Main Frame", JOptionPane.PLAIN_MESSAGE);
         // save to DB
         panelMonth.writeValues();
-        panelYear.writeValues();   
+        panelYear.writeValues();
         panelWorker.writeValues();
 
         ServiceBaseEAO.disconnectFromDb();

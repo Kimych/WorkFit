@@ -22,9 +22,9 @@ public class WorkerTableModel extends AbstractFlexTableModel
     public WorkerTableModel()
     {
         //addColumn(COL_ID_WORKER, "#ID", String.class);
-        addColumn(COL_FIRST_NAME_WORKER, "Имя", String.class);
-        addColumn(COL_SECOND_NAME_WORKER, "Фамилия", String.class);
-        addColumn(COL_THIRD_NAME_WORKER, "Отчество", String.class);
+        addColumn(COL_FIRST_NAME_WORKER, UDIPropSingleton.getString(this, "FirstName.column"), String.class);
+        addColumn(COL_SECOND_NAME_WORKER, UDIPropSingleton.getString(this, "SecondName.column"), String.class);
+        addColumn(COL_THIRD_NAME_WORKER, UDIPropSingleton.getString(this, "ThirdName.column"), String.class);
     }
 
     public void addData(List<Worker> arrData)

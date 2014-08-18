@@ -52,7 +52,7 @@ public class YearOptionPanel extends JPanel implements IModelOwner
         tfNumber.setText(String.valueOf(year.getNumber()));
         tfDeskription.setText(year.getDeskription());
     }
-    
+
     @Override
     public Object getModel()
     {

@@ -19,6 +19,7 @@ import by.uniterra.dai.entity.Month;
 import by.uniterra.dai.entity.NameMonth;
 import by.uniterra.dai.entity.Year;
 import by.uniterra.udi.iface.IModelOwner;
+import by.uniterra.udi.model.UDIPropSingleton;
 
 public class MonthOptionPanel extends JPanel implements IModelOwner
 {
@@ -42,15 +43,14 @@ public class MonthOptionPanel extends JPanel implements IModelOwner
 
     public void jbInit()
     {
-        jlNumber = new JLabel("Дней");
-        jlDesk = new JLabel("Примечание");
+        jlNumber = new JLabel(UDIPropSingleton.getString(this, "jlNumber.label"));
+        jlDesk = new JLabel(UDIPropSingleton.getString(this, "jlDesk.label"));
         tfNumber = new JTextField(10);
         nameMonthArrayList = new NameMonthEAO(ServiceBaseEAO.getDefaultEM()).loadAll();
         cbMonth = new JComboBox(new DefaultComboBoxModel(nameMonthArrayList.toArray()));
         yearArrayList = new YearEAO(ServiceBaseEAO.getDefaultEM()).loadAll();
         cbYear = new JComboBox(new DefaultComboBoxModel(yearArrayList.toArray()));
-        
-        
+
         tfDeskription = new JTextArea();
         tfDeskription.setColumns(30);
         tfDeskription.setRows(5);
@@ -78,7 +78,9 @@ public class MonthOptionPanel extends JPanel implements IModelOwner
         cbMonth.setSelectedItem(month.getNameMonth());
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see by.uniterra.udi.view.IModelOwner#getModel()
      */
     @Override
