@@ -190,7 +190,7 @@ public class ServiceBaseEAO<T extends Serializable>
     private static void overrideSettingsFromResource(Map<String, String> mapCustomProp, String strResourceName)
     {
         // check if according property file exists
-        if (YearTablePanel.class.getClassLoader().getResource(strResourceName) != null)
+        if (ServiceBaseEAO.class.getClassLoader().getResource(strResourceName) != null)
         {
             try
             {
