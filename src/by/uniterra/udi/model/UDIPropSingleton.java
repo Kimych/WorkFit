@@ -3,7 +3,7 @@
  */
 package by.uniterra.udi.model;
 
-import java.io.FileInputStream;
+import java.io.File;
 import java.util.Locale;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -20,10 +20,12 @@ import org.w3c.dom.NodeList;
  */
 public class UDIPropSingleton
 {
-    private static final String SZ_PROPERTYFILE_NAME = "/config/udi/WorkFit.xml";
+    private static final String SZ_PROPERTYFILE_PATH = "/config/udi/";
+    private static final String SZ_DEFAULT_LOCALE = "/config/udi/en.xml";
     private static final String SZ_NO_RESOURCE = "";
     private static final String DEF_LOCALE = "ru";
 
+    
     private static Document xml_Doc = null;
 
     /**
@@ -51,14 +53,37 @@ public class UDIPropSingleton
      */
     private static void loadDoc()
     {
+        String CURENT_LOCALE = Locale.getDefault().getLanguage();
+        boolean  FILE_LOCATION;
+        System.out.println(SZ_PROPERTYFILE_PATH + CURENT_LOCALE + ".xml");
+        File file = new File(SZ_PROPERTYFILE_PATH + CURENT_LOCALE + ".xml");
+        FILE_LOCATION = (file.exists()&&file.isFile());
+        
+
+        if(FILE_LOCATION)
+        {
+            System.out.println("OK");
+        } else
+        {
+            System.out.println("NOT ОК");
+        }
+        
 	try
 	{
 	    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-
 	    factory.setNamespaceAware(true);
 	    DocumentBuilder builder = factory.newDocumentBuilder();
+	    
 
-	    xml_Doc = builder.parse(UDIPropSingleton.class.getResourceAsStream(SZ_PROPERTYFILE_NAME), "UTF-8");
+	    if((CURENT_LOCALE == "en")||(CURENT_LOCALE == null)||(!FILE_LOCATION))
+	    {
+	        xml_Doc = builder.parse(UDIPropSingleton.class.getResourceAsStream(SZ_DEFAULT_LOCALE), "UTF-8");
+	        System.out.println("EN DEFALT LOCATION!");
+	    } else 
+	    {
+	        xml_Doc = builder.parse(UDIPropSingleton.class.getResourceAsStream(SZ_PROPERTYFILE_PATH + CURENT_LOCALE + ".xml"), "UTF-8");
+	        System.out.println("RU CUSTOM LOCATION!");
+	    }
 	} catch (Exception e)
 	{
 	    e.printStackTrace();

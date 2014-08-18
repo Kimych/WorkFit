@@ -14,7 +14,6 @@ import javax.persistence.Query;
 
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 
-import by.uniterra.udi.view.YearTablePanel;
 
 public class ServiceBaseEAO<T extends Serializable>
 {
