@@ -49,7 +49,7 @@ import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;    
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -85,6 +85,8 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
     private static final String ACTION_REFRESH_TABLE = "Refresh";
     private static final String ACTION_DEL_ROW = "Delete row";
     private static final String ACTION_EDIT_ROW = "Edit row";
+
+    private static final String ACTION_BUTTON_EDITOR = "ButtonEditor";
 
     public CommonDataTablePanel(AbstractFlexTableModel atmModel, IModelOwner moPanel, @SuppressWarnings("rawtypes") ServiceBaseEAO eaoCommon)
     {
@@ -141,6 +143,9 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
         setLayout(new GridBagLayout());
         tTable = new JTable(model);
         tTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        CompCellRendered ccrRenderer = new CompCellRendered(this, "...", ACTION_BUTTON_EDITOR);
+        tTable.setDefaultEditor(JButton.class, ccrRenderer);
+        tTable.setDefaultRenderer(JButton.class, ccrRenderer);
 
         // popup menu del row
         final JPopupMenu popup = new JPopupMenu();
@@ -258,6 +263,9 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
                 break;
             case ACTION_EDIT_ROW:
                 editValuesFromModel();
+                break;
+            case ACTION_BUTTON_EDITOR:
+                System.out.println("Button pressed");
                 break;
             default:
                 break;
