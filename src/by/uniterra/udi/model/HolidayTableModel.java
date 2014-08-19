@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import by.uniterra.dai.entity.Holiday;
-import by.uniterra.dai.entity.Month;
 
 public class HolidayTableModel extends AbstractFlexTableModel
 {

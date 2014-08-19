@@ -43,6 +43,19 @@
 		<jlThirdName.label>Third name</jlThirdName.label>
 	</by.uniterra.udi.view.WorkerOptionPanel>
 
+	<!-- Holiday Table -->
+	<by.uniterra.udi.model.HolidayTableModel>
+		<ColCountDaysHoliday.column>Days</ColCountDaysHoliday.column>
+		<ColIdYearHoliday.column>Year</ColIdYearHoliday.column>
+		<ColIdWorkerHoliday.column>Name</ColIdWorkerHoliday.column>
+	</by.uniterra.udi.model.HolidayTableModel>
+
+	<by.uniterra.udi.view.HolidayOptionPanel>
+		<jlName.label>Name</jlName.label>
+		<jlYear.label>Year</jlYear.label>
+		<jlDays.label>Days</jlDays.label>
+	</by.uniterra.udi.view.HolidayOptionPanel>
+
 
 	<by.uniterra.udi.view.CommonDataTablePanel>
 		<menuItemDelRow.label>Delete Row</menuItemDelRow.label>

@@ -77,7 +77,7 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
     private KeyEventDispatcher keyDispatcher;
 
     private List<Serializable> lstChangedRows;
-    private List<Serializable> lstMonthToDelete;
+    private List<Serializable> lstToDelete;
 
     private IModelOwner moPanel;
 
@@ -91,7 +91,7 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
     public CommonDataTablePanel(AbstractFlexTableModel atmModel, IModelOwner moPanel, @SuppressWarnings("rawtypes") ServiceBaseEAO eaoCommon)
     {
         lstChangedRows = new ArrayList<Serializable>();
-        lstMonthToDelete = new ArrayList<Serializable>();
+        lstToDelete = new ArrayList<Serializable>();
         // init members
         this.model = atmModel;
         this.moPanel = moPanel;
@@ -119,7 +119,7 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
 
     private void readValues()
     {
-        lstMonthToDelete.clear();
+        lstToDelete.clear();
         lstChangedRows.clear();
         
         model.setTableData(eaoCommon.loadAll());
@@ -128,7 +128,7 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
     @SuppressWarnings("unchecked")
     public void writeValues()
     {
-        for (Serializable obj : lstMonthToDelete)
+        for (Serializable obj : lstToDelete)
         {
             eaoCommon.delete(obj);
         }
@@ -319,7 +319,7 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
             // check if it exists in DB
             if (eaoCommon.contains(yCurMonth))
             {
-                lstMonthToDelete.add(yCurMonth);
+                lstToDelete.add(yCurMonth);
             }
 
             // check if we edited the entity

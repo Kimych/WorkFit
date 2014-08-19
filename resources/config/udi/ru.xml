@@ -42,6 +42,20 @@
 		<jlThirdName.label>Отчество</jlThirdName.label>
 	</by.uniterra.udi.view.WorkerOptionPanel>
 
+	<!-- Holiday Table -->
+	<by.uniterra.udi.model.HolidayTableModel>
+		<ColCountDaysHoliday.column>Дней</ColCountDaysHoliday.column>
+		<ColIdYearHoliday.column>Год</ColIdYearHoliday.column>
+		<ColIdWorkerHoliday.column>Ф.И.О.</ColIdWorkerHoliday.column>
+	</by.uniterra.udi.model.HolidayTableModel>
+
+	<by.uniterra.udi.view.HolidayOptionPanel>
+		<jlName.label>Ф.И.О</jlName.label>
+		<jlYear.label>Год</jlYear.label>
+		<jlDays.label>Дней</jlDays.label>
+	</by.uniterra.udi.view.HolidayOptionPanel>
+
+
 	<by.uniterra.udi.view.CommonDataTablePanel>
 		<menuItemDelRow.label>Удалить запись</menuItemDelRow.label>
 		<menuItemEditRow.label>Редактировать запись</menuItemEditRow.label>
