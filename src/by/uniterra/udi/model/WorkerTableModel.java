@@ -72,6 +72,8 @@ public class WorkerTableModel extends AbstractFlexTableModel
         case COL_THIRD_NAME_WORKER:
             objResult = idData.getThirdName();
             break;
+        case COL_BUTTON_VIEW_HOLIDAY:
+            objResult = idData.getHolidays();
         default:
             break;
         }

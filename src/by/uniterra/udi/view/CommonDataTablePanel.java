@@ -60,7 +60,7 @@ import by.uniterra.udi.model.AbstractFlexTableModel;
 import by.uniterra.udi.model.UDIPropSingleton;
 
 /**
- * The <code>CommonDataTablePanel</code> is used for editind some DB table values
+ * The <code>CommonDataTablePanel</code> is used for editing some DB table values
  *
  * @author Anton Nedbailo
  * @since 15 авг. 2014 г.
@@ -71,7 +71,7 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
     
     // members
     private AbstractFlexTableModel model;
-    private JTable tTable;
+    protected JTable tTable;
     @SuppressWarnings("rawtypes")
     private ServiceBaseEAO eaoCommon;
     private KeyEventDispatcher keyDispatcher;
@@ -143,9 +143,6 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
         setLayout(new GridBagLayout());
         tTable = new JTable(model);
         tTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        CompCellRendered ccrRenderer = new CompCellRendered(this, "...", ACTION_BUTTON_EDITOR);
-        tTable.setDefaultEditor(JButton.class, ccrRenderer);
-        tTable.setDefaultRenderer(JButton.class, ccrRenderer);
 
         // popup menu del row
         final JPopupMenu popup = new JPopupMenu();
