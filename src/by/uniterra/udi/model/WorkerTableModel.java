@@ -29,8 +29,6 @@ public class WorkerTableModel extends AbstractFlexTableModel
         addColumn(COL_FIRST_NAME_WORKER, UDIPropSingleton.getString(this, "FirstName.column"), String.class);
         addColumn(COL_SECOND_NAME_WORKER, UDIPropSingleton.getString(this, "SecondName.column"), String.class);
         addColumn(COL_THIRD_NAME_WORKER, UDIPropSingleton.getString(this, "ThirdName.column"), String.class);
-        addColumn(COL_BUTTON_VIEW_HOLIDAY, "button", JButton.class);
-
     }
 
     public void addData(List<Worker> arrData)

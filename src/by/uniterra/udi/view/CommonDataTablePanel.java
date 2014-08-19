@@ -143,9 +143,6 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
         setLayout(new GridBagLayout());
         tTable = new JTable(model);
         tTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        CompCellRendered ccrRenderer = new CompCellRendered(this, "...", ACTION_BUTTON_EDITOR);
-        tTable.setDefaultEditor(JButton.class, ccrRenderer);
-        tTable.setDefaultRenderer(JButton.class, ccrRenderer);
 
         // popup menu del row
         final JPopupMenu popup = new JPopupMenu();
