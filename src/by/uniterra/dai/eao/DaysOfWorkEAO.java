@@ -33,7 +33,7 @@ public class DaysOfWorkEAO extends ServiceBaseEAO<DaysOfWork>
      * @author Anton Nedbailo
      * @date Aug 20, 2014
      */
-    public Date getLastDataForWorkerAndMonth(Worker wWorker, Month mMonth)
+    public DaysOfWork getLastDataForWorkerAndMonth(Worker wWorker, Month mMonth)
     {
 	// get according query
 	Query queryDeleteByDSId = getNamedQuery(DaysOfWork.NQ_FINDLAST_BY_WORKER_AND_MONTH);
@@ -42,8 +42,8 @@ public class DaysOfWorkEAO extends ServiceBaseEAO<DaysOfWork>
 	// set Month
 	queryDeleteByDSId.setParameter(DaysOfWork.PARAMETER_MONTH, mMonth);
 	// execute and return single result
-	DaysOfWork dfwFoundData = (DaysOfWork) queryDeleteByDSId.getSingleResult();
+	//DaysOfWork dfwFoundData = (;
 	// return timestamp
-	return dfwFoundData != null ? dfwFoundData.getTimestamp() : null;
+	return (DaysOfWork) queryDeleteByDSId.getSingleResult();
     }
 }

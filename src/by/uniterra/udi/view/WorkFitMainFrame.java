@@ -26,6 +26,7 @@ public class WorkFitMainFrame
         panelMonth.writeValues();
 
         ServiceBaseEAO.disconnectFromDb();
+        
 */
     }
 }
