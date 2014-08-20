@@ -11,6 +11,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 
@@ -225,5 +226,10 @@ public class ServiceBaseEAO<T extends Serializable>
     public Class<T> getClassType()
     {
         return classType;
+    }
+    
+    public TypedQuery<T> getNamedQuery(String queryName)
+    {
+        return em.createNamedQuery(queryName, classType);
     }
 }

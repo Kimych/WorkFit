@@ -12,138 +12,147 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "days_of_work")
-@NamedQuery(name = "DaysOfWork.findAll", query = "SELECT d FROM DaysOfWork d")
+@NamedQueries(
+	{ 
+	    @NamedQuery(name = DaysOfWork.NQ_FIND_ALL, query = "SELECT d FROM DaysOfWork d"),
+	    @NamedQuery(name = DaysOfWork.NQ_FINDLAST_BY_WORKER_AND_MONTH, query = "SELECT d FROM DaysOfWork d where d.timestamp = (SELECT MAX(m.timestamp) FROM DaysOfWork m WHERE m.worker = :" 
+		    + DaysOfWork.PARAMETER_WORKER +" and m.month = :" + DaysOfWork.PARAMETER_MONTH + ") and " + "d.worker = :" + DaysOfWork.PARAMETER_WORKER +" and d.month = :" + DaysOfWork.PARAMETER_MONTH) 
+	})
 public class DaysOfWork implements Serializable
 {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
+    
+    //constants
+    public static final String NQ_FIND_ALL = "DaysOfWork.findAll";
+    public static final String NQ_FINDLAST_BY_WORKER_AND_MONTH = "DaysOfWork.findLastForWorkerAndMonth";
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "DAYS_OF_WORK_ID")
-	private int daysOfWorkId;
+    public static final String PARAMETER_WORKER = "worker";
+    public static final String PARAMETER_MONTH = "month";
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "DAYS_OF_WORK_ID")
+    private int daysOfWorkId;
 
-	@Column(name = "AKTUAL_WORKED_DAYS")
-	private int aktualWorkedDays;
+    @Column(name = "AKTUAL_WORKED_DAYS")
+    private int aktualWorkedDays;
 
-	@Column(name = "BONUS_TIME")
-	private double bonusTime;
+    @Column(name = "BONUS_TIME")
+    private double bonusTime;
 
-	@Column(name = "BONUS_TIME_DESCRIPTION")
-	private String bonusTimeDescription;
+    @Column(name = "BONUS_TIME_DESCRIPTION")
+    private String bonusTimeDescription;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date timestamp;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date timestamp;
 
-	private double worklog;
+    private double worklog;
 
-	// bi-directional many-to-one association to Worker
-	@ManyToOne
-	@JoinColumn(name = "WORKER_ID")
-	private Worker worker;
+    // bi-directional many-to-one association to Worker
+    @ManyToOne
+    @JoinColumn(name = "WORKER_ID")
+    private Worker worker;
 
-	// bi-directional many-to-one association to Month
-	@ManyToOne
-	@JoinColumn(name = "MONTH_ID")
-	private Month month;
+    // bi-directional many-to-one association to Month
+    @ManyToOne
+    @JoinColumn(name = "MONTH_ID")
+    private Month month;
 
-	public DaysOfWork()
-	{
-	}
-
-	public DaysOfWork(Month mAssociatedMonth, Worker wAssociatedWorker)
+    public DaysOfWork()
     {
-	    month = mAssociatedMonth;
-	    worker = wAssociatedWorker;
+    }
+
+    public DaysOfWork(Month mAssociatedMonth, Worker wAssociatedWorker)
+    {
+	month = mAssociatedMonth;
+	worker = wAssociatedWorker;
     }
 
     public int getDaysOfWorkId()
-	{
-		return this.daysOfWorkId;
-	}
+    {
+	return this.daysOfWorkId;
+    }
 
-	public void setDaysOfWorkId(int daysOfWorkId)
-	{
-		this.daysOfWorkId = daysOfWorkId;
-	}
+    public void setDaysOfWorkId(int daysOfWorkId)
+    {
+	this.daysOfWorkId = daysOfWorkId;
+    }
 
-	public int getAktualWorkedDays()
-	{
-		return this.aktualWorkedDays;
-	}
+    public int getAktualWorkedDays()
+    {
+	return this.aktualWorkedDays;
+    }
 
-	public void setAktualWorkedDays(int aktualWorkedDays)
-	{
-		this.aktualWorkedDays = aktualWorkedDays;
-	}
+    public void setAktualWorkedDays(int aktualWorkedDays)
+    {
+	this.aktualWorkedDays = aktualWorkedDays;
+    }
 
-	public double getBonusTime()
-	{
-		return this.bonusTime;
-	}
+    public double getBonusTime()
+    {
+	return this.bonusTime;
+    }
 
-	public void setBonusTime(double bonusTime)
-	{
-		this.bonusTime = bonusTime;
-	}
+    public void setBonusTime(double bonusTime)
+    {
+	this.bonusTime = bonusTime;
+    }
 
-	public String getBonusTimeDescription()
-	{
-		return this.bonusTimeDescription;
-	}
+    public String getBonusTimeDescription()
+    {
+	return this.bonusTimeDescription;
+    }
 
-	public void setBonusTimeDescription(String bonusTimeDescription)
-	{
-		this.bonusTimeDescription = bonusTimeDescription;
-	}
+    public void setBonusTimeDescription(String bonusTimeDescription)
+    {
+	this.bonusTimeDescription = bonusTimeDescription;
+    }
 
-	public Date getTimestamp()
-	{
-		return this.timestamp;
-	}
+    public Date getTimestamp()
+    {
+	return this.timestamp;
+    }
 
-	public void setTimestamp(Date timestamp)
-	{
-		this.timestamp = timestamp;
-	}
+    public void setTimestamp(Date timestamp)
+    {
+	this.timestamp = timestamp;
+    }
 
-	public double getWorklog()
-	{
-		return this.worklog;
-	}
+    public double getWorklog()
+    {
+	return this.worklog;
+    }
 
-	public void setWorklog(double worklog)
-	{
-		this.worklog = worklog;
-	}
+    public void setWorklog(double worklog)
+    {
+	this.worklog = worklog;
+    }
 
-	public Worker getWorker()
-	{
-		return this.worker;
-	}
+    public Worker getWorker()
+    {
+	return this.worker;
+    }
 
-	public void setWorker(Worker worker)
-	{
-		this.worker = worker;
-	}
+    public void setWorker(Worker worker)
+    {
+	this.worker = worker;
+    }
 
-	public Month getMonth()
-	{
-		return this.month;
-	}
+    public Month getMonth()
+    {
+	return this.month;
+    }
 
-	public void setMonth(Month month)
-	{
-		this.month = month;
-	}
+    public void setMonth(Month month)
+    {
+	this.month = month;
+    }
 
-	@Override
-	public String toString()
-	{
-		return "DaysOfWork [daysOfWorkId=" + daysOfWorkId
-				+ ", aktualWorkedDays=" + aktualWorkedDays + ", bonusTime="
-				+ bonusTime + ", bonusTimeDescription=" + bonusTimeDescription
-				+ ", timestamp=" + timestamp + ", worklog=" + worklog
-				+ ", worker=" + worker + ", month=" + month + "]";
-	}
+    @Override
+    public String toString()
+    {
+	return "DaysOfWork [daysOfWorkId=" + daysOfWorkId + ", aktualWorkedDays=" + aktualWorkedDays + ", bonusTime=" + bonusTime + ", bonusTimeDescription="
+		+ bonusTimeDescription + ", timestamp=" + timestamp + ", worklog=" + worklog + ", worker=" + worker + ", month=" + month + "]";
+    }
 
 }
