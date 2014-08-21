@@ -46,19 +46,18 @@ import by.uniterra.dai.eao.WorkerEAO;
  */
 public class WorkerNamedQueryTest
 {
-    private static final Object TEST_MONTH_ID = 1;
-    private static final Object TEST_WORKER_ID = 2;
+    private static final int TEST_NAMED_MONTH_ID = 1;
+    private static final int TEST_WORKER_ID = 2;
 
     @Test
     public void getLatestWorklog()
     {
 	// create a set of EAOs
-	MonthEAO eaoMonth = new MonthEAO(ServiceBaseEAO.getDefaultEM());
 	WorkerEAO eaoWorker = new WorkerEAO(ServiceBaseEAO.getDefaultEM());
 	DaysOfWorkEAO eaoDaysOfWork = new DaysOfWorkEAO(ServiceBaseEAO.getDefaultEM());
 	
 	// try to get last worklog data for given Worker and Month
-	assertTrue(eaoDaysOfWork.getLastDataForWorkerAndMonth(eaoWorker.find(TEST_WORKER_ID), eaoMonth.find(TEST_MONTH_ID)) != null);
+	assertTrue(eaoDaysOfWork.getLastDataForWorkerAndMonth(eaoWorker.find(TEST_WORKER_ID), TEST_NAMED_MONTH_ID) != null);
 	
 	// disconnect from DB
 	ServiceBaseEAO.disconnectFromDb();

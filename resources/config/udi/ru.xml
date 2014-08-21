@@ -55,6 +55,15 @@
 		<jlDays.label>Дней</jlDays.label>
 	</by.uniterra.udi.view.HolidayOptionPanel>
 
+	<!-- WorkLogOptionPanel -->
+	<by.uniterra.udi.view.WorkLogOptionPanel>
+		<jlWorker.label>Сотрудник:</jlWorker.label>
+		<jlLastUpdate.label>Последнее обновление:</jlLastUpdate.label>
+		<jlCurrentTime.label>Текущее время:</jlCurrentTime.label>
+		<jlToPlane.label>До плана:</jlToPlane.label>
+		<jlToBonus.label>До премии:</jlToBonus.label>
+		<jlTimeLeft.label>Осталось отпуска:</jlTimeLeft.label>
+	</by.uniterra.udi.view.WorkLogOptionPanel>
 
 	<by.uniterra.udi.view.CommonDataTablePanel>
 		<menuItemDelRow.label>Удалить запись</menuItemDelRow.label>

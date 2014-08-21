@@ -16,7 +16,7 @@ import java.util.Date;
 	{ 
 	    @NamedQuery(name = DaysOfWork.NQ_FIND_ALL, query = "SELECT d FROM DaysOfWork d"),
 	    @NamedQuery(name = DaysOfWork.NQ_FINDLAST_BY_WORKER_AND_MONTH, query = "SELECT d FROM DaysOfWork d where d.timestamp = (SELECT MAX(m.timestamp) FROM DaysOfWork m WHERE m.worker = :" 
-		    + DaysOfWork.PARAMETER_WORKER +" and m.month = :" + DaysOfWork.PARAMETER_MONTH + ") and " + "d.worker = :" + DaysOfWork.PARAMETER_WORKER +" and d.month = :" + DaysOfWork.PARAMETER_MONTH) 
+		    + DaysOfWork.PARAMETER_WORKER +" and m.month.nameMonth.nameMonthId = :" + DaysOfWork.PARAMETER_MONTH + ") and " + "d.worker = :" + DaysOfWork.PARAMETER_WORKER +" and d.month.nameMonth.nameMonthId = :" + DaysOfWork.PARAMETER_MONTH) 
 	})
 public class DaysOfWork implements Serializable
 {

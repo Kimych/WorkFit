@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 
 import by.uniterra.dai.entity.DaysOfWork;
 import by.uniterra.udi.iface.IModelOwner;
+import by.uniterra.udi.model.UDIPropSingleton;
 
 public class WorkLogOptionPanel extends JPanel implements IModelOwner
 {
@@ -17,13 +18,13 @@ public class WorkLogOptionPanel extends JPanel implements IModelOwner
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 3687259560748246183L;
 
-    private DaysOfWork dof;
-    JTextField tfCurentTime = new JTextField(3);
-    JTextField tfToPlane = new JTextField(3);
-    JTextField tfToBonus = new JTextField(3);
-    JTextField tfTimeLeft = new JTextField(3);
-    JLabel jlLastUpdateDate = new JLabel();
-    JLabel jlNameWorker = new JLabel();
+    private DaysOfWork dofw;
+    JTextField tfCurentTime;
+    JTextField tfToPlane;
+    JTextField tfToBonus;
+    JTextField tfTimeLeft;
+    JLabel jlLastUpdateDate;
+    JLabel jlNameWorker;
 
     public WorkLogOptionPanel()
     {
@@ -33,12 +34,19 @@ public class WorkLogOptionPanel extends JPanel implements IModelOwner
 
     private void jbInit()
     {
-        JLabel jlWorker = new JLabel("Сотрудник:");
-        JLabel jlLastUpdate = new JLabel("Обновлялось");
-        JLabel jlCurrentTime = new JLabel("Текущее");
-        JLabel jlToPlane = new JLabel("До плана");
-        JLabel jlToBonus = new JLabel("До бонуса");
-        JLabel jlTimeLeft = new JLabel("Осталось отработать");
+        tfCurentTime = new JTextField(3);
+        tfToPlane = new JTextField(3);
+        tfToBonus = new JTextField(3);
+        tfTimeLeft = new JTextField(3);
+        jlLastUpdateDate = new JLabel();
+        jlNameWorker = new JLabel();
+        
+        JLabel jlWorker = new JLabel(UDIPropSingleton.getString(this, "jlWorker.label"));
+        JLabel jlLastUpdate = new JLabel(UDIPropSingleton.getString(this, "jlLastUpdate.label"));
+        JLabel jlCurrentTime = new JLabel(UDIPropSingleton.getString(this, "jlCurrentTime.label"));
+        JLabel jlToPlane = new JLabel(UDIPropSingleton.getString(this, "jlToPlane.label"));
+        JLabel jlToBonus = new JLabel(UDIPropSingleton.getString(this, "jlToBonus.label"));
+        JLabel jlTimeLeft = new JLabel(UDIPropSingleton.getString(this, "jlTimeLeft.label"));
 
         add(jlWorker, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 10), 0, 0));
         add(jlLastUpdate, new GridBagConstraints(0, 1, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 10), 0, 0));
@@ -59,10 +67,10 @@ public class WorkLogOptionPanel extends JPanel implements IModelOwner
     @Override
     public void setModel(Object lstDaysOfWork)
     {
-        this.dof = (DaysOfWork) lstDaysOfWork;
-        tfCurentTime.setText(String.valueOf(dof.getDaysOfWorkId()));
-        jlLastUpdateDate.setText(String.valueOf(dof.getTimestamp()));
-        jlNameWorker.setText(String.valueOf(dof.getWorker()));
+        this.dofw = (DaysOfWork) lstDaysOfWork;
+        tfCurentTime.setText(String.valueOf(dofw.getDaysOfWorkId()));
+        jlLastUpdateDate.setText(String.valueOf(dofw.getTimestamp()));
+        jlNameWorker.setText(String.valueOf(dofw.getWorker()));
         // add tfToPlane value
         // add tfToPlane value
         // add...

@@ -57,6 +57,16 @@
 	</by.uniterra.udi.view.HolidayOptionPanel>
 
 
+	<!-- WorkLogOptionPanel -->
+	<by.uniterra.udi.view.WorkLogOptionPanel>
+		<jlWorker.label>Worker:</jlWorker.label>
+		<jlLastUpdate.label>Last update:</jlLastUpdate.label>
+		<jlCurrentTime.label>Current time:</jlCurrentTime.label>
+		<jlToPlane.label>Remaining to plane:</jlToPlane.label>
+		<jlToBonus.label>Remaining to bonus:</jlToBonus.label>
+		<jlTimeLeft.label>The rest of the holiday:</jlTimeLeft.label>
+	</by.uniterra.udi.view.WorkLogOptionPanel>
+
 	<by.uniterra.udi.view.CommonDataTablePanel>
 		<menuItemDelRow.label>Delete Row</menuItemDelRow.label>
 		<menuItemEditRow.label>Edit Row</menuItemEditRow.label>

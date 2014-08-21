@@ -35,7 +35,7 @@ public class DaysOfWorkEAO extends ServiceBaseEAO<DaysOfWork>
      * @author Anton Nedbailo
      * @date Aug 20, 2014
      */
-    public List<DaysOfWork> getLastDataForWorkerAndMonth(Worker wWorker, Month mMonth)
+    public List<DaysOfWork> getLastDataForWorkerAndMonth(Worker wWorker, int namedMonthId)
     {
 	List<DaysOfWork> lstResult = null;
 	try
@@ -45,7 +45,7 @@ public class DaysOfWorkEAO extends ServiceBaseEAO<DaysOfWork>
 	    // set Worker
 	    queryDeleteByDSId.setParameter(DaysOfWork.PARAMETER_WORKER, wWorker);
 	    // set Month
-	    queryDeleteByDSId.setParameter(DaysOfWork.PARAMETER_MONTH, mMonth);
+	    queryDeleteByDSId.setParameter(DaysOfWork.PARAMETER_MONTH, namedMonthId);
 	    // execute and return result
 	    lstResult = (List<DaysOfWork>) queryDeleteByDSId.getResultList();
 	} catch (Exception e)
