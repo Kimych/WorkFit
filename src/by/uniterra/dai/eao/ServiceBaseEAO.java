@@ -156,7 +156,7 @@ public class ServiceBaseEAO<T extends Serializable>
     {
         Map<String, String> mapCustomProp = new HashMap<String, String>();
         // put system configuration properties
-        mapCustomProp.put(PersistenceUnitProperties.JDBC_URL, "jdbc:mysql://192.168.1.19:3306/Workfit");
+        mapCustomProp.put(PersistenceUnitProperties.JDBC_URL, "jdbc:mysql://192.168.186.128:3306/Workfit");
         mapCustomProp.put(PersistenceUnitProperties.JDBC_USER, "testdb");
         mapCustomProp.put(PersistenceUnitProperties.JDBC_PASSWORD, "testdb");
         mapCustomProp.put(PersistenceUnitProperties.JDBC_DRIVER, "com.mysql.jdbc.Driver");

@@ -19,6 +19,11 @@ VALUES
 1,
 23);
 
+(null,
+11,
+1,
+15);
+
 INSERT INTO `workfit`.`days_of_work`
 (`WORKLOG`,
 `TIMESTAMP`,
