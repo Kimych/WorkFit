@@ -54,6 +54,6 @@ public class DaysOfWorkEAO extends ServiceBaseEAO<DaysOfWork>
 	    e.printStackTrace();
 	}
 	// check for null result
-	return lstResult != null ? lstResult : Collections.emptyList();
+	return (List<DaysOfWork>) (lstResult != null ? lstResult : Collections.emptyList());
     }
 }

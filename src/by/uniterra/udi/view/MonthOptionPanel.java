@@ -41,7 +41,7 @@ public class MonthOptionPanel extends JPanel implements IModelOwner
         jbInit();
     }
 
-    public void jbInit()
+    private void jbInit()
     {
         jlNumber = new JLabel(UDIPropSingleton.getString(this, "jlNumber.label"));
         jlDesk = new JLabel(UDIPropSingleton.getString(this, "jlDesk.label"));

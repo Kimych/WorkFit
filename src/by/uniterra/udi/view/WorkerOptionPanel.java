@@ -24,7 +24,7 @@ public class WorkerOptionPanel extends JPanel implements IModelOwner
     private JLabel jlFirstName;
     private JLabel jlSecondName;
     private JLabel jlThirdName;
-    
+   
     private Worker worker;
     
 
