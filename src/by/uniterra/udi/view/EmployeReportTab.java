@@ -3,10 +3,8 @@ package by.uniterra.udi.view;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -43,18 +41,16 @@ public class EmployeReportTab
         MonthEAO eaoMonth = new MonthEAO(ServiceBaseEAO.getDefaultEM());
         WorkerEAO eaoWorker = new WorkerEAO(ServiceBaseEAO.getDefaultEM());
         DaysOfWorkEAO eaoDaysOfWork = new DaysOfWorkEAO(ServiceBaseEAO.getDefaultEM());
-        DaysOfWork selDow = null;
-        try
-        {
-            selDow = eaoDaysOfWork.getLastDataForWorkerAndMonth(eaoWorker.find(wrkId), eaoMonth.find(curentMonthNumber()));
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        // System.out.println(selDow != null ? selDow.getAktualWorkedDays() :
-        // "null");
+        List<DaysOfWork> lstData = eaoDaysOfWork.getLastDataForWorkerAndMonth(eaoWorker.find(wrkId), eaoMonth.find(curentMonthNumber()));
 
+        // check result
+        if (lstData.size() != 1)
+        {
+            System.out.println("We have problems with DaysOfWork Data (result list size=" + lstData.size() + ").");
+            return new JPanel();
+        }
+        
+        DaysOfWork selDow = lstData.get(0);
         System.out.println(selDow.getTimestamp());
         jlNameWorker = new JLabel(String.valueOf(selDow.getWorker()));
         jlLastUpdateDate = new JLabel("Текущая дата");

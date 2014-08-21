@@ -1,6 +1,8 @@
 package by.uniterra.dai.eao;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -33,17 +35,25 @@ public class DaysOfWorkEAO extends ServiceBaseEAO<DaysOfWork>
      * @author Anton Nedbailo
      * @date Aug 20, 2014
      */
-    public DaysOfWork getLastDataForWorkerAndMonth(Worker wWorker, Month mMonth)
+    public List<DaysOfWork> getLastDataForWorkerAndMonth(Worker wWorker, Month mMonth)
     {
-	// get according query
-	Query queryDeleteByDSId = getNamedQuery(DaysOfWork.NQ_FINDLAST_BY_WORKER_AND_MONTH);
-	// set Worker
-	queryDeleteByDSId.setParameter(DaysOfWork.PARAMETER_WORKER, wWorker);
-	// set Month
-	queryDeleteByDSId.setParameter(DaysOfWork.PARAMETER_MONTH, mMonth);
-	// execute and return single result
-	//DaysOfWork dfwFoundData = (;
-	// return timestamp
-	return (DaysOfWork) queryDeleteByDSId.getSingleResult();
+	List<DaysOfWork> lstResult = null;
+	try
+	{
+	 // get according query
+	    Query queryDeleteByDSId = getNamedQuery(DaysOfWork.NQ_FINDLAST_BY_WORKER_AND_MONTH);
+	    // set Worker
+	    queryDeleteByDSId.setParameter(DaysOfWork.PARAMETER_WORKER, wWorker);
+	    // set Month
+	    queryDeleteByDSId.setParameter(DaysOfWork.PARAMETER_MONTH, mMonth);
+	    // execute and return result
+	    lstResult = (List<DaysOfWork>) queryDeleteByDSId.getResultList();
+	} catch (Exception e)
+	{
+	    System.out.println("getLastDataForWorkerAndMonth error ");
+	    e.printStackTrace();
+	}
+	// check for null result
+	return lstResult != null ? lstResult : Collections.emptyList();
     }
 }
