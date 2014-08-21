@@ -25,30 +25,31 @@ public class EmployeReportPanel
         jbInit();
         ServiceBaseEAO.disconnectFromDb();
     }
-    
+
     public static void jbInit()
     {
-        int curentMonth = (Calendar.getInstance().get(Calendar.MONTH)+1);
+        int curentMonth = (Calendar.getInstance().get(Calendar.MONTH) + 1);
         workerArrayList = new WorkerEAO(ServiceBaseEAO.getDefaultEM()).loadAll();
         JTabbedPane tabbedPane = new JTabbedPane();
         DaysOfWorkEAO eaoDaysOfWork = new DaysOfWorkEAO(ServiceBaseEAO.getDefaultEM());
         MonthEAO eaoMonth = new MonthEAO(ServiceBaseEAO.getDefaultEM());
         WorkerEAO eaoWorker = new WorkerEAO(ServiceBaseEAO.getDefaultEM());
-        
-        for(Worker wrk : workerArrayList)
+
+        for (Worker wrk : workerArrayList)
         {
             // load DaysOfWork
             List<DaysOfWork> lstData = eaoDaysOfWork.getLastDataForWorkerAndMonth(eaoWorker.find(wrk.getWorkerId()), eaoMonth.find(curentMonth));
             Component wlop = null;
-            if(lstData.size() == 1)
+            if (lstData.size() == 1)
             {
                 wlop = new WorkLogOptionPanel();
-                ((IModelOwner)wlop).setModel(lstData.get(0));
-            } else
+                ((IModelOwner) wlop).setModel(lstData.get(0));
+            }
+            else
             {
                 wlop = new JLabel("No Data!!!");
             }
-            tabbedPane.addTab((wrk.getFirstName() + " " + wrk.getSecondName()), wlop);  
+            tabbedPane.addTab((wrk.getFirstName() + " " + wrk.getSecondName()), wlop);
         }
         JFrame frame = new JFrame("Test Employe");
         frame.setVisible(true);

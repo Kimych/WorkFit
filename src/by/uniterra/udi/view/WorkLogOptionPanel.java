@@ -3,17 +3,11 @@ package by.uniterra.udi.view;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.Calendar;
-import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import by.uniterra.dai.eao.DaysOfWorkEAO;
-import by.uniterra.dai.eao.MonthEAO;
-import by.uniterra.dai.eao.ServiceBaseEAO;
-import by.uniterra.dai.eao.WorkerEAO;
 import by.uniterra.dai.entity.DaysOfWork;
 import by.uniterra.udi.iface.IModelOwner;
 
