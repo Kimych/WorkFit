@@ -21,7 +21,7 @@ public class YearTableModel extends AbstractFlexTableModel
     public YearTableModel()
     {
         // addColumn(COL_ID_YEAR, "#ID", String.class);
-        addColumn(COL_NUMBER_YEAR, UDIPropSingleton.getString(this, "ColNumberYear.column"), String.class);
+        addColumn(COL_NUMBER_YEAR, UDIPropSingleton.getString(this, "ColNumberYear.column"), Integer.class);
         addColumn(COL_DESC_YEAR, UDIPropSingleton.getString(this, "ColDescYear.column"), String.class);
     }
 

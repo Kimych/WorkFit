@@ -23,9 +23,9 @@ public class MonthTableModel extends AbstractFlexTableModel
     public MonthTableModel()
     {
         // addColumn(COL_ID_MONTHS,"#ID" , String.class);
-        addColumn(COL_NAME_MONTH_ID_MONTHS, UDIPropSingleton.getString(this, "ColNameMounts.column"), String.class);
-        addColumn(COL_YEAR_ID_MONTHS, UDIPropSingleton.getString(this, "ColYearMonth.column"), String.class);
-        addColumn(COL_WORKING_DAYS_COUNT_MONTHS,UDIPropSingleton.getString(this, "ColWorkingDaysCountMonth.column"), String.class);
+        addColumn(COL_NAME_MONTH_ID_MONTHS, UDIPropSingleton.getString(this, "ColNameMounts.column"), Integer.class);
+        addColumn(COL_YEAR_ID_MONTHS, UDIPropSingleton.getString(this, "ColYearMonth.column"), Integer.class);
+        addColumn(COL_WORKING_DAYS_COUNT_MONTHS,UDIPropSingleton.getString(this, "ColWorkingDaysCountMonth.column"), Integer.class);
         addColumn(COL_DESC_MONTHS, UDIPropSingleton.getString(this, "ColDescMonth.column"), String.class);
 
     }

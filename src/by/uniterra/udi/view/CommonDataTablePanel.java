@@ -29,6 +29,7 @@
 
 package by.uniterra.udi.view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -54,6 +55,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 
+import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.decorator.HighlighterFactory;
+
 import by.uniterra.dai.eao.ServiceBaseEAO;
 import by.uniterra.udi.iface.IModelOwner;
 import by.uniterra.udi.model.AbstractFlexTableModel;
@@ -71,7 +75,7 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
     
     // members
     private AbstractFlexTableModel model;
-    private JTable tTable;
+    private JXTable tTable;
     @SuppressWarnings("rawtypes")
     private ServiceBaseEAO eaoCommon;
     private KeyEventDispatcher keyDispatcher;
@@ -141,7 +145,11 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
     private void jbInit()
     {
         setLayout(new GridBagLayout());
-        tTable = new JTable(model);
+        tTable = new JXTable(model);
+        // All there is to it! Users can now select which columns to view
+        tTable.setColumnControlVisible(true);
+        tTable.setHorizontalScrollEnabled(true);
+        tTable.addHighlighter(HighlighterFactory.createSimpleStriping(new Color(234, 234, 234)));
         tTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         // popup menu del row

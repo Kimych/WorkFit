@@ -68,7 +68,7 @@ public class WorkLogOptionPanel extends JPanel implements IModelOwner
     public void setModel(Object lstDaysOfWork)
     {
         this.dofw = (DaysOfWork) lstDaysOfWork;
-        tfCurentTime.setText(String.valueOf(dofw.getDaysOfWorkId()));
+        tfCurentTime.setText(String.valueOf(dofw.getWorklog()));
         jlLastUpdateDate.setText(String.valueOf(dofw.getTimestamp()));
         jlNameWorker.setText(String.valueOf(dofw.getWorker()));
         // add tfToPlane value
