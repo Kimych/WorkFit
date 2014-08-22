@@ -82,7 +82,11 @@ public class DaysOfWorkEAO extends ServiceBaseEAO<DaysOfWork>
             // set Month
             queryDeleteByDSId.setParameter(DaysOfWork.PARAMETER_MONTH, namedMonthId);
             // execute and return result
-            lstResult = (double) queryDeleteByDSId.getSingleResult();
+            Object objResult = queryDeleteByDSId.getSingleResult();
+            if (objResult != null)
+            {
+        	lstResult = (double) objResult;
+            }
         }
         catch (Exception e)
         {

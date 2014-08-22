@@ -31,11 +31,10 @@ public class WorkLogReportPanel
     {
         int curentMonth = (Calendar.getInstance().get(Calendar.MONTH) + 1);
 
-        workerArrayList = new WorkerEAO(ServiceBaseEAO.getDefaultEM()).loadAll();
+        WorkerEAO eaoWorker = new WorkerEAO(ServiceBaseEAO.getDefaultEM());
+        workerArrayList = eaoWorker.loadAll();
         JTabbedPane tabbedPane = new JTabbedPane();
         DaysOfWorkEAO eaoDaysOfWork = new DaysOfWorkEAO(ServiceBaseEAO.getDefaultEM());
-
-        WorkerEAO eaoWorker = new WorkerEAO(ServiceBaseEAO.getDefaultEM());
 
         // get the number of working days in a month
         MonthEAO eaoMonth = new MonthEAO(ServiceBaseEAO.getDefaultEM());
@@ -47,14 +46,13 @@ public class WorkLogReportPanel
             Worker curentWorker = eaoWorker.find(wrk.getWorkerId());
 
             // get sum bonus time for the current worker
-            double curentSumBonus = 0;
-            curentSumBonus = eaoDaysOfWork.getSumBonusTimeForWorkerAndMonthNum(curentWorker, curentMonth);
+            double curentSumBonus = eaoDaysOfWork.getSumBonusTimeForWorkerAndMonthNum(curentWorker, curentMonth);
 
             // load DaysOfWork
             List<DaysOfWork> lstData = eaoDaysOfWork.getLastDataForWorkerAndMonthNum(curentWorker, curentMonth);
 
             // to plane
-            double toPlane = new WorkLogUtils().getTimeRemainsToPlane(workingDaysInMonth, lstData.get(0).getWorklog(), curentSumBonus);
+            double toPlane = WorkLogUtils.getTimeRemainsToPlane(workingDaysInMonth, lstData.get(0).getWorklog(), curentSumBonus);
             System.out.println("To plane: " + curentWorker + " " + toPlane + " hours");
 
             Component wlop = null;
