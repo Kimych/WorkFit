@@ -15,8 +15,6 @@ import by.uniterra.dai.eao.ServiceBaseEAO;
 import by.uniterra.dai.eao.WorkerEAO;
 import by.uniterra.dai.eao.YearEAO;
 import by.uniterra.dai.entity.Holiday;
-import by.uniterra.dai.entity.Month;
-import by.uniterra.dai.entity.NameMonth;
 import by.uniterra.dai.entity.Worker;
 import by.uniterra.dai.entity.Year;
 import by.uniterra.udi.iface.IModelOwner;
@@ -28,13 +26,10 @@ public class HolidayOptionPanel extends JPanel implements IModelOwner
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = -6282330382069748329L;
     
-    private JLabel jlName;
-    private JLabel jlYear;
-    private JLabel jlDays;
-    private JTextField tfDays;
     private JComboBox cbName;
     private JComboBox cbYear;
     private Holiday holiday;
+    JTextField tfDays;
     private List<Worker> workerArrayList;
     private List<Year> yearArrayList;
     
@@ -49,9 +44,9 @@ public class HolidayOptionPanel extends JPanel implements IModelOwner
     
     private void jbInit()
     {
-        jlName = new JLabel(UDIPropSingleton.getString(this, "jlName.label"));
-        jlYear = new JLabel(UDIPropSingleton.getString(this, "jlYear.label"));
-        jlDays = new JLabel(UDIPropSingleton.getString(this, "jlDays.label"));
+        JLabel jlName = new JLabel(UDIPropSingleton.getString(this, "jlName.label"));
+        JLabel jlYear = new JLabel(UDIPropSingleton.getString(this, "jlYear.label"));
+        JLabel jlDays = new JLabel(UDIPropSingleton.getString(this, "jlDays.label"));
         tfDays = new JTextField(2);
         
         workerArrayList = new WorkerEAO(ServiceBaseEAO.getDefaultEM()).loadAll();
@@ -82,7 +77,6 @@ public class HolidayOptionPanel extends JPanel implements IModelOwner
     @Override
     public Object getModel()
     {
-        //holiday= new Holiday((Worker) cbName.getSelectedItem(), (Year) cbYear.getSelectedItem());
         holiday.setWorker((Worker) cbName.getSelectedItem());
         holiday.setYear((Year) cbYear.getSelectedItem());
         holiday.setCountDays(Integer.valueOf(tfDays.getText()));

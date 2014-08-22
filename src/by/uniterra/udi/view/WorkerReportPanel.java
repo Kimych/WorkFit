@@ -9,13 +9,15 @@ import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
 
 import by.uniterra.dai.eao.DaysOfWorkEAO;
+import by.uniterra.dai.eao.MonthEAO;
 import by.uniterra.dai.eao.ServiceBaseEAO;
 import by.uniterra.dai.eao.WorkerEAO;
 import by.uniterra.dai.entity.DaysOfWork;
+import by.uniterra.dai.entity.Month;
 import by.uniterra.dai.entity.Worker;
 import by.uniterra.udi.iface.IModelOwner;
 
-public class EmployeReportPanel
+public class WorkerReportPanel
 {
     private static List<Worker> workerArrayList;;
 
@@ -31,12 +33,16 @@ public class EmployeReportPanel
         workerArrayList = new WorkerEAO(ServiceBaseEAO.getDefaultEM()).loadAll();
         JTabbedPane tabbedPane = new JTabbedPane();
         DaysOfWorkEAO eaoDaysOfWork = new DaysOfWorkEAO(ServiceBaseEAO.getDefaultEM());
+        
         WorkerEAO eaoWorker = new WorkerEAO(ServiceBaseEAO.getDefaultEM());
-
+        
+        MonthEAO eaoMonth = new MonthEAO(ServiceBaseEAO.getDefaultEM()); 
+        int workingDaysCount = eaoMonth.getWorkDayDataForMonth(curentMonth);
+        
         for (Worker wrk : workerArrayList)
         {
             // load DaysOfWork
-            List<DaysOfWork> lstData = eaoDaysOfWork.getLastDataForWorkerAndMonth(eaoWorker.find(wrk.getWorkerId()), curentMonth);
+            List<DaysOfWork> lstData = eaoDaysOfWork.getLastDataForWorkerAndMonthNum(eaoWorker.find(wrk.getWorkerId()), curentMonth);
             Component wlop = null;
             if (lstData.size() == 1)
             {

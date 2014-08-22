@@ -1,10 +1,19 @@
 package by.uniterra.dai.entity;
 
 import java.io.Serializable;
-
-import javax.persistence.*;
-
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  * The persistent class for the months database table.
@@ -12,11 +21,20 @@ import java.util.List;
  */
 @Entity
 @Table(name = "months")
-@NamedQuery(name = "Month.findAll", query = "SELECT m FROM Month m")
+@NamedQueries(
+        {
+        @NamedQuery(name = Month.NQ_FIND_ALL, query = "SELECT m FROM Month m"),
+        @NamedQuery(name = Month.NQ_FIND_WDAYS_COUNT_BY_MONTH_ID, query = "SELECT m.workingDaysCount FROM Month m where m.nameMonth.nameMonthId  = :" + Month.PARAMETER_MONTH)
+        })
 public class Month implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
+    public static final String NQ_FIND_ALL = "Month.findAll";
+    public static final String NQ_FIND_WDAYS_COUNT_BY_MONTH_ID = "Month.findWorkingDayCountForMonth";
+    
+    public static final String PARAMETER_MONTH = "month";
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MONTH_ID")

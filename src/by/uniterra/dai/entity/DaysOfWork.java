@@ -15,8 +15,10 @@ import java.util.Date;
 @NamedQueries(
 	{ 
 	    @NamedQuery(name = DaysOfWork.NQ_FIND_ALL, query = "SELECT d FROM DaysOfWork d"),
-	    @NamedQuery(name = DaysOfWork.NQ_FINDLAST_BY_WORKER_AND_MONTH, query = "SELECT d FROM DaysOfWork d where d.timestamp = (SELECT MAX(m.timestamp) FROM DaysOfWork m WHERE m.worker = :" 
-		    + DaysOfWork.PARAMETER_WORKER +" and m.month.nameMonth.nameMonthId = :" + DaysOfWork.PARAMETER_MONTH + ") and " + "d.worker = :" + DaysOfWork.PARAMETER_WORKER +" and d.month.nameMonth.nameMonthId = :" + DaysOfWork.PARAMETER_MONTH) 
+	    @NamedQuery(name = DaysOfWork.NQ_FIND_LAST_BY_WORKER_AND_NUMBERMONTH, query = "SELECT d FROM DaysOfWork d where d.timestamp = (SELECT MAX(m.timestamp) FROM DaysOfWork m WHERE m.worker = :" 
+		    + DaysOfWork.PARAMETER_WORKER +" and m.month.nameMonth.nameMonthId = :" + DaysOfWork.PARAMETER_MONTH + ") and " + "d.worker = :" + DaysOfWork.PARAMETER_WORKER +" and d.month.nameMonth.nameMonthId = :" + DaysOfWork.PARAMETER_MONTH),
+	    @NamedQuery(name = DaysOfWork.NQ_FIND_ALL_BY_WORKER_AND_NUMBERMONTH,  query = "SELECT m FROM DaysOfWork m WHERE m.worker = :" 
+                    + DaysOfWork.PARAMETER_WORKER +" and m.month.nameMonth.nameMonthId = :" + DaysOfWork.PARAMETER_MONTH)
 	})
 public class DaysOfWork implements Serializable
 {
@@ -24,7 +26,8 @@ public class DaysOfWork implements Serializable
     
     //constants
     public static final String NQ_FIND_ALL = "DaysOfWork.findAll";
-    public static final String NQ_FINDLAST_BY_WORKER_AND_MONTH = "DaysOfWork.findLastForWorkerAndMonth";
+    public static final String NQ_FIND_LAST_BY_WORKER_AND_NUMBERMONTH = "DaysOfWork.findLastForWorkerAndMonth";
+    public static final String NQ_FIND_ALL_BY_WORKER_AND_NUMBERMONTH = "DaysOfWork.findAllForWorkerAndMonth";
 
     public static final String PARAMETER_WORKER = "worker";
     public static final String PARAMETER_MONTH = "month";

@@ -25,10 +25,11 @@ public class MonthOptionPanel extends JPanel implements IModelOwner
 {
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 3210721310184243056L;
-    private JTextField tfNumber;
+    
     private JTextArea tfDeskription;
-    private JLabel jlNumber;
-    private JLabel jlDesk;
+/*    private JLabel jlNumber;
+    private JLabel jlDesk;*/
+    private JTextField tfNumber;
     private JComboBox cbMonth;
     private JComboBox cbYear;
     private Month month;
@@ -43,8 +44,8 @@ public class MonthOptionPanel extends JPanel implements IModelOwner
 
     private void jbInit()
     {
-        jlNumber = new JLabel(UDIPropSingleton.getString(this, "jlNumber.label"));
-        jlDesk = new JLabel(UDIPropSingleton.getString(this, "jlDesk.label"));
+        JLabel jlNumber = new JLabel(UDIPropSingleton.getString(this, "jlNumber.label"));
+        JLabel jlDesk = new JLabel(UDIPropSingleton.getString(this, "jlDesk.label"));
         tfNumber = new JTextField(10);
         nameMonthArrayList = new NameMonthEAO(ServiceBaseEAO.getDefaultEM()).loadAll();
         cbMonth = new JComboBox(new DefaultComboBoxModel(nameMonthArrayList.toArray()));

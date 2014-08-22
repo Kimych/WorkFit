@@ -34,7 +34,6 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import by.uniterra.dai.eao.DaysOfWorkEAO;
-import by.uniterra.dai.eao.MonthEAO;
 import by.uniterra.dai.eao.ServiceBaseEAO;
 import by.uniterra.dai.eao.WorkerEAO;
 
@@ -57,9 +56,22 @@ public class WorkerNamedQueryTest
 	DaysOfWorkEAO eaoDaysOfWork = new DaysOfWorkEAO(ServiceBaseEAO.getDefaultEM());
 	
 	// try to get last worklog data for given Worker and Month
-	assertTrue(eaoDaysOfWork.getLastDataForWorkerAndMonth(eaoWorker.find(TEST_WORKER_ID), TEST_NAMED_MONTH_ID) != null);
+	assertTrue(eaoDaysOfWork.getLastDataForWorkerAndMonthNum(eaoWorker.find(TEST_WORKER_ID), TEST_NAMED_MONTH_ID) != null);
 	
 	// disconnect from DB
 	ServiceBaseEAO.disconnectFromDb();
+    }
+    @Test
+    public void getAllWorklog()
+    {
+        // create a set of EAOs
+        WorkerEAO eaoWorker = new WorkerEAO(ServiceBaseEAO.getDefaultEM());
+        DaysOfWorkEAO eaoDaysOfWork = new DaysOfWorkEAO(ServiceBaseEAO.getDefaultEM());
+        
+        // try to get last worklog data for given Worker and Month
+        assertTrue(eaoDaysOfWork.getAllDataForWorkerAndMonthNum(eaoWorker.find(TEST_WORKER_ID), TEST_NAMED_MONTH_ID) != null);
+        
+        // disconnect from DB
+        ServiceBaseEAO.disconnectFromDb();
     }
 }
