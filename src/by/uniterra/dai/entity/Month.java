@@ -21,20 +21,19 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "months")
-@NamedQueries(
-        {
+@NamedQueries({
         @NamedQuery(name = Month.NQ_FIND_ALL, query = "SELECT m FROM Month m"),
-        @NamedQuery(name = Month.NQ_FIND_WDAYS_COUNT_BY_MONTH_ID, query = "SELECT m.workingDaysCount FROM Month m where m.nameMonth.nameMonthId  = :" + Month.PARAMETER_MONTH)
-        })
+        @NamedQuery(name = Month.NQ_FIND_WDAYS_COUNT_BY_MONTH_ID, query = "SELECT m.workingDaysCount FROM Month m where m.nameMonth.nameMonthId  = :"
+                + Month.PARAMETER_MONTH) })
 public class Month implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
     public static final String NQ_FIND_ALL = "Month.findAll";
     public static final String NQ_FIND_WDAYS_COUNT_BY_MONTH_ID = "Month.findWorkingDayCountForMonth";
-    
+
     public static final String PARAMETER_MONTH = "month";
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MONTH_ID")

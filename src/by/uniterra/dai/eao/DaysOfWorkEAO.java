@@ -65,14 +65,14 @@ public class DaysOfWorkEAO extends ServiceBaseEAO<DaysOfWork>
      *            - Worker to search data for
      * @param mMonth
      *            - Month to search data for
-     * @return - list<DaysOfWork>
+     * @return - double
      *
-     * @author Anton Nedbailo
+     * @author Sergio Alecky
      * @date Aug 22, 2014
      */
-    public List<DaysOfWork> getAllDataForWorkerAndMonthNum(Worker wWorker, int namedMonthId)
+    public double getSumBonusTimeForWorkerAndMonthNum(Worker wWorker, int namedMonthId)
     {
-        List<DaysOfWork> lstResult = null;
+        double lstResult = 0;
         try
         {
             // get according query
@@ -82,14 +82,13 @@ public class DaysOfWorkEAO extends ServiceBaseEAO<DaysOfWork>
             // set Month
             queryDeleteByDSId.setParameter(DaysOfWork.PARAMETER_MONTH, namedMonthId);
             // execute and return result
-            lstResult = (List<DaysOfWork>) queryDeleteByDSId.getResultList();
+            lstResult = (double) queryDeleteByDSId.getSingleResult();
         }
         catch (Exception e)
         {
-            System.out.println("getLastDataForWorkerAndMonth error ");
+            System.out.println("getSumBonusTimeForWorkerAndMonthNum");
             e.printStackTrace();
         }
-        // check for null result
         return lstResult;
     }
 }

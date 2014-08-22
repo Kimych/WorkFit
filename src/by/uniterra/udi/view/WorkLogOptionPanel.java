@@ -40,7 +40,7 @@ public class WorkLogOptionPanel extends JPanel implements IModelOwner
         tfTimeLeft = new JTextField(3);
         jlLastUpdateDate = new JLabel();
         jlNameWorker = new JLabel();
-        
+
         JLabel jlWorker = new JLabel(UDIPropSingleton.getString(this, "jlWorker.label"));
         JLabel jlLastUpdate = new JLabel(UDIPropSingleton.getString(this, "jlLastUpdate.label"));
         JLabel jlCurrentTime = new JLabel(UDIPropSingleton.getString(this, "jlCurrentTime.label"));

@@ -38,39 +38,39 @@ import by.uniterra.dai.eao.ServiceBaseEAO;
 import by.uniterra.dai.eao.WorkerEAO;
 
 /**
- * The <code>WorkerNamedQueryTest</code> is used to test named queries usage for DaysOfWorkEAO
+ * The <code>WorkerNamedQueryTest</code> is used to test named queries usage for
+ * DaysOfWorkEAO
  *
  * @author Anton Nedbailo
  * @since Aug 20, 2014
  */
 public class WorkerNamedQueryTest
 {
-    private static final int TEST_NAMED_MONTH_ID = 1;
+    private static final int TEST_NAMED_MONTH_ID = 3;
     private static final int TEST_WORKER_ID = 2;
 
     @Test
     public void getLatestWorklog()
     {
-	// create a set of EAOs
-	WorkerEAO eaoWorker = new WorkerEAO(ServiceBaseEAO.getDefaultEM());
-	DaysOfWorkEAO eaoDaysOfWork = new DaysOfWorkEAO(ServiceBaseEAO.getDefaultEM());
-	
-	// try to get last worklog data for given Worker and Month
-	assertTrue(eaoDaysOfWork.getLastDataForWorkerAndMonthNum(eaoWorker.find(TEST_WORKER_ID), TEST_NAMED_MONTH_ID) != null);
-	
-	// disconnect from DB
-	ServiceBaseEAO.disconnectFromDb();
+        // create a set of EAOs
+        WorkerEAO eaoWorker = new WorkerEAO(ServiceBaseEAO.getDefaultEM());
+        DaysOfWorkEAO eaoDaysOfWork = new DaysOfWorkEAO(ServiceBaseEAO.getDefaultEM());
+
+        // try to get last worklog data for given Worker and Month
+        assertTrue(eaoDaysOfWork.getLastDataForWorkerAndMonthNum(eaoWorker.find(TEST_WORKER_ID), TEST_NAMED_MONTH_ID) != null);
+
+        // disconnect from DB
+        ServiceBaseEAO.disconnectFromDb();
     }
+
     @Test
     public void getAllWorklog()
     {
         // create a set of EAOs
         WorkerEAO eaoWorker = new WorkerEAO(ServiceBaseEAO.getDefaultEM());
         DaysOfWorkEAO eaoDaysOfWork = new DaysOfWorkEAO(ServiceBaseEAO.getDefaultEM());
-        
         // try to get last worklog data for given Worker and Month
-        assertTrue(eaoDaysOfWork.getAllDataForWorkerAndMonthNum(eaoWorker.find(TEST_WORKER_ID), TEST_NAMED_MONTH_ID) != null);
-        
+        assertTrue(eaoDaysOfWork.getSumBonusTimeForWorkerAndMonthNum(eaoWorker.find(TEST_WORKER_ID), TEST_NAMED_MONTH_ID) != 0);
         // disconnect from DB
         ServiceBaseEAO.disconnectFromDb();
     }

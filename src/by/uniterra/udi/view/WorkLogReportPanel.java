@@ -13,11 +13,11 @@ import by.uniterra.dai.eao.MonthEAO;
 import by.uniterra.dai.eao.ServiceBaseEAO;
 import by.uniterra.dai.eao.WorkerEAO;
 import by.uniterra.dai.entity.DaysOfWork;
-import by.uniterra.dai.entity.Month;
 import by.uniterra.dai.entity.Worker;
+import by.uniterra.system.util.WorkLogUtils;
 import by.uniterra.udi.iface.IModelOwner;
 
-public class WorkerReportPanel
+public class WorkLogReportPanel
 {
     private static List<Worker> workerArrayList;;
 
@@ -30,19 +30,33 @@ public class WorkerReportPanel
     public static void jbInit()
     {
         int curentMonth = (Calendar.getInstance().get(Calendar.MONTH) + 1);
+
         workerArrayList = new WorkerEAO(ServiceBaseEAO.getDefaultEM()).loadAll();
         JTabbedPane tabbedPane = new JTabbedPane();
         DaysOfWorkEAO eaoDaysOfWork = new DaysOfWorkEAO(ServiceBaseEAO.getDefaultEM());
-        
+
         WorkerEAO eaoWorker = new WorkerEAO(ServiceBaseEAO.getDefaultEM());
-        
-        MonthEAO eaoMonth = new MonthEAO(ServiceBaseEAO.getDefaultEM()); 
-        int workingDaysCount = eaoMonth.getWorkDayDataForMonth(curentMonth);
-        
+
+        // get the number of working days in a month
+        MonthEAO eaoMonth = new MonthEAO(ServiceBaseEAO.getDefaultEM());
+        int workingDaysInMonth = eaoMonth.getWorkDayDataForMonth(curentMonth);
+
         for (Worker wrk : workerArrayList)
         {
+
+            Worker curentWorker = eaoWorker.find(wrk.getWorkerId());
+
+            // get sum bonus time for the current worker
+            double curentSumBonus = 0;
+            curentSumBonus = eaoDaysOfWork.getSumBonusTimeForWorkerAndMonthNum(curentWorker, curentMonth);
+
             // load DaysOfWork
-            List<DaysOfWork> lstData = eaoDaysOfWork.getLastDataForWorkerAndMonthNum(eaoWorker.find(wrk.getWorkerId()), curentMonth);
+            List<DaysOfWork> lstData = eaoDaysOfWork.getLastDataForWorkerAndMonthNum(curentWorker, curentMonth);
+
+            // to plane
+            double toPlane = new WorkLogUtils().getTimeRemainsToPlane(workingDaysInMonth, lstData.get(0).getWorklog(), curentSumBonus);
+            System.out.println("To plane: " + curentWorker + " " + toPlane + " hours");
+
             Component wlop = null;
             if (lstData.size() == 1)
             {
@@ -54,6 +68,7 @@ public class WorkerReportPanel
                 wlop = new JLabel("No Data!!! Result lisr size=" + lstData.size());
             }
             tabbedPane.addTab((wrk.getFirstName() + " " + wrk.getSecondName()), wlop);
+
         }
 
         JFrame frame = new JFrame("Test Employe");
