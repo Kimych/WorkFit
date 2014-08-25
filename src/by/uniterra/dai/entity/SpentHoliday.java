@@ -10,96 +10,105 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "spent_holiday")
-@NamedQuery(name = "SpentHoliday.findAll", query = "SELECT s FROM SpentHoliday s")
+@NamedQueries({
+        @NamedQuery(name = SpentHoliday.NQ_FIND_ALL, query = "SELECT s FROM SpentHoliday s"),
+        //@NamedQuery(name = SpentHoliday.NQ_FIND_SPEND_HOLIDAY_BY_WORKER_AND_YEAR, query = "SELECT SUM(s.countDays) FROM SpentHoliday s INNER JOIN s.month m INNER JOIN y. y WHERE s.worker = :"
+                //+ SpentHoliday.PARAMETER_WORKER + "and y.yearId = :" + SpentHoliday.PARAMETER_YEAR)
+
+})
 public class SpentHoliday implements Serializable
 {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private SpentHolidayPK id;
+    public static final String NQ_FIND_ALL = "SpentHoliday.findAll";
+    public static final String NQ_FIND_SPEND_HOLIDAY_BY_WORKER_AND_YEAR = "Holiday.findSpendHolidayByWorkerAndYear";
 
-	@Column(name = "COUNT_DAYS")
-	private int countDays;
+    public static final String PARAMETER_WORKER = "worker";
+    public static final String PARAMETER_YEAR = "year";
 
-	private String description;
+    @EmbeddedId
+    private SpentHolidayPK id;
 
-	// bi-directional many-to-one association to Worker
-	@ManyToOne
-	@JoinColumn(name = "WORKER_ID")
-	private Worker worker;
+    @Column(name = "COUNT_DAYS")
+    private int countDays;
 
-	// bi-directional many-to-one association to Month
-	@ManyToOne
-	@JoinColumn(name = "MONTH_ID")
-	private Month month;
+    private String description;
 
-	public SpentHoliday()
-	{
-	}
-	
-	public SpentHoliday(Worker wWorker, Month mMonth)
+    // bi-directional many-to-one association to Worker
+    @ManyToOne
+    @JoinColumn(name = "WORKER_ID")
+    private Worker worker;
+
+    // bi-directional many-to-one association to Month
+    @ManyToOne
+    @JoinColumn(name = "MONTH_ID")
+    private Month month;
+
+    public SpentHoliday()
     {
-	    id = new SpentHolidayPK(wWorker.getWorkerId(), mMonth.getMonthId());
-	    worker = wWorker;
-	    month = mMonth;
     }
 
-	public SpentHolidayPK getId()
-	{
-		return this.id;
-	}
+    public SpentHoliday(Worker wWorker, Month mMonth)
+    {
+        id = new SpentHolidayPK(wWorker.getWorkerId(), mMonth.getMonthId());
+        worker = wWorker;
+        month = mMonth;
+    }
 
-	public void setId(SpentHolidayPK id)
-	{
-		this.id = id;
-	}
+    public SpentHolidayPK getId()
+    {
+        return this.id;
+    }
 
-	public int getCountDays()
-	{
-		return this.countDays;
-	}
+    public void setId(SpentHolidayPK id)
+    {
+        this.id = id;
+    }
 
-	public void setCountDays(int countDays)
-	{
-		this.countDays = countDays;
-	}
+    public int getCountDays()
+    {
+        return this.countDays;
+    }
 
-	public String getDescription()
-	{
-		return this.description;
-	}
+    public void setCountDays(int countDays)
+    {
+        this.countDays = countDays;
+    }
 
-	public void setDescription(String description)
-	{
-		this.description = description;
-	}
+    public String getDescription()
+    {
+        return this.description;
+    }
 
-	public Worker getWorker()
-	{
-		return this.worker;
-	}
+    public void setDescription(String description)
+    {
+        this.description = description;
+    }
 
-	public void setWorker(Worker worker)
-	{
-		this.worker = worker;
-	}
+    public Worker getWorker()
+    {
+        return this.worker;
+    }
 
-	public Month getMonth()
-	{
-		return this.month;
-	}
+    public void setWorker(Worker worker)
+    {
+        this.worker = worker;
+    }
 
-	public void setMonth(Month month)
-	{
-		this.month = month;
-	}
+    public Month getMonth()
+    {
+        return this.month;
+    }
 
-	@Override
-	public String toString()
-	{
-		return "SpentHoliday [id=" + id + ", countDays=" + countDays
-				+ ", description=" + description + ", worker=" + worker
-				+ ", month=" + month + "]";
-	}
+    public void setMonth(Month month)
+    {
+        this.month = month;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "SpentHoliday [id=" + id + ", countDays=" + countDays + ", description=" + description + ", worker=" + worker + ", month=" + month + "]";
+    }
 
 }

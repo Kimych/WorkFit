@@ -72,7 +72,7 @@ public class WorkLogOptionPanel extends JPanel implements IModelOwner
         jlLastUpdateDate.setText(woih.getLastUpdateDate());
         jlNameWorker.setText(woih.getNameWorker());
         tfToPlane.setText(String.valueOf(woih.getToPlane()));
-        
+        tfToBonus.setText(String.valueOf(woih.getToBonus()));
     }
 
     @Override

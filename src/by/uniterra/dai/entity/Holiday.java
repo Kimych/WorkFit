@@ -12,7 +12,7 @@ import javax.persistence.*;
 @NamedQueries(
         {
             @NamedQuery(name = Holiday.NQ_FIND_ALL, query = "SELECT h FROM Holiday h"),
-            @NamedQuery(name = Holiday.NQ_FIND_HOLIDAY_BY_WORKER_AND_YEAR, query = "SELECT h.countDays FROM Holiday h where h.worker = :" + Holiday.PARAMETER_WORKER + " and h.year = :" + Holiday.PARAMETER_YEAR) 
+            @NamedQuery(name = Holiday.NQ_FIND_HOLIDAY_BY_WORKER_AND_YEAR, query = "SELECT h.countDays FROM Holiday h WHERE h.worker = :" + Holiday.PARAMETER_WORKER + " and h.year = :" + Holiday.PARAMETER_YEAR) 
         })
 public class Holiday implements Serializable
 {

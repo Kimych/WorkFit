@@ -1,6 +1,8 @@
 package by.uniterra.udi.view;
 
 import java.awt.Component;
+import java.time.Clock;
+import java.time.YearMonth;
 import java.util.Calendar;
 import java.util.List;
 
@@ -30,7 +32,7 @@ public class WorkLogReportPanel
 
     public static void jbInit()
     {
-        int curentMonth = (Calendar.getInstance().get(Calendar.MONTH) + 1);
+        int curentMonth = YearMonth.now(Clock.systemUTC()).getMonthValue();;
 
         WorkerEAO eaoWorker = new WorkerEAO(ServiceBaseEAO.getDefaultEM());
         workerArrayList = eaoWorker.loadAll();
@@ -41,39 +43,36 @@ public class WorkLogReportPanel
         MonthEAO eaoMonth = new MonthEAO(ServiceBaseEAO.getDefaultEM());
         int workingDaysInMonth = eaoMonth.getWorkDayDataForMonth(curentMonth);
 
-        for (Worker wrk : workerArrayList)
+        for (Worker curentWorker : workerArrayList)
         {
 
-            Worker curentWorker = eaoWorker.find(wrk.getWorkerId());
-
-            // get sum bonus time for the current worker
-            double curentSumBonus = eaoDaysOfWork.getSumBonusTimeForWorkerAndMonthNum(curentWorker, curentMonth);
+            // Worker curentWorker = eaoWorker.find(wrk.getWorkerId());
 
             // load DaysOfWork
             List<DaysOfWork> lstDaysOfWork = eaoDaysOfWork.getLastDataForWorkerAndMonthNum(curentWorker, curentMonth);
-            // get work log time
-            double workLogTime = lstDaysOfWork.get(0).getWorklog();
-            // get last update time
-            String lastUpdateTime =String.valueOf(lstDaysOfWork.get(0).getTimestamp());
-
-
-
-            // to plane
-            double toPlane = WorkLogUtils.getTimeRemainsToPlane(workingDaysInMonth, workLogTime, curentSumBonus);
-            System.out.println("To plane: " + curentWorker + " " + toPlane + " hours");
-
             Component wlop = null;
             if (lstDaysOfWork.size() == 1)
             {
                 wlop = new WorkLogOptionPanel();
-                //((IModelOwner) wlop).setModel(lstData.get(0));
-                ((IModelOwner) wlop).setModel(new WorkLogInfoHolder(String.valueOf(workLogTime),toPlane, 35, 25, lastUpdateTime,curentWorker.toString()));
+                // get work log time
+                double workLogTime = lstDaysOfWork.get(0).getWorklog();
+                // get last update time
+                String lastUpdateTime = String.valueOf(lstDaysOfWork.get(0).getTimestamp());
+                // get sum bonus time for the current worker
+                double curentSumBonus = eaoDaysOfWork.getSumBonusTimeForWorkerAndMonthNum(curentWorker, curentMonth);
+                // to plane
+                double toPlane = WorkLogUtils.getTimeRemainsToPlane(workingDaysInMonth, workLogTime, curentSumBonus);
+                // get time to bonus
+                double toBonus = WorkLogUtils.getTimeRemainsToBonus(workingDaysInMonth, workLogTime, curentSumBonus);
+                // ((IModelOwner) wlop).setModel(lstData.get(0));
+                ((IModelOwner) wlop).setModel(new WorkLogInfoHolder(String.valueOf(workLogTime), toPlane, toBonus, 25, lastUpdateTime, curentWorker.toString()));
             }
             else
             {
                 wlop = new JLabel("No Data!!! Result lisr size=" + lstDaysOfWork.size());
             }
-            tabbedPane.addTab((wrk.getFirstName() + " " + wrk.getSecondName()), wlop);
+
+            tabbedPane.addTab((curentWorker.getFirstName() + " " + curentWorker.getSecondName()), wlop);
 
         }
 
