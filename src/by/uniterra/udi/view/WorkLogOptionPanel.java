@@ -8,9 +8,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import by.uniterra.dai.entity.DaysOfWork;
 import by.uniterra.udi.iface.IModelOwner;
 import by.uniterra.udi.model.UDIPropSingleton;
+import by.uniterra.udi.model.WorkLogInfoHolder;
 
 public class WorkLogOptionPanel extends JPanel implements IModelOwner
 {
@@ -18,7 +18,7 @@ public class WorkLogOptionPanel extends JPanel implements IModelOwner
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 3687259560748246183L;
 
-    private DaysOfWork dofw;
+    private WorkLogInfoHolder woih;
     JTextField tfCurentTime;
     JTextField tfToPlane;
     JTextField tfToBonus;
@@ -65,15 +65,14 @@ public class WorkLogOptionPanel extends JPanel implements IModelOwner
     }
 
     @Override
-    public void setModel(Object lstDaysOfWork)
+    public void setModel(Object workLogInfoHolder)
     {
-        this.dofw = (DaysOfWork) lstDaysOfWork;
-        tfCurentTime.setText(String.valueOf(dofw.getWorklog()));
-        jlLastUpdateDate.setText(String.valueOf(dofw.getTimestamp()));
-        jlNameWorker.setText(String.valueOf(dofw.getWorker()));
-        // add tfToPlane value
-        // add tfToPlane value
-        // add...
+        this.woih = (WorkLogInfoHolder) workLogInfoHolder;
+        tfCurentTime.setText(woih.getCurentTime());
+        jlLastUpdateDate.setText(woih.getLastUpdateDate());
+        jlNameWorker.setText(woih.getNameWorker());
+        tfToPlane.setText(String.valueOf(woih.getToPlane()));
+        
     }
 
     @Override

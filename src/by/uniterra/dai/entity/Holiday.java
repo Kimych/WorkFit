@@ -1,6 +1,7 @@
 package by.uniterra.dai.entity;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
 
 /**
@@ -8,10 +9,20 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@NamedQuery(name = "Holiday.findAll", query = "SELECT h FROM Holiday h")
+@NamedQueries(
+        {
+            @NamedQuery(name = Holiday.NQ_FIND_ALL, query = "SELECT h FROM Holiday h"),
+            @NamedQuery(name = Holiday.NQ_FIND_HOLIDAY_BY_WORKER_AND_YEAR, query = "SELECT h.countDays FROM Holiday h where h.worker = :" + Holiday.PARAMETER_WORKER + " and h.year = :" + Holiday.PARAMETER_YEAR) 
+        })
 public class Holiday implements Serializable
 {
     private static final long serialVersionUID = 1L;
+    
+    public static final String NQ_FIND_ALL = "Holiday.findAll";
+    public static final String NQ_FIND_HOLIDAY_BY_WORKER_AND_YEAR = "Holiday.findHolidayByWorkerAndYear";
+    
+    public static final String PARAMETER_WORKER = "worker";
+    public static final String PARAMETER_YEAR = "year";
 
     @EmbeddedId
     private HolidayPK id;

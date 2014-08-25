@@ -16,10 +16,11 @@ import by.uniterra.dai.entity.DaysOfWork;
 import by.uniterra.dai.entity.Worker;
 import by.uniterra.system.util.WorkLogUtils;
 import by.uniterra.udi.iface.IModelOwner;
+import by.uniterra.udi.model.WorkLogInfoHolder;
 
 public class WorkLogReportPanel
 {
-    private static List<Worker> workerArrayList;;
+    private static List<Worker> workerArrayList;
 
     public static void main(String[] args)
     {
@@ -49,21 +50,28 @@ public class WorkLogReportPanel
             double curentSumBonus = eaoDaysOfWork.getSumBonusTimeForWorkerAndMonthNum(curentWorker, curentMonth);
 
             // load DaysOfWork
-            List<DaysOfWork> lstData = eaoDaysOfWork.getLastDataForWorkerAndMonthNum(curentWorker, curentMonth);
+            List<DaysOfWork> lstDaysOfWork = eaoDaysOfWork.getLastDataForWorkerAndMonthNum(curentWorker, curentMonth);
+            // get work log time
+            double workLogTime = lstDaysOfWork.get(0).getWorklog();
+            // get last update time
+            String lastUpdateTime =String.valueOf(lstDaysOfWork.get(0).getTimestamp());
+
+
 
             // to plane
-            double toPlane = WorkLogUtils.getTimeRemainsToPlane(workingDaysInMonth, lstData.get(0).getWorklog(), curentSumBonus);
+            double toPlane = WorkLogUtils.getTimeRemainsToPlane(workingDaysInMonth, workLogTime, curentSumBonus);
             System.out.println("To plane: " + curentWorker + " " + toPlane + " hours");
 
             Component wlop = null;
-            if (lstData.size() == 1)
+            if (lstDaysOfWork.size() == 1)
             {
                 wlop = new WorkLogOptionPanel();
-                ((IModelOwner) wlop).setModel(lstData.get(0));
+                //((IModelOwner) wlop).setModel(lstData.get(0));
+                ((IModelOwner) wlop).setModel(new WorkLogInfoHolder(String.valueOf(workLogTime),toPlane, 35, 25, lastUpdateTime,curentWorker.toString()));
             }
             else
             {
-                wlop = new JLabel("No Data!!! Result lisr size=" + lstData.size());
+                wlop = new JLabel("No Data!!! Result lisr size=" + lstDaysOfWork.size());
             }
             tabbedPane.addTab((wrk.getFirstName() + " " + wrk.getSecondName()), wlop);
 
