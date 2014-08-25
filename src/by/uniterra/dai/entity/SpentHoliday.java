@@ -12,8 +12,8 @@ import javax.persistence.*;
 @Table(name = "spent_holiday")
 @NamedQueries({
         @NamedQuery(name = SpentHoliday.NQ_FIND_ALL, query = "SELECT s FROM SpentHoliday s"),
-        //@NamedQuery(name = SpentHoliday.NQ_FIND_SPEND_HOLIDAY_BY_WORKER_AND_YEAR, query = "SELECT SUM(s.countDays) FROM SpentHoliday s INNER JOIN s.month m INNER JOIN y. y WHERE s.worker = :"
-                //+ SpentHoliday.PARAMETER_WORKER + "and y.yearId = :" + SpentHoliday.PARAMETER_YEAR)
+        @NamedQuery(name = SpentHoliday.NQ_FIND_SPEND_HOLIDAY_BY_WORKER_AND_YEAR, query = "SELECT SUM(s.countDays) FROM SpentHoliday s  JOIN s.month m  JOIN m.year y WHERE  y.number = :" + SpentHoliday.PARAMETER_YEAR + " and s.worker = :"
+                + SpentHoliday.PARAMETER_WORKER)
 
 })
 public class SpentHoliday implements Serializable
