@@ -53,7 +53,7 @@ public class HolidayNamedQueryTest
      * @author Sergio Alecky
      * @date 25 авг. 2014 г.
      */
-    private static final int TEST_YEAR_ID = 1;
+    private static final int TEST_NUMBER_YEAR = 2014;
     private static final int TEST_WORKER_ID = 1;
 
     @Test
@@ -65,7 +65,7 @@ public class HolidayNamedQueryTest
         WorkerEAO eaoWorker = new WorkerEAO(ServiceBaseEAO.getDefaultEM());
         
 
-        assertTrue(eaoHoliday.getHolidayDaysCountForWorkerAndYear(eaoWorker.find(TEST_WORKER_ID), eaoYear.find(TEST_YEAR_ID)) != 0);
+        assertTrue(eaoHoliday.getHolidayDaysCountForWorkerAndYear(eaoWorker.find(TEST_WORKER_ID), TEST_NUMBER_YEAR) != 0);
 
 
 

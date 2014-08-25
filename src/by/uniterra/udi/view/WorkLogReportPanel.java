@@ -10,10 +10,12 @@ import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
 
 import by.uniterra.dai.eao.DaysOfWorkEAO;
+import by.uniterra.dai.eao.HolidayEAO;
 import by.uniterra.dai.eao.MonthEAO;
 import by.uniterra.dai.eao.ServiceBaseEAO;
 import by.uniterra.dai.eao.SpentHolidayEAO;
 import by.uniterra.dai.eao.WorkerEAO;
+import by.uniterra.dai.eao.YearEAO;
 import by.uniterra.dai.entity.DaysOfWork;
 import by.uniterra.dai.entity.Worker;
 import by.uniterra.system.util.WorkLogUtils;
@@ -45,6 +47,10 @@ public class WorkLogReportPanel
         int workingDaysInMonth = eaoMonth.getWorkDayDataForMonth(curentMonth);
 
         SpentHolidayEAO eaoSpentHoliday = new SpentHolidayEAO(ServiceBaseEAO.getDefaultEM());
+        
+
+        HolidayEAO eaoHoliday = new HolidayEAO(ServiceBaseEAO.getDefaultEM());
+        
         for (Worker curentWorker : workerArrayList)
         {
 
@@ -64,9 +70,13 @@ public class WorkLogReportPanel
                 double toPlane = WorkLogUtils.getTimeRemainsToPlane(workingDaysInMonth, workLogTime, curentSumBonus);
                 // get time to bonus
                 double toBonus = WorkLogUtils.getTimeRemainsToBonus(workingDaysInMonth, workLogTime, curentSumBonus);
-                // get spend holiday
+                
+                // get  rest of the holiday
+                double holiday = eaoHoliday.getHolidayDaysCountForWorkerAndYear(curentWorker, numberYear);
                 double timeLeft = eaoSpentHoliday.getSpentHolidayWorkerAndYear(curentWorker, numberYear);
-                ((IModelOwner) wlop).setModel(new WorkLogInfoHolder(String.valueOf(workLogTime), toPlane, toBonus, timeLeft, lastUpdateTime, curentWorker.toString()));
+                
+                
+                ((IModelOwner) wlop).setModel(new WorkLogInfoHolder(String.valueOf(workLogTime), toPlane, toBonus, (holiday-timeLeft), lastUpdateTime, curentWorker.toString()));
             }
             else
             {

@@ -33,7 +33,7 @@ public class HolidayEAO extends ServiceBaseEAO<Holiday>
      * @author Sergio Alecky
      * @date Aug 22, 2014
      */
-    public int getHolidayDaysCountForWorkerAndYear(Worker wWorker, Year yYear)
+    public int getHolidayDaysCountForWorkerAndYear(Worker wWorker, int year)
     {
         int holiday = 0;
         try
@@ -42,7 +42,7 @@ public class HolidayEAO extends ServiceBaseEAO<Holiday>
             // set Worker
             queryDeleteByDSId.setParameter(Holiday.PARAMETER_WORKER, wWorker);
             // set Month
-            queryDeleteByDSId.setParameter(Holiday.PARAMETER_YEAR, yYear);
+            queryDeleteByDSId.setParameter(Holiday.PARAMETER_YEAR, year);
             // execute and return result
             Object objResult = queryDeleteByDSId.getSingleResult();
             if (objResult != null)
