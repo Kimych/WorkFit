@@ -1,5 +1,6 @@
 package by.uniterra.udi.view;
 
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -34,34 +35,32 @@ public class WorkLogOptionPanel extends JPanel implements IModelOwner
 
     private void jbInit()
     {
-        tfCurentTime = new JTextField(3);
-        tfToPlane = new JTextField(3);
-        tfToBonus = new JTextField(3);
-        tfTimeLeft = new JTextField(3);
+        tfCurentTime = new JTextField(4);
+        tfToPlane = new JTextField(4);
+        tfToBonus = new JTextField(4);
+        tfTimeLeft = new JTextField(4);
         jlLastUpdateDate = new JLabel();
         jlNameWorker = new JLabel();
 
-        JLabel jlWorker = new JLabel(UDIPropSingleton.getString(this, "jlWorker.label"));
+        //JLabel jlWorker = new JLabel(UDIPropSingleton.getString(this, "jlWorker.label"));
         JLabel jlLastUpdate = new JLabel(UDIPropSingleton.getString(this, "jlLastUpdate.label"));
         JLabel jlCurrentTime = new JLabel(UDIPropSingleton.getString(this, "jlCurrentTime.label"));
         JLabel jlToPlane = new JLabel(UDIPropSingleton.getString(this, "jlToPlane.label"));
         JLabel jlToBonus = new JLabel(UDIPropSingleton.getString(this, "jlToBonus.label"));
         JLabel jlTimeLeft = new JLabel(UDIPropSingleton.getString(this, "jlTimeLeft.label"));
 
-        add(jlWorker, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 10), 0, 0));
-        add(jlLastUpdate, new GridBagConstraints(0, 1, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 10), 0, 0));
-        add(jlNameWorker, new GridBagConstraints(1, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 10), 0, 0));
-        add(jlLastUpdateDate, new GridBagConstraints(1, 1, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 10), 0, 0));
+        // add(jlWorker, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 10), 0, 0));
+        add(jlNameWorker, new GridBagConstraints(0, 0, 2, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 10), 0, 0));
+        //add(jlLastUpdate, new GridBagConstraints(0, 1, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 10), 0, 0));
+        add(jlLastUpdateDate, new GridBagConstraints(0, 1, 2, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 10), 0, 0));
         add(jlCurrentTime, new GridBagConstraints(0, 2, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 10), 0, 0));
+        add(tfCurentTime, new GridBagConstraints(1, 2, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 10), 0, 0));
         add(jlToPlane, new GridBagConstraints(0, 3, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 10), 0, 0));
+        add(tfToPlane, new GridBagConstraints(1, 3, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 10), 0, 0));
         add(jlToBonus, new GridBagConstraints(0, 4, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 10), 0, 0));
+        add(tfToBonus, new GridBagConstraints(1, 4, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 10), 0, 0));
         add(jlTimeLeft, new GridBagConstraints(0, 5, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 10), 0, 0));
-
-        add(tfCurentTime, new GridBagConstraints(1, 2, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 10), 0, 0));
-        add(tfToPlane, new GridBagConstraints(1, 3, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 10), 0, 0));
-        add(tfToBonus, new GridBagConstraints(1, 4, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 10), 0, 0));
-        add(tfTimeLeft, new GridBagConstraints(1, 5, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 10), 0, 0));
-
+        add(tfTimeLeft, new GridBagConstraints(1, 5, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 10), 0, 0));
     }
 
     @Override
@@ -70,10 +69,13 @@ public class WorkLogOptionPanel extends JPanel implements IModelOwner
         this.woih = (WorkLogInfoHolder) workLogInfoHolder;
         tfCurentTime.setText(woih.getCurentTime());
         jlLastUpdateDate.setText(woih.getLastUpdateDate());
+        
         jlNameWorker.setText(woih.getNameWorker());
+        jlNameWorker.setFont(new Font("Serif", Font.PLAIN, 20));
+        
         tfToPlane.setText(String.valueOf(woih.getToPlane()));
         tfToBonus.setText(String.valueOf(woih.getToBonus()));
-        tfTimeLeft.setText(String.valueOf(woih.getTimeLeft()));
+        tfTimeLeft.setText(String.valueOf((int)(woih.getTimeLeft())));
     }
 
     @Override
