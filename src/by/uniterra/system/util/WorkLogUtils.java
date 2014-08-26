@@ -9,12 +9,12 @@ public class WorkLogUtils
 
     public static double getTimeRemainsToPlane(int workDayInMonth, double worklog, double bonustime)
     {
-        return workDayInMonth * WORK_HOUR_IN_DAY - worklog + bonustime;
+        return workDayInMonth * WORK_HOUR_IN_DAY - (worklog + bonustime);
     }
 
     public static double getTimeRemainsToBonus(int workDayInMonth, double worklog, double bonustime)
     {
-        return workDayInMonth * WORK_HOUR_IN_DAY * PERCENT_REMAINS_TO_BONUS - worklog + bonustime;
+        return workDayInMonth * WORK_HOUR_IN_DAY * PERCENT_REMAINS_TO_BONUS - (worklog + bonustime);
     }
 
     /**

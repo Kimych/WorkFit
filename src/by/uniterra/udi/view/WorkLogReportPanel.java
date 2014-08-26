@@ -35,7 +35,7 @@ public class WorkLogReportPanel extends JTabbedPane
         JFrame frame = new JFrame("Test Employe");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
-        frame.setSize(640, 480);
+        frame.setSize(400, 280);
         frame.add(new WorkLogReportPanel());
         frame.setVisible(true);
     }
@@ -81,11 +81,9 @@ public class WorkLogReportPanel extends JTabbedPane
                 // get sum bonus time for the current worker
                 double curentSumBonus = eaoDaysOfWork.getSumBonusTimeForWorkerAndMonthNum(curentWorker, curentMonth);
                 // to plane
-                double roundToPlane = WorkLogUtils.round(WorkLogUtils.getTimeRemainsToPlane(workingDaysInMonth, workLogTime, curentSumBonus), 2,
-                        BigDecimal.ROUND_HALF_UP);
+                double roundToPlane = WorkLogUtils.getTimeRemainsToPlane(workingDaysInMonth, workLogTime, curentSumBonus);
                 // get time to bonus
-                double roundToBonus = WorkLogUtils.round(WorkLogUtils.getTimeRemainsToBonus(workingDaysInMonth, workLogTime, curentSumBonus), 2,
-                        BigDecimal.ROUND_HALF_UP);
+                double roundToBonus = WorkLogUtils.getTimeRemainsToBonus(workingDaysInMonth, workLogTime, curentSumBonus);
                 // get rest of the holiday
                 double holiday = eaoHoliday.getHolidayDaysCountForWorkerAndYear(curentWorker, numberYear);
                 // get spend holiday

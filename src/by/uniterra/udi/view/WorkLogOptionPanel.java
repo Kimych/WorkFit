@@ -5,11 +5,13 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.math.BigDecimal;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import by.uniterra.system.util.WorkLogUtils;
 import by.uniterra.udi.iface.IModelOwner;
 import by.uniterra.udi.model.UDIPropSingleton;
 import by.uniterra.udi.model.WorkLogInfoHolder;
@@ -72,7 +74,7 @@ public class WorkLogOptionPanel extends JPanel implements IModelOwner
         jlNameWorker.setText(woih.getNameWorker());
         jlNameWorker.setFont(new Font("Serif", Font.PLAIN, 20));
 
-        tfToPlane.setText(String.valueOf(woih.getToPlane()));
+        tfToPlane.setText(WorkLogUtils.roundToString(woih.getToPlane(), 2, BigDecimal.ROUND_HALF_UP));
         // set color
         if (woih.isBeInPlane())
         {
@@ -83,8 +85,8 @@ public class WorkLogOptionPanel extends JPanel implements IModelOwner
             tfToPlane.setBackground(COLOR_WARNING_RED);
         }
 
-        tfToBonus.setText(String.valueOf(woih.getToBonus()));
-        tfTimeLeft.setText(String.valueOf((int) (woih.getTimeLeft())));
+        tfToBonus.setText(WorkLogUtils.roundToString(woih.getToBonus(), 2, BigDecimal.ROUND_HALF_UP));
+        tfTimeLeft.setText(String.valueOf(WorkLogUtils.roundToString(woih.getTimeLeft(), 0, BigDecimal.ROUND_HALF_UP)));
     }
 
     @Override
