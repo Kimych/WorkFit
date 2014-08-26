@@ -15,6 +15,8 @@ import javax.persistence.TypedQuery;
 
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 
+import by.uniterra.dai.model.JPASessionCustomizer;
+
 
 public class ServiceBaseEAO<T extends Serializable>
 {
@@ -162,7 +164,9 @@ public class ServiceBaseEAO<T extends Serializable>
         mapCustomProp.put(PersistenceUnitProperties.JDBC_DRIVER, "com.mysql.jdbc.Driver");
         // the correct way to disable the shared cache (L2 cache)
         mapCustomProp.put("eclipselink.cache.shared.default", "false");
-        // try to override hardcoded settigs by custom properties
+        // Specify an EclipseLink session customizer class: a Java
+        mapCustomProp.put(PersistenceUnitProperties.SESSION_CUSTOMIZER, JPASessionCustomizer.class.getName());        
+        // try to override hardcoded settings by custom properties
         overrideSettingsFromResource(mapCustomProp, CUSTOMER_PROPERTIES);
         // a new connection (factory) to target DB
         emfFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME, mapCustomProp);
