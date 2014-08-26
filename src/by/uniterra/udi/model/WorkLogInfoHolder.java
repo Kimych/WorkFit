@@ -44,8 +44,9 @@ public class WorkLogInfoHolder
     private double TimeLeft;
     private String LastUpdateDate;
     private String NameWorker;
+    private boolean BeInPlane;
 
-    public WorkLogInfoHolder(String CurentTime, double ToPlane, double ToBonus, double TimeLeft, String LastUpdateDate, String NameWorker)
+    public WorkLogInfoHolder(String CurentTime, double ToPlane, double ToBonus, double TimeLeft, String LastUpdateDate, String NameWorker, boolean BeInPlane)
     {
         this.CurentTime = CurentTime;
         this.ToPlane = ToPlane;
@@ -53,6 +54,7 @@ public class WorkLogInfoHolder
         this.TimeLeft = TimeLeft;
         this.LastUpdateDate = LastUpdateDate;
         this.NameWorker = NameWorker;
+        this.BeInPlane = BeInPlane;
     }
 
 
@@ -114,5 +116,17 @@ public class WorkLogInfoHolder
     public void setNameWorker(String NameWorker)
     {
         this.NameWorker = NameWorker;
+    }
+
+
+    public boolean isBeInPlane()
+    {
+        return BeInPlane;
+    }
+
+
+    public void setBeInPlane(boolean BeInPlane)
+    {
+        this.BeInPlane = BeInPlane;
     }
 }

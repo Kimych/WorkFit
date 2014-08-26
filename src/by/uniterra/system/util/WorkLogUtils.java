@@ -75,7 +75,16 @@ public class WorkLogUtils
         // convert to string
         return scale >= 0 ? String.format("%." + scale + "f", dResult) : String.valueOf((int) dResult);
     }
-    // String strNegResult = FormatUtils.roundToString(dValue, -iScale,
-    // BigDecimal.ROUND_HALF_UP);
 
+    public static boolean beInPlaneAtTime(int actualWorkingDays, int workingDaysInMonth, double toPlane)
+    {
+        if (WORK_HOUR_IN_DAY * (workingDaysInMonth - actualWorkingDays) >= toPlane)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

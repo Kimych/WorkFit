@@ -1,5 +1,6 @@
 package by.uniterra.udi.view;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -18,6 +19,8 @@ public class WorkLogOptionPanel extends JPanel implements IModelOwner
 
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 3687259560748246183L;
+    private static final Color COLOR_OK_GREEN = Color.GREEN;
+    private static final Color COLOR_WARNING_RED = Color.RED;
 
     private WorkLogInfoHolder woih;
     JTextField tfCurentTime;
@@ -42,16 +45,12 @@ public class WorkLogOptionPanel extends JPanel implements IModelOwner
         jlLastUpdateDate = new JLabel();
         jlNameWorker = new JLabel();
 
-        //JLabel jlWorker = new JLabel(UDIPropSingleton.getString(this, "jlWorker.label"));
-        JLabel jlLastUpdate = new JLabel(UDIPropSingleton.getString(this, "jlLastUpdate.label"));
         JLabel jlCurrentTime = new JLabel(UDIPropSingleton.getString(this, "jlCurrentTime.label"));
         JLabel jlToPlane = new JLabel(UDIPropSingleton.getString(this, "jlToPlane.label"));
         JLabel jlToBonus = new JLabel(UDIPropSingleton.getString(this, "jlToBonus.label"));
         JLabel jlTimeLeft = new JLabel(UDIPropSingleton.getString(this, "jlTimeLeft.label"));
 
-        // add(jlWorker, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 10), 0, 0));
         add(jlNameWorker, new GridBagConstraints(0, 0, 2, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 10), 0, 0));
-        //add(jlLastUpdate, new GridBagConstraints(0, 1, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 10), 0, 0));
         add(jlLastUpdateDate, new GridBagConstraints(0, 1, 2, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 10), 0, 0));
         add(jlCurrentTime, new GridBagConstraints(0, 2, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 10), 0, 0));
         add(tfCurentTime, new GridBagConstraints(1, 2, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 10), 0, 0));
@@ -69,13 +68,23 @@ public class WorkLogOptionPanel extends JPanel implements IModelOwner
         this.woih = (WorkLogInfoHolder) workLogInfoHolder;
         tfCurentTime.setText(woih.getCurentTime());
         jlLastUpdateDate.setText(woih.getLastUpdateDate());
-        
+
         jlNameWorker.setText(woih.getNameWorker());
         jlNameWorker.setFont(new Font("Serif", Font.PLAIN, 20));
-        
+
         tfToPlane.setText(String.valueOf(woih.getToPlane()));
+        // set color
+        if (woih.isBeInPlane())
+        {
+            tfToPlane.setBackground(COLOR_OK_GREEN);
+        }
+        else
+        {
+            tfToPlane.setBackground(COLOR_WARNING_RED);
+        }
+
         tfToBonus.setText(String.valueOf(woih.getToBonus()));
-        tfTimeLeft.setText(String.valueOf((int)(woih.getTimeLeft())));
+        tfTimeLeft.setText(String.valueOf((int) (woih.getTimeLeft())));
     }
 
     @Override
