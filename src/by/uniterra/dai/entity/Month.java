@@ -176,8 +176,7 @@ public class Month implements Serializable
     @Override
     public String toString()
     {
-        return "Month [monthId=" + monthId + ", description=" + description + ", workingDaysCount=" + workingDaysCount + ", daysOfWorks=" + daysOfWorks
-                + ", nameMonth=" + nameMonth + ", year=" + year + ", spentHolidays=" + spentHolidays + "]";
+        return String.valueOf(nameMonth + " " + year);
     }
 
 }

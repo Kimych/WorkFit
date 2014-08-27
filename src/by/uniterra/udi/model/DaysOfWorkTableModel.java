@@ -25,7 +25,7 @@ public class DaysOfWorkTableModel extends AbstractFlexTableModel
 
     public DaysOfWorkTableModel()
     {
-        addColumn(COL_WORKLOG, "ID");
+        addColumn(COL_WORKLOG, "From Log");
         addColumn(COL_TIMESTAMP, "Timestamp");
         addColumn(COL_BONUS_TIME, "Bonus time");
         addColumn(COL_BONUS_TIME_DESC, "Bonus time desc");

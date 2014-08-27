@@ -27,8 +27,6 @@ public class MonthOptionPanel extends JPanel implements IModelOwner
     private static final long serialVersionUID = 3210721310184243056L;
     
     private JTextArea tfDeskription;
-/*    private JLabel jlNumber;
-    private JLabel jlDesk;*/
     private JTextField tfNumber;
     private JComboBox cbMonth;
     private JComboBox cbYear;
@@ -57,7 +55,7 @@ public class MonthOptionPanel extends JPanel implements IModelOwner
         tfDeskription.setRows(5);
         tfDeskription.setLineWrap(true);
 
-        add(cbMonth, new GridBagConstraints(1, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
+        add(cbMonth, new GridBagConstraints(1, 0, 1, 1, 1, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
         add(cbYear, new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
         add(jlNumber, new GridBagConstraints(2, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
         add(tfNumber, new GridBagConstraints(3, 0, 1, 1, 1, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
