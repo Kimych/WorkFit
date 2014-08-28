@@ -5,6 +5,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.time.Clock;
+import java.time.YearMonth;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -23,6 +25,7 @@ import by.uniterra.dai.entity.DaysOfWork;
 import by.uniterra.dai.entity.Month;
 import by.uniterra.dai.entity.Worker;
 import by.uniterra.system.util.DateUtils;
+import by.uniterra.system.util.WorkLogUtils;
 import by.uniterra.udi.iface.IModelOwner;
 import by.uniterra.udi.util.UIUtils;
 
@@ -97,7 +100,7 @@ public class DaysOfWorkOptionPanel extends JPanel implements IModelOwner
         });
 
         taBonusDesc = new JTextArea();
-        taBonusDesc.setColumns(30);
+        taBonusDesc.setColumns(20);
         taBonusDesc.setRows(5);
         taBonusDesc.setLineWrap(true);
 
@@ -121,23 +124,37 @@ public class DaysOfWorkOptionPanel extends JPanel implements IModelOwner
     public void setModel(Object objDaysOfWork)
     {
         this.daysOfWork = (DaysOfWork) objDaysOfWork;
-        
+        Date curentDate = new Date();
+
         if (daysOfWork.getDaysOfWorkId() == 0)
         {
             cbWorker.setSelectedIndex(0);
-            cbMonth.setSelectedIndex(monthArrayList.size()-1);;
-            dpDateTime.setDate(new Date());
+            dpDateTime.setDate(curentDate);
+
+            // set curent month
+            int curentMonth = YearMonth.now(Clock.systemUTC()).getMonthValue();
+            int numberYear = YearMonth.now(Clock.systemUTC()).getYear();
+            for (Month selmonth : monthArrayList)
+            {
+                if (selmonth.getNameMonth().getNameMonthId() == curentMonth && selmonth.getYear().getNumber() == numberYear)
+                {
+                    cbMonth.setSelectedItem(selmonth);
+                    break;
+                }
+            }
+            
+            // set estimated number of working days
+            tfActualDays.setText(String.valueOf(WorkLogUtils.getWorkingDaysBetweenTwoDates(WorkLogUtils.getDateCurentMonthStart(), curentDate)));
         }
         else
         {
             cbWorker.setSelectedItem(daysOfWork.getWorker());
             cbMonth.setSelectedItem(daysOfWork.getMonth());
             dpDateTime.setDate(daysOfWork.getTimestamp());
+            tfActualDays.setText(String.valueOf(daysOfWork.getAktualWorkedDays()));
         }
-        
-        tfActualDays.setText(String.valueOf(daysOfWork.getAktualWorkedDays()));
+
         tfLogTime.setText(String.valueOf(daysOfWork.getWorklog()));
-        
         tfBonusTime.setText(String.valueOf(daysOfWork.getBonusTime()));
         taBonusDesc.setText(daysOfWork.getBonusTimeDescription());
     }

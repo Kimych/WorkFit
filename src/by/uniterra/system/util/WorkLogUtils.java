@@ -1,6 +1,9 @@
 package by.uniterra.system.util;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class WorkLogUtils
 {
@@ -86,5 +89,66 @@ public class WorkLogUtils
         {
             return false;
         }
+    }
+
+    public static int getWorkingDaysBetweenTwoDates(Date startDate, Date endDate)
+    {
+        Calendar startCal;
+        Calendar endCal;
+        startCal = Calendar.getInstance();
+        startCal.setTime(startDate);
+        endCal = Calendar.getInstance();
+        endCal.setTime(endDate);
+        int workDays = 0;
+
+        // Return 0 if start and end are the same
+        if (startCal.getTimeInMillis() == endCal.getTimeInMillis())
+        {
+            return 0;
+        }
+
+        if (startCal.getTimeInMillis() > endCal.getTimeInMillis())
+        {
+            startCal.setTime(endDate);
+            endCal.setTime(startDate);
+        }
+
+        do
+        {
+            startCal.add(Calendar.DAY_OF_MONTH, 1);
+            if (startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY)
+            {
+                ++workDays;
+            }
+        }
+        while (startCal.getTimeInMillis() < endCal.getTimeInMillis());
+
+        return workDays;
+    }
+
+    public static Date getDateCurentMonthStart()
+    {
+        Date begining;
+        Calendar calendar = getCalendarForNow();
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
+        setTimeToBeginningOfDay(calendar);
+        begining = calendar.getTime();
+
+        return begining;
+    }
+
+    private static Calendar getCalendarForNow()
+    {
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.setTime(new Date());
+        return calendar;
+    }
+
+    private static void setTimeToBeginningOfDay(Calendar calendar)
+    {
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
     }
 }
