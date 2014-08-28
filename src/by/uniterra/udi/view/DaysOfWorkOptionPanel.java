@@ -3,7 +3,11 @@ package by.uniterra.udi.view;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
@@ -18,7 +22,11 @@ import by.uniterra.dai.eao.WorkerEAO;
 import by.uniterra.dai.entity.DaysOfWork;
 import by.uniterra.dai.entity.Month;
 import by.uniterra.dai.entity.Worker;
+import by.uniterra.system.util.DateUtils;
 import by.uniterra.udi.iface.IModelOwner;
+import by.uniterra.udi.util.UIUtils;
+
+import com.toedter.calendar.JDateChooser;
 
 public class DaysOfWorkOptionPanel extends JPanel implements IModelOwner
 {
@@ -33,11 +41,10 @@ public class DaysOfWorkOptionPanel extends JPanel implements IModelOwner
     private JTextField tfLogTime;
     private JTextField tfBonusTime;
     private JTextArea  taBonusDesc;
-    private JTextField tfRefreshTime;
+    private JDateChooser dpDateTime;
     
     private List<Worker> workerArrayList;
     private List<Month> monthArrayList;
-    
     
     private DaysOfWork daysOfWork;
 
@@ -53,11 +60,9 @@ public class DaysOfWorkOptionPanel extends JPanel implements IModelOwner
         tfActualDays = new JTextField();
         tfLogTime = new JTextField();
         taBonusDesc = new JTextArea();
-        tfRefreshTime =new JTextField();
         tfBonusTime = new JTextField();
 
         JLabel jlMonth = new JLabel("Month");
-        //JLabel jlYear = new JLabel("Year");
         JLabel jlActualDays = new JLabel("Aktual days");
         JLabel jlWorker = new JLabel("Worker");
         JLabel jlRefresh = new JLabel("Refresh");
@@ -71,6 +76,24 @@ public class DaysOfWorkOptionPanel extends JPanel implements IModelOwner
         cbWorker = new JComboBox(new DefaultComboBoxModel(workerArrayList.toArray()));
         cbMonth = new JComboBox(new DefaultComboBoxModel(monthArrayList.toArray()));
         
+        dpDateTime = UIUtils.createDatePicker(new Date(0), DateUtils.EUROP_FULL_DATEFORMAT, UIUtils.LARGE_FIELD_WIDTH_PREFFERED, true, TimeZone.getDefault());
+        //set default date
+        dpDateTime.addPropertyChangeListener(new PropertyChangeListener()
+        {
+            public void propertyChange(PropertyChangeEvent arg0)
+            {
+                if ("date".equals(arg0.getPropertyName())) 
+                {
+                  /*  Date dateSetDate = dpDateTime.getDate();
+                    // update age value
+                    iCurAge = ((System.currentTimeMillis() - dateSetDate.getTime())) / DateUtils.ONE_YEAR;
+                    // update according label
+                    lblYearsCountFromBirth.setText("(" + iCurAge + ") лет ");
+                    // recalculate and update fee control
+                    updateFee();*/
+                }
+            }
+        });
         
         taBonusDesc = new JTextArea();
         taBonusDesc.setColumns(30);
@@ -86,7 +109,7 @@ public class DaysOfWorkOptionPanel extends JPanel implements IModelOwner
         add(jlLogTime, new GridBagConstraints(0, 2, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
         add(tfLogTime, new GridBagConstraints(1, 2, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
         add(jlRefresh, new GridBagConstraints(2, 2, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
-        add(tfRefreshTime, new GridBagConstraints(3, 2, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
+        add(dpDateTime, new GridBagConstraints(3, 2, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
         add(jlBonusTime, new GridBagConstraints(0, 3, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
         add(tfBonusTime, new GridBagConstraints(1, 3, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
         add(jlBonusDesc, new GridBagConstraints(0, 4, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
@@ -101,9 +124,7 @@ public class DaysOfWorkOptionPanel extends JPanel implements IModelOwner
         tfActualDays.setText(String.valueOf(daysOfWork.getAktualWorkedDays()));
         cbWorker.setSelectedItem(daysOfWork.getWorker());
         tfLogTime.setText(String.valueOf(daysOfWork.getWorklog()));
-        
-        tfRefreshTime.setText("00.00.00");
-        
+        dpDateTime.setDate(daysOfWork.getTimestamp());
         tfBonusTime.setText(String.valueOf(daysOfWork.getBonusTime()));
         taBonusDesc.setText(daysOfWork.getBonusTimeDescription());
     }
@@ -116,16 +137,12 @@ public class DaysOfWorkOptionPanel extends JPanel implements IModelOwner
             daysOfWork = new DaysOfWork();
         }
         daysOfWork.setWorklog(Double.valueOf(tfLogTime.getText()));
-        
         daysOfWork.setTimestamp(null);
-        
         daysOfWork.setBonusTime(Double.valueOf(tfBonusTime.getText()));
         daysOfWork.setWorker((Worker) cbWorker.getSelectedItem());
         daysOfWork.setAktualWorkedDays(Integer.valueOf(tfActualDays.getText()));
         daysOfWork.setBonusTimeDescription(taBonusDesc.getText());
-        // ??
-        //daysOfWork.setTimestamp((Date)tfRefreshTime.getText());
-        
+        daysOfWork.setTimestamp(dpDateTime.getDate());
         daysOfWork.setMonth((Month) cbMonth.getSelectedItem());
         daysOfWork.setWorker((Worker) cbWorker.getSelectedItem());
         

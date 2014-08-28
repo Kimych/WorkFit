@@ -22,7 +22,7 @@ public class WorkFitCommonFrame
 
     public static void main(String[] args)
     {
-        Locale.setDefault(new Locale("ru"));
+        //Locale.setDefault(new Locale("ru"));
 /*        CommonDataTablePanel panelYear = new CommonDataTablePanel(new YearTableModel(), new YearOptionPanel(), new YearEAO(ServiceBaseEAO.getDefaultEM()));
         CommonDataTablePanel panelMonth = new CommonDataTablePanel(new MonthTableModel(), new MonthOptionPanel(), new MonthEAO(ServiceBaseEAO.getDefaultEM()));
         CommonDataTablePanel panelWorker = new CommonDataTablePanel(new WorkerTableModel(), new WorkerOptionPanel(), new WorkerEAO(
@@ -45,6 +45,7 @@ public class WorkFitCommonFrame
         panelWorker.writeValues();
         panelHoliday.writeValues();*/
 
+        panelDoW.writeValues();
         ServiceBaseEAO.disconnectFromDb();
     }
 
