@@ -33,19 +33,19 @@ public class DaysOfWorkOptionPanel extends JPanel implements IModelOwner
 
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 3401564759734700646L;
-    
+
     private JComboBox cbMonth;
     private JComboBox cbYear;
     private JComboBox cbWorker;
     private JTextField tfActualDays;
     private JTextField tfLogTime;
     private JTextField tfBonusTime;
-    private JTextArea  taBonusDesc;
+    private JTextArea taBonusDesc;
     private JDateChooser dpDateTime;
-    
+
     private List<Worker> workerArrayList;
     private List<Month> monthArrayList;
-    
+
     private DaysOfWork daysOfWork;
 
     public DaysOfWorkOptionPanel()
@@ -69,37 +69,38 @@ public class DaysOfWorkOptionPanel extends JPanel implements IModelOwner
         JLabel jlLogTime = new JLabel("Time from log");
         JLabel jlBonusTime = new JLabel("Bonus time");
         JLabel jlBonusDesc = new JLabel("Description");
-        
+
         workerArrayList = new WorkerEAO(ServiceBaseEAO.getDefaultEM()).loadAll();
-        monthArrayList  = new MonthEAO(ServiceBaseEAO.getDefaultEM()).loadAll();
-        
+        monthArrayList = new MonthEAO(ServiceBaseEAO.getDefaultEM()).loadAll();
+
         cbWorker = new JComboBox(new DefaultComboBoxModel(workerArrayList.toArray()));
         cbMonth = new JComboBox(new DefaultComboBoxModel(monthArrayList.toArray()));
-        
+
         dpDateTime = UIUtils.createDatePicker(new Date(0), DateUtils.EUROP_FULL_DATEFORMAT, UIUtils.LARGE_FIELD_WIDTH_PREFFERED, true, TimeZone.getDefault());
-        //set default date
+        // set default date
         dpDateTime.addPropertyChangeListener(new PropertyChangeListener()
         {
             public void propertyChange(PropertyChangeEvent arg0)
             {
-                if ("date".equals(arg0.getPropertyName())) 
+                if ("date".equals(arg0.getPropertyName()))
                 {
-                  /*  Date dateSetDate = dpDateTime.getDate();
-                    // update age value
-                    iCurAge = ((System.currentTimeMillis() - dateSetDate.getTime())) / DateUtils.ONE_YEAR;
-                    // update according label
-                    lblYearsCountFromBirth.setText("(" + iCurAge + ") лет ");
-                    // recalculate and update fee control
-                    updateFee();*/
+                    /*
+                     * Date dateSetDate = dpDateTime.getDate(); // update age
+                     * value iCurAge = ((System.currentTimeMillis() -
+                     * dateSetDate.getTime())) / DateUtils.ONE_YEAR; // update
+                     * according label lblYearsCountFromBirth.setText("(" +
+                     * iCurAge + ") лет "); // recalculate and update fee
+                     * control updateFee();
+                     */
                 }
             }
         });
-        
+
         taBonusDesc = new JTextArea();
         taBonusDesc.setColumns(30);
         taBonusDesc.setRows(5);
         taBonusDesc.setLineWrap(true);
-        
+
         add(jlMonth, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
         add(cbMonth, new GridBagConstraints(1, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
         add(jlActualDays, new GridBagConstraints(2, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
@@ -120,11 +121,23 @@ public class DaysOfWorkOptionPanel extends JPanel implements IModelOwner
     public void setModel(Object objDaysOfWork)
     {
         this.daysOfWork = (DaysOfWork) objDaysOfWork;
-        cbMonth.setSelectedItem(daysOfWork.getMonth());
+        
+        if (daysOfWork.getDaysOfWorkId() == 0)
+        {
+            cbWorker.setSelectedIndex(0);
+            cbMonth.setSelectedIndex(monthArrayList.size()-1);;
+            dpDateTime.setDate(new Date());
+        }
+        else
+        {
+            cbWorker.setSelectedItem(daysOfWork.getWorker());
+            cbMonth.setSelectedItem(daysOfWork.getMonth());
+            dpDateTime.setDate(daysOfWork.getTimestamp());
+        }
+        
         tfActualDays.setText(String.valueOf(daysOfWork.getAktualWorkedDays()));
-        cbWorker.setSelectedItem(daysOfWork.getWorker());
         tfLogTime.setText(String.valueOf(daysOfWork.getWorklog()));
-        dpDateTime.setDate(daysOfWork.getTimestamp());
+        
         tfBonusTime.setText(String.valueOf(daysOfWork.getBonusTime()));
         taBonusDesc.setText(daysOfWork.getBonusTimeDescription());
     }
@@ -132,12 +145,11 @@ public class DaysOfWorkOptionPanel extends JPanel implements IModelOwner
     @Override
     public Object getModel()
     {
-        if(daysOfWork == null)
+        if (daysOfWork == null)
         {
             daysOfWork = new DaysOfWork();
         }
         daysOfWork.setWorklog(Double.valueOf(tfLogTime.getText()));
-        daysOfWork.setTimestamp(null);
         daysOfWork.setBonusTime(Double.valueOf(tfBonusTime.getText()));
         daysOfWork.setWorker((Worker) cbWorker.getSelectedItem());
         daysOfWork.setAktualWorkedDays(Integer.valueOf(tfActualDays.getText()));
@@ -145,7 +157,7 @@ public class DaysOfWorkOptionPanel extends JPanel implements IModelOwner
         daysOfWork.setTimestamp(dpDateTime.getDate());
         daysOfWork.setMonth((Month) cbMonth.getSelectedItem());
         daysOfWork.setWorker((Worker) cbWorker.getSelectedItem());
-        
+
         return daysOfWork;
     }
 
