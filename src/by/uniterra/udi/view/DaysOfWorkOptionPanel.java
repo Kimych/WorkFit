@@ -142,9 +142,11 @@ public class DaysOfWorkOptionPanel extends JPanel implements IModelOwner
                     break;
                 }
             }
-            
             // set estimated number of working days
-            tfActualDays.setText(String.valueOf(WorkLogUtils.getWorkingDaysBetweenTwoDates(WorkLogUtils.getDateCurentMonthStart(), curentDate)));
+            Date monthStart = WorkLogUtils.getDateCurentMonthStart();
+            System.out.println(DateUtils.toGMT(monthStart.getTime()));
+            tfActualDays.setText(String.valueOf(WorkLogUtils.getWorkingDaysBetweenTwoDates(monthStart, curentDate)));
+            
         }
         else
         {

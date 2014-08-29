@@ -1,9 +1,13 @@
 package by.uniterra.system.util;
 
 import java.math.BigDecimal;
+import java.time.Clock;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 public class WorkLogUtils
 {
@@ -128,27 +132,10 @@ public class WorkLogUtils
 
     public static Date getDateCurentMonthStart()
     {
-        Date begining;
-        Calendar calendar = getCalendarForNow();
-        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
-        setTimeToBeginningOfDay(calendar);
-        begining = calendar.getTime();
-
-        return begining;
+        ZoneId tz = Clock.systemDefaultZone().getZone();
+        // tha same zone should be used twice to annihilate time shifting
+        return Date.from(LocalDateTime.now(tz).withDayOfMonth(1).atZone(tz).toInstant());
     }
 
-    private static Calendar getCalendarForNow()
-    {
-        Calendar calendar = GregorianCalendar.getInstance();
-        calendar.setTime(new Date());
-        return calendar;
-    }
 
-    private static void setTimeToBeginningOfDay(Calendar calendar)
-    {
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-    }
 }

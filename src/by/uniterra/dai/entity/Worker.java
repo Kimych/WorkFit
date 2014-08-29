@@ -29,6 +29,10 @@ public class Worker implements Serializable
 
 	@Column(name = "THIRD_NAME")
 	private String thirdName;
+	
+	@Column(name = "ALIAS")
+        private String alias;
+	
 
 	// bi-directional many-to-one association to DaysOfWork
 	@OneToMany(mappedBy = "worker")
@@ -86,6 +90,16 @@ public class Worker implements Serializable
 		this.thirdName = thirdName;
 	}
 
+	public String getAlias()
+        {
+                return this.alias;
+        }
+
+        public void setAlias(String alias)
+        {
+                this.alias = alias;
+        }
+        
 	public List<DaysOfWork> getDaysOfWorks()
 	{
 		return this.daysOfWorks;

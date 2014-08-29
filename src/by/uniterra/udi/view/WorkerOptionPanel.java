@@ -21,9 +21,7 @@ public class WorkerOptionPanel extends JPanel implements IModelOwner
     private JTextField tfFirstName;
     private JTextField tfSecondName;
     private JTextField tfThirdName;
-    private JLabel jlFirstName;
-    private JLabel jlSecondName;
-    private JLabel jlThirdName;
+    private JTextField tfAlias;
    
     private Worker worker;
     
@@ -36,12 +34,15 @@ public class WorkerOptionPanel extends JPanel implements IModelOwner
     
     public void jbInit()
     {
-        jlFirstName = new JLabel(UDIPropSingleton.getString(this, "jlFirstName.label"));
-        jlSecondName = new JLabel(UDIPropSingleton.getString(this, "jlSecondName.label"));
-        jlThirdName = new JLabel(UDIPropSingleton.getString(this, "jlThirdName.label"));
+        JLabel jlFirstName = new JLabel(UDIPropSingleton.getString(this, "jlFirstName.label"));
+        JLabel jlSecondName = new JLabel(UDIPropSingleton.getString(this, "jlSecondName.label"));
+        JLabel jlThirdName = new JLabel(UDIPropSingleton.getString(this, "jlThirdName.label"));
+        JLabel jlAlias = new JLabel(UDIPropSingleton.getString(this, "jlAlias.label"));
+        
         tfFirstName = new JTextField();
         tfSecondName = new JTextField();
         tfThirdName = new JTextField();
+        tfAlias = new JTextField();
         
         add(jlFirstName, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
         add(tfFirstName, new GridBagConstraints(1, 0, 1, 1, 1, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
@@ -49,6 +50,8 @@ public class WorkerOptionPanel extends JPanel implements IModelOwner
         add(tfSecondName, new GridBagConstraints(1, 1, 1, 1, 1, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 0, 0), 0, 0));
         add(jlThirdName, new GridBagConstraints(0, 2, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 0, 5), 0, 0));
         add(tfThirdName, new GridBagConstraints(1, 2, 1, 1, 1, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 0, 0), 0, 0));
+        add(jlAlias, new GridBagConstraints(0,3, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 0, 5), 0, 0));
+        add(tfAlias, new GridBagConstraints(1, 3, 1, 1, 1, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 0, 0), 0, 0));
     }
     @Override
     public void setModel(Object objWorker)
@@ -56,7 +59,8 @@ public class WorkerOptionPanel extends JPanel implements IModelOwner
         this.worker = (Worker)objWorker;
         tfFirstName.setText(worker.getFirstName());
         tfSecondName.setText(worker.getSecondName());
-        tfThirdName.setText(worker.getSecondName());
+        tfThirdName.setText(worker.getThirdName());
+        tfAlias.setText(worker.getAlias());
     }
 
     @Override
@@ -69,6 +73,7 @@ public class WorkerOptionPanel extends JPanel implements IModelOwner
         worker.setFirstName(tfFirstName.getText());
         worker.setSecondName(tfSecondName.getText());
         worker.setThirdName(tfThirdName.getText());
+        worker.setAlias(tfAlias.getText());
         return worker;
     }
     
