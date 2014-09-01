@@ -16,6 +16,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import by.uniterra.dai.eao.ServiceBaseEAO;
 import by.uniterra.dai.eao.YearEAO;
@@ -28,7 +29,7 @@ public class WorkFitCommonFrame
     public static void main(String[] args)
     {
         //Locale.setDefault(new Locale("ru"));
-        CommonDataTablePanel panelYear = new CommonDataTablePanel(new YearTableModel(), new YearOptionPanel(), new YearEAO(ServiceBaseEAO.getDefaultEM()));
+       // CommonDataTablePanel panelYear = new CommonDataTablePanel(new YearTableModel(), new YearOptionPanel(), new YearEAO(ServiceBaseEAO.getDefaultEM()));
         // CommonDataTablePanel panelMonth = new CommonDataTablePanel(new
         // MonthTableModel(), new MonthOptionPanel(), new
         // MonthEAO(ServiceBaseEAO.getDefaultEM()));
@@ -39,9 +40,9 @@ public class WorkFitCommonFrame
         // HolidayTableModel(), new HolidayOptionPanel(), new
         // HolidayEAO(ServiceBaseEAO.getDefaultEM()));
 
-        JPanel panelCommon = new JPanel();
+        //JPanel panelCommon = new JPanel();
         // panelCommon.add(panelMonth);
-        panelCommon.add(panelYear);
+        //panelCommon.add(panelYear);
         // panelCommon.add(panelWorker);
         // panelCommon.add(panelHoliday);
         // CommonDataTablePanel panelDoW = new CommonDataTablePanel(new
@@ -51,10 +52,10 @@ public class WorkFitCommonFrame
 
         // panelCommon.add(panelDoW);
         // show editor
-        JOptionPane.showMessageDialog(null, panelCommon, "Main Frame", JOptionPane.PLAIN_MESSAGE);
+        //JOptionPane.showMessageDialog(null, panelCommon, "Main Frame", JOptionPane.PLAIN_MESSAGE);
         // save to DB
         // panelMonth.writeValues();
-         panelYear.writeValues();
+         //panelYear.writeValues();
         // panelWorker.writeValues();
         // panelHoliday.writeValues();
         // panelDoW.writeValues();
@@ -85,6 +86,9 @@ public class WorkFitCommonFrame
     {
         String filename = File.separator + "tmp";
         JFileChooser fileChooser = new JFileChooser(new File(filename));
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("txt file (*.txt)" , "txt"));
+        fileChooser.setAcceptAllFileFilterUsed(true);
         fileChooser.showOpenDialog(frame);
         System.out.println("File to open: " + fileChooser.getSelectedFile());
         LogParser.getListFromLog(fileChooser.getSelectedFile().toPath());
