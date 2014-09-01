@@ -3,6 +3,8 @@ package by.uniterra.udi.view;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
