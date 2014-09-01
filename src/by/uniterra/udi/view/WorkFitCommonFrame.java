@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -15,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import by.uniterra.dai.eao.ServiceBaseEAO;
+import by.uniterra.udi.util.LogParser;
 
 public class WorkFitCommonFrame
 {
@@ -28,32 +30,36 @@ public class WorkFitCommonFrame
         // CommonDataTablePanel panelMonth = new CommonDataTablePanel(new
         // MonthTableModel(), new MonthOptionPanel(), new
         // MonthEAO(ServiceBaseEAO.getDefaultEM()));
-        //CommonDataTablePanel panelWorker = new CommonDataTablePanel(new WorkerTableModel(), new WorkerOptionPanel(), new WorkerEAO(
-                //ServiceBaseEAO.getDefaultEM()));
+        // CommonDataTablePanel panelWorker = new CommonDataTablePanel(new
+        // WorkerTableModel(), new WorkerOptionPanel(), new WorkerEAO(
+        // ServiceBaseEAO.getDefaultEM()));
         // CommonDataTablePanel panelHoliday = new CommonDataTablePanel(new
         // HolidayTableModel(), new HolidayOptionPanel(), new
         // HolidayEAO(ServiceBaseEAO.getDefaultEM()));
 
-        //JPanel panelCommon = new JPanel();
-        //panelCommon.add(panelMonth);
-        //panelCommon.add(panelYear);
-        //panelCommon.add(panelWorker);
-        //panelCommon.add(panelHoliday);
-        //CommonDataTablePanel panelDoW = new CommonDataTablePanel(new DaysOfWorkTableModel(), new DaysOfWorkOptionPanel(), new DaysOfWorkEAO(
-        //        ServiceBaseEAO.getDefaultEM()));
+        // JPanel panelCommon = new JPanel();
+        // panelCommon.add(panelMonth);
+        // panelCommon.add(panelYear);
+        // panelCommon.add(panelWorker);
+        // panelCommon.add(panelHoliday);
+        // CommonDataTablePanel panelDoW = new CommonDataTablePanel(new
+        // DaysOfWorkTableModel(), new DaysOfWorkOptionPanel(), new
+        // DaysOfWorkEAO(
+        // ServiceBaseEAO.getDefaultEM()));
 
-        //panelCommon.add(panelDoW);
+        // panelCommon.add(panelDoW);
         // show editor
-        //JOptionPane.showMessageDialog(null, panelCommon, "Main Frame", JOptionPane.PLAIN_MESSAGE);
+        // JOptionPane.showMessageDialog(null, panelCommon, "Main Frame",
+        // JOptionPane.PLAIN_MESSAGE);
         // save to DB
-       // panelMonth.writeValues();
-        //panelYear.writeValues();
-        //panelWorker.writeValues();
-       //panelHoliday.writeValues();
+        // panelMonth.writeValues();
+        // panelYear.writeValues();
+        // panelWorker.writeValues();
+        // panelHoliday.writeValues();
         // panelDoW.writeValues();
-        //ServiceBaseEAO.disconnectFromDb();
+        // ServiceBaseEAO.disconnectFromDb();
 
-        final JFrame frame = new JFrame(); 
+        final JFrame frame = new JFrame();
         JButton btnImport = new JButton("Import");
         btnImport.addActionListener(new ActionListener()
         {
@@ -65,32 +71,35 @@ public class WorkFitCommonFrame
             }
         });
         frame.add(btnImport);
-        //JOptionPane.showMessageDialog(null, btnImport, "Main Frame", JOptionPane.PLAIN_MESSAGE);
+        // JOptionPane.showMessageDialog(null, btnImport, "Main Frame",
+        // JOptionPane.PLAIN_MESSAGE);
         frame.setSize(200, 200);
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
-    
 
-    private static void createFileChooser(final JFrame frame) 
+    private static void createFileChooser(final JFrame frame)
     {
-        String filename = File.separator+"tmp";
+        List<String> lstOriginalData = new ArrayList<String>();
+        String filename = File.separator + "tmp";
         JFileChooser fileChooser = new JFileChooser(new File(filename));
         fileChooser.showOpenDialog(frame);
         System.out.println("File to open: " + fileChooser.getSelectedFile());
         fileChooser.getSelectedFile().toPath();
         try
         {
-            List<String> lstOriginalData = Files.readAllLines(fileChooser.getSelectedFile().toPath(), StandardCharsets.UTF_8);
+            lstOriginalData = Files.readAllLines(fileChooser.getSelectedFile().toPath(), StandardCharsets.UTF_8);
         }
         catch (IOException e)
         {
-            //Log.error(this, e, "createFileChooser error ");
+            System.out.println("readAllLInes ERROR!");
+            // Log.error(this, e, "createFileChooser error ");
         }
-        
-        
+
+        LogParser.getListFromLog(lstOriginalData);
+
     }
 
 }
