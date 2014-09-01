@@ -34,19 +34,15 @@ public class LogParser
 
     public static void main(String[] args)
     {
-        getListFromLog(Paths.get("C:\\Users\\Comp\\Documents\\worklog.txt"));
-
+        //getListFromLog(Paths.get("C:\\Users\\Comp\\Documents\\worklog.txt"));
+	getListFromLog(Paths.get("e:\\Temp\\worklog.txt"));
     }
 
     public static List<DaysOfWork> getListFromLog(Path path)
     {
-
+	List<DaysOfWork> daysOfWorkList = new ArrayList<DaysOfWork>();
         List<String> lstOriginalData = new ArrayList<String>();
         HashMap<String, Double> mapAliasHours = new HashMap<String, Double>();
-        List<DaysOfWork> daysOfWorkList;
-        Month month = null;
-        Date date = null;
-
         try
         {
             lstOriginalData.addAll(Files.readAllLines(path, StandardCharsets.UTF_8));
@@ -54,9 +50,9 @@ public class LogParser
         catch (IOException e)
         {
             System.out.println("readAllLInes ERROR!");
-            // Log.error(this, e, "createFileChooser error ");
         }
-
+        
+        Date date = null;
         for (String parseString : lstOriginalData)
         {
             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
@@ -97,63 +93,68 @@ public class LogParser
                 break;
             }
         }
-        // *******
-        System.out.println("Map size: " + mapAliasHours.size());
-
-        // get actual worked days
-        int actualWorkedDays = WorkLogUtils.getWorkingDaysBetweenTwoDates(WorkLogUtils.getDateCurentMonthStart(), new Date());
-        // ***********
-        System.out.println(actualWorkedDays);
-
-        // get month object
-        int curentMonth = YearMonth.now(Clock.systemUTC()).getMonthValue();
-        int numberYear = YearMonth.now(Clock.systemUTC()).getYear();
-        monthArrayList = new MonthEAO(ServiceBaseEAO.getDefaultEM()).loadAll();
-        for (Month selmonth : monthArrayList)
-        {
-            if (selmonth.getNameMonth().getNameMonthId() == curentMonth && selmonth.getYear().getNumber() == numberYear)
-            {
-                month = (Month) selmonth;
-                // ***********
-                System.out.println(month);
-                break;
-            }
-        }
-
-        // create empty List<DaysOfWork>
-        daysOfWorkList = new ArrayList<DaysOfWork>();
-        workerArrayList = new WorkerEAO(ServiceBaseEAO.getDefaultEM()).loadAll();
         
- 
         
-        for (Map.Entry hmAliasHours : mapAliasHours.entrySet())
+        if (date != null && !mapAliasHours.isEmpty())
         {
-
-            for (Worker currentWorker : workerArrayList)
+            
+            // *******
+            System.out.println("Map size: " + mapAliasHours.size());
+    
+            // get actual worked days
+            int actualWorkedDays = WorkLogUtils.getWorkingDaysBetweenTwoDates(WorkLogUtils.getDateCurentMonthStart(), new Date());
+            // ***********
+            System.out.println(actualWorkedDays);
+    
+            // get month object
+            int curentMonth = YearMonth.now(Clock.systemUTC()).getMonthValue();
+            int numberYear = YearMonth.now(Clock.systemUTC()).getYear();
+            monthArrayList = new MonthEAO(ServiceBaseEAO.getDefaultEM()).loadAll();
+            
+            Month month = null;
+            for (Month selmonth : monthArrayList)
             {
-                System.out.println("-------------------------------------");
-                if (currentWorker.getAlias() == (String)hmAliasHours.getKey())
+                if (selmonth.getNameMonth().getNameMonthId() == curentMonth && selmonth.getYear().getNumber() == numberYear)
                 {
-                    //*********************************
-                    System.out.println("+++++++++++++++++++++++++++++++++++++");
-                    DaysOfWork dof = new DaysOfWork();
-
-                    dof.setWorklog((double) hmAliasHours.getValue());
-                    dof.setTimestamp(date);
-                    dof.setBonusTime(0);
-                    dof.setBonusTimeDescription(null);
-                    dof.setAktualWorkedDays(actualWorkedDays);
-                    dof.setMonth(month);
-                    dof.setWorker(currentWorker);
-
-                    System.out.println("Result" + dof);
-
+                    month = (Month) selmonth;
+                    // ***********
+                    System.out.println(month);
+                    break;
                 }
             }
-
+    
+            // create empty List<DaysOfWork>
+            daysOfWorkList = new ArrayList<DaysOfWork>();
+            workerArrayList = new WorkerEAO(ServiceBaseEAO.getDefaultEM()).loadAll();
+            
+            for (Map.Entry<String, Double> hmAliasHours : mapAliasHours.entrySet())
+            {
+    
+                for (Worker currentWorker : workerArrayList)
+                {
+                    System.out.println("-------------------------------------");
+                    if (currentWorker.getAlias().equals(hmAliasHours.getKey()))
+                    {
+                        //*********************************
+                        System.out.println("+++++++++++++++++++++++++++++++++++++");
+                        DaysOfWork dof = new DaysOfWork();
+    
+                        dof.setWorklog((double) hmAliasHours.getValue());
+                        dof.setTimestamp(date);
+                        dof.setBonusTime(0);
+                        dof.setBonusTimeDescription(null);
+                        dof.setAktualWorkedDays(actualWorkedDays);
+                        dof.setMonth(month);
+                        dof.setWorker(currentWorker);
+    
+                        System.out.println("Result" + dof);
+                        break;
+                    }
+                }
+    
+            }
         }
-
-        return null;
+        return daysOfWorkList;
     }
 
 }
