@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +15,11 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import by.uniterra.dai.eao.ServiceBaseEAO;
+import by.uniterra.dai.eao.YearEAO;
+import by.uniterra.udi.model.YearTableModel;
 import by.uniterra.udi.util.LogParser;
 
 public class WorkFitCommonFrame
@@ -23,10 +27,8 @@ public class WorkFitCommonFrame
 
     public static void main(String[] args)
     {
-        // Locale.setDefault(new Locale("ru"));
-        // CommonDataTablePanel panelYear = new CommonDataTablePanel(new
-        // YearTableModel(), new YearOptionPanel(), new
-        // YearEAO(ServiceBaseEAO.getDefaultEM()));
+        //Locale.setDefault(new Locale("ru"));
+        CommonDataTablePanel panelYear = new CommonDataTablePanel(new YearTableModel(), new YearOptionPanel(), new YearEAO(ServiceBaseEAO.getDefaultEM()));
         // CommonDataTablePanel panelMonth = new CommonDataTablePanel(new
         // MonthTableModel(), new MonthOptionPanel(), new
         // MonthEAO(ServiceBaseEAO.getDefaultEM()));
@@ -37,9 +39,9 @@ public class WorkFitCommonFrame
         // HolidayTableModel(), new HolidayOptionPanel(), new
         // HolidayEAO(ServiceBaseEAO.getDefaultEM()));
 
-        // JPanel panelCommon = new JPanel();
+        JPanel panelCommon = new JPanel();
         // panelCommon.add(panelMonth);
-        // panelCommon.add(panelYear);
+        panelCommon.add(panelYear);
         // panelCommon.add(panelWorker);
         // panelCommon.add(panelHoliday);
         // CommonDataTablePanel panelDoW = new CommonDataTablePanel(new
@@ -49,11 +51,10 @@ public class WorkFitCommonFrame
 
         // panelCommon.add(panelDoW);
         // show editor
-        // JOptionPane.showMessageDialog(null, panelCommon, "Main Frame",
-        // JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(null, panelCommon, "Main Frame", JOptionPane.PLAIN_MESSAGE);
         // save to DB
         // panelMonth.writeValues();
-        // panelYear.writeValues();
+         panelYear.writeValues();
         // panelWorker.writeValues();
         // panelHoliday.writeValues();
         // panelDoW.writeValues();
@@ -80,25 +81,14 @@ public class WorkFitCommonFrame
 
     }
 
-    private static void createFileChooser(final JFrame frame)
+    private static Path createFileChooser(final JFrame frame)
     {
-        List<String> lstOriginalData = new ArrayList<String>();
         String filename = File.separator + "tmp";
         JFileChooser fileChooser = new JFileChooser(new File(filename));
         fileChooser.showOpenDialog(frame);
         System.out.println("File to open: " + fileChooser.getSelectedFile());
-        fileChooser.getSelectedFile().toPath();
-        try
-        {
-            lstOriginalData = Files.readAllLines(fileChooser.getSelectedFile().toPath(), StandardCharsets.UTF_8);
-        }
-        catch (IOException e)
-        {
-            System.out.println("readAllLInes ERROR!");
-            // Log.error(this, e, "createFileChooser error ");
-        }
-
-        LogParser.getListFromLog(lstOriginalData);
+        LogParser.getListFromLog(fileChooser.getSelectedFile().toPath());
+        return fileChooser.getSelectedFile().toPath();
 
     }
 
