@@ -6,7 +6,7 @@
         <markup>true</markup>
         <maximizeRestore>true</maximizeRestore>
         <minimize>true</minimize>
-        <text>WorkFit%20Administrator%20mode</text>
+        <text>Peter%20Petrov%2026-08-2014</text>
         <topheight>26</topheight>
         <verticalScrollbar>false</verticalScrollbar>
       </controlProperties>
@@ -16,9 +16,9 @@
         <text>Fit%2C%20Edit%2C%20View%2C%20Help</text>
       </controlProperties>
     </control>
-    <control controlID="3" controlTypeID="com.balsamiq.mockups::Menu" x="165" y="70" w="191" h="-1" measuredW="150" measuredH="156" zOrder="2" locked="false" isInGroup="-1">
+    <control controlID="3" controlTypeID="com.balsamiq.mockups::Menu" x="165" y="70" w="191" h="-1" measuredW="150" measuredH="104" zOrder="2" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>Refresh%20Ctr%20+%20F5%0A---%0AOpen%20Log%20%2CCTRL+O+L%0A---%0ALogout%0A---%0AAdd%20new%20user%0A---%0APreferences%0AExit%2CCTRL+Q</text>
+        <text>Refresh%20Ctr%20+%20F5%0A---%0ALogout%0AChange%20Password%0A---%0AExit%2CCTRL+Q</text>
       </controlProperties>
     </control>
     <control controlID="4" controlTypeID="com.balsamiq.mockups::Arrow" x="356" y="153" w="305" h="56" measuredW="150" measuredH="100" zOrder="3" locked="false" isInGroup="-1">
@@ -29,9 +29,9 @@
         <text/>
       </controlProperties>
     </control>
-    <control controlID="6" controlTypeID="com.balsamiq.mockups::Menu" x="165" y="252" w="191" h="-1" measuredW="150" measuredH="136" zOrder="4" locked="false" isInGroup="-1">
+    <control controlID="6" controlTypeID="com.balsamiq.mockups::Menu" x="165" y="182" w="191" h="-1" measuredW="150" measuredH="162" zOrder="4" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>Edit%20Worker%0AEdit%20Year%0AEdit%20Days%20of%20work%0AEdit%20Month%0AEdit%20Holiday%0AEdit.....</text>
+        <text>Edit%20Worker%0AEdit%20Year%0AEdit%20Days%20of%20work%0AEdit%20Month%0AEdit%20Holiday%0AEdit%20Users%0A---%0AOpen%20Log%20%2CCTRL+O+L</text>
       </controlProperties>
     </control>
     <control controlID="7" controlTypeID="com.balsamiq.mockups::Arrow" x="363" y="226" w="344" h="96" measuredW="150" measuredH="100" zOrder="11" locked="false" isInGroup="-1">
@@ -45,9 +45,9 @@
         <text/>
       </controlProperties>
     </control>
-    <control controlID="8" controlTypeID="com.balsamiq.mockups::Menu" x="165" y="403" w="191" h="-1" measuredW="150" measuredH="52" zOrder="5" locked="false" isInGroup="-1">
+    <control controlID="8" controlTypeID="com.balsamiq.mockups::Menu" x="165" y="403" w="191" h="-1" measuredW="150" measuredH="78" zOrder="5" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>Server%20Status%0APreferences%20Server%20Tolls</text>
+        <text>Server%20Status%0APreferences%20Server%20Tolls%0A---%0APreferences</text>
       </controlProperties>
     </control>
     <control controlID="9" controlTypeID="com.balsamiq.mockups::Arrow" x="362" y="226" w="388" h="216" measuredW="150" measuredH="100" zOrder="13" locked="false" isInGroup="-1">
