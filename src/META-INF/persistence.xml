@@ -12,5 +12,7 @@
 		<class>by.uniterra.dai.entity.SpentHolidayPK</class>
 		<class>by.uniterra.dai.entity.Worker</class>
 		<class>by.uniterra.dai.entity.Year</class>
+		<class>by.uniterra.dai.entity.Authorization</class>
+		<class>by.uniterra.dai.entity.Role</class>
 	</persistence-unit>
 </persistence>
