@@ -184,4 +184,77 @@ public class Worker implements Serializable
 	    return String.valueOf(secondName + " " + firstName + " " + thirdName);
 	}
 
+	@Override
+	public int hashCode()
+	{
+	    final int prime = 31;
+	    int result = 1;
+	    result = prime * result + ((alias == null) ? 0 : alias.hashCode());
+	    result = prime * result + ((daysOfWorks == null) ? 0 : daysOfWorks.hashCode());
+	    result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
+	    result = prime * result + ((holidays == null) ? 0 : holidays.hashCode());
+	    result = prime * result + ((secondName == null) ? 0 : secondName.hashCode());
+	    result = prime * result + ((spentHolidays == null) ? 0 : spentHolidays.hashCode());
+	    result = prime * result + ((thirdName == null) ? 0 : thirdName.hashCode());
+	    result = prime * result + workerId;
+	    return result;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+	    if (this == obj)
+		return true;
+	    if (obj == null)
+		return false;
+	    if (getClass() != obj.getClass())
+		return false;
+	    Worker other = (Worker) obj;
+	    if (alias == null)
+	    {
+		if (other.alias != null)
+		    return false;
+	    } else if (!alias.equals(other.alias))
+		return false;
+	    if (daysOfWorks == null)
+	    {
+		if (other.daysOfWorks != null)
+		    return false;
+	    } else if (!daysOfWorks.equals(other.daysOfWorks))
+		return false;
+	    if (firstName == null)
+	    {
+		if (other.firstName != null)
+		    return false;
+	    } else if (!firstName.equals(other.firstName))
+		return false;
+	    if (holidays == null)
+	    {
+		if (other.holidays != null)
+		    return false;
+	    } else if (!holidays.equals(other.holidays))
+		return false;
+	    if (secondName == null)
+	    {
+		if (other.secondName != null)
+		    return false;
+	    } else if (!secondName.equals(other.secondName))
+		return false;
+	    if (spentHolidays == null)
+	    {
+		if (other.spentHolidays != null)
+		    return false;
+	    } else if (!spentHolidays.equals(other.spentHolidays))
+		return false;
+	    if (thirdName == null)
+	    {
+		if (other.thirdName != null)
+		    return false;
+	    } else if (!thirdName.equals(other.thirdName))
+		return false;
+	    if (workerId != other.workerId)
+		return false;
+	    return true;
+	}
+
 }

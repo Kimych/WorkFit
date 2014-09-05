@@ -80,7 +80,7 @@ public class AuthorizationQueryTest
         {
             fail(e.getMessage());
         }
-        List<Authorization> lstAut = eaoAut.getAllRoleByLogin(TEST_LOGIN);
+        List<Authorization> lstAut = eaoAut.getAuthorizationsByLogin(TEST_LOGIN);
 
         assertTrue(lstAut.get(0).getPassword().equals(TEST_PAS));
 

@@ -37,22 +37,10 @@ public class AuthorizationToRoleEntitiesTest
 
         // create two roles
         Role role1 = new Role();
-        role1.setRoleId(34);
         role1.setName(TEST_ROLE_1);
 
         Role role2 = new Role();
-        role2.setRoleId(35);
         role2.setName(TEST_ROLE_2);
-
-        List<Role> lstRole1 = new ArrayList<Role>();
-        lstRole1.add(role1);
-
-        List<Role> lstRole2 = new ArrayList<Role>();
-        lstRole2.add(role2);
-
-        List<Role> lstAllRole = new ArrayList<Role>();
-        lstAllRole.add(role1);
-        lstAllRole.add(role2);
 
         RoleEAO eaoRole = new RoleEAO(ServiceBaseEAO.getDefaultEM());
         try
@@ -64,6 +52,16 @@ public class AuthorizationToRoleEntitiesTest
         {
             fail(e.getMessage());
         }
+
+        List<Role> lstRole1 = new ArrayList<Role>();
+        lstRole1.add(role1);
+
+        List<Role> lstRole2 = new ArrayList<Role>();
+        lstRole2.add(role2);
+
+        List<Role> lstAllRole = new ArrayList<Role>();
+        lstAllRole.add(role1);
+        lstAllRole.add(role2);
 
         // create user
         Authorization user1 = new Authorization();
@@ -96,13 +94,13 @@ public class AuthorizationToRoleEntitiesTest
         {
             fail(e.getMessage());
         }
+        
+        List<Authorization> lstAut1 = eaoAuth.getAuthorizationsByLogin(TEST_LOGIN_1);
+        List<Authorization> lstAut2 = eaoAuth.getAuthorizationsByLogin(TEST_LOGIN_2);
+        List<Authorization> lstAut3 = eaoAuth.getAuthorizationsByLogin(TEST_LOGIN_3);
 
-        List<Authorization> lstAut1 = eaoAuth.getAllRoleByLogin(TEST_LOGIN_1);
-        List<Authorization> lstAut2 = eaoAuth.getAllRoleByLogin(TEST_LOGIN_2);
-        List<Authorization> lstAut3 = eaoAuth.getAllRoleByLogin(TEST_LOGIN_3);
-
-        assertTrue((lstAut1.get(0).getRoles().get(0).getName() == TEST_ROLE_1) && (lstAut1.get(0).getRoles().get(1).getName() == TEST_ROLE_2)
-                && (lstAut2.get(0).getRoles().get(0).getName() == TEST_ROLE_1) && (lstAut3.get(0).getRoles().get(0).getName() == TEST_ROLE_2));
+        assertTrue((lstAut1.get(0).getRoles().get(0).getName().equals(TEST_ROLE_1)) && (lstAut1.get(0).getRoles().get(1).getName().equals(TEST_ROLE_2))
+                && (lstAut2.get(0).getRoles().get(0).getName().equals(TEST_ROLE_1)) && (lstAut3.get(0).getRoles().get(0).getName().equals(TEST_ROLE_2)));
 
         try
         {

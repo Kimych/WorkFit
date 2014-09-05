@@ -17,7 +17,7 @@ public class AuthorizationEAO extends ServiceBaseEAO<Authorization>
         super(em, Authorization.class);
     }
     
-    public List<Authorization> getAllRoleByLogin(String login)
+    public List<Authorization> getAuthorizationsByLogin(String login)
     {
         List<Authorization> lstResult = null;
         try
