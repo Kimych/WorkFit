@@ -1,7 +1,9 @@
 package by.uniterra.dai.entity;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.List;
 
 /**
@@ -15,6 +17,8 @@ public class Role implements Serializable
     private static final long serialVersionUID = 1L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "ROLE_ID")
     private int roleId;
 
@@ -23,9 +27,12 @@ public class Role implements Serializable
     private String name;
 
     // bi-directional many-to-many association to Authorization
-    @ManyToMany
+ /*   @ManyToMany
     @JoinTable(name = "authorization_to_role", joinColumns = { @JoinColumn(name = "ROLE_ID") }, inverseJoinColumns = { @JoinColumn(name = "AUTHORIZATION_ID") })
-    private List<Authorization> authorizations;
+    private List<Authorization> authorizations;*/
+ // bi-directional many-to-many association to Role
+    @ManyToMany(mappedBy = "roles")
+    private List<Authorization> authorizations;;
 
     public Role()
     {
@@ -70,5 +77,13 @@ public class Role implements Serializable
     {
         this.authorizations = authorizations;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Role [roleId=" + roleId + ", description=" + description + ", name=" + name + ", authorizations=" + authorizations + "]";
+    }
+
+
 
 }

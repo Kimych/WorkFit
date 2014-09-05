@@ -18,6 +18,7 @@ public class Authorization implements Serializable
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "AUTHORIZATION_ID")
     private int authorizationId;
 
@@ -31,10 +32,14 @@ public class Authorization implements Serializable
     @ManyToOne
     @JoinColumn(name = "WORKER_ID")
     private Worker worker;
+ // bi-directional many-to-many association to Authorization
+    @ManyToMany
+    @JoinTable(name = "authorization_to_role", joinColumns = { @JoinColumn(name = "AUTHORIZATION_ID") }, inverseJoinColumns = { @JoinColumn(name = "ROLE_ID") })
+    private List<Role> roles;;
 
-    // bi-directional many-to-many association to Role
+/*    // bi-directional many-to-many association to Role
     @ManyToMany(mappedBy = "authorizations")
-    private List<Role> roles;
+    private List<Role> roles;*/
 
     public Authorization()
     {
@@ -98,6 +103,13 @@ public class Authorization implements Serializable
     public void setRoles(List<Role> roles)
     {
         this.roles = roles;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Authorization [authorizationId=" + authorizationId + ", email=" + email + ", login=" + login + ", password=" + password + ", worker=" + worker
+                + ", roles=" + roles + "]";
     }
 
 }

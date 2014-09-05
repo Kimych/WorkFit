@@ -5,7 +5,9 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import by.uniterra.dai.eao.AuthorizationEAO;
@@ -16,10 +18,7 @@ import by.uniterra.dai.entity.Role;
 
 public class AuthorizationEntitiesTest
 {
-    public static List<Role> lstAllRoles;
-    public static List<Role> lstRoles1;
-    public static List<Role> lstRoles2;
-    
+
     @AfterClass
     public static void tearDownAfterClass() throws Exception
     {
@@ -27,30 +26,59 @@ public class AuthorizationEntitiesTest
         
     }
     @Test
+    @Ignore
     public void RoleTest()
     {
+        
+        //create three logins
+        Authorization user1 = new Authorization();
+        Authorization user2 = new Authorization();
+        Authorization user3 = new Authorization();
+        
+        //link first login with both roles
+        user1.setLogin("user_1");
+        user1.setPassword("password_1");
+        //user1.setRoles(lstAllRoles);
+        
+        //link second login with first role only
+        user2.setLogin("user_2");
+        user2.setPassword("password_2");
+        //user2.setRoles(lstRoles1);
+        
+        //link third login with second role only
+        user3.setLogin("user_3");
+        user3.setPassword("password_3");
+        //user3.setRoles(lstRoles2);
+        
+        
+        List<Authorization> lstAut = new ArrayList<Authorization>();
+        lstAut.add(user1);
+        //lstAut.add(user2);
+       // lstAut.add(user3);
+        
+        AuthorizationEAO autEAO = new AuthorizationEAO(ServiceBaseEAO.getDefaultEM());
+        try
+        {
+            //save all data into DB
+            autEAO.save(user1);
+            autEAO.save(user2);
+            autEAO.save(user3);
+        }
+        catch (Exception e)
+        {
+            fail(e.getMessage());
+        }
+        
         //create two roles
         Role role1 = new Role();
-        role1.setRoleId(1);
+        role1.setRoleId(34);
         role1.setName("1 test role name");
+        role1.setAuthorizations(lstAut);
         
         Role role2 = new Role();
-        role2.setRoleId(2);
+        role2.setRoleId(35);
         role2.setName("2 test role name");
-        
-        //role 1
-        List<Role> lstRoles1 = new ArrayList<Role>();
-        lstRoles1.add(role1);
-        
-        // role 2 
-        List<Role> lstRoles2 = new ArrayList<Role>();
-        lstRoles2.add(role2);
-        
-        // all roles
-        List<Role> lstAllRoles = new ArrayList<Role>();
-        lstAllRoles.add(role1);
-        lstAllRoles.add(role2);
-        
+        role2.setAuthorizations(lstAut);
         
         try
         {
@@ -63,48 +91,80 @@ public class AuthorizationEntitiesTest
         {
             fail(e.getMessage());
         }
-        
-        
     }
 
     @Test
     public void AuttorisationTest()
     {
-        //create three logins
-        Authorization user1 = new Authorization();
-        Authorization user2 = new Authorization();
-        Authorization user3 = new Authorization();
+
+      //create two roles
+        Role role1 = new Role();
+        role1.setRoleId(34);
+        role1.setName("1 test role name");
         
-        //link first login with both roles
-        user1.setLogin("user_1");
-        user1.setPassword("password_1");
-        user1.setRoles(lstAllRoles);
+        Role role2 = new Role();
+        role2.setRoleId(35);
+        role2.setName("2 test role name");
         
-        //link second login with first role only
-        user2.setLogin("user_2");
-        user2.setPassword("password_2");
-        user2.setRoles(lstRoles1);
+        List<Role> lstRole1 = new ArrayList<Role>();
+        lstRole1.add(role1);
         
-        //link third login with second role only
-        user3.setLogin("user_3");
-        user3.setPassword("password_3");
-        user3.setRoles(lstRoles2);
+        List<Role> lstRole2 = new ArrayList<Role>();
+        lstRole2.add(role2);
+        
+        List<Role> lstAllRole = new ArrayList<Role>();
+        lstAllRole.add(role1);
+        lstAllRole.add(role2);
+        
         
         try
         {
-            AuthorizationEAO autEAO = new AuthorizationEAO(ServiceBaseEAO.getDefaultEM());
-            //save all data into DB
-            autEAO.save(user1);
-            autEAO.save(user2);
-            autEAO.save(user3);
-            
+            RoleEAO roleEAO = new RoleEAO(ServiceBaseEAO.getDefaultEM());
+            roleEAO.save(role1);
+            roleEAO.save(role2);
         }
         catch (Exception e)
         {
             fail(e.getMessage());
         }
         
-        // disconnect from DB
+        //create user
+        Authorization user1 = new Authorization();
+        Authorization user2 = new Authorization();
+        Authorization user3 = new Authorization();
+        
+        user1.setLogin("user_1");
+        user1.setPassword("password_1");
+        //link first login with both roles
+        user1.setRoles(lstAllRole);
+        
+        user2.setLogin("user_2");
+        user2.setPassword("password_2");
+        //link second login with first role only;
+        user2.setRoles(lstRole1);
+        
+        user3.setLogin("user_3");
+        user3.setPassword("password_3");
+        //link third login with second role only;
+        user3.setRoles(lstRole2);
+        
+        AuthorizationEAO autEAO = new AuthorizationEAO(ServiceBaseEAO.getDefaultEM());
+        try
+        {
+            //save all data into DB
+            autEAO.save(user1);
+            autEAO.save(user2);
+            autEAO.save(user3);
+        }
+        catch (Exception e)
+        {
+            fail(e.getMessage());
+        }
+    }
+    
+    @After
+    public void tearDown() throws Exception
+    {
         ServiceBaseEAO.disconnectFromDb();
     }
 
