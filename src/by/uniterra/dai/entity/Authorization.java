@@ -11,14 +11,22 @@ import java.util.List;
  * 
  */
 @Entity
-@NamedQuery(name = "Authorization.findAll", query = "SELECT a FROM Authorization a")
+@NamedQueries(
+        { 
+            @NamedQuery(name = Authorization.NQ_FIND_ALL, query = "SELECT A FROM Authorization A"),
+            @NamedQuery(name = Authorization.NQ_FIND_AUTHORIZATION_BY_LOGIN, query = "SELECT a FROM Authorization a where a.login = :" + Authorization.PARAMETER_LOGIN ),
+        })
 public class Authorization implements Serializable
 {
     private static final long serialVersionUID = 1L;
+    
+    public static final String NQ_FIND_ALL = "Authorization.findAll";
+    public static final String NQ_FIND_AUTHORIZATION_BY_LOGIN = "Authorization.findAllRoleByLogin";
+
+    public static final String PARAMETER_LOGIN = "login";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    //GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "AUTHORIZATION_ID")
     private int authorizationId;
 

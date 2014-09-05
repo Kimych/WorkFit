@@ -5,7 +5,6 @@ import javax.persistence.Query;
 
 import by.uniterra.dai.entity.Holiday;
 import by.uniterra.dai.entity.Worker;
-import by.uniterra.dai.entity.Year;
 
 public class HolidayEAO extends ServiceBaseEAO<Holiday>
 {
