@@ -36,6 +36,7 @@ import java.util.Properties;
 import javax.swing.JFrame;
 
 import by.uniterra.dai.eao.ServiceBaseEAO;
+import by.uniterra.system.model.SystemModel;
 
 /**
  * The <code>WorkFitFrame</code> is used for ...
@@ -57,29 +58,9 @@ public class WorkFitFrame extends JFrame
      */
     public static void main(String[] args)
     {
-        String strPropURL = "config/global.properties";
         
-        Properties property = new Properties();
-        try
-        {
-            ClassLoader classThis = WorkFitFrame.class.getClassLoader();
-            if (classThis.getResource(strPropURL) != null)
-            {
-                property.load(classThis.getResourceAsStream(strPropURL));
-                System.out.println("Load OK!");
-            }
-            else
-            {
-        	System.out.println("Can not fing resources for \"" + strPropURL + "\"");
-            }
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        
-        System.out.println(property.toString());
-
+        System.out.println(SystemModel.getInstance());
+       // System.out.println(sm.getBool("57.srt", false));
     }
 
     public WorkFitFrame()
