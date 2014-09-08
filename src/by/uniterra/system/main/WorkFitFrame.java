@@ -57,25 +57,28 @@ public class WorkFitFrame extends JFrame
      */
     public static void main(String[] args)
     {
-        String strPropURL = "src/config/global.properties";
+        String strPropURL = "config/global.properties";
         
-        FileInputStream fis;
         Properties property = new Properties();
-
         try
         {
-            if (WorkFitFrame.class.getClassLoader().getResource(strPropURL) != null)
+            ClassLoader classThis = WorkFitFrame.class.getClassLoader();
+            if (classThis.getResource(strPropURL) != null)
             {
-                fis = new FileInputStream(strPropURL );
-                property.load(fis);
+                property.load(classThis.getResourceAsStream(strPropURL));
                 System.out.println("Load OK!");
             }
-
+            else
+            {
+        	System.out.println("Can not fing resources for \"" + strPropURL + "\"");
+            }
         }
         catch (IOException e)
         {
-            System.err.println("config.properties NOT FOUND!");
+            e.printStackTrace();
         }
+        
+        System.out.println(property.toString());
 
     }
 
