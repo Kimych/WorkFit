@@ -41,19 +41,7 @@ public class SystemModel
 
     public static boolean getBool(String strKey, boolean bDefValue)
     {
-        boolean bResult = bDefValue;
-        if (property.containsKey(strKey))
-        {
-            try
-            {
-                bResult = Boolean.valueOf(property.getProperty("strKey"));
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-        }
-        return bResult;
+        return Boolean.valueOf(getString(strKey, String.valueOf(bDefValue)));
     }
 
     public static String getString(String strKey, String sDefValue)
@@ -61,51 +49,19 @@ public class SystemModel
         String sResult = sDefValue;
         if (property.containsKey(strKey))
         {
-            try
-            {
-                sResult = String.valueOf(property.getProperty("strKey"));
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
+            sResult = property.getProperty(strKey);
         }
         return sResult;
     }
 
-    public static int getInt(String strKey, int DefValue)
+    public static int getInt(String strKey, int iDefValue)
     {
-        int Result = DefValue;
-        if (property.containsKey(strKey))
-        {
-            try
-            {
-                Result = Integer.valueOf((property.getProperty("strKey")));
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-        }
-        return Result;
+        return Integer.valueOf(getString(strKey, String.valueOf(iDefValue)));
     }
     
-    public static double getDouble(String strKey, double DefValue)
+    public static double getDouble(String strKey, double dDefValue)
     {
-        double Result = DefValue;
-        if (property.containsKey(strKey))
-        {
-            try
-            {
-                Result = Double.valueOf((property.getProperty("strKey")));
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-        }
-        return Result;
+        return Double.valueOf(getString(strKey, String.valueOf(dDefValue)));
     }
-    
 
 }
