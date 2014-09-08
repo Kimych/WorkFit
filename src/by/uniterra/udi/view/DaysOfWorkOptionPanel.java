@@ -19,11 +19,11 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import by.uniterra.dai.eao.MonthEAO;
-import by.uniterra.dai.eao.ServiceBaseEAO;
 import by.uniterra.dai.eao.WorkerEAO;
 import by.uniterra.dai.entity.DaysOfWork;
 import by.uniterra.dai.entity.Month;
 import by.uniterra.dai.entity.Worker;
+import by.uniterra.system.model.SystemModel;
 import by.uniterra.system.util.DateUtils;
 import by.uniterra.system.util.WorkLogUtils;
 import by.uniterra.udi.iface.IModelOwner;
@@ -73,8 +73,8 @@ public class DaysOfWorkOptionPanel extends JPanel implements IModelOwner
         JLabel jlBonusTime = new JLabel("Bonus time");
         JLabel jlBonusDesc = new JLabel("Description");
 
-        workerArrayList = new WorkerEAO(ServiceBaseEAO.getDefaultEM()).loadAll();
-        monthArrayList = new MonthEAO(ServiceBaseEAO.getDefaultEM()).loadAll();
+        workerArrayList = new WorkerEAO(SystemModel.getDefaultEM()).loadAll();
+        monthArrayList = new MonthEAO(SystemModel.getDefaultEM()).loadAll();
 
         cbWorker = new JComboBox(new DefaultComboBoxModel(workerArrayList.toArray()));
         cbMonth = new JComboBox(new DefaultComboBoxModel(monthArrayList.toArray()));

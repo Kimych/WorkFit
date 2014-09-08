@@ -16,11 +16,11 @@ import java.util.List;
 import java.util.Map;
 
 import by.uniterra.dai.eao.MonthEAO;
-import by.uniterra.dai.eao.ServiceBaseEAO;
 import by.uniterra.dai.eao.WorkerEAO;
 import by.uniterra.dai.entity.DaysOfWork;
 import by.uniterra.dai.entity.Month;
 import by.uniterra.dai.entity.Worker;
+import by.uniterra.system.model.SystemModel;
 import by.uniterra.system.util.WorkLogUtils;
 
 public class LogParser
@@ -89,7 +89,7 @@ public class LogParser
             int curentMonth = YearMonth.now(Clock.systemUTC()).getMonthValue();
             int numberYear = YearMonth.now(Clock.systemUTC()).getYear();
             List<Month> monthArrayList;
-            monthArrayList = new MonthEAO(ServiceBaseEAO.getDefaultEM()).loadAll();
+            monthArrayList = new MonthEAO(SystemModel.getDefaultEM()).loadAll();
             Month month = null;
             for (Month selmonth : monthArrayList)
             {
@@ -102,7 +102,7 @@ public class LogParser
             // create empty List<DaysOfWork>
             daysOfWorkList = new ArrayList<DaysOfWork>();
             List<Worker> workerArrayList;
-            workerArrayList = new WorkerEAO(ServiceBaseEAO.getDefaultEM()).loadAll();
+            workerArrayList = new WorkerEAO(SystemModel.getDefaultEM()).loadAll();
 
             //add data to workerArrayList
             for (Map.Entry<String, Double> hmAliasHours : mapAliasHours.entrySet())

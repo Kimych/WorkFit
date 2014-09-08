@@ -15,11 +15,11 @@ import javax.swing.WindowConstants;
 import by.uniterra.dai.eao.DaysOfWorkEAO;
 import by.uniterra.dai.eao.HolidayEAO;
 import by.uniterra.dai.eao.MonthEAO;
-import by.uniterra.dai.eao.ServiceBaseEAO;
 import by.uniterra.dai.eao.SpentHolidayEAO;
 import by.uniterra.dai.eao.WorkerEAO;
 import by.uniterra.dai.entity.DaysOfWork;
 import by.uniterra.dai.entity.Worker;
+import by.uniterra.system.model.SystemModel;
 import by.uniterra.system.util.WorkLogUtils;
 import by.uniterra.udi.iface.IModelOwner;
 import by.uniterra.udi.model.WorkLogInfoHolder;
@@ -43,7 +43,7 @@ public class WorkLogReportPanel extends JTabbedPane
     public WorkLogReportPanel()
     {
         jbInit();
-        ServiceBaseEAO.disconnectFromDb();
+        SystemModel.disposeJPA();
     }
 
     private void jbInit()
@@ -51,17 +51,17 @@ public class WorkLogReportPanel extends JTabbedPane
         int curentMonth = YearMonth.now(Clock.systemUTC()).getMonthValue();
         int numberYear = YearMonth.now(Clock.systemUTC()).getYear();
 
-        WorkerEAO eaoWorker = new WorkerEAO(ServiceBaseEAO.getDefaultEM());
+        WorkerEAO eaoWorker = new WorkerEAO(SystemModel.getDefaultEM());
         List<Worker> workerArrayList = eaoWorker.loadAll();
-        DaysOfWorkEAO eaoDaysOfWork = new DaysOfWorkEAO(ServiceBaseEAO.getDefaultEM());
+        DaysOfWorkEAO eaoDaysOfWork = new DaysOfWorkEAO(SystemModel.getDefaultEM());
 
         // get the number of working days in a month
-        MonthEAO eaoMonth = new MonthEAO(ServiceBaseEAO.getDefaultEM());
+        MonthEAO eaoMonth = new MonthEAO(SystemModel.getDefaultEM());
         int workingDaysInMonth = eaoMonth.getWorkDayDataForMonth(curentMonth);
 
-        SpentHolidayEAO eaoSpentHoliday = new SpentHolidayEAO(ServiceBaseEAO.getDefaultEM());
+        SpentHolidayEAO eaoSpentHoliday = new SpentHolidayEAO(SystemModel.getDefaultEM());
 
-        HolidayEAO eaoHoliday = new HolidayEAO(ServiceBaseEAO.getDefaultEM());
+        HolidayEAO eaoHoliday = new HolidayEAO(SystemModel.getDefaultEM());
 
         for (Worker curentWorker : workerArrayList)
         {

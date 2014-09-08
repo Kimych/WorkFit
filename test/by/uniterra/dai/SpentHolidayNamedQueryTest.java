@@ -29,14 +29,13 @@
 
 package by.uniterra.dai;
 
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import by.uniterra.dai.eao.ServiceBaseEAO;
 import by.uniterra.dai.eao.SpentHolidayEAO;
 import by.uniterra.dai.eao.WorkerEAO;
+import by.uniterra.system.model.SystemModel;
 
 /**
  * The <code>SpentHolidayNamedQueryTest</code> is used for ...
@@ -62,14 +61,14 @@ public class SpentHolidayNamedQueryTest
         // create a set of EAOs
         /*MonthEAO eaoMonth = new MonthEAO(ServiceBaseEAO.getDefaultEM());
         YearEAO eaoYear = new YearEAO(ServiceBaseEAO.getDefaultEM());*/
-        WorkerEAO eaoWorker = new WorkerEAO(ServiceBaseEAO.getDefaultEM());
-        SpentHolidayEAO eaoSpentHoliday = new SpentHolidayEAO(ServiceBaseEAO.getDefaultEM());
+        WorkerEAO eaoWorker = new WorkerEAO(SystemModel.getDefaultEM());
+        SpentHolidayEAO eaoSpentHoliday = new SpentHolidayEAO(SystemModel.getDefaultEM());
         System.out.println(eaoSpentHoliday.getSpentHolidayWorkerAndYear(eaoWorker.find(TEST_WORKER_ID), TEST_NUMBER_YEAR));
 
         assertTrue(eaoSpentHoliday.getSpentHolidayWorkerAndYear(eaoWorker.find(TEST_WORKER_ID), TEST_NUMBER_YEAR) != 0);
 
         // disconnect from DB
-        ServiceBaseEAO.disconnectFromDb();
+        SystemModel.disposeJPA();
     }
 
 }

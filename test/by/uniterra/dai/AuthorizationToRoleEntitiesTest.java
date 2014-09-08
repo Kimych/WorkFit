@@ -1,19 +1,22 @@
 package by.uniterra.dai;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import by.uniterra.dai.eao.AuthorizationEAO;
 import by.uniterra.dai.eao.RoleEAO;
-import by.uniterra.dai.eao.ServiceBaseEAO;
 import by.uniterra.dai.entity.Authorization;
 import by.uniterra.dai.entity.Role;
+import by.uniterra.system.model.SystemModel;
 
 public class AuthorizationToRoleEntitiesTest
 {
@@ -24,13 +27,56 @@ public class AuthorizationToRoleEntitiesTest
     private static final String TEST_PASSWORD = "password";
     private static final String TEST_ROLE_1 = "role1";
     private static final String TEST_ROLE_2 = "role2";
+    private static List<Role> lstRolesToDelete;
+    private static List<Authorization> lstUsersToDelete;
 
+    @Before
+    public void setUp() throws Exception
+    {
+	SystemModel.initJPA();
+    }
+    
     @After
     public void tearDown() throws Exception
     {
-        ServiceBaseEAO.disconnectFromDb();
+	SystemModel.disposeJPA();
     }
 
+    @BeforeClass
+    public static void init()
+    {
+	lstRolesToDelete = new ArrayList<Role>();
+	lstUsersToDelete = new ArrayList<Authorization>();
+    }
+    
+    @AfterClass
+    public static  void clean()
+    {
+	SystemModel.initJPA();
+	// delete Roles
+	RoleEAO eaoRole = new RoleEAO(SystemModel.getDefaultEM());
+	for (Role role : lstRolesToDelete)
+	{
+	    Role rFoundRole = eaoRole.find(role.getRoleId());
+	    if (rFoundRole != null)
+	    {
+		eaoRole.delete(rFoundRole);
+	    }
+	}
+	
+	// delete Authorization
+	AuthorizationEAO eaoAuth = new AuthorizationEAO(SystemModel.getDefaultEM());
+	for (Authorization auth : lstUsersToDelete)
+	{
+	    Authorization authCurAuth = eaoAuth.find(auth.getAuthorizationId());
+	    if (authCurAuth != null)
+	    {
+		eaoAuth.delete(authCurAuth);
+	    }
+	}
+	SystemModel.disposeJPA();
+    }
+    
     @Test
     public void AuttorisationTest()
     {
@@ -42,11 +88,13 @@ public class AuthorizationToRoleEntitiesTest
         Role role2 = new Role();
         role2.setName(TEST_ROLE_2);
 
-        RoleEAO eaoRole = new RoleEAO(ServiceBaseEAO.getDefaultEM());
+        RoleEAO eaoRole = new RoleEAO(SystemModel.getDefaultEM());
         try
         {
             role1 = eaoRole.save(role1);
+            lstRolesToDelete.add(role1);
             role2 = eaoRole.save(role2);
+            lstRolesToDelete.add(role2);
         }
         catch (Exception e)
         {
@@ -83,37 +131,54 @@ public class AuthorizationToRoleEntitiesTest
         // link third login with second role only;
         user3.setRoles(lstRole2);
 
-        AuthorizationEAO eaoAuth = new AuthorizationEAO(ServiceBaseEAO.getDefaultEM());
+        AuthorizationEAO eaoAuth = new AuthorizationEAO(SystemModel.getDefaultEM());
         try
         {
             user1 = eaoAuth.save(user1);
+            lstUsersToDelete.add(user1);
             user2 = eaoAuth.save(user2);
+            lstUsersToDelete.add(user2);
             user3 = eaoAuth.save(user3);
+            lstUsersToDelete.add(user3);
         }
         catch (Exception e)
         {
             fail(e.getMessage());
         }
         
+        // disconnect to flash caching
+        SystemModel.disposeJPA();
+        
         List<Authorization> lstAut1 = eaoAuth.getAuthorizationsByLogin(TEST_LOGIN_1);
         List<Authorization> lstAut2 = eaoAuth.getAuthorizationsByLogin(TEST_LOGIN_2);
         List<Authorization> lstAut3 = eaoAuth.getAuthorizationsByLogin(TEST_LOGIN_3);
 
-        assertTrue((lstAut1.get(0).getRoles().get(0).getName().equals(TEST_ROLE_1)) && (lstAut1.get(0).getRoles().get(1).getName().equals(TEST_ROLE_2))
-                && (lstAut2.get(0).getRoles().get(0).getName().equals(TEST_ROLE_1)) && (lstAut3.get(0).getRoles().get(0).getName().equals(TEST_ROLE_2)));
+        assertTrue(lstAut1.contains(user1) && lstAut2.contains(user2) && lstAut3.contains(user3));
 
-        try
-        {
-            eaoAuth.delete(user1);
-            eaoAuth.delete(user2);
-            eaoAuth.delete(user3);
-
-            eaoRole.delete(role1);
-            eaoRole.delete(role2);
-        }
-        catch (Exception e)
-        {
-            fail(e.getMessage());
-        }
+    }
+    
+    @Test
+    public void listTest()
+    {
+	// create lists
+	List<Integer> lstSourceList = new ArrayList<Integer>();
+	List<Integer> lstDestinationList = new ArrayList<Integer>();
+	
+	// add data
+	lstSourceList.add(3);
+	lstSourceList.add(1);
+	lstSourceList.add(2);
+	lstSourceList.add(3);
+	
+	lstDestinationList.add(3);
+	lstDestinationList.add(2);
+	lstDestinationList.add(1);
+	lstDestinationList.add(1);
+	
+	// compare
+	//assertTrue(lstSourceList.equals(lstDestinationList));
+	
+	// extendex check
+	assertTrue(lstSourceList.size() == lstDestinationList.size() && lstSourceList.containsAll(lstDestinationList));
     }
 }

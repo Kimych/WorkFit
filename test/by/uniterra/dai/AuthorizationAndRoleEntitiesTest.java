@@ -6,20 +6,27 @@ import static org.junit.Assert.fail;
 import java.util.List;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import by.uniterra.dai.eao.AuthorizationEAO;
 import by.uniterra.dai.eao.RoleEAO;
-import by.uniterra.dai.eao.ServiceBaseEAO;
 import by.uniterra.dai.entity.Authorization;
 import by.uniterra.dai.entity.Role;
+import by.uniterra.system.model.SystemModel;
 
 public class AuthorizationAndRoleEntitiesTest
 {
     @After
     public void tearDown() throws Exception
     {
-        ServiceBaseEAO.disconnectFromDb();
+        SystemModel.disposeJPA();
+    }
+    
+    @Before
+    public void setUp() throws Exception
+    {
+        SystemModel.initJPA();
     }
 
     @Test
@@ -27,7 +34,7 @@ public class AuthorizationAndRoleEntitiesTest
     {
         Role role = new Role();
         role.setName("1 test role name");
-        RoleEAO roleEAO = new RoleEAO(ServiceBaseEAO.getDefaultEM());
+        RoleEAO roleEAO = new RoleEAO(SystemModel.getDefaultEM());
 
         List<Role> lstEntitiesBefore = roleEAO.loadAll();
         try
@@ -51,7 +58,7 @@ public class AuthorizationAndRoleEntitiesTest
         aut.setLogin("Test Login");
         aut.setPassword("Test Password");
 
-        AuthorizationEAO autEAO = new AuthorizationEAO(ServiceBaseEAO.getDefaultEM());
+        AuthorizationEAO autEAO = new AuthorizationEAO(SystemModel.getDefaultEM());
         List<Authorization> lstEntitiesBefore = autEAO.loadAll();
 
         try

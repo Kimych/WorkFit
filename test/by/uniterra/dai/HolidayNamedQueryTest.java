@@ -29,18 +29,19 @@
 
 package by.uniterra.dai;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
 import by.uniterra.dai.eao.HolidayEAO;
-import by.uniterra.dai.eao.ServiceBaseEAO;
 import by.uniterra.dai.eao.WorkerEAO;
 import by.uniterra.dai.eao.YearEAO;
+import by.uniterra.system.model.SystemModel;
 
 /**
- * The <code>HolidayNamedQuery</code> is used for is used to test named queries usage for
- * Holiday
+ * The <code>HolidayNamedQuery</code> is used for is used to test named queries
+ * usage for Holiday
+ * 
  * @author Sergio Alecky
  * @since 25 авг. 2014 г.
  */
@@ -59,18 +60,15 @@ public class HolidayNamedQueryTest
     @Test
     public void getHoliday()
     {
-        // create a set of EAOs
-        HolidayEAO eaoHoliday = new HolidayEAO(ServiceBaseEAO.getDefaultEM());
-        YearEAO eaoYear = new YearEAO(ServiceBaseEAO.getDefaultEM());
-        WorkerEAO eaoWorker = new WorkerEAO(ServiceBaseEAO.getDefaultEM());
-        
+	// create a set of EAOs
+	HolidayEAO eaoHoliday = new HolidayEAO(SystemModel.getDefaultEM());
+	YearEAO eaoYear = new YearEAO(SystemModel.getDefaultEM());
+	WorkerEAO eaoWorker = new WorkerEAO(SystemModel.getDefaultEM());
 
-        assertTrue(eaoHoliday.getHolidayDaysCountForWorkerAndYear(eaoWorker.find(TEST_WORKER_ID), TEST_NUMBER_YEAR) != 0);
+	assertTrue(eaoHoliday.getHolidayDaysCountForWorkerAndYear(eaoWorker.find(TEST_WORKER_ID), TEST_NUMBER_YEAR) != 0);
 
-
-
-        // disconnect from DB
-        ServiceBaseEAO.disconnectFromDb();
+	// disconnect from DB
+	SystemModel.disposeJPA();
     }
 
 }

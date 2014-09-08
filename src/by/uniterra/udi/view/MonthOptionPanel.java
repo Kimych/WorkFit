@@ -13,11 +13,11 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import by.uniterra.dai.eao.NameMonthEAO;
-import by.uniterra.dai.eao.ServiceBaseEAO;
 import by.uniterra.dai.eao.YearEAO;
 import by.uniterra.dai.entity.Month;
 import by.uniterra.dai.entity.NameMonth;
 import by.uniterra.dai.entity.Year;
+import by.uniterra.system.model.SystemModel;
 import by.uniterra.udi.iface.IModelOwner;
 import by.uniterra.udi.model.UDIPropSingleton;
 
@@ -45,9 +45,9 @@ public class MonthOptionPanel extends JPanel implements IModelOwner
         JLabel jlNumber = new JLabel(UDIPropSingleton.getString(this, "jlNumber.label"));
         JLabel jlDesk = new JLabel(UDIPropSingleton.getString(this, "jlDesk.label"));
         tfNumber = new JTextField(10);
-        nameMonthArrayList = new NameMonthEAO(ServiceBaseEAO.getDefaultEM()).loadAll();
+        nameMonthArrayList = new NameMonthEAO(SystemModel.getDefaultEM()).loadAll();
         cbMonth = new JComboBox(new DefaultComboBoxModel(nameMonthArrayList.toArray()));
-        yearArrayList = new YearEAO(ServiceBaseEAO.getDefaultEM()).loadAll();
+        yearArrayList = new YearEAO(SystemModel.getDefaultEM()).loadAll();
         cbYear = new JComboBox(new DefaultComboBoxModel(yearArrayList.toArray()));
 
         tfDeskription = new JTextArea();

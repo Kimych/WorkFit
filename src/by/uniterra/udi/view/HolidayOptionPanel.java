@@ -11,12 +11,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import by.uniterra.dai.eao.ServiceBaseEAO;
 import by.uniterra.dai.eao.WorkerEAO;
 import by.uniterra.dai.eao.YearEAO;
 import by.uniterra.dai.entity.Holiday;
 import by.uniterra.dai.entity.Worker;
 import by.uniterra.dai.entity.Year;
+import by.uniterra.system.model.SystemModel;
 import by.uniterra.udi.iface.IModelOwner;
 import by.uniterra.udi.model.UDIPropSingleton;
 
@@ -49,10 +49,10 @@ public class HolidayOptionPanel extends JPanel implements IModelOwner
         JLabel jlDays = new JLabel(UDIPropSingleton.getString(this, "jlDays.label"));
         tfDays = new JTextField(2);
         
-        workerArrayList = new WorkerEAO(ServiceBaseEAO.getDefaultEM()).loadAll();
+        workerArrayList = new WorkerEAO(SystemModel.getDefaultEM()).loadAll();
         cbName = new JComboBox(new DefaultComboBoxModel(workerArrayList.toArray()));
         
-        yearArrayList = new YearEAO(ServiceBaseEAO.getDefaultEM()).loadAll();
+        yearArrayList = new YearEAO(SystemModel.getDefaultEM()).loadAll();
         cbYear = new JComboBox(new DefaultComboBoxModel(yearArrayList.toArray()));
         
         add(jlName, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));

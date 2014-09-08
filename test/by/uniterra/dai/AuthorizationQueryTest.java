@@ -29,7 +29,8 @@
 
 package by.uniterra.dai;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
@@ -37,8 +38,8 @@ import org.junit.AfterClass;
 import org.junit.Test;
 
 import by.uniterra.dai.eao.AuthorizationEAO;
-import by.uniterra.dai.eao.ServiceBaseEAO;
 import by.uniterra.dai.entity.Authorization;
+import by.uniterra.system.model.SystemModel;
 
 /**
  * The <code>AuthorizationQueryTest</code> is used for test Named Query
@@ -61,7 +62,7 @@ public class AuthorizationQueryTest
     @AfterClass
     public static void tearDownAfterClass() throws Exception
     {
-        ServiceBaseEAO.disconnectFromDb();
+	SystemModel.disposeJPA();
     }
 
     @Test
@@ -71,7 +72,7 @@ public class AuthorizationQueryTest
         user.setLogin(TEST_LOGIN);
         user.setPassword(TEST_PAS);
 
-        AuthorizationEAO eaoAut = new AuthorizationEAO(ServiceBaseEAO.getDefaultEM());
+        AuthorizationEAO eaoAut = new AuthorizationEAO(SystemModel.getDefaultEM());
         try
         {
             user = eaoAut.save(user);

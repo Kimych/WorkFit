@@ -39,9 +39,9 @@ import org.junit.After;
 import org.junit.Test;
 
 import by.uniterra.dai.eao.DaysOfWorkEAO;
-import by.uniterra.dai.eao.ServiceBaseEAO;
 import by.uniterra.dai.eao.WorkerEAO;
 import by.uniterra.dai.entity.DaysOfWork;
+import by.uniterra.system.model.SystemModel;
 
 /**
  * The <code>DateTimeFormatterTest</code> is used to test SimpleDateFormat and DB driver (for time convertion)
@@ -58,8 +58,8 @@ public class DateTimeFormatterTest
     public void testDBdriverTimeConvertion()
     {
 	 // create a set of EAOs
-        WorkerEAO eaoWorker = new WorkerEAO(ServiceBaseEAO.getDefaultEM());
-        DaysOfWorkEAO eaoDaysOfWork = new DaysOfWorkEAO(ServiceBaseEAO.getDefaultEM());
+        WorkerEAO eaoWorker = new WorkerEAO(SystemModel.getDefaultEM());
+        DaysOfWorkEAO eaoDaysOfWork = new DaysOfWorkEAO(SystemModel.getDefaultEM());
 
         List<DaysOfWork> lstDayOfWork = eaoDaysOfWork.getLastDataForWorkerAndMonthNum(eaoWorker.find(TEST_WORKER_ID), TEST_NAMED_MONTH_ID);
         if (lstDayOfWork.size() != 0)
@@ -81,6 +81,6 @@ public class DateTimeFormatterTest
     public void disconnectFromDB()
     {
 	// disconnect from DB
-        ServiceBaseEAO.disconnectFromDb();
+	SystemModel.disposeJPA();
     }
 }

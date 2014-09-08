@@ -34,8 +34,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import by.uniterra.dai.eao.DaysOfWorkEAO;
-import by.uniterra.dai.eao.ServiceBaseEAO;
 import by.uniterra.dai.eao.WorkerEAO;
+import by.uniterra.system.model.SystemModel;
 
 /**
  * The <code>WorkerNamedQueryTest</code> is used to test named queries usage for
@@ -53,25 +53,25 @@ public class WorkerNamedQueryTest
     public void getLatestWorklog()
     {
         // create a set of EAOs
-        WorkerEAO eaoWorker = new WorkerEAO(ServiceBaseEAO.getDefaultEM());
-        DaysOfWorkEAO eaoDaysOfWork = new DaysOfWorkEAO(ServiceBaseEAO.getDefaultEM());
+        WorkerEAO eaoWorker = new WorkerEAO(SystemModel.getDefaultEM());
+        DaysOfWorkEAO eaoDaysOfWork = new DaysOfWorkEAO(SystemModel.getDefaultEM());
 
         // try to get last worklog data for given Worker and Month
         assertTrue(eaoDaysOfWork.getLastDataForWorkerAndMonthNum(eaoWorker.find(TEST_WORKER_ID), TEST_NAMED_MONTH_ID) != null);
 
         // disconnect from DB
-        ServiceBaseEAO.disconnectFromDb();
+        SystemModel.disposeJPA();
     }
 
     @Test
     public void getAllWorklog()
     {
         // create a set of EAOs
-        WorkerEAO eaoWorker = new WorkerEAO(ServiceBaseEAO.getDefaultEM());
-        DaysOfWorkEAO eaoDaysOfWork = new DaysOfWorkEAO(ServiceBaseEAO.getDefaultEM());
+        WorkerEAO eaoWorker = new WorkerEAO(SystemModel.getDefaultEM());
+        DaysOfWorkEAO eaoDaysOfWork = new DaysOfWorkEAO(SystemModel.getDefaultEM());
         // try to get last worklog data for given Worker and Month
         assertTrue(eaoDaysOfWork.getSumBonusTimeForWorkerAndMonthNum(eaoWorker.find(TEST_WORKER_ID), TEST_NAMED_MONTH_ID) != 0);
         // disconnect from DB
-        ServiceBaseEAO.disconnectFromDb();
+        SystemModel.disposeJPA();
     }
 }
