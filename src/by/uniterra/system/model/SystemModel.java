@@ -35,9 +35,6 @@ public class SystemModel
         property.putAll(loadPropFromRes(DEFAULT_PROP_FILE));
         // load properties from CUSTOMER_PROPERTIES
         property.putAll(loadPropFromRes(CUSTOMER_PROPERTIES));
-     	
-        // initialize JPA DB connection
-        initJPA();
     }
 
     public static SystemModel getInstance()
@@ -149,10 +146,62 @@ public class SystemModel
      * @author Anton Nedbailo
      * @date Sep 8, 2014
      */
-    public static boolean getBool(String strKey, boolean bDefValue)
+    public static Boolean getBool(String strKey, Boolean bDefValue)
     {
-        return Boolean.valueOf(getString(strKey, String.valueOf(bDefValue)));
+        Boolean bResult = bDefValue;
+        // try to get string value
+        String strFoundValue = getString(strKey, null);
+        // check found value
+        if (strFoundValue != null && !strFoundValue.isEmpty())
+        {
+            // Boolean.valueOf returns "false" even if the value isn't equals to "false" string
+            // so, it's not a case for us
+            // check for "true"
+            if (strFoundValue.equalsIgnoreCase("true") && !strFoundValue.equalsIgnoreCase("false"))
+            {
+                bResult = true;
+            } else if (!strFoundValue.equalsIgnoreCase("true") && strFoundValue.equalsIgnoreCase("false"))
+            {
+                bResult = false;
+            }
+        }
+        return bResult;
     }
+    
+    /**
+     * Set new property (or overwrite existing) value
+     * 
+     * @param strKey - property key
+     * @param objValue - property value
+     * 
+     * @throws IllegalArgumentException if:
+     *  1) key is null;
+     *  2) key is empty
+     *  3) value is null
+     *
+     * @author Anton Nedbailo
+     * @date Sep 8, 2014
+     */
+    public static void setProperty(String strKey, Object objValue)
+    {
+        // check for valid key
+        if (strKey == null)
+        {
+            throw new IllegalArgumentException("Key value shouldn't be null!");
+        }
+        if (strKey.isEmpty())
+        {
+            throw new IllegalArgumentException("Key value shouldn't be empty!");
+        }
+        // check for valid value
+        if (objValue == null)
+        {
+            throw new IllegalArgumentException("Value shouldn't be null!");
+        }
+        // put into properties map
+        property.put(strKey, objValue.toString());
+    }
+    
 
     /**
      * 
@@ -187,9 +236,24 @@ public class SystemModel
      * @author Anton Nedbailo
      * @date Sep 8, 2014
      */
-    public static int getInt(String strKey, int iDefValue)
+    public static Integer getInt(String strKey, Integer iDefValue)
     {
-        return Integer.valueOf(getString(strKey, String.valueOf(iDefValue)));
+        Integer iResult = iDefValue;
+        // try to get string value
+        String strFoundValue = getString(strKey, null);
+        // check found value
+        if (strFoundValue != null && !strFoundValue.isEmpty())
+        {
+            try
+            { 
+                // parse result
+                iResult = Integer.valueOf(strFoundValue);
+            } catch(NumberFormatException e) 
+            { 
+                /*NOP*/
+            }
+        }
+        return iResult;
     }
     
     /**
@@ -203,9 +267,24 @@ public class SystemModel
      * @author Anton Nedbailo
      * @date Sep 8, 2014
      */
-    public static double getDouble(String strKey, double dDefValue)
+    public static Double getDouble(String strKey, Double dDefValue)
     {
-        return Double.valueOf(getString(strKey, String.valueOf(dDefValue)));
+        Double dResult = dDefValue;
+        // try to get string value
+        String strFoundValue = getString(strKey, null);
+        // check found value
+        if (strFoundValue != null && !strFoundValue.isEmpty())
+        {
+            try
+            { 
+                // parse result
+                dResult = Double.valueOf(strFoundValue);
+            } catch(NumberFormatException e) 
+            { 
+                /*NOP*/
+            }
+        }
+        return dResult;
     }
 
 }
