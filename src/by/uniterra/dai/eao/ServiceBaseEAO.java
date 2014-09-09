@@ -8,6 +8,8 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import by.uniterra.udi.util.Log;
+
 
 public class ServiceBaseEAO<T extends Serializable>
 {

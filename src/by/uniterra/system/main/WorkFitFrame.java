@@ -37,6 +37,7 @@ import javax.swing.JFrame;
 
 import by.uniterra.dai.eao.ServiceBaseEAO;
 import by.uniterra.system.model.SystemModel;
+import by.uniterra.udi.util.Log;
 
 /**
  * The <code>WorkFitFrame</code> is used for ...
@@ -61,6 +62,7 @@ public class WorkFitFrame extends JFrame
         
         System.out.println(SystemModel.getInstance());
        // System.out.println(sm.getBool("57.srt", false));
+        Log.info("Main", "Start project");
     }
 
     public WorkFitFrame()
