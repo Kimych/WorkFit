@@ -30,7 +30,8 @@
 package by.uniterra.system.iface;
 
 /**
- * The <code>IGlobalProperties</code> is used to hold all global.parameters properties names
+ * The <code>IGlobalProperties</code> is used to hold all global.parameters
+ * properties names
  *
  * @author Anton Nedbailo
  * @since Sep 8, 2014

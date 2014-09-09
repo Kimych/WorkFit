@@ -32,18 +32,19 @@ public class WorkLogReportPanel extends JTabbedPane
 
     public static void main(String[] args)
     {
+        SystemModel.initJPA();
         JFrame frame = new JFrame("Test Employe");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.setSize(400, 280);
         frame.add(new WorkLogReportPanel());
         frame.setVisible(true);
+        SystemModel.disposeJPA();
     }
 
     public WorkLogReportPanel()
     {
         jbInit();
-        SystemModel.disposeJPA();
     }
 
     private void jbInit()

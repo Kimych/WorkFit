@@ -37,6 +37,8 @@ import org.eclipse.persistence.sessions.Session;
 import org.eclipse.persistence.sessions.SessionEvent;
 import org.eclipse.persistence.sessions.SessionEventAdapter;
 
+import by.uniterra.udi.util.Log;
+
 import com.mysql.jdbc.MySQLConnection;
 
 /**
@@ -72,7 +74,7 @@ public class JPASessionCustomizer extends SessionCustomizer
 		}
 	    } catch (Exception e)
 	    {
-		System.out.println("Can't adjust driver timezone parameters.");
+	        Log.error(this, "Can't adjust driver timezone parameters.");
 	    }
 	}
     }

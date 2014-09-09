@@ -171,6 +171,7 @@ public class Log
 		PropertyConfigurator.configure(props);
 	    } catch (IOException e)
 	    {
+	        e.printStackTrace();
 		System.out.println("Error: Cannot configure Log4J");
 	    }
 	} catch (Exception e)

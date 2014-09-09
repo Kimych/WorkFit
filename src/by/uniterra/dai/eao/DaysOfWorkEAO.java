@@ -8,6 +8,7 @@ import javax.persistence.Query;
 
 import by.uniterra.dai.entity.DaysOfWork;
 import by.uniterra.dai.entity.Worker;
+import by.uniterra.udi.util.Log;
 
 public class DaysOfWorkEAO extends ServiceBaseEAO<DaysOfWork>
 {
@@ -51,8 +52,7 @@ public class DaysOfWorkEAO extends ServiceBaseEAO<DaysOfWork>
         }
         catch (Exception e)
         {
-            System.out.println("getLastDataForWorkerAndMonth error ");
-            e.printStackTrace();
+            Log.error(this, e, "NamedQuery getLastDataForWorkerAndMonthNum error");
         }
         // check for null result
         return (List<DaysOfWork>) (lstResult != null ? lstResult : Collections.emptyList());
@@ -85,13 +85,12 @@ public class DaysOfWorkEAO extends ServiceBaseEAO<DaysOfWork>
             Object objResult = queryDeleteByDSId.getSingleResult();
             if (objResult != null)
             {
-        	lstResult = (double) objResult;
+                lstResult = (double) objResult;
             }
         }
         catch (Exception e)
         {
-            System.out.println("getSumBonusTimeForWorkerAndMonthNum");
-            e.printStackTrace();
+            Log.error(this, e, "namedQuery getSumBonusTimeForWorkerAndMonthNum error");
         }
         return lstResult;
     }

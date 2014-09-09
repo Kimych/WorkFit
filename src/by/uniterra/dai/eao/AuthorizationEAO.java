@@ -8,6 +8,7 @@ import javax.persistence.Query;
 
 import by.uniterra.dai.entity.Authorization;
 import by.uniterra.dai.entity.DaysOfWork;
+import by.uniterra.udi.util.Log;
 
 public class AuthorizationEAO extends ServiceBaseEAO<Authorization>
 {
@@ -16,13 +17,13 @@ public class AuthorizationEAO extends ServiceBaseEAO<Authorization>
     {
         super(em, Authorization.class);
     }
-    
+
     public List<Authorization> getAuthorizationsByLogin(String login)
     {
         List<Authorization> lstResult = null;
         try
         {
-         // get according query
+            // get according query
             Query queryDeleteByDSId = getNamedQuery(Authorization.NQ_FIND_AUTHORIZATION_BY_LOGIN);
             // set login
             queryDeleteByDSId.setParameter(Authorization.PARAMETER_LOGIN, login);
@@ -31,10 +32,10 @@ public class AuthorizationEAO extends ServiceBaseEAO<Authorization>
         }
         catch (Exception e)
         {
-            // TODO: handle exception
+            Log.error(this, e, "namedQuery getAuthorizationsByLogin error");
         }
         return (List<Authorization>) (lstResult != null ? lstResult : Collections.emptyList());
-        
+
     }
 
 }

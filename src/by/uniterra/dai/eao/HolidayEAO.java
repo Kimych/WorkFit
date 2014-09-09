@@ -5,6 +5,7 @@ import javax.persistence.Query;
 
 import by.uniterra.dai.entity.Holiday;
 import by.uniterra.dai.entity.Worker;
+import by.uniterra.udi.util.Log;
 
 public class HolidayEAO extends ServiceBaseEAO<Holiday>
 {
@@ -46,14 +47,13 @@ public class HolidayEAO extends ServiceBaseEAO<Holiday>
             Object objResult = queryDeleteByDSId.getSingleResult();
             if (objResult != null)
             {
-                holiday =  (int) objResult;
+                holiday = (int) objResult;
             }
 
         }
         catch (Exception e)
         {
-            System.out.println("getHolidayDaysCountForWorkerAndYear ERROR!!!");
-            e.printStackTrace();
+            Log.error(this, e, "namedQuery getHolidayDaysCountForWorkerAndYear error");
         }
 
         return holiday;

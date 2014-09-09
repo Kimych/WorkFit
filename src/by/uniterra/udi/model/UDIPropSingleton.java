@@ -14,6 +14,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import by.uniterra.udi.util.Log;
+
 
 /**
  * @author vnedbailo
@@ -70,8 +72,7 @@ public class UDIPropSingleton
 	    docResult = factory.newDocumentBuilder().parse(isCurrentResourceFile, "UTF-8");
 	} catch (Exception e)
 	{
-	    e.printStackTrace();
-	    System.out.println("NO UDI XML-based file found...");
+	    Log.error(UDIPropSingleton.class, e, "NO UDI XML-based file found...");
 	}
         return docResult;
     }
@@ -199,7 +200,7 @@ public class UDIPropSingleton
 
         } catch (Exception e)
         {
-            e.printStackTrace();
+            Log.error(UDIPropSingleton.class, e);
         }
         return szRes;
     }

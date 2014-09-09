@@ -47,7 +47,7 @@ public class LogParser
         }
         catch (IOException e)
         {
-            System.out.println("readAllLInes ERROR!");
+            Log.error(LogParser.class, e, "readAllLInes error");
         }
         Date date = null;
         for (String parseString : lstOriginalData)
@@ -74,8 +74,7 @@ public class LogParser
                 }
                 catch (ParseException e)
                 {
-                    System.out.println("Date parse ERROR!");
-                    // Log.error(this, e, "getListFromLog error ");
+                    Log.error(LogParser.class, e, "date parse error");
                 }
                 break;
             }

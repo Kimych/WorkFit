@@ -3,9 +3,9 @@ package by.uniterra.dai.eao;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-
 import by.uniterra.dai.entity.SpentHoliday;
 import by.uniterra.dai.entity.Worker;
+import by.uniterra.udi.util.Log;
 
 public class SpentHolidayEAO extends ServiceBaseEAO<SpentHoliday>
 {
@@ -41,8 +41,7 @@ public class SpentHolidayEAO extends ServiceBaseEAO<SpentHoliday>
         }
         catch (Exception e)
         {
-            System.out.println("ggetSpentHolidayWorkerAndYear ERROR!!!");
-            e.printStackTrace();
+            Log.error(this, e, "namedQuery getSpentHolidayWorkerAndYear error");
         }
 
         return spHoliday;

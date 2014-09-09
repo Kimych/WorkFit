@@ -10,7 +10,6 @@ import javax.persistence.TypedQuery;
 
 import by.uniterra.udi.util.Log;
 
-
 public class ServiceBaseEAO<T extends Serializable>
 {
     protected EntityManager em;
@@ -28,6 +27,7 @@ public class ServiceBaseEAO<T extends Serializable>
     {
         return em.contains(objItem);
     }
+
     /**
      * Save given entity
      * 
@@ -52,7 +52,7 @@ public class ServiceBaseEAO<T extends Serializable>
             {
                 tx.rollback();
             }
-            throw e;
+            Log.error(this, e, "save(T entity)");
         }
         return newEntity;
 
@@ -80,7 +80,7 @@ public class ServiceBaseEAO<T extends Serializable>
             {
                 tx.rollback();
             }
-            throw e;
+            Log.error(this, e, "delete(Object id)");
         }
     }
 
@@ -103,8 +103,6 @@ public class ServiceBaseEAO<T extends Serializable>
         // return refreshed item
         return tObject;
     }
-    
-    
 
     public void remove(T entity)
     {
@@ -124,7 +122,7 @@ public class ServiceBaseEAO<T extends Serializable>
                 {
                     tx.rollback();
                 }
-                throw e;
+                Log.error(this, e, "remove(T entity)");
             }
         }
     }
@@ -144,7 +142,7 @@ public class ServiceBaseEAO<T extends Serializable>
     {
         return classType;
     }
-    
+
     public TypedQuery<T> getNamedQuery(String queryName)
     {
         return em.createNamedQuery(queryName, classType);

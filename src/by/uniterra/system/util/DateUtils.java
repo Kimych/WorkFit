@@ -32,6 +32,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import by.uniterra.system.model.TimePeriodEx;
+import by.uniterra.udi.util.Log;
 
 /**
  * The <code>DateUtils</code> is used for some Date formatting and converting
@@ -150,7 +151,7 @@ public class DateUtils
                 date = df.parse(s);
             } catch (ParseException e)
             {
-                //Log.error(DateUtils.class, e, "stringToTimestamp error ");
+                Log.error(DateUtils.class, e, "stringToTimestamp error ");
             }
         } else
         {

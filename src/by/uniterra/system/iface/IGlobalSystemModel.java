@@ -37,7 +37,7 @@ import javax.persistence.EntityManager;
  */
 public interface IGlobalSystemModel
 {
-    //constants
+    // constants
     String PARAM_DB_CRYPTEDPASSWORD = "DBCRYPTEDPASSWORD";
     String PARAM_DB_DRIVER = "DRIVER";
     String PARAM_DB_PASSWORD = "DBPASSWORD";
@@ -49,12 +49,12 @@ public interface IGlobalSystemModel
     String HOSTNAME = "HOSTNAME";
     String PARAM_DB_DATE_FORMAT = "DB_DATE_FORMAT";
     String TIMEZONE = "TIMEZONE";
-    
+
     String PARAM_LOG_DIRECTORY = "LOG_DIRECTORY";
     String LOG_FILE_APPENDER = "LOG_FILE_APPENDER";
 
     boolean isDebugMode();
-    
+
     TimeZone getTimezone();
 
     Properties getProperties();
@@ -68,21 +68,25 @@ public interface IGlobalSystemModel
     void loadProperties(String name) throws IOException;
 
     void setSystemProperty(Object key, Object aObject);
-    
+
     String getGUID();
-    
+
     /**
      * Get EntityManager to manage JPZ business objects
+     * 
      * @return threadsave EntityManager object
      *
      * @author Anton Nedbailo
      * @date Sep 1, 2013
      */
     EntityManager getEM();
-    
+
     /**
-     * Get formatted for date/timestamp objects with given format and application timezone (GMT+3 by default)
-     * @param strFormat - format definition string
+     * Get formatted for date/timestamp objects with given format and
+     * application timezone (GMT+3 by default)
+     * 
+     * @param strFormat
+     *            - format definition string
      * @return SimpleDateFormat object
      *
      * @author Anton Nedbailo

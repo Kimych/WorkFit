@@ -26,12 +26,13 @@ package by.uniterra.system.iface;
 
 /**
  * The <code>ILogLevels</code> is used to declare a log levels
+ * 
  * @author Anton Nedbailo
  * @since Aug 30, 2013
  */
 public interface ILogLevels
 {
-    //constants
+    // constants
     short LOGLEVEL_INFORMATION = 101;
     short LOGLEVEL_ERROR = 103;
     short LOGLEVEL_DEBUG = 100;

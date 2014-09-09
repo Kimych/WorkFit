@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
+import by.uniterra.udi.util.Log;
+
 public class WorkLogUtils
 {
     private static int WORK_HOUR_IN_DAY = 8;
@@ -45,8 +47,9 @@ public class WorkLogUtils
         {
             return (new BigDecimal(Double.toString(x)).setScale(scale, roundingMethod)).doubleValue();
         }
-        catch (NumberFormatException ex)
+        catch (NumberFormatException e)
         {
+            Log.error(WorkLogUtils.class, e, "round error");
             if (Double.isInfinite(x))
             {
                 return x;
