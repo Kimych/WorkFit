@@ -5,3 +5,4 @@ log/
 *.project
 .pmd
 src/custom.properties
+logs/

@@ -62,7 +62,7 @@ public class WorkFitFrame extends JFrame
         
         System.out.println(SystemModel.getInstance());
        // System.out.println(sm.getBool("57.srt", false));
-        Log.info("Main", "Start project");
+        Log.info(WorkFitFrame.class, "Start project");
     }
 
     public WorkFitFrame()
