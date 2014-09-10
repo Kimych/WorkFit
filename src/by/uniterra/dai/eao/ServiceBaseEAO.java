@@ -8,7 +8,6 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-import by.uniterra.udi.util.Log;
 
 public class ServiceBaseEAO<T extends Serializable>
 {
@@ -52,7 +51,7 @@ public class ServiceBaseEAO<T extends Serializable>
             {
                 tx.rollback();
             }
-            Log.error(this, e, "save(T entity)");
+            throw e;
         }
         return newEntity;
 
@@ -80,7 +79,7 @@ public class ServiceBaseEAO<T extends Serializable>
             {
                 tx.rollback();
             }
-            Log.error(this, e, "delete(Object id)");
+            throw e;
         }
     }
 
@@ -122,7 +121,7 @@ public class ServiceBaseEAO<T extends Serializable>
                 {
                     tx.rollback();
                 }
-                Log.error(this, e, "remove(T entity)");
+                throw e;
             }
         }
     }
