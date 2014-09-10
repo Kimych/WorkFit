@@ -30,14 +30,12 @@
 package by.uniterra.system.main;
 
 import java.awt.GridBagLayout;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
 
 import by.uniterra.dai.eao.AuthorizationEAO;
 import by.uniterra.dai.entity.Authorization;
@@ -57,7 +55,7 @@ public class WorkFitFrame extends JFrame
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 165708470997304032L;
 
-    private static JFrame wfFrame;
+    
 
     /**
      * @param args
@@ -70,22 +68,31 @@ public class WorkFitFrame extends JFrame
         Log.info(WorkFitFrame.class, "\n\n\n");
         Log.info(WorkFitFrame.class, "Starting the app...");
 
-        JFrame workfit = new WorkFitFrame();
+        WorkFitFrame wfFrame = new WorkFitFrame();
+        wfFrame.setTitle("Work Fit Test Frame");
+        wfFrame.setLayout(new GridBagLayout());
+        wfFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        wfFrame.setLocationRelativeTo(null);
+        wfFrame.setSize(600, 400);
+        wfFrame.setVisible(true);
+        
+        wfFrame.doLogin();
+        //JFrame workfit = new WorkFitFrame();
         // System.out.println(sm.getBool("57.srt", false));
         //Log.info(WorkFitFrame.class, "Start project");
     }
 
     public WorkFitFrame()
     {
-
+        super();
         jbUnit();
 
     }
 
-    private static void disposeMainFrame()
+    private void disposeMainFrame()
     {
         SystemModel.disposeJPA();
-        wfFrame.dispose();
+        dispose();
         Log.info(WorkFitFrame.class, "application close.");
 
     }
@@ -93,12 +100,11 @@ public class WorkFitFrame extends JFrame
     private void jbUnit()
     {
 
-        wfFrame = new JFrame("Work Fit Test Frame");
-        wfFrame.setLayout(new GridBagLayout());
-        wfFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        wfFrame.setLocationRelativeTo(null);
-        wfFrame.setSize(600, 400);
-        wfFrame.setVisible(true);
+
+    }
+    
+    public void doLogin()
+    {
 
         // check db connection
         // SystemModel.initJPA();
@@ -106,7 +112,9 @@ public class WorkFitFrame extends JFrame
         {
             SystemModel.initJPA();
             EntityManager em = SystemModel.getDefaultEM();
-            checkLogin("", em, 1);
+            AuthorizationEAO autEAO = new AuthorizationEAO(em);
+            //lstUser = autEAO.loadAll();
+            checkLogin("",autEAO.loadAll(), 1);
         }
         catch (Exception e)
         {
@@ -117,7 +125,7 @@ public class WorkFitFrame extends JFrame
         }
     }
 
-    private static void checkLogin(String strUserName, EntityManager em, int retryСounter)
+    private void checkLogin(String strUserName, List<Authorization> lstUser, int retryСounter)
     {
         if (retryСounter <= 3)
         {
@@ -129,11 +137,11 @@ public class WorkFitFrame extends JFrame
             if (input == JOptionPane.OK_OPTION)
             {
                 String userName = panelLogin.getUserName();
-                List<Authorization> lstUser = new ArrayList<Authorization>();
+                //List<Authorization> lstUser = new ArrayList<Authorization>();
                 try
                 {
-                    AuthorizationEAO autEAO = new AuthorizationEAO(em);
-                    lstUser = autEAO.loadAll();
+                    //AuthorizationEAO autEAO = new AuthorizationEAO(em);
+                    //stUser = autEAO.loadAll();
                     for (Authorization aut : lstUser)
                     {
                         if (aut.getLogin().equals(userName))
@@ -153,14 +161,14 @@ public class WorkFitFrame extends JFrame
                             {
                                 JOptionPane.showMessageDialog(null, "incorect password");
                                 retryСounter++;
-                                checkLogin(userName, em, retryСounter);
+                                checkLogin(userName, lstUser, retryСounter);
                             }
                         }
                         else
                         {
                             JOptionPane.showMessageDialog(null, "User " + userName + "not found!!!");
                             retryСounter++;
-                            checkLogin(userName, em, retryСounter);
+                            checkLogin(userName, lstUser, retryСounter);
                         }
                     }
                 }
