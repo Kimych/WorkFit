@@ -38,6 +38,7 @@ import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import by.uniterra.dai.eao.AuthorizationEAO;
@@ -58,6 +59,8 @@ public class AuthorizationQueryTest
     private static final String TEST_LOGIN = "test login";
     private static final String TEST_PAS = "test pass";
     private static final String TEST_ROLE = "role1";
+    private static List<Role> lstRolesToDelete;
+    private static List<Authorization> lstUsersToDelete;
 
     /**
      * @throws java.lang.Exception
@@ -65,16 +68,53 @@ public class AuthorizationQueryTest
      * @author Sergio Alecky
      * @date 05 сент. 2014 г.
      */
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception
-    {
-        SystemModel.disposeJPA();
-    }
 
     @Before
     public void setUp() throws Exception
     {
         SystemModel.initJPA();
+    }
+
+    @After
+    public void dispose() throws Exception
+    {
+        SystemModel.disposeJPA();
+        ;
+    }
+
+    @BeforeClass
+    public static void init()
+    {
+        lstRolesToDelete = new ArrayList<Role>();
+        lstUsersToDelete = new ArrayList<Authorization>();
+    }
+
+    @AfterClass
+    public static void clean()
+    {
+        SystemModel.initJPA();
+        // delete Roles
+        RoleEAO eaoRole = new RoleEAO(SystemModel.getDefaultEM());
+        for (Role role : lstRolesToDelete)
+        {
+            Role rFoundRole = eaoRole.find(role.getRoleId());
+            if (rFoundRole != null)
+            {
+                eaoRole.delete(rFoundRole);
+            }
+        }
+
+        // delete Authorization
+        AuthorizationEAO eaoAuth = new AuthorizationEAO(SystemModel.getDefaultEM());
+        for (Authorization auth : lstUsersToDelete)
+        {
+            Authorization authCurAuth = eaoAuth.find(auth.getAuthorizationId());
+            if (authCurAuth != null)
+            {
+                eaoAuth.delete(authCurAuth);
+            }
+        }
+        SystemModel.disposeJPA();
     }
 
     @Test
@@ -88,6 +128,8 @@ public class AuthorizationQueryTest
         try
         {
             user = eaoAut.save(user);
+            lstUsersToDelete.add(user);
+
         }
         catch (Exception e)
         {
@@ -97,14 +139,6 @@ public class AuthorizationQueryTest
 
         assertTrue(lstAut.get(0).getPassword().equals(TEST_PAS));
 
-        try
-        {
-            eaoAut.delete(user);
-        }
-        catch (Exception e)
-        {
-            fail(e.getMessage());
-        }
     }
 
     @Test
@@ -117,6 +151,7 @@ public class AuthorizationQueryTest
         try
         {
             role = eaoRole.save(role);
+            lstRolesToDelete.add(role);
         }
         catch (Exception e)
         {
@@ -135,6 +170,7 @@ public class AuthorizationQueryTest
         try
         {
             user = eaoAuth.save(user);
+            lstUsersToDelete.add(user);
         }
         catch (Exception e)
         {
@@ -142,14 +178,11 @@ public class AuthorizationQueryTest
         }
 
         List<Role> lstResultRole = eaoAuth.getRoleByLoginAndPassword(TEST_LOGIN, TEST_PAS);
+
         for (Role rl : lstResultRole)
         {
             assertTrue(rl.getName().equals(TEST_ROLE));
         }
-
-        // delete data from db
-        eaoRole.delete(role);
-        eaoAuth.delete(user);
 
     }
 
@@ -163,6 +196,7 @@ public class AuthorizationQueryTest
         try
         {
             role = eaoRole.save(role);
+            lstRolesToDelete.add(role);
         }
         catch (Exception e)
         {
@@ -181,6 +215,7 @@ public class AuthorizationQueryTest
         try
         {
             user = eaoAuth.save(user);
+            lstUsersToDelete.add(user);
         }
         catch (Exception e)
         {
@@ -192,10 +227,6 @@ public class AuthorizationQueryTest
         {
             assertTrue(rl.getLogin().equals(TEST_LOGIN));
         }
-
-        // delete data from db
-        eaoRole.delete(role);
-        eaoAuth.delete(user);
 
     }
 

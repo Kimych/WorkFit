@@ -69,8 +69,8 @@ public class WorkFitFrame extends JFrame
         wfFrame.setTitle("Work Fit Test Frame");
         wfFrame.setLayout(new GridBagLayout());
         wfFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        wfFrame.setLocationRelativeTo(null);
         wfFrame.setSize(600, 400);
+        wfFrame.setLocationRelativeTo(null);
         wfFrame.setVisible(true);
 
         wfFrame.doLogin();
@@ -128,7 +128,7 @@ public class WorkFitFrame extends JFrame
             // create login dialog
             LoginPanel panelLogin = new LoginPanel(strUserName);
             // show login dialog
-            int input = JOptionPane.showConfirmDialog(null, panelLogin, "Авторизация:", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+            int input = JOptionPane.showConfirmDialog(this, panelLogin, "Авторизация:", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
             // check result
             if (input == JOptionPane.OK_OPTION)
             {
