@@ -30,7 +30,6 @@
 package by.uniterra.system.main;
 
 import java.awt.GridBagLayout;
-import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.swing.JFrame;
@@ -38,6 +37,8 @@ import javax.swing.JOptionPane;
 
 import by.uniterra.dai.eao.AuthorizationEAO;
 import by.uniterra.dai.entity.Authorization;
+import by.uniterra.dai.entity.Role;
+import by.uniterra.system.iface.IRole;
 import by.uniterra.system.model.SystemModel;
 import by.uniterra.udi.util.Log;
 import by.uniterra.udi.view.LoginPanel;
@@ -112,7 +113,23 @@ public class WorkFitFrame extends JFrame
             EntityManager em = SystemModel.getDefaultEM();
             AuthorizationEAO autEAO = new AuthorizationEAO(em);
             // lstUser = autEAO.loadAll();
-            checkLogin("", autEAO, 1);
+            Authorization auth = checkLogin("", autEAO, 1);
+            
+            if (auth != null)
+            {
+                SystemModel.setAuthorization(auth);
+                // alyze Role 
+                // create UI for Admin or User
+                if (isContainsRole(auth, IRole.ADMIN))
+                {
+                    createAdminUI();
+                }
+                else
+                {
+                    createUserUI();
+                }
+            }
+            
         }
         catch (Exception e)
         {
@@ -123,7 +140,32 @@ public class WorkFitFrame extends JFrame
         }
     }
 
-    private void checkLogin(String strUserName, AuthorizationEAO autEAO, int retryСounter)
+    private void createUserUI()
+    {
+       // create panels and add to current Frame
+        
+    }
+
+    private void createAdminUI()
+    {
+        // create panels and add to current Frame
+    }
+
+    private boolean isContainsRole(Authorization auth, int iRileToSearch)
+    {
+        boolean bReasult = false;
+        for (Role curRole : auth.getRoles())
+        {
+            if (curRole.getRoleId() == iRileToSearch)
+            {
+                bReasult = true;
+                break;
+            }
+        }
+        return bReasult;
+    }
+
+    private Authorization checkLogin(String strUserName, AuthorizationEAO autEAO, int retryСounter)
     {
         if (retryСounter <= 3)
         {
@@ -138,16 +180,10 @@ public class WorkFitFrame extends JFrame
                 String currentPass = panelLogin.getPassword();
                 try
                 {
-                    List<Authorization> lstUser = autEAO.getAuthorizationByLoginAndPassword(userName, currentPass);
-                    if (!lstUser.isEmpty())
+                    Authorization authUser = autEAO.getAuthorizationByLoginAndPassword(userName, currentPass);
+                    if (authUser != null)
                     {
-                        Log.info(WorkFitFrame.class, "Login user:" + userName);
-                        
-                        for(Authorization aut : lstUser)
-                        {
-                            int roleID = aut.getRoles().get(0).getRoleId();
-                            SystemModel.setRole(roleID);
-                        }
+                        return authUser;
                     }
                     else
                     {
@@ -166,8 +202,8 @@ public class WorkFitFrame extends JFrame
             Log.info(WorkFitFrame.class, "3 abortive attempts of authorization");
             disposeMainFrame();
             JOptionPane.showMessageDialog(null, "Sorry I can not continue...");
-
         }
+        return null;
     }
 
 }
