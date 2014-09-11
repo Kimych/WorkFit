@@ -153,6 +153,7 @@ public class WorkFitFrame extends JFrame
                             {
                                 Log.info(WorkFitFrame.class, "Login SUCCESS!!!");
                                 // get role for current user
+                                
                                 // 3) Set Authorization object to SystemModel
                                 // (SystemModel.setAuthorization(Authorization
                                 // authCurUser)).
@@ -186,4 +187,5 @@ public class WorkFitFrame extends JFrame
 
         }
     }
+    
 }

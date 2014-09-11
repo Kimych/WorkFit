@@ -32,13 +32,17 @@ package by.uniterra.dai;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.Test;
 
 import by.uniterra.dai.eao.AuthorizationEAO;
+import by.uniterra.dai.eao.RoleEAO;
 import by.uniterra.dai.entity.Authorization;
+import by.uniterra.dai.entity.Role;
 import by.uniterra.system.model.SystemModel;
 
 /**
@@ -52,6 +56,7 @@ public class AuthorizationQueryTest
 
     private static final String TEST_LOGIN = "test login";
     private static final String TEST_PAS = "test pass";
+    private static final String TEST_ROLE = "role1";
 
     /**
      * @throws java.lang.Exception
@@ -62,11 +67,17 @@ public class AuthorizationQueryTest
     @AfterClass
     public static void tearDownAfterClass() throws Exception
     {
-	SystemModel.disposeJPA();
+        SystemModel.disposeJPA();
+    }
+
+    @Before
+    public void setUp() throws Exception
+    {
+        SystemModel.initJPA();
     }
 
     @Test
-    public void test()
+    public void getAuthorizationsByLoginTest()
     {
         Authorization user = new Authorization();
         user.setLogin(TEST_LOGIN);
@@ -93,6 +104,52 @@ public class AuthorizationQueryTest
         {
             fail(e.getMessage());
         }
+    }
+
+    @Test
+    public void getRoleByLoginAndPasswordTest()
+    {
+        // create role
+        Role role = new Role();
+        role.setName(TEST_ROLE);
+        RoleEAO eaoRole = new RoleEAO(SystemModel.getDefaultEM());
+        try
+        {
+            role = eaoRole.save(role);
+        }
+        catch (Exception e)
+        {
+            fail(e.getMessage());
+        }
+        // create List<Role>
+        List<Role> lstRole = new ArrayList<Role>();
+        lstRole.add(role);
+
+        Authorization user = new Authorization();
+        user.setLogin(TEST_LOGIN);
+        user.setPassword(TEST_PAS);
+        user.setRoles(lstRole);
+
+        AuthorizationEAO eaoAuth = new AuthorizationEAO(SystemModel.getDefaultEM());
+        try
+        {
+            user = eaoAuth.save(user);
+        }
+        catch (Exception e)
+        {
+            fail(e.getMessage());
+        }
+
+        List<Role> lstResultRole = eaoAuth.getRoleByLoginAndPassword(TEST_LOGIN, TEST_PAS);
+        for (Role rl : lstResultRole)
+        {
+            assertTrue(rl.getName().equals(TEST_ROLE));
+        }
+
+        // delete data from db
+        eaoRole.delete(role);
+        eaoAuth.delete(user);
+
     }
 
 }

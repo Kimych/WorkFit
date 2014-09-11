@@ -28,6 +28,7 @@ public class SystemModel
     private static Properties property;
     private static EntityManagerFactory emfFactory;
     private static EntityManager emDefaultManager;
+    private static int role;
 
     private SystemModel(String strURLtoProperties)
     {
@@ -310,6 +311,16 @@ public class SystemModel
             }
         }
         return dResult;
+    }
+
+    public  int getRole()
+    {
+        return SystemModel.role;
+    }
+
+    public void setRole(int role)
+    {
+        SystemModel.role = role;
     }
 
 }
