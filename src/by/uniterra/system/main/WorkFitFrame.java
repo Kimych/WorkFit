@@ -77,6 +77,8 @@ public class WorkFitFrame extends JFrame
         // JFrame workfit = new WorkFitFrame();
         // System.out.println(sm.getBool("57.srt", false));
         // Log.info(WorkFitFrame.class, "Start project");
+
+        System.out.println(SystemModel.getRole());
     }
 
     public WorkFitFrame()
@@ -139,11 +141,13 @@ public class WorkFitFrame extends JFrame
                     List<Authorization> lstUser = autEAO.getAuthorizationByLoginAndPassword(userName, currentPass);
                     if (!lstUser.isEmpty())
                     {
-                        Log.info(WorkFitFrame.class, "Login SUCCESS!!!");
-                        // get role for current user
-                        // 3) Set Authorization object to SystemModel
-                        // (SystemModel.setAuthorization(Authorization
-                        // authCurUser)).
+                        Log.info(WorkFitFrame.class, "Login user:" + userName);
+                        
+                        for(Authorization aut : lstUser)
+                        {
+                            int roleID = aut.getRoles().get(0).getRoleId();
+                            SystemModel.setRole(roleID);
+                        }
                     }
                     else
                     {

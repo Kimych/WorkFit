@@ -313,12 +313,12 @@ public class SystemModel
         return dResult;
     }
 
-    public  int getRole()
+    public static int getRole()
     {
         return SystemModel.role;
     }
 
-    public void setRole(int role)
+    public static void setRole(int role)
     {
         SystemModel.role = role;
     }
