@@ -16,6 +16,8 @@ import java.util.List;
         @NamedQuery(name = Authorization.NQ_FIND_AUTHORIZATION_BY_LOGIN, query = "SELECT a FROM Authorization a where a.login = :"
                 + Authorization.PARAMETER_LOGIN),
         @NamedQuery(name = Authorization.NQ_FIND_ROLE_BY_LOGIN_AND_PASSWORD, query = "SELECT a.roles FROM Authorization a where a.login = :"
+                + Authorization.PARAMETER_LOGIN + " AND a.password = :" + Authorization.PARAMETER_PASSWORD),
+        @NamedQuery(name = Authorization.NQ_FIND_AUTHORIZATION_BY_LOGIN_AND_PASSWORD, query = "SELECT a FROM Authorization a where a.login = :"
                 + Authorization.PARAMETER_LOGIN + " AND a.password = :" + Authorization.PARAMETER_PASSWORD) })
 public class Authorization implements Serializable
 {
@@ -24,6 +26,7 @@ public class Authorization implements Serializable
     public static final String NQ_FIND_ALL = "Authorization.findAll";
     public static final String NQ_FIND_AUTHORIZATION_BY_LOGIN = "Authorization.findAllRoleByLogin";
     public static final String NQ_FIND_ROLE_BY_LOGIN_AND_PASSWORD = "Authorization.findRoleByLoginAndPassword";
+    public static final String NQ_FIND_AUTHORIZATION_BY_LOGIN_AND_PASSWORD = "Authorization.findAuthorazationByLoginAndPassword";
 
     public static final String PARAMETER_LOGIN = "login";
     public static final String PARAMETER_PASSWORD = "password";

@@ -56,5 +56,25 @@ public class AuthorizationEAO extends ServiceBaseEAO<Authorization>
 
         return (List<Role>) (lstResult != null ? lstResult : Collections.emptyList());
     }
+    
+    public List<Authorization> getAuthorizationByLoginAndPassword(String login, String password)
+    {
+        List<Authorization> lstResult = null;
+        try
+        {
+            Query queryDeleteByDSId = getNamedQuery(Authorization.NQ_FIND_AUTHORIZATION_BY_LOGIN_AND_PASSWORD);
+            queryDeleteByDSId.setParameter(Authorization.PARAMETER_LOGIN, login);
+            queryDeleteByDSId.setParameter(Authorization.PARAMETER_PASSWORD, password);
+
+            lstResult = (List<Authorization>) queryDeleteByDSId.getResultList();
+        }
+        catch (Exception e)
+        {
+            Log.error(this, e, "namedQuery getRoleByLoginAndPassword error");
+        }
+
+        return (List<Authorization>)(lstResult != null ? lstResult : Collections.emptyList());
+    }
+
 
 }

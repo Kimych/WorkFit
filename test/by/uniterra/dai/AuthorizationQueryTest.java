@@ -35,6 +35,7 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
@@ -75,7 +76,7 @@ public class AuthorizationQueryTest
     {
         SystemModel.initJPA();
     }
-
+    
     @Test
     public void getAuthorizationsByLoginTest()
     {
@@ -144,6 +145,52 @@ public class AuthorizationQueryTest
         for (Role rl : lstResultRole)
         {
             assertTrue(rl.getName().equals(TEST_ROLE));
+        }
+
+        // delete data from db
+        eaoRole.delete(role);
+        eaoAuth.delete(user);
+
+    }
+    
+    @Test
+    public void getAuthorizationByLoginAndPasswordTest()
+    {
+        // create role
+        Role role = new Role();
+        role.setName(TEST_ROLE);
+        RoleEAO eaoRole = new RoleEAO(SystemModel.getDefaultEM());
+        try
+        {
+            role = eaoRole.save(role);
+        }
+        catch (Exception e)
+        {
+            fail(e.getMessage());
+        }
+        // create List<Role>
+        List<Role> lstRole = new ArrayList<Role>();
+        lstRole.add(role);
+
+        Authorization user = new Authorization();
+        user.setLogin(TEST_LOGIN);
+        user.setPassword(TEST_PAS);
+        user.setRoles(lstRole);
+
+        AuthorizationEAO eaoAuth = new AuthorizationEAO(SystemModel.getDefaultEM());
+        try
+        {
+            user = eaoAuth.save(user);
+        }
+        catch (Exception e)
+        {
+            fail(e.getMessage());
+        }
+
+        List<Authorization> lstResultRole = eaoAuth.getAuthorizationByLoginAndPassword(TEST_LOGIN, TEST_PAS);
+        for (Authorization rl : lstResultRole)
+        {
+            assertTrue(rl.getLogin().equals(TEST_LOGIN));
         }
 
         // delete data from db
