@@ -56,7 +56,7 @@ public class AuthorizationEAO extends ServiceBaseEAO<Authorization>
 
         return (List<Role>) (lstResult != null ? lstResult : Collections.emptyList());
     }
-    
+
     public List<Authorization> getAuthorizationByLoginAndPassword(String login, String password)
     {
         List<Authorization> lstResult = null;
@@ -73,8 +73,7 @@ public class AuthorizationEAO extends ServiceBaseEAO<Authorization>
             Log.error(this, e, "namedQuery getRoleByLoginAndPassword error");
         }
 
-        return (List<Authorization>)(lstResult != null ? lstResult : Collections.emptyList());
+        return lstResult;
     }
-
 
 }

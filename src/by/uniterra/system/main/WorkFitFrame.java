@@ -36,7 +36,6 @@ import javax.persistence.EntityManager;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-
 import by.uniterra.dai.eao.AuthorizationEAO;
 import by.uniterra.dai.entity.Authorization;
 import by.uniterra.system.model.SystemModel;
@@ -54,8 +53,6 @@ public class WorkFitFrame extends JFrame
 
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 165708470997304032L;
-
-    
 
     /**
      * @param args
@@ -75,11 +72,11 @@ public class WorkFitFrame extends JFrame
         wfFrame.setLocationRelativeTo(null);
         wfFrame.setSize(600, 400);
         wfFrame.setVisible(true);
-        
+
         wfFrame.doLogin();
-        //JFrame workfit = new WorkFitFrame();
+        // JFrame workfit = new WorkFitFrame();
         // System.out.println(sm.getBool("57.srt", false));
-        //Log.info(WorkFitFrame.class, "Start project");
+        // Log.info(WorkFitFrame.class, "Start project");
     }
 
     public WorkFitFrame()
@@ -100,9 +97,8 @@ public class WorkFitFrame extends JFrame
     private void jbUnit()
     {
 
-
     }
-    
+
     public void doLogin()
     {
 
@@ -113,8 +109,8 @@ public class WorkFitFrame extends JFrame
             SystemModel.initJPA();
             EntityManager em = SystemModel.getDefaultEM();
             AuthorizationEAO autEAO = new AuthorizationEAO(em);
-            //lstUser = autEAO.loadAll();
-            checkLogin("",autEAO.loadAll(), 1);
+            // lstUser = autEAO.loadAll();
+            checkLogin("", autEAO, 1);
         }
         catch (Exception e)
         {
@@ -125,7 +121,7 @@ public class WorkFitFrame extends JFrame
         }
     }
 
-    private void checkLogin(String strUserName, List<Authorization> lstUser, int retryСounter)
+    private void checkLogin(String strUserName, AuthorizationEAO autEAO, int retryСounter)
     {
         if (retryСounter <= 3)
         {
@@ -137,40 +133,22 @@ public class WorkFitFrame extends JFrame
             if (input == JOptionPane.OK_OPTION)
             {
                 String userName = panelLogin.getUserName();
-                //List<Authorization> lstUser = new ArrayList<Authorization>();
+                String currentPass = panelLogin.getPassword();
                 try
                 {
-                    //AuthorizationEAO autEAO = new AuthorizationEAO(em);
-                    //stUser = autEAO.loadAll();
-                    for (Authorization aut : lstUser)
+                    List<Authorization> lstUser = autEAO.getAuthorizationByLoginAndPassword(userName, currentPass);
+                    if (!lstUser.isEmpty())
                     {
-                        if (aut.getLogin().equals(userName))
-                        {
-                            // if a match is found -> get password
-                            // TODO encryption passwords
-                            String currentPass = panelLogin.getPassword();
-                            if (aut.getPassword().equals(currentPass))
-                            {
-                                Log.info(WorkFitFrame.class, "Login SUCCESS!!!");
-                                // get role for current user
-                                
-                                // 3) Set Authorization object to SystemModel
-                                // (SystemModel.setAuthorization(Authorization
-                                // authCurUser)).
-                            }
-                            else
-                            {
-                                JOptionPane.showMessageDialog(null, "incorect password");
-                                retryСounter++;
-                                checkLogin(userName, lstUser, retryСounter);
-                            }
-                        }
-                        else
-                        {
-                            JOptionPane.showMessageDialog(null, "User " + userName + "not found!!!");
-                            retryСounter++;
-                            checkLogin(userName, lstUser, retryСounter);
-                        }
+                        Log.info(WorkFitFrame.class, "Login SUCCESS!!!");
+                        // get role for current user
+                        // 3) Set Authorization object to SystemModel
+                        // (SystemModel.setAuthorization(Authorization
+                        // authCurUser)).
+                    }
+                    else
+                    {
+                        retryСounter++;
+                        checkLogin(userName, autEAO, retryСounter);
                     }
                 }
                 catch (Exception e)
@@ -187,5 +165,5 @@ public class WorkFitFrame extends JFrame
 
         }
     }
-    
+
 }

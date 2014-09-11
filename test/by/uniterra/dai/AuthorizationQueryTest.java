@@ -76,7 +76,7 @@ public class AuthorizationQueryTest
     {
         SystemModel.initJPA();
     }
-    
+
     @Test
     public void getAuthorizationsByLoginTest()
     {
@@ -152,7 +152,7 @@ public class AuthorizationQueryTest
         eaoAuth.delete(user);
 
     }
-    
+
     @Test
     public void getAuthorizationByLoginAndPasswordTest()
     {
