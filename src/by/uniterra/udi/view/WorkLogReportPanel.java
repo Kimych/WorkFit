@@ -30,7 +30,7 @@ public class WorkLogReportPanel extends JTabbedPane
 
     static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy (hh:mm)");
 
-    public static void main(String[] args)
+/*    public static void main(String[] args)
     {
         SystemModel.initJPA();
         JFrame frame = new JFrame("Test Employe");
@@ -40,7 +40,7 @@ public class WorkLogReportPanel extends JTabbedPane
         frame.add(new WorkLogReportPanel());
         frame.setVisible(true);
         SystemModel.disposeJPA();
-    }
+    }*/
 
     public WorkLogReportPanel()
     {
@@ -61,7 +61,7 @@ public class WorkLogReportPanel extends JTabbedPane
         int workingDaysInMonth = eaoMonth.getWorkDayDataForMonth(curentMonth);
 
         SpentHolidayEAO eaoSpentHoliday = new SpentHolidayEAO(SystemModel.getDefaultEM());
-
+  
         HolidayEAO eaoHoliday = new HolidayEAO(SystemModel.getDefaultEM());
 
         for (Worker curentWorker : workerArrayList)

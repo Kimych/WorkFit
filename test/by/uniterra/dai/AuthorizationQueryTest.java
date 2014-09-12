@@ -79,7 +79,6 @@ public class AuthorizationQueryTest
     public void dispose() throws Exception
     {
         SystemModel.disposeJPA();
-        ;
     }
 
     @BeforeClass
@@ -222,11 +221,10 @@ public class AuthorizationQueryTest
             fail(e.getMessage());
         }
 
-        List<Authorization> lstResultRole = eaoAuth.getAuthorizationByLoginAndPassword(TEST_LOGIN, TEST_PAS);
-        for (Authorization rl : lstResultRole)
-        {
-            assertTrue(rl.getLogin().equals(TEST_LOGIN));
-        }
+        Authorization lstResultRole = eaoAuth.getAuthorizationByLoginAndPassword(TEST_LOGIN, TEST_PAS);
+        
+            System.out.println(lstResultRole.getRoles().get(0).getName());
+            assertTrue(lstResultRole.getRoles().get(0).getName().equals(TEST_ROLE));
 
     }
 

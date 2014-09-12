@@ -42,6 +42,7 @@ import by.uniterra.system.iface.IRole;
 import by.uniterra.system.model.SystemModel;
 import by.uniterra.udi.util.Log;
 import by.uniterra.udi.view.LoginPanel;
+import by.uniterra.udi.view.WorkLogReportPanel;
 
 /**
  * The <code>WorkFitFrame</code> is used for ...
@@ -73,13 +74,17 @@ public class WorkFitFrame extends JFrame
         wfFrame.setSize(600, 400);
         wfFrame.setLocationRelativeTo(null);
         wfFrame.setVisible(true);
-
+        
         wfFrame.doLogin();
+        
+        /*SystemModel.initJPA();
+        WorkLogReportPanel logPanel = new WorkLogReportPanel();
+        wfFrame.add(logPanel);*/
+        
         // JFrame workfit = new WorkFitFrame();
         // System.out.println(sm.getBool("57.srt", false));
         // Log.info(WorkFitFrame.class, "Start project");
 
-        System.out.println(SystemModel.getRole());
     }
 
     public WorkFitFrame()
@@ -118,6 +123,7 @@ public class WorkFitFrame extends JFrame
             if (auth != null)
             {
                 SystemModel.setAuthorization(auth);
+                System.out.println(SystemModel.getAuthorization().getRoles().get(0).getRoleId());;
                 // alyze Role 
                 // create UI for Admin or User
                 if (isContainsRole(auth, IRole.ADMIN))
@@ -126,6 +132,7 @@ public class WorkFitFrame extends JFrame
                 }
                 else
                 {
+                    System.out.println("User");
                     createUserUI();
                 }
             }
@@ -142,13 +149,15 @@ public class WorkFitFrame extends JFrame
 
     private void createUserUI()
     {
-       // create panels and add to current Frame
+       super.add(rootPane);
         
     }
 
     private void createAdminUI()
     {
-        // create panels and add to current Frame
+        WorkLogReportPanel logPanel = new WorkLogReportPanel();
+        super.add(logPanel);
+        super.setVisible(true);
     }
 
     private boolean isContainsRole(Authorization auth, int iRileToSearch)

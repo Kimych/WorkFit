@@ -11,6 +11,7 @@ import javax.persistence.Persistence;
 
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 
+import by.uniterra.dai.entity.Authorization;
 import by.uniterra.dai.model.JPASessionCustomizer;
 import by.uniterra.system.iface.IGlobalProperties;
 import by.uniterra.system.main.WorkFitFrame;
@@ -28,7 +29,7 @@ public class SystemModel
     private static Properties property;
     private static EntityManagerFactory emfFactory;
     private static EntityManager emDefaultManager;
-    private static int role;
+    private static Authorization authorization;
 
     private SystemModel(String strURLtoProperties)
     {
@@ -313,14 +314,15 @@ public class SystemModel
         return dResult;
     }
 
-    public static int getRole()
+
+    public static Authorization getAuthorization()
     {
-        return SystemModel.role;
+        return authorization;
     }
 
-    public static void setRole(int role)
+    public static void setAuthorization(Authorization authorization)
     {
-        SystemModel.role = role;
+        SystemModel.authorization = authorization;
     }
 
 }
