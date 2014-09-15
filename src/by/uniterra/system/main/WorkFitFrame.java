@@ -29,13 +29,19 @@
 
 package by.uniterra.system.main;
 
+import java.awt.Color;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import javax.persistence.EntityManager;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 
-import org.kohsuke.rngom.parse.Parseable;
+import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.decorator.HighlighterFactory;
 
 import by.uniterra.dai.eao.AuthorizationEAO;
 import by.uniterra.dai.entity.Authorization;
@@ -43,10 +49,10 @@ import by.uniterra.dai.entity.Role;
 import by.uniterra.system.iface.IRole;
 import by.uniterra.system.model.SystemModel;
 import by.uniterra.udi.model.WorkLogInfoHelper;
+import by.uniterra.udi.model.WorkLogTableModel;
 import by.uniterra.udi.util.Log;
 import by.uniterra.udi.view.LoginPanel;
 import by.uniterra.udi.view.WorkLogOptionPanel;
-import by.uniterra.udi.view.WorkLogReportPanel;
 
 /**
  * The <code>WorkFitFrame</code> is used for ...
@@ -73,7 +79,6 @@ public class WorkFitFrame extends JFrame
 
         WorkFitFrame wfFrame = new WorkFitFrame();
         wfFrame.setTitle("Work Fit Test Frame");
-        wfFrame.setLayout(new GridBagLayout());
         wfFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         wfFrame.setSize(600, 400);
         wfFrame.setLocationRelativeTo(null);
@@ -137,7 +142,7 @@ public class WorkFitFrame extends JFrame
             {
                 SystemModel.setAuthorization(auth);
                 // System.out.println(SystemModel.getAuthorization().getRoles().get(0).getRoleId());;
-                // alyze Role
+                // aтфlyze Role
                 // create UI for Admin or User
                 if (isContainsRole(auth, IRole.ADMIN))
                 {
@@ -145,7 +150,6 @@ public class WorkFitFrame extends JFrame
                 }
                 else
                 {
-                    System.out.println("User");
                     createUserUI();
                 }
             }
@@ -155,7 +159,7 @@ public class WorkFitFrame extends JFrame
         {
             Log.error(this, "not visible DB");
             Log.info(this, "application close.");
-            disposeMainFrame();
+            disposeMainFrame(); 
             throw e;
         }
     }
@@ -165,16 +169,24 @@ public class WorkFitFrame extends JFrame
 
         WorkLogOptionPanel wlop = new WorkLogOptionPanel();
         wlop.setModel(WorkLogInfoHelper.getLogInfoByWorker());
-        super.add(wlop);
-        super.setVisible(true);
+        getContentPane().add(wlop);
+        //super.setVisible(true);
 
     }
 
     private void createAdminUI()
     {
-        WorkLogReportPanel logPanel = new WorkLogReportPanel();
-        super.add(logPanel);
-        super.setVisible(true);
+        WorkLogTableModel wltm = new WorkLogTableModel();
+        wltm.setTableData(WorkLogInfoHelper.getAllLogList());
+        JXTable table = new JXTable(wltm);
+        table.setColumnControlVisible(true);
+        //table.setHorizontalScrollEnabled(true);
+        table.addHighlighter(HighlighterFactory.createSimpleStriping(new Color(234, 234, 234)));
+        //table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        
+        getContentPane().setLayout(new GridBagLayout());
+        getContentPane().add(new JScrollPane(table), new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+        setVisible(true);
     }
 
     private boolean isContainsRole(Authorization auth, int iRileToSearch)

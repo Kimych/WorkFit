@@ -16,10 +16,10 @@ public class WorkLogTableModel extends AbstractFlexTableModel
     private final static int COL_TO_PLANE = 2;
     private final static int COL_TO_BONUS = 3;
     private final static int COL_REST_HOLIDAY = 4;
-    
+
     private List<WorkLogInfoHolder> dataArrayList;
     public List<String> arrColumnNames;
-    
+
     public WorkLogTableModel()
     {
         addColumn(COL_NAME, "Name", String.class);
@@ -28,31 +28,31 @@ public class WorkLogTableModel extends AbstractFlexTableModel
         addColumn(COL_TO_BONUS, "To bonus", String.class);
         addColumn(COL_REST_HOLIDAY, "To holiday", String.class);
     }
-    
+
     public void addData(List<WorkLogInfoHolder> arrData)
     {
         this.dataArrayList = new ArrayList<WorkLogInfoHolder>(arrData);
         // notify "view" about changed model data
         fireTableDataChanged();
     }
-    
+
     @Override
     public boolean isCellEditable(int row, int column)
     {
         return false;
     }
-    
+
     public List<WorkLogInfoHolder> setData()
     {
         return dataArrayList;
     }
-    
+
     @Override
     public Object getValueById(int rowIndex, int columnId)
     {
         Object objResult = null;
-         WorkLogInfoHolder idData = (WorkLogInfoHolder)getRowData(rowIndex);
-         switch (columnId)
+        WorkLogInfoHolder idData = (WorkLogInfoHolder) getRowData(rowIndex);
+        switch (columnId)
         {
         case COL_NAME:
             objResult = idData.getNameWorker();
@@ -69,13 +69,10 @@ public class WorkLogTableModel extends AbstractFlexTableModel
         case COL_REST_HOLIDAY:
             objResult = idData.getTimeLeft();
             break;
-
         default:
             break;
         }
-        // TODO Auto-generated method stub
         return objResult;
     }
-    
 
 }

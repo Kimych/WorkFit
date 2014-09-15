@@ -129,4 +129,12 @@ public class WorkLogInfoHolder
     {
         this.BeInPlane = BeInPlane;
     }
+
+
+    @Override
+    public String toString()
+    {
+        return "WorkLogInfoHolder [CurentTime=" + CurentTime + ", ToPlane=" + ToPlane + ", ToBonus=" + ToBonus + ", TimeLeft=" + TimeLeft + ", LastUpdateDate="
+                + LastUpdateDate + ", NameWorker=" + NameWorker + ", BeInPlane=" + BeInPlane + "]";
+    }
 }

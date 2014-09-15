@@ -40,9 +40,9 @@ public class WorkFitCommonFrame
         // HolidayTableModel(), new HolidayOptionPanel(), new
         // HolidayEAO(ServiceBaseEAO.getDefaultEM()));
 
-        //JPanel panelCommon = new JPanel();
+        // JPanel panelCommon = new JPanel();
         // panelCommon.add(panelMonth);
-        //panelCommon.add(panelYear);
+        // panelCommon.add(panelYear);
         // panelCommon.add(panelWorker);
         // panelCommon.add(panelHoliday);
         // CommonDataTablePanel panelDoW = new CommonDataTablePanel(new
