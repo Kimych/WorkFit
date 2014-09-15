@@ -59,7 +59,6 @@ public class WorkFitFrame extends JFrame
 
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 165708470997304032L;
-    
 
     /**
      * @param args
@@ -79,14 +78,22 @@ public class WorkFitFrame extends JFrame
         wfFrame.setSize(600, 400);
         wfFrame.setLocationRelativeTo(null);
         wfFrame.setVisible(true);
-        
-        //args==[login=admin ,password=admin]
-        wfFrame.doLogin((args[0].split("="))[1], (args[1].split("="))[1]);
-        
-        /*SystemModel.initJPA();
-        WorkLogReportPanel logPanel = new WorkLogReportPanel();
-        wfFrame.add(logPanel);*/
-        
+
+        // args==[login=admin ,password=admin]
+        if (args.length != 0)
+        {
+            wfFrame.doLogin((args[0].split("="))[1], (args[1].split("="))[1]);
+        }
+        else
+        {
+            wfFrame.doLogin("","");
+        }
+
+        /*
+         * SystemModel.initJPA(); WorkLogReportPanel logPanel = new
+         * WorkLogReportPanel(); wfFrame.add(logPanel);
+         */
+
         // JFrame workfit = new WorkFitFrame();
         // System.out.println(sm.getBool("57.srt", false));
         // Log.info(WorkFitFrame.class, "Start project");
@@ -125,12 +132,12 @@ public class WorkFitFrame extends JFrame
             AuthorizationEAO autEAO = new AuthorizationEAO(em);
             // lstUser = autEAO.loadAll();
             Authorization auth = checkLogin(strLogin, strPassword, autEAO, 1);
-            
+
             if (auth != null)
             {
                 SystemModel.setAuthorization(auth);
-                //System.out.println(SystemModel.getAuthorization().getRoles().get(0).getRoleId());;
-                // alyze Role 
+                // System.out.println(SystemModel.getAuthorization().getRoles().get(0).getRoleId());;
+                // alyze Role
                 // create UI for Admin or User
                 if (isContainsRole(auth, IRole.ADMIN))
                 {
@@ -142,7 +149,7 @@ public class WorkFitFrame extends JFrame
                     createUserUI();
                 }
             }
-            
+
         }
         catch (Exception e)
         {
@@ -155,12 +162,12 @@ public class WorkFitFrame extends JFrame
 
     private void createUserUI()
     {
-        
-       WorkLogOptionPanel wlop = new WorkLogOptionPanel();
-       wlop.setModel(WorkLogInfoHelper.getLogInfoByWorker());
-       super.add(wlop);
-       super.setVisible(true);
-        
+
+        WorkLogOptionPanel wlop = new WorkLogOptionPanel();
+        wlop.setModel(WorkLogInfoHelper.getLogInfoByWorker());
+        super.add(wlop);
+        super.setVisible(true);
+
     }
 
     private void createAdminUI()
@@ -186,8 +193,7 @@ public class WorkFitFrame extends JFrame
 
     private Authorization checkLogin(String strUserName, String strPassword, AuthorizationEAO autEAO, int retryСounter)
     {
-        if (strUserName != null && !strUserName.isEmpty()
-                && strPassword != null && !strPassword.isEmpty())
+        if (strUserName != null && !strUserName.isEmpty() && strPassword != null && !strPassword.isEmpty())
         {
             Authorization authUser = autEAO.getAuthorizationByLoginAndPassword(strUserName, strPassword);
             if (authUser != null)
