@@ -35,13 +35,17 @@ import javax.persistence.EntityManager;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import org.kohsuke.rngom.parse.Parseable;
+
 import by.uniterra.dai.eao.AuthorizationEAO;
 import by.uniterra.dai.entity.Authorization;
 import by.uniterra.dai.entity.Role;
 import by.uniterra.system.iface.IRole;
 import by.uniterra.system.model.SystemModel;
+import by.uniterra.udi.model.WorkLogInfoHelper;
 import by.uniterra.udi.util.Log;
 import by.uniterra.udi.view.LoginPanel;
+import by.uniterra.udi.view.WorkLogOptionPanel;
 import by.uniterra.udi.view.WorkLogReportPanel;
 
 /**
@@ -55,6 +59,7 @@ public class WorkFitFrame extends JFrame
 
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 165708470997304032L;
+    
 
     /**
      * @param args
@@ -75,7 +80,8 @@ public class WorkFitFrame extends JFrame
         wfFrame.setLocationRelativeTo(null);
         wfFrame.setVisible(true);
         
-        wfFrame.doLogin();
+        //args==[login=admin ,password=admin]
+        wfFrame.doLogin((args[0].split("="))[1], (args[1].split("="))[1]);
         
         /*SystemModel.initJPA();
         WorkLogReportPanel logPanel = new WorkLogReportPanel();
@@ -107,7 +113,7 @@ public class WorkFitFrame extends JFrame
 
     }
 
-    public void doLogin()
+    public void doLogin(String strLogin, String strPassword)
     {
 
         // check db connection
@@ -118,12 +124,12 @@ public class WorkFitFrame extends JFrame
             EntityManager em = SystemModel.getDefaultEM();
             AuthorizationEAO autEAO = new AuthorizationEAO(em);
             // lstUser = autEAO.loadAll();
-            Authorization auth = checkLogin("", autEAO, 1);
+            Authorization auth = checkLogin(strLogin, strPassword, autEAO, 1);
             
             if (auth != null)
             {
                 SystemModel.setAuthorization(auth);
-                System.out.println(SystemModel.getAuthorization().getRoles().get(0).getRoleId());;
+                //System.out.println(SystemModel.getAuthorization().getRoles().get(0).getRoleId());;
                 // alyze Role 
                 // create UI for Admin or User
                 if (isContainsRole(auth, IRole.ADMIN))
@@ -149,7 +155,11 @@ public class WorkFitFrame extends JFrame
 
     private void createUserUI()
     {
-       super.add(rootPane);
+        
+       WorkLogOptionPanel wlop = new WorkLogOptionPanel();
+       wlop.setModel(WorkLogInfoHelper.getLogInfoByWorker());
+       super.add(wlop);
+       super.setVisible(true);
         
     }
 
@@ -174,8 +184,22 @@ public class WorkFitFrame extends JFrame
         return bReasult;
     }
 
-    private Authorization checkLogin(String strUserName, AuthorizationEAO autEAO, int retryСounter)
+    private Authorization checkLogin(String strUserName, String strPassword, AuthorizationEAO autEAO, int retryСounter)
     {
+        if (strUserName != null && !strUserName.isEmpty()
+                && strPassword != null && !strPassword.isEmpty())
+        {
+            Authorization authUser = autEAO.getAuthorizationByLoginAndPassword(strUserName, strPassword);
+            if (authUser != null)
+            {
+                return authUser;
+            }
+            else
+            {
+                retryСounter++;
+                checkLogin(strUserName, "", autEAO, retryСounter);
+            }
+        }
         if (retryСounter <= 3)
         {
             // create login dialog
@@ -197,7 +221,7 @@ public class WorkFitFrame extends JFrame
                     else
                     {
                         retryСounter++;
-                        checkLogin(userName, autEAO, retryСounter);
+                        checkLogin(userName, "", autEAO, retryСounter);
                     }
                 }
                 catch (Exception e)
