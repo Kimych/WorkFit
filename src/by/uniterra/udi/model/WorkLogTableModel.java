@@ -3,8 +3,6 @@ package by.uniterra.udi.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import by.uniterra.dai.entity.Month;
-
 public class WorkLogTableModel extends AbstractFlexTableModel
 {
 

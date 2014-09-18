@@ -1,16 +1,12 @@
 package by.uniterra.udi.model;
 
-import java.awt.Component;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.time.Clock;
 import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
-import javax.swing.JLabel;
-
-import com.sun.org.apache.bcel.internal.generic.ARRAYLENGTH;
 
 import by.uniterra.dai.eao.DaysOfWorkEAO;
 import by.uniterra.dai.eao.HolidayEAO;
@@ -21,16 +17,16 @@ import by.uniterra.dai.entity.Authorization;
 import by.uniterra.dai.entity.DaysOfWork;
 import by.uniterra.dai.entity.Worker;
 import by.uniterra.system.model.SystemModel;
+import by.uniterra.system.util.DateUtils;
 import by.uniterra.system.util.WorkLogUtils;
-import by.uniterra.udi.iface.IModelOwner;
-import by.uniterra.udi.view.WorkLogOptionPanel;
 
 public class WorkLogInfoHelper
 {
     static int curentMonth = YearMonth.now(Clock.systemUTC()).getMonthValue();
-    static int numberYear = YearMonth.now(Clock.systemUTC()).getYear();
+    static int curentYear = YearMonth.now(Clock.systemUTC()).getYear();
 
     static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy (hh:mm)");
+    
 
     public static WorkLogInfoHolder getLogInfoByWorker()
     {
@@ -60,9 +56,9 @@ public class WorkLogInfoHelper
             // get time to bonus
             double ToBonus = WorkLogUtils.getTimeRemainsToBonus(workingDaysInMonth, workLogTime, curentSumBonus);
             // get rest of the holiday
-            double holiday = eaoHoliday.getHolidayDaysCountForWorkerAndYear(curentWorker, numberYear);
+            double holiday = eaoHoliday.getHolidayDaysCountForWorkerAndYear(curentWorker, curentYear);
             // get spend holiday
-            double timeLeft = eaoSpentHoliday.getSpentHolidayWorkerAndYear(curentWorker, numberYear);
+            double timeLeft = eaoSpentHoliday.getSpentHolidayWorkerAndYear(curentWorker, curentYear);
             // get result of the work
             boolean beInPlane = WorkLogUtils.beInPlaneAtTime(lstDaysOfWork.get(0).getAktualWorkedDays(), workingDaysInMonth, ToPlane);
             // get worklog time
@@ -73,9 +69,8 @@ public class WorkLogInfoHelper
         return objResult;
     }
 
-    public static List<WorkLogInfoHolder> getAllLogList()
+ /*   public static List<WorkLogInfoHolder> getAllLogList()
     {
-
         List<WorkLogInfoHolder> lstResult = new ArrayList<WorkLogInfoHolder>();
         DaysOfWorkEAO eaoDaysOfWork = new DaysOfWorkEAO(SystemModel.getDefaultEM());
         WorkerEAO eaoWorker = new WorkerEAO(SystemModel.getDefaultEM());
@@ -111,9 +106,9 @@ public class WorkLogInfoHelper
                 // get time to bonus
                 double ToBonus = WorkLogUtils.getTimeRemainsToBonus(workingDaysInMonth, workLogTime, curentSumBonus);
                 // get rest of the holiday
-                double holiday = eaoHoliday.getHolidayDaysCountForWorkerAndYear(curentWorker, numberYear);
+                double holiday = eaoHoliday.getHolidayDaysCountForWorkerAndYear(curentWorker, curentYear);
                 // get spend holiday
-                double timeLeft = eaoSpentHoliday.getSpentHolidayWorkerAndYear(curentWorker, numberYear);
+                double timeLeft = eaoSpentHoliday.getSpentHolidayWorkerAndYear(curentWorker, curentYear);
                 // get result of the work
                 boolean beInPlane = WorkLogUtils.beInPlaneAtTime(lstDaysOfWork.get(0).getAktualWorkedDays(), workingDaysInMonth, ToPlane);
                 // get worklog time
@@ -129,5 +124,63 @@ public class WorkLogInfoHelper
             }
         }
         return lstResult;
+    }*/
+    
+    public static List<WorkLogInfoHolder> getLogListUpToDate(Date date)
+    {
+        List<WorkLogInfoHolder> lstResult = new ArrayList<WorkLogInfoHolder>();
+        DaysOfWorkEAO eaoDaysOfWork = new DaysOfWorkEAO(SystemModel.getDefaultEM());
+        WorkerEAO eaoWorker = new WorkerEAO(SystemModel.getDefaultEM());
+        List<Worker> workerArrayList = eaoWorker.loadAll();
+
+        int calculatedMonth = DateUtils.getMonthNumber(date);
+        int calculatedYear = DateUtils.getYearNumber(date);
+        System.out.println(calculatedYear);
+        
+        // get the number of working days in a month
+        MonthEAO eaoMonth = new MonthEAO(SystemModel.getDefaultEM());
+        int workingDaysInMonth = eaoMonth.getWorkDayDataForMonth(calculatedMonth);
+
+        SpentHolidayEAO eaoSpentHoliday = new SpentHolidayEAO(SystemModel.getDefaultEM());
+
+        HolidayEAO eaoHoliday = new HolidayEAO(SystemModel.getDefaultEM());
+
+        for (Worker curentWorker : workerArrayList)
+        {
+
+            // load DaysOfWork
+            List<DaysOfWork> lstDaysOfWork = eaoDaysOfWork.getLastDataForWorkerAndMonthNum(curentWorker, calculatedMonth);
+            if (lstDaysOfWork.size() == 1)
+            {
+                // get work log time
+                double workLogTime = lstDaysOfWork.get(0).getWorklog();
+                // get last update time
+                // String lastUpdateTime =
+                // String.valueOf(lstDaysOfWork.get(0).getTimestamp());
+                String lastUpdateTime = DATE_FORMAT.format(lstDaysOfWork.get(0).getTimestamp());
+                // get sum bonus time for the current worker
+                double curentSumBonus = eaoDaysOfWork.getSumBonusTimeForWorkerAndMonthNum(curentWorker, calculatedMonth);
+                // to plane
+                double ToPlane = WorkLogUtils.getTimeRemainsToPlane(workingDaysInMonth, workLogTime, curentSumBonus);
+                // get time to bonus
+                double ToBonus = WorkLogUtils.getTimeRemainsToBonus(workingDaysInMonth, workLogTime, curentSumBonus);
+                // get rest of the holiday
+                double holiday = eaoHoliday.getHolidayDaysCountForWorkerAndYear(curentWorker, calculatedYear);
+                // get spend holiday
+                double timeLeft = eaoSpentHoliday.getSpentHolidayWorkerAndYear(curentWorker, calculatedYear);
+                // get result of the work
+                boolean beInPlane = WorkLogUtils.beInPlaneAtTime(lstDaysOfWork.get(0).getAktualWorkedDays(), workingDaysInMonth, ToPlane);
+                // get worklog time
+                String roundWorkLogTime = WorkLogUtils.roundToString(workLogTime, 2, BigDecimal.ROUND_HALF_UP);
+
+                WorkLogInfoHolder wlih = new WorkLogInfoHolder(roundWorkLogTime, ToPlane, ToBonus, (holiday - timeLeft), lastUpdateTime,
+                        curentWorker.toString(), beInPlane);
+                lstResult.add(wlih);
+            }
+
+        }
+        return lstResult;
+        
+        
     }
 }

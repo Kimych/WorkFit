@@ -27,6 +27,8 @@ package by.uniterra.system.util;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Clock;
+import java.time.YearMonth;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -446,6 +448,21 @@ public class DateUtils
             calNow.set(Calendar.MILLISECOND, 0);
         }
         return new Timestamp(calNow.getTimeInMillis());
+    }
+    
+    
+    //TODO убрать костыль
+    public static int getMonthNumber(Date date)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return  cal.get(Calendar.MONTH) + 1;
+    }
+    public static int getYearNumber(Date date)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal.get(Calendar.YEAR);
     }
     
 }

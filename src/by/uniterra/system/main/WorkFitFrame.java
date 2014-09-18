@@ -29,19 +29,11 @@
 
 package by.uniterra.system.main;
 
-import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.text.SimpleDateFormat;
 
 import javax.persistence.EntityManager;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
-
-import org.jdesktop.swingx.JXTable;
-import org.jdesktop.swingx.decorator.HighlighterFactory;
 
 import by.uniterra.dai.eao.AuthorizationEAO;
 import by.uniterra.dai.entity.Authorization;
@@ -49,8 +41,8 @@ import by.uniterra.dai.entity.Role;
 import by.uniterra.system.iface.IRole;
 import by.uniterra.system.model.SystemModel;
 import by.uniterra.udi.model.WorkLogInfoHelper;
-import by.uniterra.udi.model.WorkLogTableModel;
 import by.uniterra.udi.util.Log;
+import by.uniterra.udi.view.AdminPanel;
 import by.uniterra.udi.view.LoginPanel;
 import by.uniterra.udi.view.WorkLogOptionPanel;
 
@@ -62,6 +54,8 @@ import by.uniterra.udi.view.WorkLogOptionPanel;
  */
 public class WorkFitFrame extends JFrame
 {
+
+    static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
 
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 165708470997304032L;
@@ -91,18 +85,8 @@ public class WorkFitFrame extends JFrame
         }
         else
         {
-            wfFrame.doLogin("","");
+            wfFrame.doLogin("", "");
         }
-
-        /*
-         * SystemModel.initJPA(); WorkLogReportPanel logPanel = new
-         * WorkLogReportPanel(); wfFrame.add(logPanel);
-         */
-
-        // JFrame workfit = new WorkFitFrame();
-        // System.out.println(sm.getBool("57.srt", false));
-        // Log.info(WorkFitFrame.class, "Start project");
-
     }
 
     public WorkFitFrame()
@@ -146,7 +130,11 @@ public class WorkFitFrame extends JFrame
                 // create UI for Admin or User
                 if (isContainsRole(auth, IRole.ADMIN))
                 {
-                    createAdminUI();
+                   /* getContentPane().add(new AdminPanel(),
+                            new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));*/
+                    getContentPane().add(new AdminPanel());
+                    setVisible(true);
+                    
                 }
                 else
                 {
@@ -159,7 +147,7 @@ public class WorkFitFrame extends JFrame
         {
             Log.error(this, "not visible DB");
             Log.info(this, "application close.");
-            disposeMainFrame(); 
+            disposeMainFrame();
             throw e;
         }
     }
@@ -170,24 +158,37 @@ public class WorkFitFrame extends JFrame
         WorkLogOptionPanel wlop = new WorkLogOptionPanel();
         wlop.setModel(WorkLogInfoHelper.getLogInfoByWorker());
         getContentPane().add(wlop);
-        //super.setVisible(true);
+        // super.setVisible(true);
 
     }
 
-    private void createAdminUI()
+ /*   public void createAdminUI()
     {
+        Date currentDate = new Date();
+        JLabel jlLastUpdatedate = new JLabel("Данные предоставлены на" + ": " + DATE_FORMAT.format(currentDate));
+
         WorkLogTableModel wltm = new WorkLogTableModel();
-        wltm.setTableData(WorkLogInfoHelper.getAllLogList());
+        wltm.setTableData(WorkLogInfoHelper.getLogListUpToDate(currentDate));
         JXTable table = new JXTable(wltm);
-        table.setColumnControlVisible(true);
-        //table.setHorizontalScrollEnabled(true);
-        table.addHighlighter(HighlighterFactory.createSimpleStriping(new Color(234, 234, 234)));
-        //table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         
+        table.setColumnControlVisible(true);
+        // table.setHorizontalScrollEnabled(true);
+        table.addHighlighter(HighlighterFactory.createSimpleStriping(new Color(234, 234, 234)));
+        // table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        CalendarPanel pnlCalendar = new CalendarPanel();
+        pnlCalendar.setModel(null);
+        //pnlCalendar.setA
         getContentPane().setLayout(new GridBagLayout());
-        getContentPane().add(new JScrollPane(table), new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+
+        getContentPane().add(jlLastUpdatedate,
+                new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+        getContentPane().add(new JScrollPane(table),
+                new GridBagConstraints(0, 1, 1, 1, 12, 100, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+        getContentPane().add(pnlCalendar,
+                new GridBagConstraints(1, 1, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
         setVisible(true);
-    }
+    }*/
 
     private boolean isContainsRole(Authorization auth, int iRileToSearch)
     {
