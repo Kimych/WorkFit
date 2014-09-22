@@ -19,7 +19,7 @@ import java.util.Date;
 		    + DaysOfWork.PARAMETER_WORKER +" and m.month.nameMonth.nameMonthId = :" + DaysOfWork.PARAMETER_MONTH + ") and " + "d.worker = :" + DaysOfWork.PARAMETER_WORKER +" and d.month.nameMonth.nameMonthId = :" + DaysOfWork.PARAMETER_MONTH),
 	    @NamedQuery(name = DaysOfWork.NQ_FIND_ALL_BY_WORKER_AND_NUMBERMONTH,  query = "SELECT SUM(m.bonusTime) FROM DaysOfWork m WHERE m.worker = :" 
 	                    + DaysOfWork.PARAMETER_WORKER +" and m.month.nameMonth.nameMonthId = :" + DaysOfWork.PARAMETER_MONTH),
-	    @NamedQuery(name = DaysOfWork.NQ_FIND_LAST_BY_WORKER_AND_TIMESTAMP, query = "SELECT d FROM DaysOfWork d WHERE d.timestamp = (SELECT MAX(m.timestamp) FROM DaysOfWork m WHERE m.worker = :" + DaysOfWork.PARAMETER_WORKER + " AND m.timestamp  <= :" + DaysOfWork.PARAMETER_TIMESTAMP + ")")    
+	    @NamedQuery(name = DaysOfWork.NQ_FIND_LAST_BY_WORKER_AND_TIMESTAMP, query = "SELECT d FROM DaysOfWork d WHERE d.timestamp = (SELECT MAX(m.timestamp) FROM DaysOfWork m WHERE m.worker = :" + DaysOfWork.PARAMETER_WORKER + " AND m.timestamp  <= :" + DaysOfWork.PARAMETER_TIMESTAMP + ") AND d.worker = :" + DaysOfWork.PARAMETER_WORKER)    
                               
 	})
 public class DaysOfWork implements Serializable
