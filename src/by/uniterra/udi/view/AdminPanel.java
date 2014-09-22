@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -53,6 +54,12 @@ public class AdminPanel extends JPanel implements IModelOwner, ActionListener
         setLayout(new GridBagLayout());
 
         JXMonthView jxmvCalendar = new JXMonthView();
+        jxmvCalendar.setFirstDayOfWeek(Calendar.MONDAY);
+        // old style: set visual property with JXMonthView api
+        jxmvCalendar.setDayForeground(Calendar.SUNDAY, Color.MAGENTA);
+        jxmvCalendar.setDayForeground(Calendar.SATURDAY, Color.MAGENTA);
+        jxmvCalendar.setZoomable(true);
+        
         // change the color in the days that came logs
         Date curentDate = new Date();
         List<Date> lstDate = new ArrayList<Date>();
@@ -60,8 +67,8 @@ public class AdminPanel extends JPanel implements IModelOwner, ActionListener
         List<DaysOfWork> lstDaysOfWork = eaoDoW.loadAll();
         for (DaysOfWork dof : lstDaysOfWork)
         {
-            if ((DateUtils.getMonthNumber(dof.getTimestamp()) == DateUtils.getMonthNumber(curentDate))
-                    && (DateUtils.getYearNumber(dof.getTimestamp()) == DateUtils.getYearNumber(curentDate)))
+        //    if ((DateUtils.getMonthNumber(dof.getTimestamp()) == DateUtils.getMonthNumber(curentDate))
+        //            && (DateUtils.getYearNumber(dof.getTimestamp()) == DateUtils.getYearNumber(curentDate)))
             {
                 lstDate.add(dof.getTimestamp());
             }
