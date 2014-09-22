@@ -14,6 +14,7 @@ public class WorkLogTableModel extends AbstractFlexTableModel
     private final static int COL_TO_PLANE = 2;
     private final static int COL_TO_BONUS = 3;
     private final static int COL_REST_HOLIDAY = 4;
+    private final static int COL_UPDATE_TIME = 8;
 
     private List<WorkLogInfoHolder> dataArrayList;
     public List<String> arrColumnNames;
@@ -25,6 +26,7 @@ public class WorkLogTableModel extends AbstractFlexTableModel
         addColumn(COL_TO_PLANE, "To plane", String.class);
         addColumn(COL_TO_BONUS, "To bonus", String.class);
         addColumn(COL_REST_HOLIDAY, "To holiday", String.class);
+        addColumn(COL_UPDATE_TIME, "Last Update", String.class);
     }
 
     public void addData(List<WorkLogInfoHolder> arrData)
@@ -67,6 +69,8 @@ public class WorkLogTableModel extends AbstractFlexTableModel
         case COL_REST_HOLIDAY:
             objResult = idData.getTimeLeft();
             break;
+        case COL_UPDATE_TIME:
+            objResult = idData.getLastUpdateDate();
         default:
             break;
         }

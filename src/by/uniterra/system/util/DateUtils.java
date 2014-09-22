@@ -471,4 +471,14 @@ public class DateUtils
         return cal.get(Calendar.DAY_OF_MONTH);
     }
     
+    public static Timestamp upToEndDayDate(Date currentDate)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(currentDate);
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+        return new Timestamp(cal.getTimeInMillis());
+    }
+    
 }

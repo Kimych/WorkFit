@@ -74,7 +74,7 @@ public class WorkFitFrame extends JFrame
         WorkFitFrame wfFrame = new WorkFitFrame();
         wfFrame.setTitle("Work Fit Test Frame");
         wfFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        wfFrame.setSize(600, 400);
+        wfFrame.setSize(800, 400);
         wfFrame.setLocationRelativeTo(null);
         wfFrame.setVisible(true);
 

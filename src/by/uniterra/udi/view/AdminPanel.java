@@ -23,13 +23,11 @@ import org.jdesktop.swingx.decorator.HighlighterFactory;
 import by.uniterra.dai.eao.DaysOfWorkEAO;
 import by.uniterra.dai.entity.DaysOfWork;
 import by.uniterra.system.model.SystemModel;
-import by.uniterra.system.util.DateUtils;
-import by.uniterra.udi.iface.IModelOwner;
 import by.uniterra.udi.model.WorkLogInfoHelper;
 import by.uniterra.udi.model.WorkLogInfoHolder;
 import by.uniterra.udi.model.WorkLogTableModel;
 
-public class AdminPanel extends JPanel implements IModelOwner, ActionListener
+public class AdminPanel extends JPanel implements  ActionListener
 {
 
     /** TODO document <code>serialVersionUID</code> */
@@ -39,6 +37,10 @@ public class AdminPanel extends JPanel implements IModelOwner, ActionListener
     private static final String ACTION_SAVE_TO_MODEL = "Save to model";
 
     private WorkLogTableModel wltm;
+    private JXMonthView jxmvCalendar;
+    private JLabel jlLastUpdateInMonth;
+    private JLabel jlUpdatedate;
+    
 
     public AdminPanel()
     {
@@ -49,19 +51,44 @@ public class AdminPanel extends JPanel implements IModelOwner, ActionListener
     private void jbInit()
     {
         Date currentDate = new Date();
-        JLabel jlUpdatedate = new JLabel("Данные предоставлены по сотоянию на" + ": " + DATE_FORMAT.format(currentDate));
-        JLabel jlLastUpdateInMonth = new JLabel("Последнее обновление лога: --.--.-- ");
+        jlUpdatedate = new JLabel("Данные предоставлены по сотоянию на" + ": " + DATE_FORMAT.format(currentDate));
+        jlLastUpdateInMonth = new JLabel("Последнее обновление лога: --.--.-- ");
         setLayout(new GridBagLayout());
 
-        JXMonthView jxmvCalendar = new JXMonthView();
+        jxmvCalendar = new JXMonthView();
         jxmvCalendar.setFirstDayOfWeek(Calendar.MONDAY);
         // old style: set visual property with JXMonthView api
         jxmvCalendar.setDayForeground(Calendar.SUNDAY, Color.MAGENTA);
         jxmvCalendar.setDayForeground(Calendar.SATURDAY, Color.MAGENTA);
         jxmvCalendar.setZoomable(true);
         
-        // change the color in the days that came logs
-        Date curentDate = new Date();
+        
+        
+
+        wltm = new WorkLogTableModel();
+        wltm.setTableData(WorkLogInfoHelper.getLogListUpToDate(currentDate));
+        JXTable table = new JXTable(wltm);
+        table.setColumnControlVisible(true);
+        // table.setHorizontalScrollEnabled(true);
+        table.addHighlighter(HighlighterFactory.createSimpleStriping(new Color(234, 234, 234)));
+
+        
+        loadDataInUI();
+
+       
+        add(jlUpdatedate, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+        add(new JScrollPane(table), new GridBagConstraints(0, 1, 1, 1, 12, 100, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0,
+                0));
+        add(jxmvCalendar, new GridBagConstraints(1, 1, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+        setVisible(true);
+        add(jlLastUpdateInMonth, new GridBagConstraints(0, 3, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+        setVisible(true);
+
+    }
+    
+    private void loadDataInUI()
+    {
+     // change the color in the days that came logs
         List<Date> lstDate = new ArrayList<Date>();
         DaysOfWorkEAO eaoDoW = new DaysOfWorkEAO(SystemModel.getDefaultEM());
         List<DaysOfWork> lstDaysOfWork = eaoDoW.loadAll();
@@ -73,7 +100,6 @@ public class AdminPanel extends JPanel implements IModelOwner, ActionListener
                 lstDate.add(dof.getTimestamp());
             }
         }
-
         if (!lstDate.isEmpty())
         {
             // convert List<Date> into Date[]
@@ -85,52 +111,29 @@ public class AdminPanel extends JPanel implements IModelOwner, ActionListener
             jlLastUpdateInMonth.setText("Последнее обновление лога: " + DATE_FORMAT.format(jxmvCalendar.getFlaggedDates().last()));
         }
         
-
-        wltm = new WorkLogTableModel();
-        wltm.setTableData(WorkLogInfoHelper.getLogListUpToDate(currentDate));
-        JXTable table = new JXTable(wltm);
         jxmvCalendar.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
             {
-
-                /*
-                 * jlDate.setText(((JXMonthView)
-                 * e.getSource()).getSelection().toString());
-                 * WorkLogInfoHelper.getLogListUpToDate
-                 * ((Date)(DATE_FORMAT.parse(((JXMonthView)
-                 * e.getSource()).getSelection().last().toString())));
-                 */
                 Date date = ((JXMonthView) e.getSource()).getSelection().last();
                 if (date instanceof Date)
                 {
-                    jlUpdatedate.setText("Данные предоставлены по сотоянию на" + ": " + DATE_FORMAT.format(date));
                     List<WorkLogInfoHolder> lstNewData = WorkLogInfoHelper.getLogListUpToDate(date);
+                    jlUpdatedate.setText("Данные предоставлены по сотоянию на" + ": " + DATE_FORMAT.format(date));
                     wltm.setTableData(lstNewData);
                 }
                 else
                 {
-
                     System.err.println("Что-то пошло не так....");
                 }
 
             }
         });
-
-        table.setColumnControlVisible(true);
-        // table.setHorizontalScrollEnabled(true);
-        table.addHighlighter(HighlighterFactory.createSimpleStriping(new Color(234, 234, 234)));
-        // table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-        add(jlUpdatedate, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-        add(new JScrollPane(table), new GridBagConstraints(0, 1, 1, 1, 12, 100, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0,
-                0));
-        add(jxmvCalendar, new GridBagConstraints(1, 1, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-        setVisible(true);
-        add(jlLastUpdateInMonth, new GridBagConstraints(0, 3, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-        setVisible(true);
-
+        
     }
+    
+    
+    
 
     @Override
     public void actionPerformed(ActionEvent arg0)
@@ -154,20 +157,10 @@ public class AdminPanel extends JPanel implements IModelOwner, ActionListener
         }
 
     }
+    
+   
+    
+    
 
-
-    @Override
-    public void setModel(Object mData)
-    {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public Object getModel()
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
 }

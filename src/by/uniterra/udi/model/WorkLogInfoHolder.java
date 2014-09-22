@@ -29,6 +29,8 @@
 
 package by.uniterra.udi.model;
 
+
+
 /**
  * The <code>WorklogInfoHolder</code> is used to hold all necessary worklog
  * statistics for one Worker
@@ -129,7 +131,7 @@ public class WorkLogInfoHolder
     {
         this.BeInPlane = BeInPlane;
     }
-
+    
 
     @Override
     public String toString()
@@ -200,4 +202,7 @@ public class WorkLogInfoHolder
             return false;
         return true;
     }
+
+
+ 
 }

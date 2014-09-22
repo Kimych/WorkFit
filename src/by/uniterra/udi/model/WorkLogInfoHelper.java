@@ -26,8 +26,7 @@ public class WorkLogInfoHelper
     static int curentMonth = YearMonth.now(Clock.systemUTC()).getMonthValue();
     static int curentYear = YearMonth.now(Clock.systemUTC()).getYear();
 
-    static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy (hh:mm)");
-    
+    static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
 
     public static WorkLogInfoHolder getLogInfoByWorker()
     {
@@ -126,7 +125,7 @@ public class WorkLogInfoHelper
         }
         return lstResult;
     }*/
-    
+
     public static List<WorkLogInfoHolder> getLogListUpToDate(Date date)
     {
         List<WorkLogInfoHolder> lstResult = new ArrayList<WorkLogInfoHolder>();
@@ -136,8 +135,7 @@ public class WorkLogInfoHelper
 
         int calculatedMonth = DateUtils.getMonthNumber(date);
         int calculatedYear = DateUtils.getYearNumber(date);
-        int calculatedDay = DateUtils.getDayNumber(date);
-        
+
         // get the number of working days in a month
         MonthEAO eaoMonth = new MonthEAO(SystemModel.getDefaultEM());
         int workingDaysInMonth = eaoMonth.getWorkDayDataForMonth(calculatedMonth);
@@ -148,10 +146,7 @@ public class WorkLogInfoHelper
 
         for (Worker curentWorker : workerArrayList)
         {
-
-            // load DaysOfWork
-            //List<DaysOfWork> lstDaysOfWork = eaoDaysOfWork.getLastDataForWorkerAndMonthNum(curentWorker, calculatedMonth);
-            List<DaysOfWork> lstDaysOfWork = eaoDaysOfWork.getfindLastForWorkerAndTimestamp(curentWorker, new Timestamp(date.getTime()));
+            List<DaysOfWork> lstDaysOfWork = eaoDaysOfWork.getfindLastForWorkerAndTimestamp(curentWorker, DateUtils.upToEndDayDate(date));
             if (lstDaysOfWork.size() == 1)
             {
                 // get work log time
@@ -179,10 +174,9 @@ public class WorkLogInfoHelper
                         curentWorker.toString(), beInPlane);
                 lstResult.add(wlih);
             }
-
         }
         return lstResult;
-        
-        
+
     }
 }
+    
