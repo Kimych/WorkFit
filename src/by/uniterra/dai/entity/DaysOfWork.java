@@ -18,7 +18,9 @@ import java.util.Date;
 	    @NamedQuery(name = DaysOfWork.NQ_FIND_LAST_BY_WORKER_AND_NUMBERMONTH, query = "SELECT d FROM DaysOfWork d where d.timestamp = (SELECT MAX(m.timestamp) FROM DaysOfWork m WHERE m.worker = :" 
 		    + DaysOfWork.PARAMETER_WORKER +" and m.month.nameMonth.nameMonthId = :" + DaysOfWork.PARAMETER_MONTH + ") and " + "d.worker = :" + DaysOfWork.PARAMETER_WORKER +" and d.month.nameMonth.nameMonthId = :" + DaysOfWork.PARAMETER_MONTH),
 	    @NamedQuery(name = DaysOfWork.NQ_FIND_ALL_BY_WORKER_AND_NUMBERMONTH,  query = "SELECT SUM(m.bonusTime) FROM DaysOfWork m WHERE m.worker = :" 
-	                    + DaysOfWork.PARAMETER_WORKER +" and m.month.nameMonth.nameMonthId = :" + DaysOfWork.PARAMETER_MONTH)
+	                    + DaysOfWork.PARAMETER_WORKER +" and m.month.nameMonth.nameMonthId = :" + DaysOfWork.PARAMETER_MONTH),
+	    @NamedQuery(name = DaysOfWork.NQ_FIND_LAST_BY_WORKER_AND_TIMESTAMP, query = "SELECT d FROM DaysOfWork d WHERE d.timestamp = (SELECT MAX(m.timestamp) FROM DaysOfWork m WHERE m.worker = :" + DaysOfWork.PARAMETER_WORKER + " AND m.timestamp  <= :" + DaysOfWork.PARAMETER_TIMESTAMP + ")")    
+                              
 	})
 public class DaysOfWork implements Serializable
 {
@@ -28,9 +30,11 @@ public class DaysOfWork implements Serializable
     public static final String NQ_FIND_ALL = "DaysOfWork.findAll";
     public static final String NQ_FIND_LAST_BY_WORKER_AND_NUMBERMONTH = "DaysOfWork.findLastForWorkerAndMonth";
     public static final String NQ_FIND_ALL_BY_WORKER_AND_NUMBERMONTH = "DaysOfWork.findAllForWorkerAndMonth";
+    public static final String NQ_FIND_LAST_BY_WORKER_AND_TIMESTAMP = "DaysOfWork.findLastForWorkerAndTimestamp";
 
     public static final String PARAMETER_WORKER = "worker";
     public static final String PARAMETER_MONTH = "month";
+    public static final String PARAMETER_TIMESTAMP = "timestamp";
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

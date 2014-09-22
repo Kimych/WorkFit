@@ -1,5 +1,6 @@
 package by.uniterra.dai.eao;
 
+import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
 
@@ -93,5 +94,30 @@ public class DaysOfWorkEAO extends ServiceBaseEAO<DaysOfWork>
             Log.error(this, e, "namedQuery getSumBonusTimeForWorkerAndMonthNum error");
         }
         return lstResult;
+    }
+    
+    public List<DaysOfWork> getfindLastForWorkerAndTimestamp(Worker wWorker, Timestamp timestamp)
+    {
+        List<DaysOfWork> lstResult = null;
+        
+        try
+        {
+         // get according query
+            Query queryDeleteByDSId = getNamedQuery(DaysOfWork.NQ_FIND_LAST_BY_WORKER_AND_TIMESTAMP);
+            // set Worker
+            queryDeleteByDSId.setParameter(DaysOfWork.PARAMETER_WORKER, wWorker);
+            // set Month
+            queryDeleteByDSId.setParameter(DaysOfWork.PARAMETER_TIMESTAMP, timestamp);
+            // execute and return result
+            lstResult = (List<DaysOfWork>) queryDeleteByDSId.getResultList();
+            
+        }
+        catch (Exception e)
+        {
+            Log.error(this, e, "namedQuery getfindLastForWorkerAndTimestamp error");
+        }
+        
+        return lstResult;
+    
     }
 }

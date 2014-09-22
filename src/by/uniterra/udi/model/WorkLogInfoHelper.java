@@ -1,6 +1,7 @@
 package by.uniterra.udi.model;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.Clock;
 import java.time.YearMonth;
@@ -135,7 +136,7 @@ public class WorkLogInfoHelper
 
         int calculatedMonth = DateUtils.getMonthNumber(date);
         int calculatedYear = DateUtils.getYearNumber(date);
-        System.out.println(calculatedYear);
+        int calculatedDay = DateUtils.getDayNumber(date);
         
         // get the number of working days in a month
         MonthEAO eaoMonth = new MonthEAO(SystemModel.getDefaultEM());
@@ -149,7 +150,8 @@ public class WorkLogInfoHelper
         {
 
             // load DaysOfWork
-            List<DaysOfWork> lstDaysOfWork = eaoDaysOfWork.getLastDataForWorkerAndMonthNum(curentWorker, calculatedMonth);
+            //List<DaysOfWork> lstDaysOfWork = eaoDaysOfWork.getLastDataForWorkerAndMonthNum(curentWorker, calculatedMonth);
+            List<DaysOfWork> lstDaysOfWork = eaoDaysOfWork.getfindLastForWorkerAndTimestamp(curentWorker, new Timestamp(date.getTime()));
             if (lstDaysOfWork.size() == 1)
             {
                 // get work log time

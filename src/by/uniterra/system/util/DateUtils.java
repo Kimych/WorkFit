@@ -464,5 +464,11 @@ public class DateUtils
         cal.setTime(date);
         return cal.get(Calendar.YEAR);
     }
+    public static int getDayNumber(Date date)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal.get(Calendar.DAY_OF_MONTH);
+    }
     
 }

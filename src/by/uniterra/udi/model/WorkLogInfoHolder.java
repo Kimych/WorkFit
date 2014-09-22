@@ -137,4 +137,67 @@ public class WorkLogInfoHolder
         return "WorkLogInfoHolder [CurentTime=" + CurentTime + ", ToPlane=" + ToPlane + ", ToBonus=" + ToBonus + ", TimeLeft=" + TimeLeft + ", LastUpdateDate="
                 + LastUpdateDate + ", NameWorker=" + NameWorker + ", BeInPlane=" + BeInPlane + "]";
     }
+
+
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (BeInPlane ? 1231 : 1237);
+        result = prime * result + ((CurentTime == null) ? 0 : CurentTime.hashCode());
+        result = prime * result + ((LastUpdateDate == null) ? 0 : LastUpdateDate.hashCode());
+        result = prime * result + ((NameWorker == null) ? 0 : NameWorker.hashCode());
+        long temp;
+        temp = Double.doubleToLongBits(TimeLeft);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(ToBonus);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(ToPlane);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
+
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        WorkLogInfoHolder other = (WorkLogInfoHolder) obj;
+        if (BeInPlane != other.BeInPlane)
+            return false;
+        if (CurentTime == null)
+        {
+            if (other.CurentTime != null)
+                return false;
+        }
+        else if (!CurentTime.equals(other.CurentTime))
+            return false;
+        if (LastUpdateDate == null)
+        {
+            if (other.LastUpdateDate != null)
+                return false;
+        }
+        else if (!LastUpdateDate.equals(other.LastUpdateDate))
+            return false;
+        if (NameWorker == null)
+        {
+            if (other.NameWorker != null)
+                return false;
+        }
+        else if (!NameWorker.equals(other.NameWorker))
+            return false;
+        if (Double.doubleToLongBits(TimeLeft) != Double.doubleToLongBits(other.TimeLeft))
+            return false;
+        if (Double.doubleToLongBits(ToBonus) != Double.doubleToLongBits(other.ToBonus))
+            return false;
+        if (Double.doubleToLongBits(ToPlane) != Double.doubleToLongBits(other.ToPlane))
+            return false;
+        return true;
+    }
 }

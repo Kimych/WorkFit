@@ -85,7 +85,7 @@ public class WorkFitFrame extends JFrame
         }
         else
         {
-            wfFrame.doLogin("", "");
+            wfFrame.doLogin("","");
         }
     }
 

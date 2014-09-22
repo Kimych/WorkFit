@@ -25,6 +25,7 @@ import by.uniterra.system.model.SystemModel;
 import by.uniterra.system.util.DateUtils;
 import by.uniterra.udi.iface.IModelOwner;
 import by.uniterra.udi.model.WorkLogInfoHelper;
+import by.uniterra.udi.model.WorkLogInfoHolder;
 import by.uniterra.udi.model.WorkLogTableModel;
 
 public class AdminPanel extends JPanel implements IModelOwner, ActionListener
@@ -34,6 +35,9 @@ public class AdminPanel extends JPanel implements IModelOwner, ActionListener
     private static final long serialVersionUID = -6399838252872491307L;
 
     static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+    private static final String ACTION_SAVE_TO_MODEL = "Save to model";
+
+    private WorkLogTableModel wltm;
 
     public AdminPanel()
     {
@@ -73,6 +77,11 @@ public class AdminPanel extends JPanel implements IModelOwner, ActionListener
             jxmvCalendar.setFlaggedDates(arrDate);
             jlLastUpdateInMonth.setText("Последнее обновление лога: " + DATE_FORMAT.format(jxmvCalendar.getFlaggedDates().last()));
         }
+        
+
+        wltm = new WorkLogTableModel();
+        wltm.setTableData(WorkLogInfoHelper.getLogListUpToDate(currentDate));
+        JXTable table = new JXTable(wltm);
         jxmvCalendar.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
@@ -89,6 +98,8 @@ public class AdminPanel extends JPanel implements IModelOwner, ActionListener
                 if (date instanceof Date)
                 {
                     jlUpdatedate.setText("Данные предоставлены по сотоянию на" + ": " + DATE_FORMAT.format(date));
+                    List<WorkLogInfoHolder> lstNewData = WorkLogInfoHelper.getLogListUpToDate(date);
+                    wltm.setTableData(lstNewData);
                 }
                 else
                 {
@@ -98,10 +109,6 @@ public class AdminPanel extends JPanel implements IModelOwner, ActionListener
 
             }
         });
-
-        WorkLogTableModel wltm = new WorkLogTableModel();
-        wltm.setTableData(WorkLogInfoHelper.getLogListUpToDate(currentDate));
-        JXTable table = new JXTable(wltm);
 
         table.setColumnControlVisible(true);
         // table.setHorizontalScrollEnabled(true);
@@ -119,11 +126,28 @@ public class AdminPanel extends JPanel implements IModelOwner, ActionListener
     }
 
     @Override
-    public void actionPerformed(ActionEvent e)
+    public void actionPerformed(ActionEvent arg0)
     {
-        // TODO Auto-generated method stub
+        try
+        {
+            switch (arg0.getActionCommand())
+            {
+            case ACTION_SAVE_TO_MODEL:
+                ;
+                break;
+                
+            default:
+                break;
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println("actionPerformed expressions in Admin Panel");
+            e.printStackTrace();
+        }
 
     }
+
 
     @Override
     public void setModel(Object mData)
