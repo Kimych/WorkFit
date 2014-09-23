@@ -110,7 +110,6 @@ public class DaysOfWorkEAO extends ServiceBaseEAO<DaysOfWork>
             queryDeleteByDSId.setParameter(DaysOfWork.PARAMETER_TIMESTAMP, timestamp);
             // execute and return result
             lstResult = (List<DaysOfWork>) queryDeleteByDSId.getResultList();
-            
         }
         catch (Exception e)
         {

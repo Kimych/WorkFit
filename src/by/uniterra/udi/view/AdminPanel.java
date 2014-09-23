@@ -13,6 +13,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -27,7 +29,7 @@ import by.uniterra.udi.model.WorkLogInfoHelper;
 import by.uniterra.udi.model.WorkLogInfoHolder;
 import by.uniterra.udi.model.WorkLogTableModel;
 
-public class AdminPanel extends JPanel implements  ActionListener
+public class AdminPanel extends JPanel implements ActionListener
 {
 
     /** TODO document <code>serialVersionUID</code> */
@@ -38,9 +40,10 @@ public class AdminPanel extends JPanel implements  ActionListener
 
     private WorkLogTableModel wltm;
     private JXMonthView jxmvCalendar;
+    //private JMenu jmMenu;
+    //private JMenuBar jmBar;
     private JLabel jlLastUpdateInMonth;
     private JLabel jlUpdatedate;
-    
 
     public AdminPanel()
     {
@@ -61,9 +64,6 @@ public class AdminPanel extends JPanel implements  ActionListener
         jxmvCalendar.setDayForeground(Calendar.SUNDAY, Color.MAGENTA);
         jxmvCalendar.setDayForeground(Calendar.SATURDAY, Color.MAGENTA);
         jxmvCalendar.setZoomable(true);
-        
-        
-        
 
         wltm = new WorkLogTableModel();
         wltm.setTableData(WorkLogInfoHelper.getLogListUpToDate(currentDate));
@@ -71,11 +71,11 @@ public class AdminPanel extends JPanel implements  ActionListener
         table.setColumnControlVisible(true);
         // table.setHorizontalScrollEnabled(true);
         table.addHighlighter(HighlighterFactory.createSimpleStriping(new Color(234, 234, 234)));
-
         
-        loadDataInUI();
 
-       
+        loadDataInUI();
+        
+
         add(jlUpdatedate, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
         add(new JScrollPane(table), new GridBagConstraints(0, 1, 1, 1, 12, 100, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0,
                 0));
@@ -85,17 +85,15 @@ public class AdminPanel extends JPanel implements  ActionListener
         setVisible(true);
 
     }
-    
+
     private void loadDataInUI()
     {
-     // change the color in the days that came logs
+        // change the color in the days that came logs
         List<Date> lstDate = new ArrayList<Date>();
         DaysOfWorkEAO eaoDoW = new DaysOfWorkEAO(SystemModel.getDefaultEM());
         List<DaysOfWork> lstDaysOfWork = eaoDoW.loadAll();
         for (DaysOfWork dof : lstDaysOfWork)
         {
-        //    if ((DateUtils.getMonthNumber(dof.getTimestamp()) == DateUtils.getMonthNumber(curentDate))
-        //            && (DateUtils.getYearNumber(dof.getTimestamp()) == DateUtils.getYearNumber(curentDate)))
             {
                 lstDate.add(dof.getTimestamp());
             }
@@ -110,7 +108,7 @@ public class AdminPanel extends JPanel implements  ActionListener
             jxmvCalendar.setFlaggedDates(arrDate);
             jlLastUpdateInMonth.setText("Последнее обновление лога: " + DATE_FORMAT.format(jxmvCalendar.getFlaggedDates().last()));
         }
-        
+
         jxmvCalendar.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
@@ -126,15 +124,10 @@ public class AdminPanel extends JPanel implements  ActionListener
                 {
                     System.err.println("Что-то пошло не так....");
                 }
-
             }
         });
-        
     }
     
-    
-    
-
     @Override
     public void actionPerformed(ActionEvent arg0)
     {
@@ -145,7 +138,7 @@ public class AdminPanel extends JPanel implements  ActionListener
             case ACTION_SAVE_TO_MODEL:
                 ;
                 break;
-                
+
             default:
                 break;
             }
@@ -155,12 +148,5 @@ public class AdminPanel extends JPanel implements  ActionListener
             System.out.println("actionPerformed expressions in Admin Panel");
             e.printStackTrace();
         }
-
     }
-    
-   
-    
-    
-
-
 }

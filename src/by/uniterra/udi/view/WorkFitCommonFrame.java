@@ -81,7 +81,7 @@ public class WorkFitCommonFrame
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
-
+ 
     private static Path createFileChooser(final JFrame frame)
     {
         String filename = File.separator + "tmp";
