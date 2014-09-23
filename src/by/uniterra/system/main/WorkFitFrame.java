@@ -31,15 +31,19 @@ package by.uniterra.system.main;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 
 import javax.persistence.EntityManager;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import by.uniterra.dai.eao.AuthorizationEAO;
 import by.uniterra.dai.eao.DaysOfWorkEAO;
@@ -58,6 +62,7 @@ import by.uniterra.udi.model.WorkLogInfoHelper;
 import by.uniterra.udi.model.WorkerTableModel;
 import by.uniterra.udi.model.YearTableModel;
 import by.uniterra.udi.util.Log;
+import by.uniterra.udi.util.LogParser;
 import by.uniterra.udi.view.AdminPanel;
 import by.uniterra.udi.view.CommonDataTablePanel;
 import by.uniterra.udi.view.DaysOfWorkOptionPanel;
@@ -329,6 +334,9 @@ public class WorkFitFrame extends JFrame implements ActionListener
         {
             switch (arg0.getActionCommand())
             {
+            case ACTION_ADD_LOG:
+                createFileChooser(this);
+                break;
             case ACTION_EXIT:
                 disposeMainFrame();
                 break;
@@ -382,4 +390,17 @@ public class WorkFitFrame extends JFrame implements ActionListener
         JOptionPane.showMessageDialog(this, panelCommon, frameTitle, JOptionPane.PLAIN_MESSAGE);
     }
 
+    private static Path createFileChooser(final JFrame frame)
+    {
+        String filename = File.separator + "tmp";
+        JFileChooser fileChooser = new JFileChooser(new File(filename));
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("txt file (*.txt)" , "txt"));
+        fileChooser.setAcceptAllFileFilterUsed(true);
+        fileChooser.showOpenDialog(frame);
+        System.out.println("File to open: " + fileChooser.getSelectedFile());
+        LogParser.getListFromLog(fileChooser.getSelectedFile().toPath());
+        return fileChooser.getSelectedFile().toPath();
+
+    }
 }
