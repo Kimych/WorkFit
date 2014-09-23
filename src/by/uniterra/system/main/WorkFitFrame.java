@@ -400,7 +400,8 @@ public class WorkFitFrame extends JFrame implements ActionListener
         fileChooser.showOpenDialog(frame);
         System.out.println("File to open: " + fileChooser.getSelectedFile());
         LogParser.getListFromLog(fileChooser.getSelectedFile().toPath());
+        LogParser.saveLogInfoToDB(LogParser.getListFromLog(fileChooser.getSelectedFile().toPath()));
         return fileChooser.getSelectedFile().toPath();
-
+        
     }
 }

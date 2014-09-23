@@ -21,6 +21,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import by.uniterra.dai.eao.ServiceBaseEAO;
 import by.uniterra.dai.eao.YearEAO;
 import by.uniterra.udi.model.YearTableModel;
+import by.uniterra.udi.util.Log;
 import by.uniterra.udi.util.LogParser;
 
 public class WorkFitCommonFrame
@@ -90,9 +91,12 @@ public class WorkFitCommonFrame
         fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("txt file (*.txt)" , "txt"));
         fileChooser.setAcceptAllFileFilterUsed(true);
         fileChooser.showOpenDialog(frame);
-        System.out.println("File to open: " + fileChooser.getSelectedFile());
+        Log.info(fileChooser, "File to open: " + fileChooser.getSelectedFile());
+        
         LogParser.getListFromLog(fileChooser.getSelectedFile().toPath());
+        
         return fileChooser.getSelectedFile().toPath();
+        
 
     }
 

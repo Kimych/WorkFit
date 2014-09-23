@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import by.uniterra.dai.eao.DaysOfWorkEAO;
 import by.uniterra.dai.eao.MonthEAO;
 import by.uniterra.dai.eao.WorkerEAO;
 import by.uniterra.dai.entity.DaysOfWork;
@@ -126,5 +127,22 @@ public class LogParser
             }
         }
         return daysOfWorkList;
+    }
+    
+    public static void saveLogInfoToDB(List<DaysOfWork> daysOfWorkList)
+    {
+        DaysOfWorkEAO dofEAO = new DaysOfWorkEAO(SystemModel.getDefaultEM());
+        try
+        {
+            for(DaysOfWork dow : daysOfWorkList)
+            {
+                dofEAO.save(dow);
+            }
+        }
+        catch (Exception e)
+        {
+            Log.error(LogParser.class, e, "save info from log to DB problems");
+        }
+        
     }
 }
