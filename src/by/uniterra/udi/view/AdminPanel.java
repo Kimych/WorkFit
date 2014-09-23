@@ -49,6 +49,7 @@ public class AdminPanel extends JPanel implements ActionListener
     {
         super(new GridBagLayout());
         jbInit();
+        loadDataInUI();
     }
 
     private void jbInit()
@@ -72,9 +73,23 @@ public class AdminPanel extends JPanel implements ActionListener
         // table.setHorizontalScrollEnabled(true);
         table.addHighlighter(HighlighterFactory.createSimpleStriping(new Color(234, 234, 234)));
         
-
-        loadDataInUI();
-        
+        jxmvCalendar.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                Date date = ((JXMonthView) e.getSource()).getSelection().last();
+                if (date instanceof Date)
+                {
+                    List<WorkLogInfoHolder> lstNewData = WorkLogInfoHelper.getLogListUpToDate(date);
+                    jlUpdatedate.setText("Данные предоставлены по сотоянию на" + ": " + DATE_FORMAT.format(date));
+                    wltm.setTableData(lstNewData);
+                }
+                else
+                {
+                    System.err.println("Что-то пошло не так....");
+                }
+            }
+        });
 
         add(jlUpdatedate, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
         add(new JScrollPane(table), new GridBagConstraints(0, 1, 1, 1, 12, 100, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0,
@@ -108,24 +123,6 @@ public class AdminPanel extends JPanel implements ActionListener
             jxmvCalendar.setFlaggedDates(arrDate);
             jlLastUpdateInMonth.setText("Последнее обновление лога: " + DATE_FORMAT.format(jxmvCalendar.getFlaggedDates().last()));
         }
-
-        jxmvCalendar.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-                Date date = ((JXMonthView) e.getSource()).getSelection().last();
-                if (date instanceof Date)
-                {
-                    List<WorkLogInfoHolder> lstNewData = WorkLogInfoHelper.getLogListUpToDate(date);
-                    jlUpdatedate.setText("Данные предоставлены по сотоянию на" + ": " + DATE_FORMAT.format(date));
-                    wltm.setTableData(lstNewData);
-                }
-                else
-                {
-                    System.err.println("Что-то пошло не так....");
-                }
-            }
-        });
     }
     
     @Override
