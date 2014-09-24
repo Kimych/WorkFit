@@ -119,4 +119,27 @@ public class DaysOfWorkEAO extends ServiceBaseEAO<DaysOfWork>
         return lstResult;
     
     }
+    
+    public long getCountForTimestamp(Timestamp timestamp)
+    {
+        long lstResult = 0;
+        try
+        {
+            // get according query
+            Query queryDeleteByDSId = getNamedQuery(DaysOfWork.NQ_GET_COUNT_BY_TIMESTAMP);
+            // set Worker
+            queryDeleteByDSId.setParameter(DaysOfWork.PARAMETER_TIMESTAMP, timestamp);
+            // execute and return result
+            Object objResult = queryDeleteByDSId.getSingleResult();
+            if (objResult != null)
+            {
+                lstResult = (long) objResult;
+            }
+        }
+        catch (Exception e)
+        {
+            Log.error(this, e, "namedQuery getCountForTimestamp error");
+        }
+        return lstResult;
+    }
 }

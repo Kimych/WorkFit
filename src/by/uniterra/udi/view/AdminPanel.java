@@ -49,7 +49,7 @@ public class AdminPanel extends JPanel implements ActionListener
     {
         super(new GridBagLayout());
         jbInit();
-        loadDataInUI();
+        //loadDataInUI();
     }
 
     private void jbInit()
@@ -67,7 +67,7 @@ public class AdminPanel extends JPanel implements ActionListener
         jxmvCalendar.setZoomable(true);
 
         wltm = new WorkLogTableModel();
-        wltm.setTableData(WorkLogInfoHelper.getLogListUpToDate(currentDate));
+        //wltm.setTableData(WorkLogInfoHelper.getLogListUpToDate(currentDate));
         JXTable table = new JXTable(wltm);
         table.setColumnControlVisible(true);
         // table.setHorizontalScrollEnabled(true);
@@ -101,12 +101,13 @@ public class AdminPanel extends JPanel implements ActionListener
 
     }
 
-    private void loadDataInUI()
+     public void loadDataInUI()
     {
         // change the color in the days that came logs
         List<Date> lstDate = new ArrayList<Date>();
         DaysOfWorkEAO eaoDoW = new DaysOfWorkEAO(SystemModel.getDefaultEM());
         List<DaysOfWork> lstDaysOfWork = eaoDoW.loadAll();
+        wltm.setTableData(WorkLogInfoHelper.getLogListUpToDate(new Date()));
         for (DaysOfWork dof : lstDaysOfWork)
         {
             {

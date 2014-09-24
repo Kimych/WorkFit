@@ -5,6 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Clock;
@@ -14,6 +15,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
+
+import javax.swing.JOptionPane;
 
 import by.uniterra.dai.eao.DaysOfWorkEAO;
 import by.uniterra.dai.eao.MonthEAO;
@@ -22,6 +26,7 @@ import by.uniterra.dai.entity.DaysOfWork;
 import by.uniterra.dai.entity.Month;
 import by.uniterra.dai.entity.Worker;
 import by.uniterra.system.model.SystemModel;
+import by.uniterra.system.util.DateUtils;
 import by.uniterra.system.util.WorkLogUtils;
 
 public class LogParser
@@ -29,6 +34,8 @@ public class LogParser
     private final static String SEPARATOR_TO_ALIAS = "Hours of ";
     private final static String SEPARATOR_TO_HOURS = " = ";
     private final static String SEPARATOR_TO_DATE = "startdate = ";
+    private final static String DATE_FORMAT_FROM_LOG = "yyyy-MM-dd hh:mm:ss";
+    private final static String DATE_FORMAT_SQL = "yyyy-MM-dd hh:mm:ss";
 
     public static void main(String[] args)
     {
@@ -36,7 +43,6 @@ public class LogParser
         // getListFromLog(Paths.get("e:\\Temp\\worklog.txt"));
     }
 
-    
     public static List<DaysOfWork> getListFromLog(Path path)
     {
         List<DaysOfWork> daysOfWorkList = new ArrayList<DaysOfWork>();
@@ -53,7 +59,7 @@ public class LogParser
         Date date = null;
         for (String parseString : lstOriginalData)
         {
-            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+            SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT_FROM_LOG);
             if (parseString.contains(SEPARATOR_TO_ALIAS))
             {
                 int iAliasPos = parseString.indexOf(SEPARATOR_TO_ALIAS) + SEPARATOR_TO_ALIAS.length();
@@ -69,9 +75,11 @@ public class LogParser
             {
                 int iDatePos = parseString.indexOf(SEPARATOR_TO_DATE) + SEPARATOR_TO_DATE.length();
                 String strDate = parseString.substring(iDatePos);
+
                 try
                 {
                     date = formatter.parse(strDate);
+                    Log.info(LogParser.class, "Parse Log Date " + date);
                 }
                 catch (ParseException e)
                 {
@@ -104,7 +112,7 @@ public class LogParser
             List<Worker> workerArrayList;
             workerArrayList = new WorkerEAO(SystemModel.getDefaultEM()).loadAll();
 
-            //add data to workerArrayList
+            // add data to workerArrayList
             for (Map.Entry<String, Double> hmAliasHours : mapAliasHours.entrySet())
             {
                 for (Worker currentWorker : workerArrayList)
@@ -119,7 +127,7 @@ public class LogParser
                         dof.setAktualWorkedDays(actualWorkedDays);
                         dof.setMonth(month);
                         dof.setWorker(currentWorker);
-                        //add to List<>
+                        // add to List<>
                         daysOfWorkList.add(dof);
                         break;
                     }
@@ -128,21 +136,36 @@ public class LogParser
         }
         return daysOfWorkList;
     }
-    
-    public static void saveLogInfoToDB(List<DaysOfWork> daysOfWorkList)
+
+    public static void saveLogInfoToDB(List<DaysOfWork> lstDoWfromLog)
     {
+        Date dateFromLog = lstDoWfromLog.get(0).getTimestamp();
+
+        // check whether there is a record with the Timestamp of the log
         DaysOfWorkEAO dofEAO = new DaysOfWorkEAO(SystemModel.getDefaultEM());
-        try
+        long count = dofEAO.getCountForTimestamp(DateUtils.toTimestamp(dateFromLog));
+
+        if (count == 0)
         {
-            for(DaysOfWork dow : daysOfWorkList)
+            try
             {
-                dofEAO.save(dow);
+                for (DaysOfWork dow : lstDoWfromLog)
+                {
+                    dofEAO.save(dow);
+                    Log.info(LogParser.class, "Data successfully added!");
+                }
+            }
+            catch (Exception e)
+            {
+
+                Log.error(LogParser.class, e, "save info from log to DB problems");
             }
         }
-        catch (Exception e)
+        else
         {
-            Log.error(LogParser.class, e, "save info from log to DB problems");
+            JOptionPane.showMessageDialog(null,"data from the log for: " + dateFromLog + " already added!");
+            Log.warning(LogParser.class, "attempted to add existing data");
         }
-        
+
     }
 }

@@ -481,4 +481,12 @@ public class DateUtils
         return new Timestamp(cal.getTimeInMillis());
     }
     
+    public static Timestamp toTimestamp(Date currentDate)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(currentDate);
+        return new Timestamp(cal.getTimeInMillis());
+    }
+    
+    
 }

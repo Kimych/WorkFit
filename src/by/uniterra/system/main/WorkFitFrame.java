@@ -83,6 +83,8 @@ public class WorkFitFrame extends JFrame implements ActionListener
 {
 
     static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+    
+    AdminPanel adp;
 
     private static final String ACTION_ADD_LOG = "Add Log";
     private static final String ACTION_EXIT = "Exit";
@@ -162,8 +164,9 @@ public class WorkFitFrame extends JFrame implements ActionListener
                 // create UI for Admin or User
                 if (isContainsRole(auth, IRole.ADMIN))
                 {
-                    getContentPane().add(new AdminPanel());
-
+                    adp = new AdminPanel();
+                    getContentPane().add(adp);
+                    adp.loadDataInUI();
                     createMenu();
 
                     setVisible(true);
@@ -336,6 +339,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
             {
             case ACTION_ADD_LOG:
                 createFileChooser(this);
+                adp.loadDataInUI();
                 break;
             case ACTION_EXIT:
                 disposeMainFrame();
@@ -390,7 +394,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
         JOptionPane.showMessageDialog(this, panelCommon, frameTitle, JOptionPane.PLAIN_MESSAGE);
     }
 
-    private static Path createFileChooser(final JFrame frame)
+    private static void createFileChooser(final JFrame frame)
     {
         String filename = File.separator + "tmp";
         JFileChooser fileChooser = new JFileChooser(new File(filename));
@@ -398,10 +402,11 @@ public class WorkFitFrame extends JFrame implements ActionListener
         fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("txt file (*.txt)" , "txt"));
         fileChooser.setAcceptAllFileFilterUsed(true);
         fileChooser.showOpenDialog(frame);
-        System.out.println("File to open: " + fileChooser.getSelectedFile());
-        LogParser.getListFromLog(fileChooser.getSelectedFile().toPath());
+        
+        Log.info(WorkFitFrame.class, "Load log from file: " + fileChooser.getSelectedFile());
+        
         LogParser.saveLogInfoToDB(LogParser.getListFromLog(fileChooser.getSelectedFile().toPath()));
-        return fileChooser.getSelectedFile().toPath();
+        //return fileChooser.getSelectedFile().toPath();
         
     }
 }
