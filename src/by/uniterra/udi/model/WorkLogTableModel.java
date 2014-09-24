@@ -1,6 +1,7 @@
 package by.uniterra.udi.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class WorkLogTableModel extends AbstractFlexTableModel
@@ -26,7 +27,7 @@ public class WorkLogTableModel extends AbstractFlexTableModel
         addColumn(COL_TO_PLANE, "To plane", String.class);
         addColumn(COL_TO_BONUS, "To bonus", String.class);
         addColumn(COL_REST_HOLIDAY, "To holiday", String.class);
-        addColumn(COL_UPDATE_TIME, "Last Update", String.class);
+        addColumn(COL_UPDATE_TIME, "Last Update", Date.class);
     }
 
     public void addData(List<WorkLogInfoHolder> arrData)
@@ -71,6 +72,7 @@ public class WorkLogTableModel extends AbstractFlexTableModel
             break;
         case COL_UPDATE_TIME:
             objResult = idData.getLastUpdateDate();
+            break;
         default:
             break;
         }

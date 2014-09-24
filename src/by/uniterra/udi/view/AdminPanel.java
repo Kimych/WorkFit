@@ -13,10 +13,9 @@ import java.util.Date;
 import java.util.List;
 
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 
 import org.jdesktop.swingx.JXMonthView;
 import org.jdesktop.swingx.JXTable;
@@ -25,9 +24,12 @@ import org.jdesktop.swingx.decorator.HighlighterFactory;
 import by.uniterra.dai.eao.DaysOfWorkEAO;
 import by.uniterra.dai.entity.DaysOfWork;
 import by.uniterra.system.model.SystemModel;
+import by.uniterra.system.util.DateUtils;
 import by.uniterra.udi.model.WorkLogInfoHelper;
 import by.uniterra.udi.model.WorkLogInfoHolder;
 import by.uniterra.udi.model.WorkLogTableModel;
+
+import com.sun.jmx.snmp.Timestamp;
 
 public class AdminPanel extends JPanel implements ActionListener
 {
@@ -72,6 +74,10 @@ public class AdminPanel extends JPanel implements ActionListener
         table.setColumnControlVisible(true);
         // table.setHorizontalScrollEnabled(true);
         table.addHighlighter(HighlighterFactory.createSimpleStriping(new Color(234, 234, 234)));
+        // swt custom renderers
+        TimestampTableCellRenderer txrTimestampRenderer = new TimestampTableCellRenderer(SwingConstants.CENTER, DateUtils.EUROP_FULL_DATETIMEFORMAT, "UTC");
+        table.setDefaultRenderer(Timestamp.class, txrTimestampRenderer);
+        table.setDefaultRenderer(Date.class, txrTimestampRenderer);
         
         jxmvCalendar.addActionListener(new ActionListener()
         {

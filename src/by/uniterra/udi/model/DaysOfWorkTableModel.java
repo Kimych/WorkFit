@@ -1,7 +1,10 @@
 package by.uniterra.udi.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import com.sun.jmx.snmp.Timestamp;
 
 import by.uniterra.dai.entity.DaysOfWork;
 
@@ -26,7 +29,7 @@ public class DaysOfWorkTableModel extends AbstractFlexTableModel
     public DaysOfWorkTableModel()
     {
         addColumn(COL_WORKLOG, "From Log");
-        addColumn(COL_TIMESTAMP, "Timestamp");
+        addColumn(COL_TIMESTAMP, "Timestamp", Date.class);
         addColumn(COL_BONUS_TIME, "Bonus time");
         addColumn(COL_BONUS_TIME_DESC, "Bonus time desc");
         addColumn(COL_AKTUAL_WORKED_DAYS, "Aktual worked days");

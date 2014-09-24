@@ -192,14 +192,14 @@ public class DateUtils
      * @author Anton Nedbailo
      * @date Sep 29, 2013
      */
-    public static String timestampToString(final Timestamp ts, final String format, final String tzId)
+    public static String timestampToString(final Date ts, final String format, final String tzId)
     {
-        Timestamp ret = ts;
+        Date ret = ts;
         SimpleDateFormat formatter = new SimpleDateFormat(format);
         formatter.setTimeZone(TimeZone.getTimeZone(tzId));
         if (ret == null)
         {
-            ret = new Timestamp(new Date().getTime());
+            ret = new Date();
         }
         return formatter.format(ret);
     }
@@ -249,7 +249,7 @@ public class DateUtils
      * @return Wandelt einen Timestamp in eine String bezogen auf GMT um.
      * 
      */
-    public static String toGMT(final Timestamp ts)
+    public static String toGMT(final Date ts)
     {
         return timestampToString(ts, STANDARD_DATETIMEFORMAT, TZ_UTC);
     }
@@ -480,13 +480,4 @@ public class DateUtils
         cal.set(Calendar.SECOND, 59);
         return new Timestamp(cal.getTimeInMillis());
     }
-    
-    public static Timestamp toTimestamp(Date currentDate)
-    {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(currentDate);
-        return new Timestamp(cal.getTimeInMillis());
-    }
-    
-    
 }

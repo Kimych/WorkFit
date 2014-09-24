@@ -25,7 +25,6 @@ public class WorkLogInfoHelper
     static int curentMonth = YearMonth.now(Clock.systemUTC()).getMonthValue();
     static int curentYear = YearMonth.now(Clock.systemUTC()).getYear();
 
-    static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
 
     public static WorkLogInfoHolder getLogInfoByWorker()
     {
@@ -47,8 +46,6 @@ public class WorkLogInfoHelper
             List<DaysOfWork> lstDaysOfWork = eaoDaysOfWork.getLastDataForWorkerAndMonthNum(curentWorker, curentMonth);
             double workLogTime = lstDaysOfWork.get(0).getWorklog();
 
-            String lastUpdateTime = DATE_FORMAT.format(lstDaysOfWork.get(0).getTimestamp());
-
             double curentSumBonus = eaoDaysOfWork.getSumBonusTimeForWorkerAndMonthNum(curentWorker, curentMonth);
             // to plane
             double ToPlane = WorkLogUtils.getTimeRemainsToPlane(workingDaysInMonth, workLogTime, curentSumBonus);
@@ -62,7 +59,7 @@ public class WorkLogInfoHelper
             boolean beInPlane = WorkLogUtils.beInPlaneAtTime(lstDaysOfWork.get(0).getAktualWorkedDays(), workingDaysInMonth, ToPlane);
             // get worklog time
             String roundWorkLogTime = WorkLogUtils.roundToString(workLogTime, 2, BigDecimal.ROUND_HALF_UP);
-            objResult = new WorkLogInfoHolder(roundWorkLogTime, ToPlane, ToBonus, (holiday - timeLeft), lastUpdateTime, curentWorker.toString(), beInPlane);
+            objResult = new WorkLogInfoHolder(roundWorkLogTime, ToPlane, ToBonus, (holiday - timeLeft), lstDaysOfWork.get(0).getTimestamp(), curentWorker.toString(), beInPlane);
         }
 
         return objResult;
@@ -96,7 +93,6 @@ public class WorkLogInfoHelper
                 // get last update time
                 // String lastUpdateTime =
                 // String.valueOf(lstDaysOfWork.get(0).getTimestamp());
-                String lastUpdateTime = DATE_FORMAT.format(lstDaysOfWork.get(0).getTimestamp());
                 // get sum bonus time for the current worker
                 double curentSumBonus = eaoDaysOfWork.getSumBonusTimeForWorkerAndMonthNum(curentWorker, calculatedMonth);
                 // to plane
@@ -112,7 +108,7 @@ public class WorkLogInfoHelper
                 // get worklog time
                 String roundWorkLogTime = WorkLogUtils.roundToString(workLogTime, 2, BigDecimal.ROUND_HALF_UP);
 
-                WorkLogInfoHolder wlih = new WorkLogInfoHolder(roundWorkLogTime, ToPlane, ToBonus, (holiday - timeLeft), lastUpdateTime,
+                WorkLogInfoHolder wlih = new WorkLogInfoHolder(roundWorkLogTime, ToPlane, ToBonus, (holiday - timeLeft), lstDaysOfWork.get(0).getTimestamp(),
                         curentWorker.toString(), beInPlane);
                 lstResult.add(wlih);
             }

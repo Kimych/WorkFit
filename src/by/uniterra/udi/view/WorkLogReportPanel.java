@@ -79,7 +79,6 @@ public class WorkLogReportPanel extends JTabbedPane
                 // get last update time
                 // String lastUpdateTime =
                 // String.valueOf(lstDaysOfWork.get(0).getTimestamp());
-                String lastUpdateTime = DATE_FORMAT.format(lstDaysOfWork.get(0).getTimestamp());
                 // get sum bonus time for the current worker
                 double curentSumBonus = eaoDaysOfWork.getSumBonusTimeForWorkerAndMonthNum(curentWorker, curentMonth);
                 // to plane
@@ -95,7 +94,7 @@ public class WorkLogReportPanel extends JTabbedPane
                 // get worklog time
                 String roundWorkLogTime = WorkLogUtils.roundToString(workLogTime, 2, BigDecimal.ROUND_HALF_UP);
 
-                ((IModelOwner) wlop).setModel(new WorkLogInfoHolder(roundWorkLogTime, ToPlane, ToBonus, (holiday - timeLeft), lastUpdateTime,
+                ((IModelOwner) wlop).setModel(new WorkLogInfoHolder(roundWorkLogTime, ToPlane, ToBonus, (holiday - timeLeft), lstDaysOfWork.get(0).getTimestamp(),
                         curentWorker.toString(), beInPlane));
             }
             else

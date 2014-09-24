@@ -2,6 +2,7 @@ package by.uniterra.dai.eao;
 
 import java.sql.Timestamp;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -120,7 +121,7 @@ public class DaysOfWorkEAO extends ServiceBaseEAO<DaysOfWork>
     
     }
     
-    public long getCountForTimestamp(Timestamp timestamp)
+    public long getCountForTimestamp(Date timestamp)
     {
         long lstResult = 0;
         try

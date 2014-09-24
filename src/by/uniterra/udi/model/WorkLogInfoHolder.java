@@ -29,6 +29,8 @@
 
 package by.uniterra.udi.model;
 
+import java.util.Date;
+
 
 
 /**
@@ -44,11 +46,11 @@ public class WorkLogInfoHolder
     private double ToPlane;
     private double ToBonus;
     private double TimeLeft;
-    private String LastUpdateDate;
+    private Date LastUpdateDate;
     private String NameWorker;
     private boolean BeInPlane;
 
-    public WorkLogInfoHolder(String CurentTime, double ToPlane, double ToBonus, double TimeLeft, String LastUpdateDate, String NameWorker, boolean BeInPlane)
+    public WorkLogInfoHolder(String CurentTime, double ToPlane, double ToBonus, double TimeLeft, Date LastUpdateDate, String NameWorker, boolean BeInPlane)
     {
         this.CurentTime = CurentTime;
         this.ToPlane = ToPlane;
@@ -100,12 +102,12 @@ public class WorkLogInfoHolder
         this.TimeLeft = TimeLeft;
     }
 
-    public String getLastUpdateDate()
+    public Date getLastUpdateDate()
     {
         return LastUpdateDate;
     }
 
-    public void setLastUpdateDate(String LastUpdateDate)
+    public void setLastUpdateDate(Date LastUpdateDate)
     {
         this.LastUpdateDate = LastUpdateDate;
     }

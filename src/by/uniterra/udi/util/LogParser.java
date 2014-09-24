@@ -60,6 +60,7 @@ public class LogParser
         for (String parseString : lstOriginalData)
         {
             SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT_FROM_LOG);
+            formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
             if (parseString.contains(SEPARATOR_TO_ALIAS))
             {
                 int iAliasPos = parseString.indexOf(SEPARATOR_TO_ALIAS) + SEPARATOR_TO_ALIAS.length();
@@ -79,7 +80,7 @@ public class LogParser
                 try
                 {
                     date = formatter.parse(strDate);
-                    Log.info(LogParser.class, "Parse Log Date " + date);
+                    Log.info(LogParser.class, "Parsing Log Date " + DateUtils.toGMT(date));
                 }
                 catch (ParseException e)
                 {
@@ -143,7 +144,7 @@ public class LogParser
 
         // check whether there is a record with the Timestamp of the log
         DaysOfWorkEAO dofEAO = new DaysOfWorkEAO(SystemModel.getDefaultEM());
-        long count = dofEAO.getCountForTimestamp(DateUtils.toTimestamp(dateFromLog));
+        long count = dofEAO.getCountForTimestamp(dateFromLog);
 
         if (count == 0)
         {
@@ -163,7 +164,7 @@ public class LogParser
         }
         else
         {
-            JOptionPane.showMessageDialog(null,"data from the log for: " + dateFromLog + " already added!");
+            JOptionPane.showMessageDialog(null,"data from the log for: " + DateUtils.toGMT(dateFromLog.getTime()) + " already added!");
             Log.warning(LogParser.class, "attempted to add existing data");
         }
 

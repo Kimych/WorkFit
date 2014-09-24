@@ -44,6 +44,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -54,14 +55,18 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.decorator.HighlighterFactory;
 
 import by.uniterra.dai.eao.ServiceBaseEAO;
+import by.uniterra.system.util.DateUtils;
 import by.uniterra.udi.iface.IModelOwner;
 import by.uniterra.udi.model.AbstractFlexTableModel;
 import by.uniterra.udi.model.UDIPropSingleton;
+
+import com.sun.jmx.snmp.Timestamp;
 
 /**
  * The <code>CommonDataTablePanel</code> is used for editind some DB table values
@@ -151,6 +156,11 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
         tTable.setHorizontalScrollEnabled(true);
         tTable.addHighlighter(HighlighterFactory.createSimpleStriping(new Color(234, 234, 234)));
         tTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        // set renderers for special types
+        TimestampTableCellRenderer txrTimestampRenderer = new TimestampTableCellRenderer(SwingConstants.CENTER, DateUtils.EUROP_FULL_DATETIMEFORMAT, "UTC");
+        tTable.setDefaultRenderer(Timestamp.class, txrTimestampRenderer);
+        tTable.setDefaultRenderer(Date.class, txrTimestampRenderer);
+        
 
         // popup menu del row
         final JPopupMenu popup = new JPopupMenu();

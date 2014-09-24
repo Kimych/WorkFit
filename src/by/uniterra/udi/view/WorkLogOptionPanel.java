@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import by.uniterra.system.util.DateUtils;
 import by.uniterra.system.util.WorkLogUtils;
 import by.uniterra.udi.iface.IModelOwner;
 import by.uniterra.udi.model.UDIPropSingleton;
@@ -69,7 +70,7 @@ public class WorkLogOptionPanel extends JPanel implements IModelOwner
     {
         this.woih = (WorkLogInfoHolder) workLogInfoHolder;
         tfCurentTime.setText(woih.getCurentTime());
-        jlLastUpdateDate.setText(woih.getLastUpdateDate());
+        jlLastUpdateDate.setText(DateUtils.toGMT(woih.getLastUpdateDate()));
 
         jlNameWorker.setText(woih.getNameWorker());
         jlNameWorker.setFont(new Font("Serif", Font.PLAIN, 20));

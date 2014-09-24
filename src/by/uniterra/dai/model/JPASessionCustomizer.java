@@ -70,7 +70,14 @@ public class JPASessionCustomizer extends SessionCustomizer
 		if (con instanceof MySQLConnection)
 		{
 		    // disable JDBC time zone conversion
+		    /*Should the driver use JDBC-compliant rules when converting
+		    TIME/TIMESTAMP/DATETIME values' timezone information
+		    for those JDBC arguments which take a java.util.Calendar argument? (Notice that this option is exclusive of the "useTimezone=true" configuration option.)*/
 		    ((MySQLConnection) con).setUseJDBCCompliantTimezoneShift(true);
+		    /*If migrating from an environment that was using server-side prepared statements, and the configuration property "useJDBCCompliantTimeZoneShift" set to "true", use compatible behavior when
+		    not using server-side prepared statements when sending
+		    TIMESTAMP values to the MySQL server.*/
+		    ((MySQLConnection) con).setUseSSPSCompatibleTimezoneShift(true);
 		}
 	    } catch (Exception e)
 	    {
