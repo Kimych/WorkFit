@@ -2,16 +2,13 @@ package by.uniterra.udi.view;
 
 import java.awt.Component;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.Clock;
 import java.time.YearMonth;
 import java.util.List;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
-import javax.swing.WindowConstants;
 
 import by.uniterra.dai.eao.DaysOfWorkEAO;
 import by.uniterra.dai.eao.HolidayEAO;

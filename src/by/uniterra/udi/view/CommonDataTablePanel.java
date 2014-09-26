@@ -65,6 +65,7 @@ import by.uniterra.system.util.DateUtils;
 import by.uniterra.udi.iface.IModelOwner;
 import by.uniterra.udi.model.AbstractFlexTableModel;
 import by.uniterra.udi.model.UDIPropSingleton;
+import by.uniterra.udi.util.Log;
 
 import com.sun.jmx.snmp.Timestamp;
 
@@ -81,7 +82,7 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
     // members
     private AbstractFlexTableModel model;
     private JXTable tTable;
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings("rawtypes") 
     private ServiceBaseEAO eaoCommon;
     private KeyEventDispatcher keyDispatcher;
 
@@ -288,8 +289,7 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
         }
         catch (Exception e)
         {
-            System.out.println("actionPerformed expressions");
-            e.printStackTrace();
+            Log.error(CommonDataTablePanel.class, e, "actionPerformed expressions");
         }
 
     }
@@ -302,10 +302,10 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
         }
         catch (InstantiationException | IllegalAccessException e)
         {
-            System.out.println("addValuesToModel error ");
+            Log.error(CommonDataTablePanel.class, e, "addValuesToModel error");
         }
         
-        if (JOptionPane.showConfirmDialog(tTable, moPanel, UDIPropSingleton.getString(this, "addMonthOptionPanel.title"), JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION)
+        if (JOptionPane.showConfirmDialog(tTable, moPanel, UDIPropSingleton.getString(this, "addOptionPanel.title"), JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION)
         {
             try
             {
@@ -315,11 +315,12 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
             }
             catch (NumberFormatException ex)
             {
-                showNumberErrorMessage();
+                Log.error(CommonDataTablePanel.class, "addValuesToModel() numberFormatException");
             }
         }
         else
         {
+            //TODO message message dialog
             System.out.println("Input Canceled");
         }
     }
@@ -362,24 +363,25 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
         int iChangedListIndex = lstChangedRows.indexOf(monthEditedModel);
 
         moPanel.setModel(monthEditedModel);
-        if (JOptionPane.showConfirmDialog(tTable, moPanel, UDIPropSingleton.getString(this, "editMonthOptionPanel.title"), JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION)
+        if (JOptionPane.showConfirmDialog(tTable, moPanel, UDIPropSingleton.getString(this, "editOptionPanel.title"), JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION)
         {
             try
             {
-                Serializable month = (Serializable) moPanel.getModel();
-                model.setTableData(month, iModelIndex);
+                Serializable data = (Serializable) moPanel.getModel();
+                model.setTableData(data, iModelIndex);
                 // FIXME check if we already edited the same value
                 if (iChangedListIndex != -1)
                 {
-                    lstChangedRows.set(iChangedListIndex, month);
+                    lstChangedRows.set(iChangedListIndex, data);
                 }
                 else
                 {
-                    lstChangedRows.add(month);
+                    lstChangedRows.add(data);
                 }
             }
             catch (NumberFormatException ex)
             {
+                Log.error(CommonDataTablePanel.class, "editValuesFromModel() numberFormatException");
                 showNumberErrorMessage();
             }
 

@@ -68,15 +68,27 @@
 	<by.uniterra.udi.view.CommonDataTablePanel>
 		<menuItemDelRow.label>Удалить запись</menuItemDelRow.label>
 		<menuItemEditRow.label>Редактировать запись</menuItemEditRow.label>
-		<addMonthOptionPanel.title>Добавление данных
-		</addMonthOptionPanel.title>
-		<editMonthOptionPanel.title>Редактирование данных
-		</editMonthOptionPanel.title>
+		<addOptionPanel.title>Добавление данных
+		</addOptionPanel.title>
+		<editOptionPanel.title>Редактирование данных
+		</editOptionPanel.title>
 		<buttonSaveDB.label>Новая запись</buttonSaveDB.label>
 		<buttonRefreshDB.label>Отменить изменения</buttonRefreshDB.label>
 		<errorMessageDialog.title>Ошибка!</errorMessageDialog.title>
 		<errorMessageDialog.lable>Неверный формат данных
 		</errorMessageDialog.lable>
 	</by.uniterra.udi.view.CommonDataTablePanel>
+	
+	<!-- DaysOfWorkTableModel -->
+	<by.uniterra.udi.model.DaysOfWorkTableModel>
+		<fromLog.column>Из лога</fromLog.column>
+		<timestamp.column>Обновлено</timestamp.column>
+		<bonusTime.column>Бонус</bonusTime.column>
+		<descBonusTime.column>Примечание</descBonusTime.column>
+		<actualWorkedDays.column>Актуальные рабочие дни</actualWorkedDays.column>
+		<daysOfWork.column>Отработанно</daysOfWork.column>
+		<montID.column>Месяц</montID.column>
+		<workerID.column>Работник</workerID.column>
+	</by.uniterra.udi.model.DaysOfWorkTableModel>
 </root>
 

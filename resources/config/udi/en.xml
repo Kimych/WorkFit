@@ -67,18 +67,29 @@
 		<jlTimeLeft.label>The rest of the holiday:</jlTimeLeft.label>
 	</by.uniterra.udi.view.WorkLogOptionPanel>
 
+	<!-- CommonDataTablePanel -->
 	<by.uniterra.udi.view.CommonDataTablePanel>
 		<menuItemDelRow.label>Delete Row</menuItemDelRow.label>
 		<menuItemEditRow.label>Edit Row</menuItemEditRow.label>
-		<addMonthOptionPanel.title>Add new data</addMonthOptionPanel.title>
-		<editMonthOptionPanel.title>Edit data</editMonthOptionPanel.title>
+		<addOptionPanel.title>Add new data</addOptionPanel.title>
+		<editOptionPanel.title>Edit data</editOptionPanel.title>
 		<buttonSaveDB.label>New data</buttonSaveDB.label>
 		<buttonRefreshDB.label>Rollback</buttonRefreshDB.label>
 		<errorMessageDialog.title>Error!</errorMessageDialog.title>
 		<errorMessageDialog.lable>only</errorMessageDialog.lable>
 	</by.uniterra.udi.view.CommonDataTablePanel>
 
-
+	<!-- DaysOfWorkTableModel -->
+	<by.uniterra.udi.model.DaysOfWorkTableModel>
+		<fromLog.column>From Log</fromLog.column>
+		<timestamp.column>Timestamp</timestamp.column>
+		<bonusTime.column>Bonus time</bonusTime.column>
+		<descBonusTime.column>Bonus time desc</descBonusTime.column>
+		<actualWorkedDays.column>Aktual worked days</actualWorkedDays.column>
+		<daysOfWork.column>Days of work</daysOfWork.column>
+		<montID.column>Mont ID</montID.column>
+		<workerID.column>Worker ID</workerID.column>
+	</by.uniterra.udi.model.DaysOfWorkTableModel>
 
 
 </root>

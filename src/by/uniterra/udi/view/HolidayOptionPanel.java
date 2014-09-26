@@ -26,10 +26,10 @@ public class HolidayOptionPanel extends JPanel implements IModelOwner
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = -6282330382069748329L;
     
-    private JComboBox cbName;
-    private JComboBox cbYear;
+    private JComboBox<?> cbName;
+    private JComboBox<?> cbYear;
     private Holiday holiday;
-    JTextField tfDays;
+    private JTextField tfDays;
     private List<Worker> workerArrayList;
     private List<Year> yearArrayList;
     

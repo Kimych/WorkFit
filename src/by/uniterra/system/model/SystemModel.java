@@ -66,7 +66,7 @@ public class SystemModel
         // the correct way to disable the shared cache (L2 cache)
         mapCustomProp.put("eclipselink.cache.shared.default", "false");
         // enable SQL lqueries logging
-        mapCustomProp.put("eclipselink.logging.level","FINE");
+        //mapCustomProp.put("eclipselink.logging.level","FINE");
         // Specify an EclipseLink session customizer class: a Java
         mapCustomProp.put(PersistenceUnitProperties.SESSION_CUSTOMIZER, JPASessionCustomizer.class.getName());
         // a new connection (factory) to target DB

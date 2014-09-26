@@ -58,6 +58,7 @@ import by.uniterra.system.model.SystemModel;
 import by.uniterra.udi.model.DaysOfWorkTableModel;
 import by.uniterra.udi.model.HolidayTableModel;
 import by.uniterra.udi.model.MonthTableModel;
+import by.uniterra.udi.model.UserRoleTableMolel;
 import by.uniterra.udi.model.WorkLogInfoHelper;
 import by.uniterra.udi.model.WorkerTableModel;
 import by.uniterra.udi.model.YearTableModel;
@@ -69,6 +70,7 @@ import by.uniterra.udi.view.DaysOfWorkOptionPanel;
 import by.uniterra.udi.view.HolidayOptionPanel;
 import by.uniterra.udi.view.LoginPanel;
 import by.uniterra.udi.view.MonthOptionPanel;
+import by.uniterra.udi.view.UserRoleOptionPanel;
 import by.uniterra.udi.view.WorkLogOptionPanel;
 import by.uniterra.udi.view.WorkerOptionPanel;
 import by.uniterra.udi.view.YearOptionPanel;
@@ -94,6 +96,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
     private static final String EDIT_MONTH = "Edit month";
     private static final String EDIT_YEAR = "Edit year";
     private static final String EDIT_USER_ROLE = "Edit user role";
+    private static final String UPDATE_LOG = "Update log";
 
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 165708470997304032L;
@@ -167,7 +170,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
                     adp = new AdminPanel();
                     getContentPane().add(adp);
                     adp.loadDataInUI();
-                    createMenu();
+                    createAdminMenu();
 
                     setVisible(true);
 
@@ -194,7 +197,9 @@ public class WorkFitFrame extends JFrame implements ActionListener
         WorkLogOptionPanel wlop = new WorkLogOptionPanel();
         wlop.setModel(WorkLogInfoHelper.getLogInfoByWorker());
         getContentPane().add(wlop);
-        // super.setVisible(true);
+        createUserMenu();
+        super.setVisible(true);
+        super.pack();
 
     }
 
@@ -266,7 +271,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
         return null;
     }
 
-    private void createMenu()
+    private void createAdminMenu()
     {
         // create Menu
 
@@ -329,6 +334,29 @@ public class WorkFitFrame extends JFrame implements ActionListener
         setJMenuBar(jmBar);
 
     }
+    
+    private void createUserMenu()
+    {
+        JMenuBar jmBar = new JMenuBar();
+
+        JMenu jmMenuFit = new JMenu("Fit");
+
+        JMenuItem itemAddLog = new JMenuItem("Update info");
+        jmMenuFit.add(itemAddLog);
+        itemAddLog.setActionCommand(UPDATE_LOG);
+        itemAddLog.addActionListener(this);
+
+        jmMenuFit.addSeparator();
+
+        JMenuItem itemExit = new JMenuItem("Exit");
+        itemExit.setActionCommand(ACTION_EXIT);
+        itemExit.addActionListener(this);
+        jmMenuFit.add(itemExit);
+        
+        jmBar.add(jmMenuFit);
+
+        setJMenuBar(jmBar);
+    }
 
     @Override
     public void actionPerformed(ActionEvent arg0)
@@ -340,6 +368,9 @@ public class WorkFitFrame extends JFrame implements ActionListener
             case ACTION_ADD_LOG:
                 createFileChooser(this);
                 adp.loadDataInUI();
+                break;
+            case UPDATE_LOG:
+                createUserUI();
                 break;
             case ACTION_EXIT:
                 disposeMainFrame();
@@ -375,6 +406,10 @@ public class WorkFitFrame extends JFrame implements ActionListener
                 panelHoliday.writeValues();
                 break;
             case EDIT_USER_ROLE:
+                CommonDataTablePanel panelUserRole = new CommonDataTablePanel(new UserRoleTableMolel(), new UserRoleOptionPanel(), new AuthorizationEAO(
+                        SystemModel.getDefaultEM()));
+                showEditPanel(panelUserRole, "Edit UserRole");
+                panelUserRole.writeValues();
                 break;
             default:
                 break;
@@ -391,7 +426,8 @@ public class WorkFitFrame extends JFrame implements ActionListener
     {
         JPanel panelCommon = new JPanel();
         panelCommon.add(commonPanel);
-        JOptionPane.showMessageDialog(this, panelCommon, frameTitle, JOptionPane.PLAIN_MESSAGE);
+        //JOptionPane.showMessageDialog(this, panelCommon, frameTitle, JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showConfirmDialog(this, panelCommon, frameTitle, JOptionPane.OK_CANCEL_OPTION);
     }
 
     private static void createFileChooser(final JFrame frame)

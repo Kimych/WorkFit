@@ -18,7 +18,8 @@ public class Role implements Serializable
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ROLE_ID")
+    @Column(name = "ROLE_ID", updatable = true, insertable = true)
+    //@Column(name = "ROLE_ID")
     private int roleId;
 
     private String description;
@@ -80,7 +81,7 @@ public class Role implements Serializable
     @Override
     public String toString()
     {
-        return "Role [roleId=" + roleId + ", description=" + description + ", name=" + name + ", authorizations=" + authorizations + "]";
+        return name;
     }
 
     @Override
