@@ -33,14 +33,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import by.uniterra.dai.eao.RoleEAO;
@@ -68,7 +66,7 @@ public class UserRoleOptionPanel extends JPanel implements IModelOwner
     private JTextField tfEmail;
     private JTextField tfLogin;
     private JTextField tfPassword;
-    private JTextArea taDesck;
+    // private JTextArea taDesck;
 
     private List<Worker> workerArrayList;
     private List<Role> rolerArrayList;
@@ -86,12 +84,12 @@ public class UserRoleOptionPanel extends JPanel implements IModelOwner
         tfEmail = new JTextField();
         tfLogin = new JTextField();
         tfPassword = new JTextField();
-        taDesck = new JTextArea();
+        // taDesck = new JTextArea();
 
         JLabel jlName = new JLabel("Name");
         JLabel jlEmail = new JLabel("Email");
         JLabel jlRole = new JLabel("Role");
-        JLabel jlDescription = new JLabel("Description");
+        // JLabel jlDescription = new JLabel("Description");
         JLabel jlLogin = new JLabel("Login");
         JLabel jlPassword = new JLabel("Password");
 
@@ -107,8 +105,12 @@ public class UserRoleOptionPanel extends JPanel implements IModelOwner
         add(tfEmail, new GridBagConstraints(1, 1, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
         add(jlRole, new GridBagConstraints(0, 2, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
         add(cbRole, new GridBagConstraints(1, 2, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
-        add(jlDescription, new GridBagConstraints(0, 3, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
-        add(taDesck, new GridBagConstraints(1, 3, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
+        // add(jlDescription, new GridBagConstraints(0, 3, 1, 1, 0, 0,
+        // GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0,
+        // 0, 0, 5), 0, 0));
+        // add(taDesck, new GridBagConstraints(1, 3, 1, 1, 0, 0,
+        // GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0,
+        // 0, 0, 5), 0, 0));
         add(jlLogin, new GridBagConstraints(0, 4, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
         add(tfLogin, new GridBagConstraints(1, 4, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
         add(jlPassword, new GridBagConstraints(0, 5, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
@@ -122,7 +124,7 @@ public class UserRoleOptionPanel extends JPanel implements IModelOwner
         this.authorization = (Authorization) objAutorization;
         if (authorization.getAuthorizationId() == 0)
         {
-            
+
             cbName.setSelectedIndex(0);
             cbRole.setSelectedIndex(0);
         }
@@ -130,49 +132,40 @@ public class UserRoleOptionPanel extends JPanel implements IModelOwner
         {
             cbName.setSelectedItem(authorization.getWorker());
             cbRole.setSelectedItem(authorization.getRoles().get(0));
-            
-            //cbRole.setSelectedItem(authorization.getRoles());
+
+            // cbRole.setSelectedItem(authorization.getRoles());
         }
         tfEmail.setText(authorization.getEmail());
-        taDesck.setText(authorization.getRoles().get(0).getDescription());
+        // taDesck.setText(authorization.getRoles().get(0).getDescription());
         tfPassword.setText(authorization.getLogin());
         tfLogin.setText(authorization.getPassword());
-        
+
     }
+
     @Override
     public Object getModel()
     {
-        Role objRole = new Role();
-        List<Role> lstRole = new ArrayList<Role>();
-        if(authorization == null)
+        List<Role> lstRoleToSave = new ArrayList<Role>();
+
+        if (authorization == null)
         {
             authorization = new Authorization();
         }
-        
-        //get role name
+
+        // get role name
         String roleName = cbRole.getSelectedItem().toString();
-        
-        //get RoleID
-        lstRole = new RoleEAO(SystemModel.getDefaultEM()).loadAll();
-        for(Role role : lstRole)
-        {
-            if(role.getName().equals(roleName))
-            {
-                objRole.setRoleId(role.getRoleId());
-            }
-            break;
-        }
-        objRole.setName(roleName);
-        objRole.setDescription(taDesck.getText());
-        lstRole.add(objRole);
-        //lstRole = Arrays.asList(objRole);
-        
-        authorization.setWorker((Worker)cbName.getSelectedItem());
+
+        // get List<Role>
+        RoleEAO roleEAO = new RoleEAO(SystemModel.getDefaultEM());
+        lstRoleToSave = roleEAO.getRoleByName(roleName);
+
+        // lstRoleToSave.add(objRole);
+        authorization.setWorker((Worker) cbName.getSelectedItem());
         authorization.setEmail(tfEmail.getText());
-        authorization.setRoles(lstRole);
+        authorization.setRoles(lstRoleToSave);
         authorization.setLogin(tfLogin.getText());
         authorization.setPassword(tfPassword.getText());
-        
+
         return authorization;
     }
 }

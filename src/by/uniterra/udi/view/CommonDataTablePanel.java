@@ -320,8 +320,7 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
         }
         else
         {
-            //TODO message message dialog
-            System.out.println("Input Canceled");
+            //TODO message dialog
         }
     }
 

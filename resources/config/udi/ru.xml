@@ -1,8 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-	<by.uniterra.udi.view.WorkFitMainFrame>
-		<YearTableFrame.title>Года</YearTableFrame.title>
-	</by.uniterra.udi.view.WorkFitMainFrame>
+	<!-- WorkFitFrame -->
+	<by.uniterra.system.main.WorkFitFrame>
+		<Authotization.frame>Авторизация:</Authotization.frame>
+		<Fit.menu>Fit</Fit.menu>
+		<AddLog.menu>Добавить лог из файла</AddLog.menu>
+		<Exit.menu>Выход</Exit.menu>
+		<Edit.menu>Редактировать</Edit.menu>
+		<EditWorker.menu>Редактировать Worker</EditWorker.menu>
+		<EditHoliday.menu>Редактировать Holiday</EditHoliday.menu>
+		<EditDofW.menu>Редактировать Days of Work</EditDofW.menu>
+		<EditMonth.menu>Редактировать Month</EditMonth.menu>
+		<EditYear.menu>Редактировать Year</EditYear.menu>
+		<EditUserRole.menu>Редактировать User Role</EditUserRole.menu>
+		<Update.menu>Обновить</Update.menu>
+
+		<EditWorkerTable.frame>Редактирование Worker Table</EditWorkerTable.frame>
+		<EditYearTable.frame>Редактирование Year Table</EditYearTable.frame>
+		<EditDofWTable.frame>Редактирование Days of Work Table</EditDofWTable.frame>
+		<EditMonth.frame>Редактирование Month</EditMonth.frame>
+		<EditHolidayTable.frame>Редактирование Holiday Table</EditHolidayTable.frame>
+		<EditUserRole.frame>Редактирование User Role Table</EditUserRole.frame>
+
+	</by.uniterra.system.main.WorkFitFrame>
 
 	<!-- Year Table -->
 	<by.uniterra.udi.view.YearOptionPanel>
@@ -34,6 +54,7 @@
 		<FirstName.column>Имя</FirstName.column>
 		<SecondName.column>Фамилия</SecondName.column>
 		<ThirdName.column>Отчество</ThirdName.column>
+		<Alias.column>Псевдоним</Alias.column>
 	</by.uniterra.udi.model.WorkerTableModel>
 
 	<by.uniterra.udi.view.WorkerOptionPanel>

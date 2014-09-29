@@ -190,11 +190,11 @@ public class Worker implements Serializable
 	    final int prime = 31;
 	    int result = 1;
 	    result = prime * result + ((alias == null) ? 0 : alias.hashCode());
-	    result = prime * result + ((daysOfWorks == null) ? 0 : daysOfWorks.hashCode());
+	    //result = prime * result + ((daysOfWorks == null) ? 0 : daysOfWorks.hashCode());
 	    result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 	    result = prime * result + ((holidays == null) ? 0 : holidays.hashCode());
 	    result = prime * result + ((secondName == null) ? 0 : secondName.hashCode());
-	    result = prime * result + ((spentHolidays == null) ? 0 : spentHolidays.hashCode());
+	    //result = prime * result + ((spentHolidays == null) ? 0 : spentHolidays.hashCode());
 	    result = prime * result + ((thirdName == null) ? 0 : thirdName.hashCode());
 	    result = prime * result + workerId;
 	    return result;

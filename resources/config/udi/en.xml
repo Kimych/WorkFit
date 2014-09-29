@@ -1,9 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-	<!-- Main frame -->
-	<by.uniterra.udi.view.WorkFitMainFrame>
-		<YearTableFrame.title>Year table</YearTableFrame.title>
-	</by.uniterra.udi.view.WorkFitMainFrame>
+
+	<!-- WorkFitFrame -->
+	<by.uniterra.system.main.WorkFitFrame>
+		<Authotization.frame>Authorization:</Authotization.frame>
+		<Fit.menu>Fit</Fit.menu>
+		<AddLog.menu>Add Log From File</AddLog.menu>
+		<Exit.menu>Exit</Exit.menu>
+		<Edit.menu>Edit</Edit.menu>
+		<EditWorker.menu>Edit Worker</EditWorker.menu>
+		<EditHoliday.menu>Edit Holiday</EditHoliday.menu>
+		<EditDofW.menu>Edit Days of Work</EditDofW.menu>
+		<EditMonth.menu>Edit Month</EditMonth.menu>
+		<EditYear.menu>Edit Year</EditYear.menu>
+		<EditUserRole.menu>Edit User Role</EditUserRole.menu>
+		<Update.menu>Update info</Update.menu>
+
+		<EditWorkerTable.frame>Edit Worker Table</EditWorkerTable.frame>
+		<EditYearTable.frame>Edit Year Table</EditYearTable.frame>
+		<EditDofWTable.frame>Edit Days of Work Table</EditDofWTable.frame>
+		<EditMonth.frame>Edit Month</EditMonth.frame>
+		<EditHolidayTable.frame>Edit Holiday Table</EditHolidayTable.frame>
+		<EditUserRole.frame>Edit User Role Table</EditUserRole.frame>
+
+	</by.uniterra.system.main.WorkFitFrame>
 
 	<!-- Year Table -->
 	<by.uniterra.udi.view.YearOptionPanel>
@@ -35,6 +55,7 @@
 		<FirstName.column>First name</FirstName.column>
 		<SecondName.column>Second name</SecondName.column>
 		<ThirdName.column>Third name</ThirdName.column>
+		<Alias.column>Alias</Alias.column>
 	</by.uniterra.udi.model.WorkerTableModel>
 
 	<by.uniterra.udi.view.WorkerOptionPanel>

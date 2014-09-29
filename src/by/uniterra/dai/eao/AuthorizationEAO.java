@@ -66,7 +66,7 @@ public class AuthorizationEAO extends ServiceBaseEAO<Authorization>
             queryDeleteByDSId.setParameter(Authorization.PARAMETER_LOGIN, login);
             queryDeleteByDSId.setParameter(Authorization.PARAMETER_PASSWORD, password);
 
-            Result = (Authorization)queryDeleteByDSId.getSingleResult();
+            Result = (Authorization) queryDeleteByDSId.getSingleResult();
         }
         catch (Exception e)
         {

@@ -137,8 +137,8 @@ public class Authorization implements Serializable
         result = prime * result + ((email == null) ? 0 : email.hashCode());
         result = prime * result + ((login == null) ? 0 : login.hashCode());
         result = prime * result + ((password == null) ? 0 : password.hashCode());
-        result = prime * result + ((roles == null) ? 0 : roles.hashCode());
-        result = prime * result + ((worker == null) ? 0 : worker.hashCode());
+        // result = prime * result + ((roles == null) ? 0 : roles.hashCode());
+        // result = prime * result + ((worker == null) ? 0 : worker.hashCode());
         return result;
     }
 

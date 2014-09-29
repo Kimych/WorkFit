@@ -32,7 +32,6 @@ package by.uniterra.system.main;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 
 import javax.persistence.EntityManager;
@@ -58,6 +57,7 @@ import by.uniterra.system.model.SystemModel;
 import by.uniterra.udi.model.DaysOfWorkTableModel;
 import by.uniterra.udi.model.HolidayTableModel;
 import by.uniterra.udi.model.MonthTableModel;
+import by.uniterra.udi.model.UDIPropSingleton;
 import by.uniterra.udi.model.UserRoleTableMolel;
 import by.uniterra.udi.model.WorkLogInfoHelper;
 import by.uniterra.udi.model.WorkerTableModel;
@@ -85,7 +85,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
 {
 
     static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
-    
+
     AdminPanel adp;
 
     private static final String ACTION_ADD_LOG = "Add Log";
@@ -237,7 +237,8 @@ public class WorkFitFrame extends JFrame implements ActionListener
             // create login dialog
             LoginPanel panelLogin = new LoginPanel(strUserName);
             // show login dialog
-            int input = JOptionPane.showConfirmDialog(this, panelLogin, "Авторизация:", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+            int input = JOptionPane.showConfirmDialog(this, panelLogin, UDIPropSingleton.getString(this, "Authotization.frame"), JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.PLAIN_MESSAGE);
             // check result
             if (input == JOptionPane.OK_OPTION)
             {
@@ -277,53 +278,53 @@ public class WorkFitFrame extends JFrame implements ActionListener
 
         JMenuBar jmBar = new JMenuBar();
 
-        JMenu jmMenuFit = new JMenu("Fit");
+        JMenu jmMenuFit = new JMenu(UDIPropSingleton.getString(this, "Fit.menu"));
 
-        JMenuItem itemAddLog = new JMenuItem("Add Log");
+        JMenuItem itemAddLog = new JMenuItem(UDIPropSingleton.getString(this, "AddLog.menu"));
         jmMenuFit.add(itemAddLog);
         itemAddLog.setActionCommand(ACTION_ADD_LOG);
         itemAddLog.addActionListener(this);
 
         jmMenuFit.addSeparator();
 
-        JMenuItem itemExit = new JMenuItem("Exit");
+        JMenuItem itemExit = new JMenuItem(UDIPropSingleton.getString(this, "Exit.menu"));
         itemExit.setActionCommand(ACTION_EXIT);
         itemExit.addActionListener(this);
         jmMenuFit.add(itemExit);
 
         // add menu Edit
-        JMenu jmMenuEdit = new JMenu("Edit");
+        JMenu jmMenuEdit = new JMenu(UDIPropSingleton.getString(this, "Edit.menu"));
 
-        JMenuItem itemEditWorker = new JMenuItem("Edit Worker");
+        JMenuItem itemEditWorker = new JMenuItem(UDIPropSingleton.getString(this, "EditWorker.menu"));
         itemEditWorker.setActionCommand(EDIT_WORKER);
         itemEditWorker.addActionListener(this);
         jmMenuEdit.add(itemEditWorker);
 
-        JMenuItem itemEditHoliday = new JMenuItem("Edit Holiday");
+        JMenuItem itemEditHoliday = new JMenuItem(UDIPropSingleton.getString(this, "EditHoliday.menu"));
         itemEditHoliday.setActionCommand(EDIT_HOLIDAY);
         itemEditHoliday.addActionListener(this);
         jmMenuEdit.add(itemEditHoliday);
 
-        JMenuItem itemEditDaysOfWork = new JMenuItem("Edit Days of Work");
+        JMenuItem itemEditDaysOfWork = new JMenuItem(UDIPropSingleton.getString(this, "EditDofW.menu"));
         itemEditDaysOfWork.setActionCommand(EDIT_DAYS_OF_WORK);
         itemEditDaysOfWork.addActionListener(this);
         jmMenuEdit.add(itemEditDaysOfWork);
 
         jmMenuEdit.addSeparator();
 
-        JMenuItem itemEditMOnth = new JMenuItem("Edit Month");
+        JMenuItem itemEditMOnth = new JMenuItem(UDIPropSingleton.getString(this, "EditMonth.menu"));
         itemEditMOnth.setActionCommand(EDIT_MONTH);
         itemEditMOnth.addActionListener(this);
         jmMenuEdit.add(itemEditMOnth);
 
-        JMenuItem itemEditYear = new JMenuItem("Edit Year");
+        JMenuItem itemEditYear = new JMenuItem(UDIPropSingleton.getString(this, "EditYear.menu"));
         itemEditYear.setActionCommand(EDIT_YEAR);
         itemEditYear.addActionListener(this);
         jmMenuEdit.add(itemEditYear);
 
         jmMenuEdit.addSeparator();
 
-        JMenuItem itemEditUserRole = new JMenuItem("Edit User Role");
+        JMenuItem itemEditUserRole = new JMenuItem(UDIPropSingleton.getString(this, "EditUserRole.menu"));
         itemEditUserRole.setActionCommand(EDIT_USER_ROLE);
         itemEditUserRole.addActionListener(this);
         jmMenuEdit.add(itemEditUserRole);
@@ -334,25 +335,25 @@ public class WorkFitFrame extends JFrame implements ActionListener
         setJMenuBar(jmBar);
 
     }
-    
+
     private void createUserMenu()
     {
         JMenuBar jmBar = new JMenuBar();
 
-        JMenu jmMenuFit = new JMenu("Fit");
+        JMenu jmMenuFit = new JMenu(UDIPropSingleton.getString(this, "Fit.menu"));
 
-        JMenuItem itemAddLog = new JMenuItem("Update info");
+        JMenuItem itemAddLog = new JMenuItem(UDIPropSingleton.getString(this, "Update.menu"));
         jmMenuFit.add(itemAddLog);
         itemAddLog.setActionCommand(UPDATE_LOG);
         itemAddLog.addActionListener(this);
 
         jmMenuFit.addSeparator();
 
-        JMenuItem itemExit = new JMenuItem("Exit");
+        JMenuItem itemExit = new JMenuItem(UDIPropSingleton.getString(this, "Exit.menu"));
         itemExit.setActionCommand(ACTION_EXIT);
         itemExit.addActionListener(this);
         jmMenuFit.add(itemExit);
-        
+
         jmBar.add(jmMenuFit);
 
         setJMenuBar(jmBar);
@@ -378,37 +379,36 @@ public class WorkFitFrame extends JFrame implements ActionListener
             case EDIT_WORKER:
                 CommonDataTablePanel panelWorker = new CommonDataTablePanel(new WorkerTableModel(), new WorkerOptionPanel(), new WorkerEAO(
                         SystemModel.getDefaultEM()));
-                showEditPanel(panelWorker, "Edit Worker Table");
+                showEditPanel(panelWorker, UDIPropSingleton.getString(this, "EditWorkerTable.frame"));
                 panelWorker.writeValues();
                 break;
             case EDIT_YEAR:
-                CommonDataTablePanel panelYear = new CommonDataTablePanel(new YearTableModel(), new YearOptionPanel(), new YearEAO(
-                        SystemModel.getDefaultEM()));
-                showEditPanel(panelYear, "Edit Year Table");
+                CommonDataTablePanel panelYear = new CommonDataTablePanel(new YearTableModel(), new YearOptionPanel(), new YearEAO(SystemModel.getDefaultEM()));
+                showEditPanel(panelYear, UDIPropSingleton.getString(this, "EditYearTable.frame"));
                 panelYear.writeValues();
                 break;
             case EDIT_DAYS_OF_WORK:
                 CommonDataTablePanel panelDaysOfWork = new CommonDataTablePanel(new DaysOfWorkTableModel(), new DaysOfWorkOptionPanel(), new DaysOfWorkEAO(
                         SystemModel.getDefaultEM()));
-                showEditPanel(panelDaysOfWork, "Edit Days of Work Table");
+                showEditPanel(panelDaysOfWork, UDIPropSingleton.getString(this, "EditDofWTable.frame"));
                 panelDaysOfWork.writeValues();
                 break;
             case EDIT_MONTH:
                 CommonDataTablePanel panelMonth = new CommonDataTablePanel(new MonthTableModel(), new MonthOptionPanel(), new MonthEAO(
                         SystemModel.getDefaultEM()));
-                showEditPanel(panelMonth, "Edit Month");
+                showEditPanel(panelMonth, UDIPropSingleton.getString(this, "EditMonth.frame"));
                 panelMonth.writeValues();
                 break;
             case EDIT_HOLIDAY:
                 CommonDataTablePanel panelHoliday = new CommonDataTablePanel(new HolidayTableModel(), new HolidayOptionPanel(), new HolidayEAO(
                         SystemModel.getDefaultEM()));
-                showEditPanel(panelHoliday, "Edit Holiday");
+                showEditPanel(panelHoliday, UDIPropSingleton.getString(this, "EditHolidayTable.frame"));
                 panelHoliday.writeValues();
                 break;
             case EDIT_USER_ROLE:
                 CommonDataTablePanel panelUserRole = new CommonDataTablePanel(new UserRoleTableMolel(), new UserRoleOptionPanel(), new AuthorizationEAO(
                         SystemModel.getDefaultEM()));
-                showEditPanel(panelUserRole, "Edit UserRole");
+                showEditPanel(panelUserRole, UDIPropSingleton.getString(this, "EditUserRole.frame"));
                 panelUserRole.writeValues();
                 break;
             default:
@@ -421,12 +421,13 @@ public class WorkFitFrame extends JFrame implements ActionListener
         }
 
     }
-    
+
     private void showEditPanel(CommonDataTablePanel commonPanel, String frameTitle)
     {
         JPanel panelCommon = new JPanel();
         panelCommon.add(commonPanel);
-        //JOptionPane.showMessageDialog(this, panelCommon, frameTitle, JOptionPane.PLAIN_MESSAGE);
+        // JOptionPane.showMessageDialog(this, panelCommon, frameTitle,
+        // JOptionPane.PLAIN_MESSAGE);
         JOptionPane.showConfirmDialog(this, panelCommon, frameTitle, JOptionPane.OK_CANCEL_OPTION);
     }
 
@@ -435,14 +436,14 @@ public class WorkFitFrame extends JFrame implements ActionListener
         String filename = File.separator + "tmp";
         JFileChooser fileChooser = new JFileChooser(new File(filename));
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("txt file (*.txt)" , "txt"));
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("txt file (*.txt)", "txt"));
         fileChooser.setAcceptAllFileFilterUsed(true);
         fileChooser.showOpenDialog(frame);
-        
+
         Log.info(WorkFitFrame.class, "Load log from file: " + fileChooser.getSelectedFile());
-        
+
         LogParser.saveLogInfoToDB(LogParser.getListFromLog(fileChooser.getSelectedFile().toPath()));
-        //return fileChooser.getSelectedFile().toPath();
-        
+        // return fileChooser.getSelectedFile().toPath();
+
     }
 }
