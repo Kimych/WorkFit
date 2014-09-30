@@ -5,6 +5,7 @@
 		<Authotization.frame>Авторизация:</Authotization.frame>
 		<Fit.menu>Fit</Fit.menu>
 		<AddLog.menu>Добавить лог из файла</AddLog.menu>
+		<ReLog.menu>Relogin</ReLog.menu>
 		<Exit.menu>Выход</Exit.menu>
 		<Edit.menu>Редактировать</Edit.menu>
 		<EditWorker.menu>Редактировать Worker</EditWorker.menu>

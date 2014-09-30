@@ -6,6 +6,7 @@
 		<Authotization.frame>Authorization:</Authotization.frame>
 		<Fit.menu>Fit</Fit.menu>
 		<AddLog.menu>Add Log From File</AddLog.menu>
+		<ReLog.menu>Relogin</ReLog.menu>
 		<Exit.menu>Exit</Exit.menu>
 		<Edit.menu>Edit</Edit.menu>
 		<EditWorker.menu>Edit Worker</EditWorker.menu>
