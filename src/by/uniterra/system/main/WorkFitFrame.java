@@ -37,9 +37,7 @@ import java.text.SimpleDateFormat;
 import javax.persistence.EntityManager;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -54,6 +52,7 @@ import by.uniterra.dai.entity.Authorization;
 import by.uniterra.dai.entity.Role;
 import by.uniterra.system.iface.IRole;
 import by.uniterra.system.model.SystemModel;
+import by.uniterra.udi.iface.IMenuHelper;
 import by.uniterra.udi.iface.IModelOwner;
 import by.uniterra.udi.model.DaysOfWorkTableModel;
 import by.uniterra.udi.model.HolidayTableModel;
@@ -68,6 +67,7 @@ import by.uniterra.udi.util.LogParser;
 import by.uniterra.udi.view.AdminPanel;
 import by.uniterra.udi.view.CommonDataTablePanel;
 import by.uniterra.udi.view.DaysOfWorkOptionPanel;
+import by.uniterra.udi.view.DynamicMenuBar;
 import by.uniterra.udi.view.HolidayOptionPanel;
 import by.uniterra.udi.view.LoginPanel;
 import by.uniterra.udi.view.MonthOptionPanel;
@@ -89,19 +89,8 @@ public class WorkFitFrame extends JFrame implements ActionListener
 
     AdminPanel adp;
 
-    private static final String ACTION_ADD_LOG = "Add Log";
-    private static final String RE_LOG = "Unlogin";
-    private static final String ACTION_EXIT = "Exit";
-    private static final String EDIT_WORKER = "Edit worker";
-    private static final String EDIT_HOLIDAY = "Edit holiday";
-    private static final String EDIT_DAYS_OF_WORK = "Edit days of work";
-    private static final String EDIT_MONTH = "Edit month";
-    private static final String EDIT_YEAR = "Edit year";
-    private static final String EDIT_USER_ROLE = "Edit user role";
     private static final String UPDATE_LOG = "Update log";
 
-    private JMenuBar adminMenu;
-    private JMenuBar userMenu;
 
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 165708470997304032L;
@@ -150,7 +139,9 @@ public class WorkFitFrame extends JFrame implements ActionListener
 
     private void jbUnit()
     {
-
+        DynamicMenuBar setBarListener = new DynamicMenuBar(this);
+        SystemModel.addAuthListener(setBarListener);
+        setJMenuBar(setBarListener);
     }
 
     public void doLogin(String strLogin, String strPassword)
@@ -176,21 +167,21 @@ public class WorkFitFrame extends JFrame implements ActionListener
                 {
                     panelToInsert = new AdminPanel();
                     ((AdminPanel) panelToInsert).loadDataInUI();
-                    panelMenu = createAdminMenu();
+                    //panelMenu = createAdminMenu();
                    
                 }
                 else
                 {
                     panelToInsert = new WorkLogOptionPanel();
                     ((IModelOwner) panelToInsert).setModel(WorkLogInfoHelper.getLogInfoByWorker());
-                    panelMenu = createUserMenu();
+                    //panelMenu = createUserMenu();
                 }
                 getContentPane().add(panelToInsert);
-                setVisible(true);
-                setJMenuBar(panelMenu);
-                pack();
+                //setJMenuBar(panelMenu);
+                //setVisible(true);
+                //pack();
             }
-
+            setVisible(true);
         }
         catch (Exception e)
         {
@@ -270,108 +261,6 @@ public class WorkFitFrame extends JFrame implements ActionListener
         return null;
     }
 
-    private JMenuBar createAdminMenu()
-    {
-        if (adminMenu == null)
-        {
-            adminMenu = new JMenuBar();
-
-            JMenu jmMenuFit = new JMenu(UDIPropSingleton.getString(this, "Fit.menu"));
-
-            JMenuItem itemAddLog = new JMenuItem(UDIPropSingleton.getString(this, "AddLog.menu"));
-            jmMenuFit.add(itemAddLog);
-            itemAddLog.setActionCommand(ACTION_ADD_LOG);
-            itemAddLog.addActionListener(this);
-            
-            JMenuItem itemReLog = new JMenuItem(UDIPropSingleton.getString(this, "ReLog.menu"));
-            jmMenuFit.add(itemReLog);
-            itemReLog.setActionCommand(RE_LOG);
-            itemReLog.addActionListener(this);
-            
-
-            jmMenuFit.addSeparator();
-
-            JMenuItem itemExit = new JMenuItem(UDIPropSingleton.getString(this, "Exit.menu"));
-            itemExit.setActionCommand(ACTION_EXIT);
-            itemExit.addActionListener(this);
-            jmMenuFit.add(itemExit);
-
-            // add menu Edit
-            JMenu jmMenuEdit = new JMenu(UDIPropSingleton.getString(this, "Edit.menu"));
-
-            JMenuItem itemEditWorker = new JMenuItem(UDIPropSingleton.getString(this, "EditWorker.menu"));
-            itemEditWorker.setActionCommand(EDIT_WORKER);
-            itemEditWorker.addActionListener(this);
-            jmMenuEdit.add(itemEditWorker);
-
-            JMenuItem itemEditHoliday = new JMenuItem(UDIPropSingleton.getString(this, "EditHoliday.menu"));
-            itemEditHoliday.setActionCommand(EDIT_HOLIDAY);
-            itemEditHoliday.addActionListener(this);
-            jmMenuEdit.add(itemEditHoliday);
-
-            JMenuItem itemEditDaysOfWork = new JMenuItem(UDIPropSingleton.getString(this, "EditDofW.menu"));
-            itemEditDaysOfWork.setActionCommand(EDIT_DAYS_OF_WORK);
-            itemEditDaysOfWork.addActionListener(this);
-            jmMenuEdit.add(itemEditDaysOfWork);
-
-            jmMenuEdit.addSeparator();
-
-            JMenuItem itemEditMOnth = new JMenuItem(UDIPropSingleton.getString(this, "EditMonth.menu"));
-            itemEditMOnth.setActionCommand(EDIT_MONTH);
-            itemEditMOnth.addActionListener(this);
-            jmMenuEdit.add(itemEditMOnth);
-
-            JMenuItem itemEditYear = new JMenuItem(UDIPropSingleton.getString(this, "EditYear.menu"));
-            itemEditYear.setActionCommand(EDIT_YEAR);
-            itemEditYear.addActionListener(this);
-            jmMenuEdit.add(itemEditYear);
-
-            jmMenuEdit.addSeparator();
-
-            JMenuItem itemEditUserRole = new JMenuItem(UDIPropSingleton.getString(this, "EditUserRole.menu"));
-            itemEditUserRole.setActionCommand(EDIT_USER_ROLE);
-            itemEditUserRole.addActionListener(this);
-            jmMenuEdit.add(itemEditUserRole);
-
-            adminMenu.add(jmMenuFit);
-            adminMenu.add(jmMenuEdit);
-        }
-        // setJMenuBar(jmBar);
-        return adminMenu;
-
-    }
-
-    private JMenuBar createUserMenu()
-    {
-        if (userMenu == null)
-        {
-            userMenu = new JMenuBar();
-
-            JMenu jmMenuFit = new JMenu(UDIPropSingleton.getString(this, "Fit.menu"));
-
-            JMenuItem itemAddLog = new JMenuItem(UDIPropSingleton.getString(this, "Update.menu"));
-            jmMenuFit.add(itemAddLog);
-            itemAddLog.setActionCommand(UPDATE_LOG);
-            itemAddLog.addActionListener(this);
-            
-            JMenuItem itemReLog = new JMenuItem(UDIPropSingleton.getString(this, "ReLog.menu"));
-            jmMenuFit.add(itemReLog);
-            itemReLog.setActionCommand(RE_LOG);
-            itemReLog.addActionListener(this);
-
-            jmMenuFit.addSeparator();
-
-            JMenuItem itemExit = new JMenuItem(UDIPropSingleton.getString(this, "Exit.menu"));
-            itemExit.setActionCommand(ACTION_EXIT);
-            itemExit.addActionListener(this);
-            jmMenuFit.add(itemExit);
-
-            userMenu.add(jmMenuFit);
-        }
-
-        return userMenu;
-    }
-
     @Override
     public void actionPerformed(ActionEvent arg0)
     {
@@ -379,56 +268,74 @@ public class WorkFitFrame extends JFrame implements ActionListener
         {
             switch (arg0.getActionCommand())
             {
-            case ACTION_ADD_LOG:
+            case IMenuHelper.MCOMMAND_ADD_FROM_LOG:
                 createFileChooser(this);
                 adp.loadDataInUI();
                 break;
                 
-            case RE_LOG:
+            case IMenuHelper.MCOMMAND_LOGOUT:
+                SystemModel.setAuthorization(null);
+                
                 getContentPane().removeAll();
-                doLogin("", "");
+                getContentPane().repaint();
+                setSize(800,401);
+                //setJMenuBar(createUserMenu());
+                doLogin("","");
                 break;
             case UPDATE_LOG:
                 //createUserUI();
                 break;
-            case ACTION_EXIT:
+            case IMenuHelper.MCOMMAND_EXIT:
                 disposeMainFrame();
                 break;
-            case EDIT_WORKER:
+            case IMenuHelper.MCOMMAND_EDIT_WORKER:
                 CommonDataTablePanel panelWorker = new CommonDataTablePanel(new WorkerTableModel(), new WorkerOptionPanel(), new WorkerEAO(
                         SystemModel.getDefaultEM()));
                 showEditPanel(panelWorker, UDIPropSingleton.getString(this, "EditWorkerTable.frame"));
                 panelWorker.writeValues();
                 break;
-            case EDIT_YEAR:
+            case IMenuHelper.MCOMMAND_EDIT_YEAR:
                 CommonDataTablePanel panelYear = new CommonDataTablePanel(new YearTableModel(), new YearOptionPanel(), new YearEAO(SystemModel.getDefaultEM()));
                 showEditPanel(panelYear, UDIPropSingleton.getString(this, "EditYearTable.frame"));
                 panelYear.writeValues();
                 break;
-            case EDIT_DAYS_OF_WORK:
+            case IMenuHelper.MCOMMAND_EDIT_DAYS_OF_WORK:
                 CommonDataTablePanel panelDaysOfWork = new CommonDataTablePanel(new DaysOfWorkTableModel(), new DaysOfWorkOptionPanel(), new DaysOfWorkEAO(
                         SystemModel.getDefaultEM()));
                 showEditPanel(panelDaysOfWork, UDIPropSingleton.getString(this, "EditDofWTable.frame"));
                 panelDaysOfWork.writeValues();
                 break;
-            case EDIT_MONTH:
+            case IMenuHelper.MCOMMAND_EDIT_MONTH:
                 CommonDataTablePanel panelMonth = new CommonDataTablePanel(new MonthTableModel(), new MonthOptionPanel(), new MonthEAO(
                         SystemModel.getDefaultEM()));
                 showEditPanel(panelMonth, UDIPropSingleton.getString(this, "EditMonth.frame"));
                 panelMonth.writeValues();
                 break;
-            case EDIT_HOLIDAY:
+            case IMenuHelper.MCOMMAND_EDIT_HOLIDAY:
                 CommonDataTablePanel panelHoliday = new CommonDataTablePanel(new HolidayTableModel(), new HolidayOptionPanel(), new HolidayEAO(
                         SystemModel.getDefaultEM()));
                 showEditPanel(panelHoliday, UDIPropSingleton.getString(this, "EditHolidayTable.frame"));
                 panelHoliday.writeValues();
                 break;
-            case EDIT_USER_ROLE:
+            case IMenuHelper.MCOMMAND_EDIT_USER_ROLE:
                 CommonDataTablePanel panelUserRole = new CommonDataTablePanel(new UserRoleTableMolel(), new UserRoleOptionPanel(), new AuthorizationEAO(
                         SystemModel.getDefaultEM()));
                 showEditPanel(panelUserRole, UDIPropSingleton.getString(this, "EditUserRole.frame"));
                 panelUserRole.writeValues();
                 break;
+            case IMenuHelper.MCOMMAND_WELCOME:
+                //TODO
+                break;
+            case IMenuHelper.MCOMMAND_ABOUT:
+                //TODO
+                break;
+            case IMenuHelper.MCOMMAND_REFRESH:
+                //TODO
+                break;
+            case IMenuHelper.MCOMMAND_VIEW_HISTORY:
+                //TODO
+                break;
+                
             default:
                 break;
             }

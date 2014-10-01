@@ -70,7 +70,7 @@ import by.uniterra.udi.util.Log;
 import com.sun.jmx.snmp.Timestamp;
 
 /**
- * The <code>CommonDataTablePanel</code> is used for editind some DB table values
+ * The <code>CommonDataTablePanel</code> is used for edit in some DB table values
  *
  * @author Anton Nedbailo
  * @since 15 авг. 2014 г.

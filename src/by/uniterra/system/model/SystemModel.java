@@ -2,8 +2,10 @@ package by.uniterra.system.model;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -16,6 +18,7 @@ import by.uniterra.dai.model.JPASessionCustomizer;
 import by.uniterra.system.iface.IGlobalProperties;
 import by.uniterra.system.main.WorkFitFrame;
 import by.uniterra.udi.util.Log;
+import by.uniterra.udi.view.IAuthListener;
 
 public class SystemModel
 {
@@ -30,6 +33,8 @@ public class SystemModel
     private static EntityManagerFactory emfFactory;
     private static EntityManager emDefaultManager;
     private static Authorization authorization;
+    
+    private static Set<IAuthListener> setAuthListeners;
 
     private SystemModel(String strURLtoProperties)
     {
@@ -39,6 +44,8 @@ public class SystemModel
         property.putAll(loadPropFromRes(DEFAULT_PROP_FILE));
         // load properties from CUSTOMER_PROPERTIES
         property.putAll(loadPropFromRes(CUSTOMER_PROPERTIES));
+        // create set for authorisation listeners
+        setAuthListeners = new LinkedHashSet<IAuthListener>();
     }
 
     public static SystemModel getInstance()
@@ -322,9 +329,20 @@ public class SystemModel
         return authorization;
     }
 
+ 
     public static void setAuthorization(Authorization authorization)
     {
         SystemModel.authorization = authorization;
+        for (IAuthListener iAuthListener : setAuthListeners)
+        {
+            iAuthListener.authUpdated(authorization);
+        }
+        // update ....
+    }
+
+    public static void addAuthListener(IAuthListener setBarListener)
+    {
+        SystemModel.setAuthListeners.add(setBarListener);
     }
 
 }

@@ -41,6 +41,7 @@ public class LoginPanel extends JPanel
     {
         tfUserName = new JTextField();
         tfUserName.addFocusListener(new SelectAllFocusAdapter(tfUserName));
+        tfUserName.addAncestorListener(new RequestFocusListener(true));
         ptfPwd = new JPasswordField();
         ptfPwd.addFocusListener(new SelectAllFocusAdapter(ptfPwd));
 

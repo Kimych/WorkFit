@@ -4,27 +4,39 @@
 	<!-- WorkFitFrame -->
 	<by.uniterra.system.main.WorkFitFrame>
 		<Authotization.frame>Authorization:</Authotization.frame>
-		<Fit.menu>Fit</Fit.menu>
-		<AddLog.menu>Add Log From File</AddLog.menu>
-		<ReLog.menu>Relogin</ReLog.menu>
-		<Exit.menu>Exit</Exit.menu>
-		<Edit.menu>Edit</Edit.menu>
-		<EditWorker.menu>Edit Worker</EditWorker.menu>
-		<EditHoliday.menu>Edit Holiday</EditHoliday.menu>
-		<EditDofW.menu>Edit Days of Work</EditDofW.menu>
-		<EditMonth.menu>Edit Month</EditMonth.menu>
-		<EditYear.menu>Edit Year</EditYear.menu>
-		<EditUserRole.menu>Edit User Role</EditUserRole.menu>
-		<Update.menu>Update info</Update.menu>
 
-		<EditWorkerTable.frame>Edit Worker Table</EditWorkerTable.frame>
-		<EditYearTable.frame>Edit Year Table</EditYearTable.frame>
-		<EditDofWTable.frame>Edit Days of Work Table</EditDofWTable.frame>
-		<EditMonth.frame>Edit Month</EditMonth.frame>
-		<EditHolidayTable.frame>Edit Holiday Table</EditHolidayTable.frame>
-		<EditUserRole.frame>Edit User Role Table</EditUserRole.frame>
 
 	</by.uniterra.system.main.WorkFitFrame>
+
+	<!-- DynamicMenuBar -->
+	<by.uniterra.udi.view.DynamicMenuBar>
+		<Fit.menu>Fit</Fit.menu>
+		<Exit.menu>Exit</Exit.menu>
+		<ReLog.menu>Login/Logout</ReLog.menu>
+
+		<Administrationt.menu>Administration</Administrationt.menu>
+		<EditTable.menu>Edit Table</EditTable.menu>
+		<EditWorker.menu>Worker</EditWorker.menu>
+		<EditHoliday.menu>Holiday</EditHoliday.menu>
+		<EditDofW.menu>Days of Work</EditDofW.menu>
+		<EditMonth.menu>Month</EditMonth.menu>
+		<EditYear.menu>Year</EditYear.menu>
+		<EditUserRole.menu>User Role</EditUserRole.menu>
+		<AddLog.menu>Add Log From File</AddLog.menu>
+		
+		<Help.menu>Help</Help.menu>
+		<Welcome.menu>Welcome</Welcome.menu>
+		<About.menu>About</About.menu>
+		
+		<User.menu>User Menu</User.menu>
+		<Refresh.menu>Refresh</Refresh.menu>
+		<ViewHistory.menu>View History</ViewHistory.menu>
+		
+
+	</by.uniterra.udi.view.DynamicMenuBar>
+
+
+
 
 	<!-- Year Table -->
 	<by.uniterra.udi.view.YearOptionPanel>
