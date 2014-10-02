@@ -19,6 +19,7 @@ import by.uniterra.dai.entity.Worker;
 import by.uniterra.system.model.SystemModel;
 import by.uniterra.system.util.DateUtils;
 import by.uniterra.system.util.WorkLogUtils;
+import by.uniterra.udi.util.Log;
 
 public class WorkLogInfoHelper
 {
@@ -44,6 +45,8 @@ public class WorkLogInfoHelper
 
             SpentHolidayEAO eaoSpentHoliday = new SpentHolidayEAO(SystemModel.getDefaultEM());
             List<DaysOfWork> lstDaysOfWork = eaoDaysOfWork.getLastDataForWorkerAndMonthNum(curentWorker, curentMonth);
+            if (!lstDaysOfWork.isEmpty())
+            {
             double workLogTime = lstDaysOfWork.get(0).getWorklog();
 
             double curentSumBonus = eaoDaysOfWork.getSumBonusTimeForWorkerAndMonthNum(curentWorker, curentMonth);
@@ -60,6 +63,12 @@ public class WorkLogInfoHelper
             // get worklog time
             String roundWorkLogTime = WorkLogUtils.roundToString(workLogTime, 2, BigDecimal.ROUND_HALF_UP);
             objResult = new WorkLogInfoHolder(roundWorkLogTime, ToPlane, ToBonus, (holiday - timeLeft), lstDaysOfWork.get(0).getTimestamp(), curentWorker.toString(), beInPlane);
+            }
+            else
+            {
+                Log.debug(WorkLogInfoHelper.class, "We have no DaysOfWork data for worker \"" +  curentWorker.getFirstName() + " " + curentWorker.getSecondName() 
+                        + "\" and month #" + workingDaysInMonth + ".");
+            }
         }
 
         return objResult;

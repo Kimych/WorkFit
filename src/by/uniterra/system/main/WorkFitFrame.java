@@ -60,6 +60,7 @@ import by.uniterra.udi.model.MonthTableModel;
 import by.uniterra.udi.model.UDIPropSingleton;
 import by.uniterra.udi.model.UserRoleTableMolel;
 import by.uniterra.udi.model.WorkLogInfoHelper;
+import by.uniterra.udi.model.WorkLogInfoHolder;
 import by.uniterra.udi.model.WorkerTableModel;
 import by.uniterra.udi.model.YearTableModel;
 import by.uniterra.udi.util.Log;
@@ -173,7 +174,11 @@ public class WorkFitFrame extends JFrame implements ActionListener
                 else
                 {
                     panelToInsert = new WorkLogOptionPanel();
-                    ((IModelOwner) panelToInsert).setModel(WorkLogInfoHelper.getLogInfoByWorker());
+                    WorkLogInfoHolder ihUserData = WorkLogInfoHelper.getLogInfoByWorker();
+                    if (ihUserData != null)
+                    {
+                        ((IModelOwner) panelToInsert).setModel(ihUserData);
+                    }
                     //panelMenu = createUserMenu();
                 }
                 getContentPane().add(panelToInsert);
