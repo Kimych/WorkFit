@@ -38,6 +38,7 @@ import javax.swing.JMenuItem;
 
 import by.uniterra.dai.entity.Authorization;
 import by.uniterra.dai.entity.Role;
+import by.uniterra.system.iface.IRole;
 import by.uniterra.system.model.SystemModel;
 import by.uniterra.udi.iface.IMenuHelper;
 import by.uniterra.udi.model.UDIPropSingleton;
@@ -207,17 +208,15 @@ public class DynamicMenuBar extends JMenuBar implements ActionListener, IAuthLis
 
     }
     
-    public void getMenuBarForCurrentUser(Authorization auth)
+    public void ubdateMenuBarForCurrentUser(Authorization auth)
     {
         removeAll();
-        // int roleID = 0;
-
         add(getMenuNoUser());
         if (auth != null)
         {
             for (Role curRole : auth.getRoles())
             {
-                if (curRole.getRoleId() == 1)
+                if (curRole.getRoleId() == IRole.ADMIN)
                 {
                     add(getMenuAdmin());
                 }
@@ -227,14 +226,16 @@ public class DynamicMenuBar extends JMenuBar implements ActionListener, IAuthLis
                 }
 
             }
+            updateUI();
         }
         add(getMenuHelp());
+        
 
     }
 
     @Override
     public void authUpdated(Authorization newAuth)
     {
-        getMenuBarForCurrentUser(newAuth);
+        ubdateMenuBarForCurrentUser(newAuth);
     }
 }

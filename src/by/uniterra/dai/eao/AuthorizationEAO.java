@@ -73,7 +73,7 @@ public class AuthorizationEAO extends ServiceBaseEAO<Authorization>
             Log.error(this, e, "namedQuery getRoleByLoginAndPassword error");
         }
 
-        return (Authorization) (Result != null ? Result : new Authorization());
+        return (Result != null ? Result : new Authorization());
     }
 
 }

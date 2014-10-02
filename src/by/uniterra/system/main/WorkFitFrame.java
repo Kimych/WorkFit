@@ -92,7 +92,6 @@ public class WorkFitFrame extends JFrame implements ActionListener
 
     private static final String UPDATE_LOG = "Update log";
 
-
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 165708470997304032L;
 
@@ -147,29 +146,25 @@ public class WorkFitFrame extends JFrame implements ActionListener
 
     public void doLogin(String strLogin, String strPassword)
     {
-
-        // check db connection
-        // SystemModel.initJPA();
         try
         {
             SystemModel.initJPA();
             EntityManager em = SystemModel.getDefaultEM();
             AuthorizationEAO autEAO = new AuthorizationEAO(em);
-            // lstUser = autEAO.loadAll();
             Authorization auth = checkLogin(strLogin, strPassword, autEAO, 1);
 
             if (auth != null)
             {
                 JPanel panelToInsert = null;
-                JMenuBar panelMenu = null;
+                // JMenuBar panelMenu = null;
                 SystemModel.setAuthorization(auth);
                 // create UI for Admin or User
                 if (isContainsRole(auth, IRole.ADMIN))
                 {
                     panelToInsert = new AdminPanel();
                     ((AdminPanel) panelToInsert).loadDataInUI();
-                    //panelMenu = createAdminMenu();
-                   
+                    // panelMenu = createAdminMenu();
+
                 }
                 else
                 {
@@ -179,12 +174,12 @@ public class WorkFitFrame extends JFrame implements ActionListener
                     {
                         ((IModelOwner) panelToInsert).setModel(ihUserData);
                     }
-                    //panelMenu = createUserMenu();
+                    // panelMenu = createUserMenu();
                 }
                 getContentPane().add(panelToInsert);
-                //setJMenuBar(panelMenu);
-                //setVisible(true);
-                //pack();
+                // setJMenuBar(panelMenu);
+                // setVisible(true);
+                // pack();
             }
             setVisible(true);
         }
@@ -241,7 +236,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
                 try
                 {
                     Authorization authUser = autEAO.getAuthorizationByLoginAndPassword(userName, currentPass);
-                    if (authUser != null)
+                    if (authUser.getAuthorizationId() != 0)
                     {
                         return authUser;
                     }
@@ -260,8 +255,9 @@ public class WorkFitFrame extends JFrame implements ActionListener
         else
         {
             Log.info(WorkFitFrame.class, "3 abortive attempts of authorization");
-            disposeMainFrame();
+            
             JOptionPane.showMessageDialog(null, "Sorry I can not continue...");
+            disposeMainFrame();
         }
         return null;
     }
@@ -277,18 +273,18 @@ public class WorkFitFrame extends JFrame implements ActionListener
                 createFileChooser(this);
                 adp.loadDataInUI();
                 break;
-                
+
             case IMenuHelper.MCOMMAND_LOGOUT:
                 SystemModel.setAuthorization(null);
-                
+
                 getContentPane().removeAll();
                 getContentPane().repaint();
-                setSize(800,401);
-                //setJMenuBar(createUserMenu());
+                setSize(800, 401);
+                // setJMenuBar(createUserMenu());
                 doLogin("","");
                 break;
             case UPDATE_LOG:
-                //createUserUI();
+                // createUserUI();
                 break;
             case IMenuHelper.MCOMMAND_EXIT:
                 disposeMainFrame();
@@ -329,18 +325,18 @@ public class WorkFitFrame extends JFrame implements ActionListener
                 panelUserRole.writeValues();
                 break;
             case IMenuHelper.MCOMMAND_WELCOME:
-                //TODO
+                // TODO
                 break;
             case IMenuHelper.MCOMMAND_ABOUT:
-                //TODO
+                // TODO
                 break;
             case IMenuHelper.MCOMMAND_REFRESH:
-                //TODO
+                // TODO
                 break;
             case IMenuHelper.MCOMMAND_VIEW_HISTORY:
-                //TODO
+                // TODO
                 break;
-                
+
             default:
                 break;
             }
