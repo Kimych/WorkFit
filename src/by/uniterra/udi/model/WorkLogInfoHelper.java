@@ -40,6 +40,7 @@ public class WorkLogInfoHelper
             // get the number of working days in a month
             MonthEAO eaoMonth = new MonthEAO(SystemModel.getDefaultEM());
             int workingDaysInMonth = eaoMonth.getWorkDayDataForMonth(curentMonth);
+            
 
             HolidayEAO eaoHoliday = new HolidayEAO(SystemModel.getDefaultEM());
 
@@ -47,19 +48,20 @@ public class WorkLogInfoHelper
             List<DaysOfWork> lstDaysOfWork = eaoDaysOfWork.getLastDataForWorkerAndMonthNum(curentWorker, curentMonth);
             if (!lstDaysOfWork.isEmpty())
             {
+            int dayPassed = lstDaysOfWork.get(0).getAktualWorkedDays();
             double workLogTime = lstDaysOfWork.get(0).getWorklog();
-
+            
             double curentSumBonus = eaoDaysOfWork.getSumBonusTimeForWorkerAndMonthNum(curentWorker, curentMonth);
             // to plane
-            double ToPlane = WorkLogUtils.getTimeRemainsToPlane(workingDaysInMonth, workLogTime, curentSumBonus);
+            double ToPlane = WorkLogUtils.getTimeRemainsToPlaneToDay(dayPassed, workLogTime, curentSumBonus);
             // get time to bonus
-            double ToBonus = WorkLogUtils.getTimeRemainsToBonus(workingDaysInMonth, workLogTime, curentSumBonus);
+            double ToBonus = WorkLogUtils.getTimeRemainsToBonusToDay(dayPassed, workLogTime, curentSumBonus);
             // get rest of the holiday
             double holiday = eaoHoliday.getHolidayDaysCountForWorkerAndYear(curentWorker, curentYear);
             // get spend holiday
             double timeLeft = eaoSpentHoliday.getSpentHolidayWorkerAndYear(curentWorker, curentYear);
             // get result of the work
-            boolean beInPlane = WorkLogUtils.beInPlaneAtTime(lstDaysOfWork.get(0).getAktualWorkedDays(), workingDaysInMonth, ToPlane);
+            boolean beInPlane = WorkLogUtils.beInPlaneAtTime(dayPassed, workingDaysInMonth, ToPlane);
             // get worklog time
             String roundWorkLogTime = WorkLogUtils.roundToString(workLogTime, 2, BigDecimal.ROUND_HALF_UP);
             objResult = new WorkLogInfoHolder(roundWorkLogTime, ToPlane, ToBonus, (holiday - timeLeft), lstDaysOfWork.get(0).getTimestamp(), curentWorker.toString(), beInPlane);
@@ -97,23 +99,21 @@ public class WorkLogInfoHelper
             List<DaysOfWork> lstDaysOfWork = eaoDaysOfWork.getfindLastForWorkerAndTimestamp(curentWorker, DateUtils.upToEndDayDate(date));
             if (lstDaysOfWork.size() == 1)
             {
+                int dayPassed = lstDaysOfWork.get(0).getAktualWorkedDays();
                 // get work log time
                 double workLogTime = lstDaysOfWork.get(0).getWorklog();
-                // get last update time
-                // String lastUpdateTime =
-                // String.valueOf(lstDaysOfWork.get(0).getTimestamp());
                 // get sum bonus time for the current worker
                 double curentSumBonus = eaoDaysOfWork.getSumBonusTimeForWorkerAndMonthNum(curentWorker, calculatedMonth);
                 // to plane
-                double ToPlane = WorkLogUtils.getTimeRemainsToPlane(workingDaysInMonth, workLogTime, curentSumBonus);
+                double ToPlane = WorkLogUtils.getTimeRemainsToPlaneToDay(dayPassed, workLogTime, curentSumBonus);
                 // get time to bonus
-                double ToBonus = WorkLogUtils.getTimeRemainsToBonus(workingDaysInMonth, workLogTime, curentSumBonus);
+                double ToBonus = WorkLogUtils.getTimeRemainsToBonusToDay(dayPassed, workLogTime, curentSumBonus);
                 // get rest of the holiday
                 double holiday = eaoHoliday.getHolidayDaysCountForWorkerAndYear(curentWorker, calculatedYear);
                 // get spend holiday
                 double timeLeft = eaoSpentHoliday.getSpentHolidayWorkerAndYear(curentWorker, calculatedYear);
                 // get result of the work
-                boolean beInPlane = WorkLogUtils.beInPlaneAtTime(lstDaysOfWork.get(0).getAktualWorkedDays(), workingDaysInMonth, ToPlane);
+                boolean beInPlane = WorkLogUtils.beInPlaneAtTime(dayPassed, workingDaysInMonth, ToPlane);
                 // get worklog time
                 String roundWorkLogTime = WorkLogUtils.roundToString(workLogTime, 2, BigDecimal.ROUND_HALF_UP);
 

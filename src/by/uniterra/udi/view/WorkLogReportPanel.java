@@ -28,21 +28,18 @@ public class WorkLogReportPanel extends JTabbedPane
 
     static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy (hh:mm)");
 
-/*    public static void main(String[] args)
-    {
-        SystemModel.initJPA();
-        JFrame frame = new JFrame("Test Employe");
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-        frame.setSize(400, 280);
-        frame.add(new WorkLogReportPanel());
-        frame.setVisible(true);
-        SystemModel.disposeJPA();
-    }*/
+    /*
+     * public static void main(String[] args) { SystemModel.initJPA(); JFrame
+     * frame = new JFrame("Test Employe");
+     * frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+     * frame.setVisible(true); frame.setSize(400, 280); frame.add(new
+     * WorkLogReportPanel()); frame.setVisible(true); SystemModel.disposeJPA();
+     * }
+     */
 
     public WorkLogReportPanel()
     {
-        jbInit();
+        // jbInit();
     }
 
     private void jbInit()
@@ -59,7 +56,7 @@ public class WorkLogReportPanel extends JTabbedPane
         int workingDaysInMonth = eaoMonth.getWorkDayDataForMonth(curentMonth);
 
         SpentHolidayEAO eaoSpentHoliday = new SpentHolidayEAO(SystemModel.getDefaultEM());
-  
+
         HolidayEAO eaoHoliday = new HolidayEAO(SystemModel.getDefaultEM());
 
         for (Worker curentWorker : workerArrayList)
@@ -70,6 +67,7 @@ public class WorkLogReportPanel extends JTabbedPane
             Component wlop = null;
             if (lstDaysOfWork.size() == 1)
             {
+                int dayPassed = lstDaysOfWork.get(0).getAktualWorkedDays();
                 wlop = new WorkLogOptionPanel();
                 // get work log time
                 double workLogTime = lstDaysOfWork.get(0).getWorklog();
@@ -79,20 +77,20 @@ public class WorkLogReportPanel extends JTabbedPane
                 // get sum bonus time for the current worker
                 double curentSumBonus = eaoDaysOfWork.getSumBonusTimeForWorkerAndMonthNum(curentWorker, curentMonth);
                 // to plane
-                double ToPlane = WorkLogUtils.getTimeRemainsToPlane(workingDaysInMonth, workLogTime, curentSumBonus);
+                double ToPlane = WorkLogUtils.getTimeRemainsToPlaneToDay(dayPassed, workLogTime, curentSumBonus);
                 // get time to bonus
-                double ToBonus = WorkLogUtils.getTimeRemainsToBonus(workingDaysInMonth, workLogTime, curentSumBonus);
+                double ToBonus = WorkLogUtils.getTimeRemainsToBonusToDay(dayPassed, workLogTime, curentSumBonus);
                 // get rest of the holiday
                 double holiday = eaoHoliday.getHolidayDaysCountForWorkerAndYear(curentWorker, numberYear);
                 // get spend holiday
                 double timeLeft = eaoSpentHoliday.getSpentHolidayWorkerAndYear(curentWorker, numberYear);
                 // get result of the work
-                boolean beInPlane = WorkLogUtils.beInPlaneAtTime(lstDaysOfWork.get(0).getAktualWorkedDays(), workingDaysInMonth, ToPlane);
+                boolean beInPlane = WorkLogUtils.beInPlaneAtTime(dayPassed, workingDaysInMonth, ToPlane);
                 // get worklog time
                 String roundWorkLogTime = WorkLogUtils.roundToString(workLogTime, 2, BigDecimal.ROUND_HALF_UP);
 
-                ((IModelOwner) wlop).setModel(new WorkLogInfoHolder(roundWorkLogTime, ToPlane, ToBonus, (holiday - timeLeft), lstDaysOfWork.get(0).getTimestamp(),
-                        curentWorker.toString(), beInPlane));
+                ((IModelOwner) wlop).setModel(new WorkLogInfoHolder(roundWorkLogTime, ToPlane, ToBonus, (holiday - timeLeft), lstDaysOfWork.get(0)
+                        .getTimestamp(), curentWorker.toString(), beInPlane));
             }
             else
             {
