@@ -43,9 +43,9 @@ public class WorkLogUtils
      * @author Sergio Alecky
      * @date 02 окт. 2014 г.
      */
-    public static double getTimeRemainsToPlaneToDay(int actualWorkeDays, double worklog, double bonustime)
+    public static double getTimeRemainsToPlaneToDay(int actualWorkeDays, double worklog, double bonustime, double spentholiday)
     {
-        return actualWorkeDays * WORK_HOUR_IN_DAY - (worklog + bonustime);
+        return actualWorkeDays * WORK_HOUR_IN_DAY - (worklog + bonustime + spentholiday*WORK_HOUR_IN_DAY);
     }
 
     public static double getTimeRemainsToBonusInMonth(int workDayInMonth, double worklog, double bonustime)
@@ -53,9 +53,9 @@ public class WorkLogUtils
         return workDayInMonth * WORK_HOUR_IN_DAY * PERCENT_REMAINS_TO_BONUS - (worklog + bonustime);
     }
     
-    public static double getTimeRemainsToBonusToDay(int actualWorkeDays, double worklog, double bonustime)
+    public static double getTimeRemainsToBonusToDay(int actualWorkeDays, double worklog, double bonustime, double spentholiday)
     {
-        return actualWorkeDays * WORK_HOUR_IN_DAY * PERCENT_REMAINS_TO_BONUS - (worklog + bonustime);
+        return actualWorkeDays * WORK_HOUR_IN_DAY * PERCENT_REMAINS_TO_BONUS - (worklog + bonustime + spentholiday*WORK_HOUR_IN_DAY);
     }
 
     /**

@@ -105,12 +105,6 @@ public class UserRoleOptionPanel extends JPanel implements IModelOwner
         add(tfEmail, new GridBagConstraints(1, 1, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
         add(jlRole, new GridBagConstraints(0, 2, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
         add(cbRole, new GridBagConstraints(1, 2, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
-        // add(jlDescription, new GridBagConstraints(0, 3, 1, 1, 0, 0,
-        // GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0,
-        // 0, 0, 5), 0, 0));
-        // add(taDesck, new GridBagConstraints(1, 3, 1, 1, 0, 0,
-        // GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0,
-        // 0, 0, 5), 0, 0));
         add(jlLogin, new GridBagConstraints(0, 4, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
         add(tfLogin, new GridBagConstraints(1, 4, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
         add(jlPassword, new GridBagConstraints(0, 5, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));

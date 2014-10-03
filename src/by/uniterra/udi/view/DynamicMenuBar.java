@@ -62,7 +62,6 @@ public class DynamicMenuBar extends JMenuBar implements ActionListener, IAuthLis
     private JMenu menuHelp;
     private ActionListener objParent;
 
-    
     public DynamicMenuBar(ActionListener workFitFrame)
     {
         super();
@@ -70,7 +69,7 @@ public class DynamicMenuBar extends JMenuBar implements ActionListener, IAuthLis
         authUpdated(SystemModel.getAuthorization());
     }
 
-    private  JMenu getMenuNoUser()
+    private JMenu getMenuNoUser()
     {
         if (menuNoUser == null)
         {
@@ -104,6 +103,10 @@ public class DynamicMenuBar extends JMenuBar implements ActionListener, IAuthLis
             // sub menu Edit Table
             JMenu menuEditTable = new JMenu(UDIPropSingleton.getString(this, "EditTable.menu"));
             // sub element
+            JMenuItem itemEditSpentHoliday = new JMenuItem(UDIPropSingleton.getString(this, "EditSpentHoliday.menu"));
+            itemEditSpentHoliday.setActionCommand(IMenuHelper.MCOMMAND_EDIT_SPENT_HOLIDAY);
+            itemEditSpentHoliday.addActionListener(this);
+            //
             JMenuItem itemEditWorker = new JMenuItem(UDIPropSingleton.getString(this, "EditWorker.menu"));
             itemEditWorker.setActionCommand(IMenuHelper.MCOMMAND_EDIT_WORKER);
             itemEditWorker.addActionListener(this);
@@ -129,6 +132,7 @@ public class DynamicMenuBar extends JMenuBar implements ActionListener, IAuthLis
             itemEditUserRole.addActionListener(this);
 
             // build sub menu
+            menuEditTable.add(itemEditSpentHoliday);
             menuEditTable.add(itemEditWorker);
             menuEditTable.add(itemEditHoliday);
             menuEditTable.add(itemEditDaysOfWork);
@@ -139,8 +143,6 @@ public class DynamicMenuBar extends JMenuBar implements ActionListener, IAuthLis
             // separator ---------------------------
             menuEditTable.addSeparator();
             menuEditTable.add(itemEditUserRole);
-
-
 
             JMenuItem itemAddFromLOg = new JMenuItem(UDIPropSingleton.getString(this, "AddLog.menu"));
             itemAddFromLOg.setActionCommand(IMenuHelper.MCOMMAND_ADD_FROM_LOG);
@@ -207,7 +209,7 @@ public class DynamicMenuBar extends JMenuBar implements ActionListener, IAuthLis
         }
 
     }
-    
+
     public void ubdateMenuBarForCurrentUser(Authorization auth)
     {
         removeAll();
@@ -229,7 +231,6 @@ public class DynamicMenuBar extends JMenuBar implements ActionListener, IAuthLis
             updateUI();
         }
         add(getMenuHelp());
-        
 
     }
 

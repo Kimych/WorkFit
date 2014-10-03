@@ -45,6 +45,7 @@ public interface IMenuHelper
      static final String MCOMMAND_EXIT = "Exit";
      
      //menuAmin
+     static final String MCOMMAND_EDIT_SPENT_HOLIDAY = "Edit spent holiday";
      static final String MCOMMAND_EDIT_WORKER = "Edit worker";
      static final String MCOMMAND_EDIT_HOLIDAY = "Edit holiday";
      static final String MCOMMAND_EDIT_DAYS_OF_WORK = "Edit DofW";
@@ -52,6 +53,7 @@ public interface IMenuHelper
      static final String MCOMMAND_EDIT_YEAR = "Edit year";
      static final String MCOMMAND_EDIT_USER_ROLE = "Edit user role";
      static final String MCOMMAND_ADD_FROM_LOG = "Add from Log";
+     
      
      //menuUser
      static final String MCOMMAND_REFRESH = "Refresh";

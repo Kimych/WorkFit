@@ -4,6 +4,13 @@
 	<!-- WorkFitFrame -->
 	<by.uniterra.system.main.WorkFitFrame>
 		<Authotization.frame>Authorization:</Authotization.frame>
+		<EditWorkerTable.frame>Edit Worker Table</EditWorkerTable.frame>
+		<EditYearTable.frame>Edit Year Table</EditYearTable.frame>
+		<EditDofWTable.frame>Edit Days of Work Table</EditDofWTable.frame>
+		<EditMonth.frame>Edit Month</EditMonth.frame>
+		<EditHolidayTable.frame>Edit Holiday Table</EditHolidayTable.frame>
+		<EditUserRole.frame>Edit User Role</EditUserRole.frame>
+		<EditSpentHolidayTable.frame>Edit Spent Holiday</EditSpentHolidayTable.frame>
 
 
 	</by.uniterra.system.main.WorkFitFrame>
@@ -16,6 +23,7 @@
 
 		<Administrationt.menu>Administration</Administrationt.menu>
 		<EditTable.menu>Edit Table</EditTable.menu>
+		<EditSpentHoliday.menu>Spent Holiday</EditSpentHoliday.menu>
 		<EditWorker.menu>Worker</EditWorker.menu>
 		<EditHoliday.menu>Holiday</EditHoliday.menu>
 		<EditDofW.menu>Days of Work</EditDofW.menu>
@@ -31,8 +39,6 @@
 		<User.menu>User Menu</User.menu>
 		<Refresh.menu>Refresh</Refresh.menu>
 		<ViewHistory.menu>View History</ViewHistory.menu>
-		
-
 	</by.uniterra.udi.view.DynamicMenuBar>
 
 
@@ -83,6 +89,22 @@
 		<ColIdYearHoliday.column>Year</ColIdYearHoliday.column>
 		<ColIdWorkerHoliday.column>Name</ColIdWorkerHoliday.column>
 	</by.uniterra.udi.model.HolidayTableModel>
+	
+	<!-- Spent holiday table -->
+	<by.uniterra.udi.model.SpentHolidayTableModel>
+	<DaysCount.column>Days</DaysCount.column>
+	<Worker.column>Worker</Worker.column>
+	<Date.column>Date</Date.column>
+	<Desc.column>Description</Desc.column>
+	</by.uniterra.udi.model.SpentHolidayTableModel>
+	
+	<!-- Spent Holiday Option Panel -->
+	<by.uniterra.udi.view.SpentHolidayOptionPanel>
+	<DaysCount.label>Days</DaysCount.label>
+	<Date.label>Date</Date.label>
+	<Worker.label>Worker</Worker.label>
+	<Desc.label>Description</Desc.label>
+	</by.uniterra.udi.view.SpentHolidayOptionPanel>
 
 	<by.uniterra.udi.view.HolidayOptionPanel>
 		<jlName.label>Name</jlName.label>

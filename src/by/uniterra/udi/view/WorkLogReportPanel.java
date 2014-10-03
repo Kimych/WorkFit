@@ -42,7 +42,7 @@ public class WorkLogReportPanel extends JTabbedPane
         // jbInit();
     }
 
-    private void jbInit()
+ /*   private void jbInit()
     {
         int curentMonth = YearMonth.now(Clock.systemUTC()).getMonthValue();
         int numberYear = YearMonth.now(Clock.systemUTC()).getYear();
@@ -102,5 +102,5 @@ public class WorkLogReportPanel extends JTabbedPane
         }
 
     }
-
+*/
 }

@@ -15,6 +15,7 @@ import by.uniterra.dai.eao.SpentHolidayEAO;
 import by.uniterra.dai.eao.WorkerEAO;
 import by.uniterra.dai.entity.Authorization;
 import by.uniterra.dai.entity.DaysOfWork;
+import by.uniterra.dai.entity.Month;
 import by.uniterra.dai.entity.Worker;
 import by.uniterra.system.model.SystemModel;
 import by.uniterra.system.util.DateUtils;
@@ -41,10 +42,16 @@ public class WorkLogInfoHelper
             MonthEAO eaoMonth = new MonthEAO(SystemModel.getDefaultEM());
             int workingDaysInMonth = eaoMonth.getWorkDayDataForMonth(curentMonth);
             
+            //get month object
+            Month objCurrentMonth = eaoMonth.getMonthByMonthNumberAndYearNumber(curentMonth, curentYear);
+            //SpentHolidayEAO eaoSpentHoliday = new SpentHolidayEAO(SystemModel.getDefaultEM());
+
+            SpentHolidayEAO eaoSpentHoliday = new SpentHolidayEAO(SystemModel.getDefaultEM());
+            
+            double spentHolidayDayInCurrentMont = eaoSpentHoliday.getSpentHolidayByWorkerAndMonth(curentWorker, objCurrentMonth);
 
             HolidayEAO eaoHoliday = new HolidayEAO(SystemModel.getDefaultEM());
 
-            SpentHolidayEAO eaoSpentHoliday = new SpentHolidayEAO(SystemModel.getDefaultEM());
             List<DaysOfWork> lstDaysOfWork = eaoDaysOfWork.getLastDataForWorkerAndMonthNum(curentWorker, curentMonth);
             if (!lstDaysOfWork.isEmpty())
             {
@@ -53,9 +60,9 @@ public class WorkLogInfoHelper
             
             double curentSumBonus = eaoDaysOfWork.getSumBonusTimeForWorkerAndMonthNum(curentWorker, curentMonth);
             // to plane
-            double ToPlane = WorkLogUtils.getTimeRemainsToPlaneToDay(dayPassed, workLogTime, curentSumBonus);
+            double ToPlane = WorkLogUtils.getTimeRemainsToPlaneToDay(dayPassed, workLogTime, curentSumBonus, spentHolidayDayInCurrentMont);
             // get time to bonus
-            double ToBonus = WorkLogUtils.getTimeRemainsToBonusToDay(dayPassed, workLogTime, curentSumBonus);
+            double ToBonus = WorkLogUtils.getTimeRemainsToBonusToDay(dayPassed, workLogTime, curentSumBonus, spentHolidayDayInCurrentMont);
             // get rest of the holiday
             double holiday = eaoHoliday.getHolidayDaysCountForWorkerAndYear(curentWorker, curentYear);
             // get spend holiday
@@ -88,26 +95,31 @@ public class WorkLogInfoHelper
 
         // get the number of working days in a month
         MonthEAO eaoMonth = new MonthEAO(SystemModel.getDefaultEM());
+        Month objCurrentMonth = eaoMonth.getMonthByMonthNumberAndYearNumber(curentMonth, curentYear);
+        
         int workingDaysInMonth = eaoMonth.getWorkDayDataForMonth(calculatedMonth);
 
         SpentHolidayEAO eaoSpentHoliday = new SpentHolidayEAO(SystemModel.getDefaultEM());
-
+        
         HolidayEAO eaoHoliday = new HolidayEAO(SystemModel.getDefaultEM());
 
+        
         for (Worker curentWorker : workerArrayList)
         {
             List<DaysOfWork> lstDaysOfWork = eaoDaysOfWork.getfindLastForWorkerAndTimestamp(curentWorker, DateUtils.upToEndDayDate(date));
             if (lstDaysOfWork.size() == 1)
             {
+                double spentHolidayDayInCurrentMont = eaoSpentHoliday.getSpentHolidayByWorkerAndMonth(curentWorker, objCurrentMonth);
+                
                 int dayPassed = lstDaysOfWork.get(0).getAktualWorkedDays();
                 // get work log time
                 double workLogTime = lstDaysOfWork.get(0).getWorklog();
                 // get sum bonus time for the current worker
                 double curentSumBonus = eaoDaysOfWork.getSumBonusTimeForWorkerAndMonthNum(curentWorker, calculatedMonth);
                 // to plane
-                double ToPlane = WorkLogUtils.getTimeRemainsToPlaneToDay(dayPassed, workLogTime, curentSumBonus);
+                double ToPlane = WorkLogUtils.getTimeRemainsToPlaneToDay(dayPassed, workLogTime, curentSumBonus, spentHolidayDayInCurrentMont);
                 // get time to bonus
-                double ToBonus = WorkLogUtils.getTimeRemainsToBonusToDay(dayPassed, workLogTime, curentSumBonus);
+                double ToBonus = WorkLogUtils.getTimeRemainsToBonusToDay(dayPassed, workLogTime, curentSumBonus, spentHolidayDayInCurrentMont);
                 // get rest of the holiday
                 double holiday = eaoHoliday.getHolidayDaysCountForWorkerAndYear(curentWorker, calculatedYear);
                 // get spend holiday

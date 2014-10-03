@@ -24,15 +24,21 @@ import javax.persistence.Table;
 @NamedQueries({
         @NamedQuery(name = Month.NQ_FIND_ALL, query = "SELECT m FROM Month m"),
         @NamedQuery(name = Month.NQ_FIND_WDAYS_COUNT_BY_MONTH_ID, query = "SELECT m.workingDaysCount FROM Month m where m.nameMonth.nameMonthId  = :"
-                + Month.PARAMETER_MONTH) })
+                + Month.PARAMETER_MONTH),
+        @NamedQuery(name = Month.NQ_FIND_MONTH_BY_MONTH_NUMBER_AND_YEAR_NUMBER, query = "SELECT m from Month m WHERE m.year.number = :" + Month.PARAMETER_YEAR_NUMBER + " AND m.nameMonth.nameMonthId = :" + Month.PARAMETER_MONTH_NUMBER )
+        })
 public class Month implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
     public static final String NQ_FIND_ALL = "Month.findAll";
     public static final String NQ_FIND_WDAYS_COUNT_BY_MONTH_ID = "Month.findWorkingDayCountForMonth";
+    public static final String NQ_FIND_MONTH_BY_MONTH_NUMBER_AND_YEAR_NUMBER = "Month.findMonthByMontNumberAndYearNumber";
 
     public static final String PARAMETER_MONTH = "month";
+    public static final String PARAMETER_MONTH_NUMBER = "monthNumber";
+    public static final String PARAMETER_YEAR_NUMBER = "yearNumber";
+    
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

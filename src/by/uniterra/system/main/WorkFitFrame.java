@@ -46,6 +46,7 @@ import by.uniterra.dai.eao.AuthorizationEAO;
 import by.uniterra.dai.eao.DaysOfWorkEAO;
 import by.uniterra.dai.eao.HolidayEAO;
 import by.uniterra.dai.eao.MonthEAO;
+import by.uniterra.dai.eao.SpentHolidayEAO;
 import by.uniterra.dai.eao.WorkerEAO;
 import by.uniterra.dai.eao.YearEAO;
 import by.uniterra.dai.entity.Authorization;
@@ -57,6 +58,7 @@ import by.uniterra.udi.iface.IModelOwner;
 import by.uniterra.udi.model.DaysOfWorkTableModel;
 import by.uniterra.udi.model.HolidayTableModel;
 import by.uniterra.udi.model.MonthTableModel;
+import by.uniterra.udi.model.SpentHolidayTableModel;
 import by.uniterra.udi.model.UDIPropSingleton;
 import by.uniterra.udi.model.UserRoleTableMolel;
 import by.uniterra.udi.model.WorkLogInfoHelper;
@@ -72,6 +74,7 @@ import by.uniterra.udi.view.DynamicMenuBar;
 import by.uniterra.udi.view.HolidayOptionPanel;
 import by.uniterra.udi.view.LoginPanel;
 import by.uniterra.udi.view.MonthOptionPanel;
+import by.uniterra.udi.view.SpentHolidayOptionPanel;
 import by.uniterra.udi.view.UserRoleOptionPanel;
 import by.uniterra.udi.view.WorkLogOptionPanel;
 import by.uniterra.udi.view.WorkerOptionPanel;
@@ -255,7 +258,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
         else
         {
             Log.info(WorkFitFrame.class, "3 abortive attempts of authorization");
-            
+
             JOptionPane.showMessageDialog(null, "Sorry I can not continue...");
             disposeMainFrame();
         }
@@ -281,13 +284,19 @@ public class WorkFitFrame extends JFrame implements ActionListener
                 getContentPane().repaint();
                 setSize(800, 401);
                 // setJMenuBar(createUserMenu());
-                doLogin("","");
+                doLogin("", "");
                 break;
             case UPDATE_LOG:
                 // createUserUI();
                 break;
             case IMenuHelper.MCOMMAND_EXIT:
                 disposeMainFrame();
+                break;
+            case IMenuHelper.MCOMMAND_EDIT_SPENT_HOLIDAY:
+                CommonDataTablePanel panelSpentHoliday = new CommonDataTablePanel(new SpentHolidayTableModel(), new SpentHolidayOptionPanel(),
+                        new SpentHolidayEAO(SystemModel.getDefaultEM()));
+                showEditPanel(panelSpentHoliday, UDIPropSingleton.getString(this, "EditSpentHolidayTable.frame"));
+                panelSpentHoliday.writeValues();
                 break;
             case IMenuHelper.MCOMMAND_EDIT_WORKER:
                 CommonDataTablePanel panelWorker = new CommonDataTablePanel(new WorkerTableModel(), new WorkerOptionPanel(), new WorkerEAO(
