@@ -30,7 +30,10 @@
 package by.uniterra.dai;
 
 import static org.junit.Assert.assertTrue;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import by.uniterra.dai.eao.SpentHolidayEAO;
@@ -53,14 +56,29 @@ public class SpentHolidayNamedQueryTest
      * @date 25 авг. 2014 г.
      */
     private static final int TEST_NUMBER_YEAR = 2014;
-    private static final int TEST_WORKER_ID = 3;
+    private static final int TEST_WORKER_ID = 2;
+    private static final int TEST_MONTH_NUMBER = 11;
 
-    @Test
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception
+    {
+      SystemModel.initJPA();  
+    }
+
+    @AfterClass
+    public static void tearDownAfterClass() throws Exception
+    {
+      SystemModel.disposeJPA();
+    }
+    
+    
+/*    @Test
+    @Ignore
     public void getHoliday()
     {
         // create a set of EAOs
-        /*MonthEAO eaoMonth = new MonthEAO(ServiceBaseEAO.getDefaultEM());
-        YearEAO eaoYear = new YearEAO(ServiceBaseEAO.getDefaultEM());*/
+        MonthEAO eaoMonth = new MonthEAO(ServiceBaseEAO.getDefaultEM());
+        YearEAO eaoYear = new YearEAO(ServiceBaseEAO.getDefaultEM());
         WorkerEAO eaoWorker = new WorkerEAO(SystemModel.getDefaultEM());
         SpentHolidayEAO eaoSpentHoliday = new SpentHolidayEAO(SystemModel.getDefaultEM());
         System.out.println(eaoSpentHoliday.getSpentHolidayWorkerAndYear(eaoWorker.find(TEST_WORKER_ID), TEST_NUMBER_YEAR));
@@ -69,6 +87,17 @@ public class SpentHolidayNamedQueryTest
 
         // disconnect from DB
         SystemModel.disposeJPA();
+    }
+    */
+    @Test
+    public void getSppentHolidayByMonthYearAndWorker()
+    {
+    
+        WorkerEAO eaoWorker = new WorkerEAO(SystemModel.getDefaultEM());
+        SpentHolidayEAO eaoSpentHoliday = new SpentHolidayEAO(SystemModel.getDefaultEM());
+        double days = eaoSpentHoliday.getSpentHolidayByWorkerAndMonth(eaoWorker.find(TEST_WORKER_ID), TEST_MONTH_NUMBER, TEST_NUMBER_YEAR);
+        System.out.println(days);
+        assertTrue(days !=0);
     }
 
 }

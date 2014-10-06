@@ -25,9 +25,12 @@ import by.uniterra.udi.util.Log;
 public class WorkLogInfoHelper
 {
     static int curentMonth = YearMonth.now(Clock.systemUTC()).getMonthValue();
+   
     static int curentYear = YearMonth.now(Clock.systemUTC()).getYear();
 
 
+    
+    
     public static WorkLogInfoHolder getLogInfoByWorker()
     {
         WorkLogInfoHolder objResult = null;
@@ -48,7 +51,7 @@ public class WorkLogInfoHelper
 
             SpentHolidayEAO eaoSpentHoliday = new SpentHolidayEAO(SystemModel.getDefaultEM());
             
-            double spentHolidayDayInCurrentMont = eaoSpentHoliday.getSpentHolidayByWorkerAndMonth(curentWorker, objCurrentMonth);
+            double spentHolidayDayInCurrentMont = eaoSpentHoliday.getSpentHolidayByWorkerAndMonth(curentWorker, curentMonth, curentYear);
 
             HolidayEAO eaoHoliday = new HolidayEAO(SystemModel.getDefaultEM());
 
@@ -109,7 +112,7 @@ public class WorkLogInfoHelper
             List<DaysOfWork> lstDaysOfWork = eaoDaysOfWork.getfindLastForWorkerAndTimestamp(curentWorker, DateUtils.upToEndDayDate(date));
             if (lstDaysOfWork.size() == 1)
             {
-                double spentHolidayDayInCurrentMont = eaoSpentHoliday.getSpentHolidayByWorkerAndMonth(curentWorker, objCurrentMonth);
+                double spentHolidayDayInCurrentMont = eaoSpentHoliday.getSpentHolidayByWorkerAndMonth(curentWorker, curentMonth, curentYear);
                 
                 int dayPassed = lstDaysOfWork.get(0).getAktualWorkedDays();
                 // get work log time

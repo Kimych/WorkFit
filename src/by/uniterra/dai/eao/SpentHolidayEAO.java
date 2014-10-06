@@ -48,9 +48,9 @@ public class SpentHolidayEAO extends ServiceBaseEAO<SpentHoliday>
         return spHoliday;
     }
 
-    public double getSpentHolidayByWorkerAndMonth(Worker wWorker, Month mMonth)
+    public double getSpentHolidayByWorkerAndMonth(Worker wWorker, int nMonth, int nYear)
     {
-        double lstResult = 0;
+        double dResult = 0;
         try
         {
             // get according query
@@ -58,21 +58,21 @@ public class SpentHolidayEAO extends ServiceBaseEAO<SpentHoliday>
             // set Worker
             queryDeleteByDSId.setParameter(SpentHoliday.PARAMETER_WORKER, wWorker);
             // set Month
-            queryDeleteByDSId.setParameter(SpentHoliday.PARAMETER_MONTH, mMonth);
+            queryDeleteByDSId.setParameter(SpentHoliday.PARAMETER_MONTH, nMonth);
+            queryDeleteByDSId.setParameter(SpentHoliday.PARAMETER_YEAR, nYear);
             // execute and return result
             Object objResult = queryDeleteByDSId.getSingleResult();
             if (objResult != null)
             {
-                lstResult = (Double)(objResult);
+                Integer i = new Integer( (int) objResult );
+                dResult = i.doubleValue();
             }
         }
         catch (Exception e)
         {
             Log.error(this, e, "namedQuery getSpentHolidayByWorkerAndMonth error");
         }
-
-        System.out.println(lstResult);
-        return lstResult;
+        return dResult;
 
     }
 
