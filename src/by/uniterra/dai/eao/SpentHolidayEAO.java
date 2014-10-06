@@ -1,6 +1,7 @@
 package by.uniterra.dai.eao;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import by.uniterra.dai.entity.Month;
@@ -48,9 +49,9 @@ public class SpentHolidayEAO extends ServiceBaseEAO<SpentHoliday>
         return spHoliday;
     }
 
-    public double getSpentHolidayByWorkerAndMonth(Worker wWorker, int nMonth, int nYear)
+    public int getSpentHolidayByWorkerAndMonth(Worker wWorker, int nMonth, int nYear)
     {
-        double dResult = 0;
+        int dResult = 0;
         try
         {
             // get according query
@@ -64,9 +65,13 @@ public class SpentHolidayEAO extends ServiceBaseEAO<SpentHoliday>
             Object objResult = queryDeleteByDSId.getSingleResult();
             if (objResult != null)
             {
-                Integer i = new Integer( (int) objResult );
-                dResult = i.doubleValue();
+                dResult = (int) objResult ;
             }
+        }
+        catch(NoResultException ex)
+        {
+            // just ignore no result cases
+            Log.debug(this, "We have no spent holidays for worker \"" + wWorker + "\" and nMonth=" + nMonth + " and nYear=" + nYear);
         }
         catch (Exception e)
         {

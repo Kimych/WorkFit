@@ -12,8 +12,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import com.sun.codemodel.fmt.JBinaryFile;
-
 import by.uniterra.dai.eao.MonthEAO;
 import by.uniterra.dai.eao.WorkerEAO;
 import by.uniterra.dai.entity.Month;

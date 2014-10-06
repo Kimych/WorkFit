@@ -57,7 +57,7 @@ public class SpentHolidayNamedQueryTest
      */
     private static final int TEST_NUMBER_YEAR = 2014;
     private static final int TEST_WORKER_ID = 2;
-    private static final int TEST_MONTH_NUMBER = 11;
+    private static final int TEST_MONTH_NUMBER = 10;
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception
