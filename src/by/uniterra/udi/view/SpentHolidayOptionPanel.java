@@ -3,6 +3,8 @@ package by.uniterra.udi.view;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.time.Clock;
+import java.time.YearMonth;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
@@ -47,6 +49,9 @@ public class SpentHolidayOptionPanel extends JPanel implements IModelOwner
     {
         tfDaysCount = new JTextField();
         taDesc = new JTextArea();
+        taDesc.setColumns(20);
+        taDesc.setRows(5);
+        taDesc.setLineWrap(true);
 
         JLabel jlDaysCount = new JLabel(UDIPropSingleton.getString(this, "DaysCount.label"));
         JLabel jlDate = new JLabel(UDIPropSingleton.getString(this, "Date.label"));
@@ -76,7 +81,17 @@ public class SpentHolidayOptionPanel extends JPanel implements IModelOwner
         this.spentHoliday = (SpentHoliday) objSpentHoliday;
         if (spentHoliday.getWorker() == null)
         {
-            cbDate.setSelectedIndex(0);
+            int curentMonth = YearMonth.now(Clock.systemUTC()).getMonthValue();
+            int numberYear = YearMonth.now(Clock.systemUTC()).getYear();
+            for (Month selmonth : monthArrayList)
+            {
+                if (selmonth.getNameMonth().getNameMonthId() == curentMonth && selmonth.getYear().getNumber() == numberYear)
+                {
+                    cbDate.setSelectedItem(selmonth);
+                    break;
+                }
+            }
+            //cbDate.setSelectedIndex(0);
             cbWorker.setSelectedIndex(0);
         }
         else

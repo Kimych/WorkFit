@@ -30,7 +30,6 @@ public class WorkLogInfoHelper
 
 
     
-    
     public static WorkLogInfoHolder getLogInfoByWorker()
     {
         WorkLogInfoHolder objResult = null;
@@ -51,7 +50,7 @@ public class WorkLogInfoHelper
 
             SpentHolidayEAO eaoSpentHoliday = new SpentHolidayEAO(SystemModel.getDefaultEM());
             
-            double spentHolidayDayInCurrentMont = eaoSpentHoliday.getSpentHolidayByWorkerAndMonth(curentWorker, curentMonth, curentYear);
+            double spentHolidayDayInCurrentMont = eaoSpentHoliday.getSpentHolidayByWorkerAndMonthAndYear(curentWorker, curentMonth, curentYear);
 
             HolidayEAO eaoHoliday = new HolidayEAO(SystemModel.getDefaultEM());
 
@@ -98,7 +97,6 @@ public class WorkLogInfoHelper
 
         // get the number of working days in a month
         MonthEAO eaoMonth = new MonthEAO(SystemModel.getDefaultEM());
-        Month objCurrentMonth = eaoMonth.getMonthByMonthNumberAndYearNumber(curentMonth, curentYear);
         
         int workingDaysInMonth = eaoMonth.getWorkDayDataForMonth(calculatedMonth);
 
@@ -112,7 +110,7 @@ public class WorkLogInfoHelper
             List<DaysOfWork> lstDaysOfWork = eaoDaysOfWork.getfindLastForWorkerAndTimestamp(curentWorker, DateUtils.upToEndDayDate(date));
             if (lstDaysOfWork.size() == 1)
             {
-                double spentHolidayDayInCurrentMont = eaoSpentHoliday.getSpentHolidayByWorkerAndMonth(curentWorker, curentMonth, curentYear);
+                double spentHolidayDayInCurrentMont = eaoSpentHoliday.getSpentHolidayByWorkerAndMonthAndYear(curentWorker, calculatedMonth, calculatedYear);
                 
                 int dayPassed = lstDaysOfWork.get(0).getAktualWorkedDays();
                 // get work log time

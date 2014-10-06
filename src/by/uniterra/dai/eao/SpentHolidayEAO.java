@@ -49,13 +49,13 @@ public class SpentHolidayEAO extends ServiceBaseEAO<SpentHoliday>
         return spHoliday;
     }
 
-    public int getSpentHolidayByWorkerAndMonth(Worker wWorker, int nMonth, int nYear)
+    public int getSpentHolidayByWorkerAndMonthAndYear(Worker wWorker, int nMonth, int nYear)
     {
         int dResult = 0;
         try
         {
             // get according query
-            Query queryDeleteByDSId = getNamedQuery(SpentHoliday.NQ_FIND_SPEND_HOLIDAY_BY_WORKER_AND_CURRENT_MONTH);
+            Query queryDeleteByDSId = getNamedQuery(SpentHoliday.NQ_FIND_SPEND_HOLIDAY_BY_WORKER_AND_CURRENT_MONTH_AND_EAR);
             // set Worker
             queryDeleteByDSId.setParameter(SpentHoliday.PARAMETER_WORKER, wWorker);
             // set Month
@@ -71,7 +71,7 @@ public class SpentHolidayEAO extends ServiceBaseEAO<SpentHoliday>
         catch(NoResultException ex)
         {
             // just ignore no result cases
-            Log.debug(this, "We have no spent holidays for worker \"" + wWorker + "\" and nMonth=" + nMonth + " and nYear=" + nYear);
+            Log.debug(this, "We have not spend holiday for worker \"" + wWorker + "\" and nMonth=" + nMonth + " and nYear=" + nYear);
         }
         catch (Exception e)
         {

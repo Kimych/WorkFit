@@ -309,9 +309,9 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
         {
             try
             {
-                Serializable month = (Serializable) moPanel.getModel();
-                model.addTableData(month);
-                lstChangedRows.add(month);
+                Serializable obj = (Serializable) moPanel.getModel();
+                model.addTableData(obj);
+                lstChangedRows.add(obj);
             }
             catch (NumberFormatException ex)
             {

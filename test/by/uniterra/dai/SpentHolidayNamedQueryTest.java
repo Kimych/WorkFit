@@ -95,7 +95,7 @@ public class SpentHolidayNamedQueryTest
     
         WorkerEAO eaoWorker = new WorkerEAO(SystemModel.getDefaultEM());
         SpentHolidayEAO eaoSpentHoliday = new SpentHolidayEAO(SystemModel.getDefaultEM());
-        double days = eaoSpentHoliday.getSpentHolidayByWorkerAndMonth(eaoWorker.find(TEST_WORKER_ID), TEST_MONTH_NUMBER, TEST_NUMBER_YEAR);
+        double days = eaoSpentHoliday.getSpentHolidayByWorkerAndMonthAndYear(eaoWorker.find(TEST_WORKER_ID), TEST_MONTH_NUMBER, TEST_NUMBER_YEAR);
         System.out.println(days);
         assertTrue(days !=0);
     }
