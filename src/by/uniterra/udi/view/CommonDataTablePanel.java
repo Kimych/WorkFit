@@ -70,7 +70,8 @@ import by.uniterra.udi.util.Log;
 import com.sun.jmx.snmp.Timestamp;
 
 /**
- * The <code>CommonDataTablePanel</code> is used for edit in some DB table values
+ * The <code>CommonDataTablePanel</code> is used for edit in some DB table
+ * values
  *
  * @author Anton Nedbailo
  * @since 15 авг. 2014 г.
@@ -78,11 +79,11 @@ import com.sun.jmx.snmp.Timestamp;
 public class CommonDataTablePanel extends JPanel implements ActionListener
 {
     private static final long serialVersionUID = -8892734531119563251L;
-    
+
     // members
     private AbstractFlexTableModel model;
     private JXTable tTable;
-    @SuppressWarnings("rawtypes") 
+    @SuppressWarnings("rawtypes")
     private ServiceBaseEAO eaoCommon;
     private KeyEventDispatcher keyDispatcher;
 
@@ -106,7 +107,7 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
         this.model = atmModel;
         this.moPanel = moPanel;
         this.eaoCommon = eaoCommon;
-        
+
         // create UI
         jbInit();
 
@@ -131,7 +132,7 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
     {
         lstToDelete.clear();
         lstChangedRows.clear();
-        
+
         model.setTableData(eaoCommon.loadAll());
     }
 
@@ -161,7 +162,6 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
         TimestampTableCellRenderer txrTimestampRenderer = new TimestampTableCellRenderer(SwingConstants.CENTER, DateUtils.EUROP_FULL_DATETIMEFORMAT, "UTC");
         tTable.setDefaultRenderer(Timestamp.class, txrTimestampRenderer);
         tTable.setDefaultRenderer(Date.class, txrTimestampRenderer);
-        
 
         // popup menu del row
         final JPopupMenu popup = new JPopupMenu();
@@ -304,7 +304,7 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
         {
             Log.error(CommonDataTablePanel.class, e, "addValuesToModel error");
         }
-        
+
         if (JOptionPane.showConfirmDialog(tTable, moPanel, UDIPropSingleton.getString(this, "addOptionPanel.title"), JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION)
         {
             try
@@ -320,7 +320,7 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
         }
         else
         {
-            //TODO message dialog
+            // TODO message dialog
         }
     }
 
@@ -387,7 +387,7 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
         }
         else
         {
-            System.out.println("Input Canceled");
+            // System.out.println("Input Canceled");
         }
     }
 

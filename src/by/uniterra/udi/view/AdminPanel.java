@@ -47,8 +47,8 @@ public class AdminPanel extends JPanel implements ActionListener
 
     private WorkLogTableModel wltm;
     private JXMonthView jxmvCalendar;
-    //private JMenu jmMenu;
-    //private JMenuBar jmBar;
+    // private JMenu jmMenu;
+    // private JMenuBar jmBar;
     private JLabel jlLastUpdateInMonth;
     private JLabel jlUpdatedate;
 
@@ -56,14 +56,14 @@ public class AdminPanel extends JPanel implements ActionListener
     {
         super(new GridBagLayout());
         jbInit();
-        //loadDataInUI();
+        // loadDataInUI();
     }
 
     private void jbInit()
     {
         Date currentDate = new Date();
         jlUpdatedate = new JLabel(UDIPropSingleton.getString(this, "infoTime.header") + DATE_FORMAT.format(currentDate));
-        jlLastUpdateInMonth = new JLabel(UDIPropSingleton.getString(this, "updateTime.footer")+ "--.--.--");
+        jlLastUpdateInMonth = new JLabel(UDIPropSingleton.getString(this, "updateTime.footer") + "--.--.--");
         setLayout(new GridBagLayout());
 
         jxmvCalendar = new JXMonthView();
@@ -74,7 +74,7 @@ public class AdminPanel extends JPanel implements ActionListener
         jxmvCalendar.setZoomable(true);
 
         wltm = new WorkLogTableModel();
-        //wltm.setTableData(WorkLogInfoHelper.getLogListUpToDate(currentDate));
+        // wltm.setTableData(WorkLogInfoHelper.getLogListUpToDate(currentDate));
         JXTable table = new JXTable(wltm);
         table.setColumnControlVisible(true);
         // table.setHorizontalScrollEnabled(true);
@@ -83,16 +83,16 @@ public class AdminPanel extends JPanel implements ActionListener
         TimestampTableCellRenderer txrTimestampRenderer = new TimestampTableCellRenderer(SwingConstants.CENTER, DateUtils.EUROP_FULL_DATETIMEFORMAT, "UTC");
         table.setDefaultRenderer(Timestamp.class, txrTimestampRenderer);
         table.setDefaultRenderer(Date.class, txrTimestampRenderer);
-        
+
         table.getColumn(wltm.getColIndex(WorkLogTableModel.COL_TO_PLANE)).setCellRenderer(new DoubleTableCellRenderer(SwingConstants.CENTER, 2));
         table.getColumn(wltm.getColIndex(WorkLogTableModel.COL_TO_BONUS)).setCellRenderer(new DoubleTableCellRenderer(SwingConstants.CENTER, 2));
         table.getColumn(wltm.getColIndex(WorkLogTableModel.COL_REST_HOLIDAY)).setCellRenderer(new DoubleTableCellRenderer(SwingConstants.CENTER, 0));
-        
+
         for (final Highlighter curHighlighter : getSpecilHighlighters())
         {
             table.addHighlighter(curHighlighter);
         }
-        
+
         jxmvCalendar.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
@@ -101,7 +101,7 @@ public class AdminPanel extends JPanel implements ActionListener
                 if (date instanceof Date)
                 {
                     List<WorkLogInfoHolder> lstNewData = WorkLogInfoHelper.getLogListUpToDate(date);
-                    jlUpdatedate.setText(UDIPropSingleton.getString(this, "infoTime.header")  + DATE_FORMAT.format(date));
+                    jlUpdatedate.setText(UDIPropSingleton.getString(this, "infoTime.header") + DATE_FORMAT.format(date));
                     wltm.setTableData(lstNewData);
                 }
                 else
@@ -121,7 +121,7 @@ public class AdminPanel extends JPanel implements ActionListener
 
     }
 
-     public void loadDataInUI()
+    public void loadDataInUI()
     {
         // change the color in the days that came logs
         List<Date> lstDate = new ArrayList<Date>();
@@ -145,7 +145,7 @@ public class AdminPanel extends JPanel implements ActionListener
             jlLastUpdateInMonth.setText(UDIPropSingleton.getString(this, "updateTime.footer") + DATE_FORMAT.format(jxmvCalendar.getFlaggedDates().last()));
         }
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent arg0)
     {
@@ -167,33 +167,27 @@ public class AdminPanel extends JPanel implements ActionListener
             e.printStackTrace();
         }
     }
-    
+
     private List<Highlighter> getSpecilHighlighters()
     {
         final List<Highlighter> lstResult = new ArrayList<Highlighter>();
-        
+
         final int iStatusColumnIndex = wltm.getColIndex(WorkLogTableModel.COL_TO_PLANE);
         final int iStatusColumnIndex2 = wltm.getColIndex(WorkLogTableModel.COL_TO_BONUS);
         final int iStatusColumnIndex3 = wltm.getColIndex(WorkLogTableModel.COL_REST_HOLIDAY);
-        
-        
-        final PatternPredicate patternPredicate = new PatternPredicate("-", iStatusColumnIndex,
-                iStatusColumnIndex);
-        final PatternPredicate patternPredicate2 = new PatternPredicate("-", iStatusColumnIndex2,
-                iStatusColumnIndex2);
-        final PatternPredicate patternPredicate3 = new PatternPredicate("-", iStatusColumnIndex3,
-                iStatusColumnIndex3);
-        
-        
+
+        final PatternPredicate patternPredicate = new PatternPredicate("-", iStatusColumnIndex, iStatusColumnIndex);
+        final PatternPredicate patternPredicate2 = new PatternPredicate("-", iStatusColumnIndex2, iStatusColumnIndex2);
+        final PatternPredicate patternPredicate3 = new PatternPredicate("-", iStatusColumnIndex3, iStatusColumnIndex3);
+
         final ColorHighlighter colorHighlighter = new ColorHighlighter(patternPredicate, Color.GREEN, Color.BLACK, Color.GREEN, Color.BLACK);
         final ColorHighlighter colorHighlighter2 = new ColorHighlighter(patternPredicate2, Color.GREEN, Color.BLACK, Color.GREEN, Color.BLACK);
         final ColorHighlighter colorHighlighter3 = new ColorHighlighter(patternPredicate3, Color.GREEN, Color.BLACK, Color.GREEN, Color.BLACK);
-        
 
         lstResult.add(colorHighlighter);
         lstResult.add(colorHighlighter2);
         lstResult.add(colorHighlighter3);
-        
+
         return lstResult;
     }
 }

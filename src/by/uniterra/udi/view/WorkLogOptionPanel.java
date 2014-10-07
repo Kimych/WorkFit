@@ -22,8 +22,7 @@ public class WorkLogOptionPanel extends JPanel implements IModelOwner
 
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 3687259560748246183L;
-    private static final Color COLOR_OK_GREEN = Color.GREEN;
-    private static final Color COLOR_WARNING_RED = Color.RED;
+    private static final Color COLOR_WARNING_PINK = Color.PINK;
 
     private WorkLogInfoHolder woih;
     JTextField tfCurentTime;
@@ -79,11 +78,7 @@ public class WorkLogOptionPanel extends JPanel implements IModelOwner
         // set color
         if (woih.isBeInPlane())
         {
-            tfToPlane.setBackground(COLOR_OK_GREEN);
-        }
-        else
-        {
-            tfToPlane.setBackground(COLOR_WARNING_RED);
+            tfToPlane.setBackground(COLOR_WARNING_PINK);
         }
 
         tfToBonus.setText(WorkLogUtils.roundToString(woih.getToBonus(), 2, BigDecimal.ROUND_HALF_UP));

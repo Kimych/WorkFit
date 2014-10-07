@@ -33,6 +33,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.persistence.EntityManager;
 import javax.swing.JFileChooser;
@@ -172,17 +173,13 @@ public class WorkFitFrame extends JFrame implements ActionListener
                 else
                 {
                     panelToInsert = new WorkLogOptionPanel();
-                    WorkLogInfoHolder ihUserData = WorkLogInfoHelper.getLogInfoByWorker();
+                    WorkLogInfoHolder ihUserData = WorkLogInfoHelper.getLogListUpToDateAndWorker(auth.getWorker(), new Date());
                     if (ihUserData != null)
                     {
                         ((IModelOwner) panelToInsert).setModel(ihUserData);
                     }
-                    // panelMenu = createUserMenu();
                 }
                 getContentPane().add(panelToInsert);
-                // setJMenuBar(panelMenu);
-                // setVisible(true);
-                // pack();
             }
             setVisible(true);
         }
@@ -283,7 +280,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
                 getContentPane().repaint();
                 setSize(800, 401);
                 // setJMenuBar(createUserMenu());
-                doLogin("","");
+                doLogin("", "");
                 break;
             case UPDATE_LOG:
                 // createUserUI();
