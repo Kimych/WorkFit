@@ -258,7 +258,6 @@ public class WorkFitFrame extends JFrame implements ActionListener
         else
         {
             Log.info(WorkFitFrame.class, "3 abortive attempts of authorization");
-
             JOptionPane.showMessageDialog(null, "Sorry I can not continue...");
             disposeMainFrame();
         }
@@ -284,7 +283,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
                 getContentPane().repaint();
                 setSize(800, 401);
                 // setJMenuBar(createUserMenu());
-                doLogin("", "");
+                doLogin("","");
                 break;
             case UPDATE_LOG:
                 // createUserUI();

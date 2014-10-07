@@ -63,11 +63,11 @@ public class UserRoleTableMolel extends AbstractFlexTableModel
 
     public UserRoleTableMolel()
     {
-        addColumn(COL_NAME, "Name");
-        addColumn(COL_LOGIN, "Login");
-        addColumn(COL_ROLE_NAME, "Role name");
-        addColumn(COL_DESCRIPTIONS, "Description");
-        addColumn(COL_EMAIL, "Email");
+        addColumn(COL_NAME, UDIPropSingleton.getString(this, "name.column"), String.class);
+        addColumn(COL_LOGIN, UDIPropSingleton.getString(this, "login.column"), String.class);
+        addColumn(COL_ROLE_NAME, UDIPropSingleton.getString(this, "roleName.column"), String.class);
+        addColumn(COL_DESCRIPTIONS, UDIPropSingleton.getString(this, "description.column"), String.class);
+        addColumn(COL_EMAIL, UDIPropSingleton.getString(this, "email.column"), String.class);
     }
 
     @Override

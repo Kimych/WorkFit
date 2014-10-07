@@ -128,7 +128,7 @@ public class WorkLogInfoHelper
             }
             else
             {
-                Log.error(WorkLogInfoHelper.class, "We found more than 1 record with last DaysOfWork for \"" + curentWorker + "\" and " + DateUtils.toGMT(date) );
+                Log.debug(WorkLogInfoHelper.class, "We found more than 1 record with last DaysOfWork for \"" + curentWorker + "\" and " + DateUtils.toGMT(date) );
             }
         }
         return lstResult;

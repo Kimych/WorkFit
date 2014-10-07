@@ -40,6 +40,7 @@
 		<Refresh.menu>Refresh</Refresh.menu>
 		<ViewHistory.menu>View History</ViewHistory.menu>
 	</by.uniterra.udi.view.DynamicMenuBar>
+
 	<!-- Year Table -->
 	<by.uniterra.udi.view.YearOptionPanel>
 		<jlNumber.label>Год</jlNumber.label>
@@ -92,6 +93,28 @@
 		<jlDays.label>Дней</jlDays.label>
 	</by.uniterra.udi.view.HolidayOptionPanel>
 
+	<!-- Spent holiday table -->
+	<by.uniterra.udi.model.SpentHolidayTableModel>
+		<DaysCount.column>Дней</DaysCount.column>
+		<Worker.column>ФИО</Worker.column>
+		<Date.column>Дата</Date.column>
+		<Desc.column>Описание</Desc.column>
+	</by.uniterra.udi.model.SpentHolidayTableModel>
+
+	<!-- Spent Holiday Option Panel -->
+	<by.uniterra.udi.view.SpentHolidayOptionPanel>
+		<DaysCount.label>Дни</DaysCount.label>
+		<Date.label>Дата</Date.label>
+		<Worker.label>ФИО</Worker.label>
+		<Desc.label>Описание</Desc.label>
+	</by.uniterra.udi.view.SpentHolidayOptionPanel>
+
+	<by.uniterra.udi.view.HolidayOptionPanel>
+		<jlName.label>Имя</jlName.label>
+		<jlYear.label>Год</jlYear.label>
+		<jlDays.label>Дни</jlDays.label>
+	</by.uniterra.udi.view.HolidayOptionPanel>
+
 	<!-- WorkLogOptionPanel -->
 	<by.uniterra.udi.view.WorkLogOptionPanel>
 		<jlWorker.label>Сотрудник:</jlWorker.label>
@@ -102,6 +125,7 @@
 		<jlTimeLeft.label>Осталось отпуска:</jlTimeLeft.label>
 	</by.uniterra.udi.view.WorkLogOptionPanel>
 
+	<!-- CommonDataTablePanel -->
 	<by.uniterra.udi.view.CommonDataTablePanel>
 		<menuItemDelRow.label>Удалить запись</menuItemDelRow.label>
 		<menuItemEditRow.label>Редактировать запись</menuItemEditRow.label>
@@ -139,10 +163,39 @@
 		<updateTime.column>Обновление</updateTime.column>
 	</by.uniterra.udi.model.WorkLogTableModel>
 
+	<!-- UserRoleTableMolel -->
+	<by.uniterra.udi.model.UserRoleTableMolel>
+		<name.column>ФИО</name.column>
+		<login.column>Логин</login.column>
+		<roleName.column>Роль</roleName.column>
+		<description.column>Описание</description.column>
+		<email.column>Email</email.column>
+	</by.uniterra.udi.model.UserRoleTableMolel>
+
 	<!-- Admin Panel -->
 	<by.uniterra.udi.view.AdminPanel>
 		<updateTime.footer>Последнее обновление лога: </updateTime.footer>
 		<infoTime.header>Информация по сотоянию на: </infoTime.header>
 	</by.uniterra.udi.view.AdminPanel>
+
+	<!-- DaysOfWorkOptionPanel -->
+	<by.uniterra.udi.view.DaysOfWorkOptionPanel>
+		<month.label>Месяц</month.label>
+		<actualsDay.label>Актуальное число дней</actualsDay.label>
+		<worker.label>Сотрудник</worker.label>
+		<refresh.label>Обновление</refresh.label>
+		<timeFromLog.label>Время из лога</timeFromLog.label>
+		<bonusTime.label>Бонусное время</bonusTime.label>
+		<deskription.label>Описание</deskription.label>
+	</by.uniterra.udi.view.DaysOfWorkOptionPanel>
+
+	<!-- UserRoleOptionPanel -->
+	<by.uniterra.udi.view.UserRoleOptionPanel>
+		<name.label>Имя</name.label>
+		<email.label>Email</email.label>
+		<role.label>Роль</role.label>
+		<login.label>Логин</login.label>
+		<password.label>Пароль</password.label>
+	</by.uniterra.udi.view.UserRoleOptionPanel>
 </root>
 

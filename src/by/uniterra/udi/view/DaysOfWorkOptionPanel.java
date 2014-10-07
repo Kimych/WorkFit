@@ -27,6 +27,7 @@ import by.uniterra.system.model.SystemModel;
 import by.uniterra.system.util.DateUtils;
 import by.uniterra.system.util.WorkLogUtils;
 import by.uniterra.udi.iface.IModelOwner;
+import by.uniterra.udi.model.UDIPropSingleton;
 import by.uniterra.udi.util.UIUtils;
 
 import com.toedter.calendar.JDateChooser;
@@ -65,13 +66,13 @@ public class DaysOfWorkOptionPanel extends JPanel implements IModelOwner
         taBonusDesc = new JTextArea();
         tfBonusTime = new JTextField();
 
-        JLabel jlMonth = new JLabel("Month");
-        JLabel jlActualDays = new JLabel("Aktual days");
-        JLabel jlWorker = new JLabel("Worker");
-        JLabel jlRefresh = new JLabel("Refresh");
-        JLabel jlLogTime = new JLabel("Time from log");
-        JLabel jlBonusTime = new JLabel("Bonus time");
-        JLabel jlBonusDesc = new JLabel("Description");
+        JLabel jlMonth = new JLabel(UDIPropSingleton.getString(this, "month.label"));
+        JLabel jlActualDays = new JLabel(UDIPropSingleton.getString(this, "actualsDay.label"));
+        JLabel jlWorker = new JLabel(UDIPropSingleton.getString(this, "worker.label"));
+        JLabel jlRefresh = new JLabel(UDIPropSingleton.getString(this, "refresh.label"));
+        JLabel jlLogTime = new JLabel(UDIPropSingleton.getString(this, "timeFromLog.label"));
+        JLabel jlBonusTime = new JLabel(UDIPropSingleton.getString(this, "bonusTime.label"));
+        JLabel jlBonusDesc = new JLabel(UDIPropSingleton.getString(this, "deskription.label"));
 
         workerArrayList = new WorkerEAO(SystemModel.getDefaultEM()).loadAll();
         monthArrayList = new MonthEAO(SystemModel.getDefaultEM()).loadAll();

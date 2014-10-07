@@ -48,6 +48,7 @@ import by.uniterra.dai.entity.Role;
 import by.uniterra.dai.entity.Worker;
 import by.uniterra.system.model.SystemModel;
 import by.uniterra.udi.iface.IModelOwner;
+import by.uniterra.udi.model.UDIPropSingleton;
 
 /**
  * The <code>UserRoleOptionPanel</code> is used for ...
@@ -86,12 +87,12 @@ public class UserRoleOptionPanel extends JPanel implements IModelOwner
         tfPassword = new JTextField();
         // taDesck = new JTextArea();
 
-        JLabel jlName = new JLabel("Name");
-        JLabel jlEmail = new JLabel("Email");
-        JLabel jlRole = new JLabel("Role");
+        JLabel jlName = new JLabel(UDIPropSingleton.getString(this, "name.label"));
+        JLabel jlEmail = new JLabel(UDIPropSingleton.getString(this, "email.label"));
+        JLabel jlRole = new JLabel(UDIPropSingleton.getString(this, "role.label"));
         // JLabel jlDescription = new JLabel("Description");
-        JLabel jlLogin = new JLabel("Login");
-        JLabel jlPassword = new JLabel("Password");
+        JLabel jlLogin = new JLabel(UDIPropSingleton.getString(this, "login.label"));
+        JLabel jlPassword = new JLabel(UDIPropSingleton.getString(this, "password.label"));
 
         workerArrayList = new WorkerEAO(SystemModel.getDefaultEM()).loadAll();
         cbName = new JComboBox(new DefaultComboBoxModel(workerArrayList.toArray()));
