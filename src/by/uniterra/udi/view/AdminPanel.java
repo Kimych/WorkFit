@@ -185,9 +185,9 @@ public class AdminPanel extends JPanel implements ActionListener
                 iStatusColumnIndex3);
         
         
-        final ColorHighlighter colorHighlighter = new ColorHighlighter(patternPredicate, Color.PINK, Color.BLACK, Color.PINK, Color.BLACK);
-        final ColorHighlighter colorHighlighter2 = new ColorHighlighter(patternPredicate2, Color.PINK, Color.BLACK, Color.PINK, Color.BLACK);
-        final ColorHighlighter colorHighlighter3 = new ColorHighlighter(patternPredicate3, Color.PINK, Color.BLACK, Color.PINK, Color.BLACK);
+        final ColorHighlighter colorHighlighter = new ColorHighlighter(patternPredicate, Color.GREEN, Color.BLACK, Color.GREEN, Color.BLACK);
+        final ColorHighlighter colorHighlighter2 = new ColorHighlighter(patternPredicate2, Color.GREEN, Color.BLACK, Color.GREEN, Color.BLACK);
+        final ColorHighlighter colorHighlighter3 = new ColorHighlighter(patternPredicate3, Color.GREEN, Color.BLACK, Color.GREEN, Color.BLACK);
         
 
         lstResult.add(colorHighlighter);
