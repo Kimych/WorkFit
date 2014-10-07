@@ -361,8 +361,6 @@ public class WorkFitFrame extends JFrame implements ActionListener
     {
         JPanel panelCommon = new JPanel();
         panelCommon.add(commonPanel);
-        // JOptionPane.showMessageDialog(this, panelCommon, frameTitle,
-        // JOptionPane.PLAIN_MESSAGE);
         JOptionPane.showConfirmDialog(this, panelCommon, frameTitle, JOptionPane.OK_CANCEL_OPTION);
     }
 

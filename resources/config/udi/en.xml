@@ -11,8 +11,6 @@
 		<EditHolidayTable.frame>Edit Holiday Table</EditHolidayTable.frame>
 		<EditUserRole.frame>Edit User Role</EditUserRole.frame>
 		<EditSpentHolidayTable.frame>Edit Spent Holiday</EditSpentHolidayTable.frame>
-
-
 	</by.uniterra.system.main.WorkFitFrame>
 
 	<!-- DynamicMenuBar -->
@@ -40,9 +38,6 @@
 		<Refresh.menu>Refresh</Refresh.menu>
 		<ViewHistory.menu>View History</ViewHistory.menu>
 	</by.uniterra.udi.view.DynamicMenuBar>
-
-
-
 
 	<!-- Year Table -->
 	<by.uniterra.udi.view.YearOptionPanel>
@@ -146,6 +141,22 @@
 		<montID.column>Mont ID</montID.column>
 		<workerID.column>Worker ID</workerID.column>
 	</by.uniterra.udi.model.DaysOfWorkTableModel>
+	
+	<!-- WorkLogTableModel -->
+	<by.uniterra.udi.model.WorkLogTableModel>
+	<name.column>Name</name.column>
+	<current.column>Current</current.column>
+	<toPlane.column>To Plane</toPlane.column>
+	<toBonus.column>To Bonus</toBonus.column>
+	<restHoliday.column>Rest Holiday</restHoliday.column>
+	<updateTime.column>Update Time</updateTime.column>
+	</by.uniterra.udi.model.WorkLogTableModel>
+	
+	<!-- Admin Panel -->
+<by.uniterra.udi.view.AdminPanel>
+<updateTime.footer>Last Log Update: </updateTime.footer>
+<infoTime.header>Information as of: </infoTime.header>
+</by.uniterra.udi.view.AdminPanel>
 
 
 </root>

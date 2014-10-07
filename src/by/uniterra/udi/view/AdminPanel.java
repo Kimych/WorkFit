@@ -19,15 +19,20 @@ import javax.swing.SwingConstants;
 
 import org.jdesktop.swingx.JXMonthView;
 import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.decorator.ColorHighlighter;
+import org.jdesktop.swingx.decorator.Highlighter;
 import org.jdesktop.swingx.decorator.HighlighterFactory;
+import org.jdesktop.swingx.decorator.PatternPredicate;
 
 import by.uniterra.dai.eao.DaysOfWorkEAO;
 import by.uniterra.dai.entity.DaysOfWork;
 import by.uniterra.system.model.SystemModel;
 import by.uniterra.system.util.DateUtils;
+import by.uniterra.udi.model.UDIPropSingleton;
 import by.uniterra.udi.model.WorkLogInfoHelper;
 import by.uniterra.udi.model.WorkLogInfoHolder;
 import by.uniterra.udi.model.WorkLogTableModel;
+import by.uniterra.udi.util.Log;
 
 import com.sun.jmx.snmp.Timestamp;
 
@@ -57,8 +62,8 @@ public class AdminPanel extends JPanel implements ActionListener
     private void jbInit()
     {
         Date currentDate = new Date();
-        jlUpdatedate = new JLabel("Данные предоставлены по сотоянию на" + ": " + DATE_FORMAT.format(currentDate));
-        jlLastUpdateInMonth = new JLabel("Последнее обновление лога: --.--.-- ");
+        jlUpdatedate = new JLabel(UDIPropSingleton.getString(this, "infoTime.header") + DATE_FORMAT.format(currentDate));
+        jlLastUpdateInMonth = new JLabel(UDIPropSingleton.getString(this, "updateTime.footer")+ "--.--.--");
         setLayout(new GridBagLayout());
 
         jxmvCalendar = new JXMonthView();
@@ -79,6 +84,15 @@ public class AdminPanel extends JPanel implements ActionListener
         table.setDefaultRenderer(Timestamp.class, txrTimestampRenderer);
         table.setDefaultRenderer(Date.class, txrTimestampRenderer);
         
+        table.getColumn(wltm.getColIndex(WorkLogTableModel.COL_TO_PLANE)).setCellRenderer(new DoubleTableCellRenderer(SwingConstants.CENTER, 2));
+        table.getColumn(wltm.getColIndex(WorkLogTableModel.COL_TO_BONUS)).setCellRenderer(new DoubleTableCellRenderer(SwingConstants.CENTER, 2));
+        table.getColumn(wltm.getColIndex(WorkLogTableModel.COL_REST_HOLIDAY)).setCellRenderer(new DoubleTableCellRenderer(SwingConstants.CENTER, 0));
+        
+        for (final Highlighter curHighlighter : getSpecilHighlighters())
+        {
+            table.addHighlighter(curHighlighter);
+        }
+        
         jxmvCalendar.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
@@ -87,12 +101,12 @@ public class AdminPanel extends JPanel implements ActionListener
                 if (date instanceof Date)
                 {
                     List<WorkLogInfoHolder> lstNewData = WorkLogInfoHelper.getLogListUpToDate(date);
-                    jlUpdatedate.setText("Данные предоставлены по сотоянию на" + ": " + DATE_FORMAT.format(date));
+                    jlUpdatedate.setText(UDIPropSingleton.getString(this, "infoTime.header")  + DATE_FORMAT.format(date));
                     wltm.setTableData(lstNewData);
                 }
                 else
                 {
-                    System.err.println("Что-то пошло не так....");
+                    Log.error(AdminPanel.class, "actionPerformed(ActionEvent e)");
                 }
             }
         });
@@ -128,7 +142,7 @@ public class AdminPanel extends JPanel implements ActionListener
             // change color
             jxmvCalendar.setFlaggedDayForeground(Color.RED);
             jxmvCalendar.setFlaggedDates(arrDate);
-            jlLastUpdateInMonth.setText("Последнее обновление лога: " + DATE_FORMAT.format(jxmvCalendar.getFlaggedDates().last()));
+            jlLastUpdateInMonth.setText(UDIPropSingleton.getString(this, "updateTime.footer") + DATE_FORMAT.format(jxmvCalendar.getFlaggedDates().last()));
         }
     }
     
@@ -149,8 +163,37 @@ public class AdminPanel extends JPanel implements ActionListener
         }
         catch (Exception e)
         {
-            System.out.println("actionPerformed expressions in Admin Panel");
+            Log.error(AdminPanel.class, "actionPerformed error!");
             e.printStackTrace();
         }
+    }
+    
+    private List<Highlighter> getSpecilHighlighters()
+    {
+        final List<Highlighter> lstResult = new ArrayList<Highlighter>();
+        
+        final int iStatusColumnIndex = wltm.getColIndex(WorkLogTableModel.COL_TO_PLANE);
+        final int iStatusColumnIndex2 = wltm.getColIndex(WorkLogTableModel.COL_TO_BONUS);
+        final int iStatusColumnIndex3 = wltm.getColIndex(WorkLogTableModel.COL_REST_HOLIDAY);
+        
+        
+        final PatternPredicate patternPredicate = new PatternPredicate("-", iStatusColumnIndex,
+                iStatusColumnIndex);
+        final PatternPredicate patternPredicate2 = new PatternPredicate("-", iStatusColumnIndex2,
+                iStatusColumnIndex2);
+        final PatternPredicate patternPredicate3 = new PatternPredicate("-", iStatusColumnIndex3,
+                iStatusColumnIndex3);
+        
+        
+        final ColorHighlighter colorHighlighter = new ColorHighlighter(patternPredicate, Color.PINK, Color.BLACK, Color.PINK, Color.BLACK);
+        final ColorHighlighter colorHighlighter2 = new ColorHighlighter(patternPredicate2, Color.PINK, Color.BLACK, Color.PINK, Color.BLACK);
+        final ColorHighlighter colorHighlighter3 = new ColorHighlighter(patternPredicate3, Color.PINK, Color.BLACK, Color.PINK, Color.BLACK);
+        
+
+        lstResult.add(colorHighlighter);
+        lstResult.add(colorHighlighter2);
+        lstResult.add(colorHighlighter3);
+        
+        return lstResult;
     }
 }

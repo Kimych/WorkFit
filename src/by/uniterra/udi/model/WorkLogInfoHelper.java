@@ -43,10 +43,6 @@ public class WorkLogInfoHelper
             // get the number of working days in a month
             MonthEAO eaoMonth = new MonthEAO(SystemModel.getDefaultEM());
             int workingDaysInMonth = eaoMonth.getWorkDayDataForMonth(curentMonth);
-            
-            //get month object
-            Month objCurrentMonth = eaoMonth.getMonthByMonthNumberAndYearNumber(curentMonth, curentYear);
-            //SpentHolidayEAO eaoSpentHoliday = new SpentHolidayEAO(SystemModel.getDefaultEM());
 
             SpentHolidayEAO eaoSpentHoliday = new SpentHolidayEAO(SystemModel.getDefaultEM());
             

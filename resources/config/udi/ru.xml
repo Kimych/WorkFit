@@ -3,28 +3,43 @@
 	<!-- WorkFitFrame -->
 	<by.uniterra.system.main.WorkFitFrame>
 		<Authotization.frame>Авторизация:</Authotization.frame>
-		<Fit.menu>Fit</Fit.menu>
-		<AddLog.menu>Добавить лог из файла</AddLog.menu>
-		<ReLog.menu>Logout</ReLog.menu>
-		<Exit.menu>Выход</Exit.menu>
-		<Edit.menu>Редактировать</Edit.menu>
-		<EditWorker.menu>Редактировать Worker</EditWorker.menu>
-		<EditHoliday.menu>Редактировать Holiday</EditHoliday.menu>
-		<EditDofW.menu>Редактировать Days of Work</EditDofW.menu>
-		<EditMonth.menu>Редактировать Month</EditMonth.menu>
-		<EditYear.menu>Редактировать Year</EditYear.menu>
-		<EditUserRole.menu>Редактировать User Role</EditUserRole.menu>
-		<Update.menu>Обновить</Update.menu>
-
-		<EditWorkerTable.frame>Редактирование Worker Table</EditWorkerTable.frame>
-		<EditYearTable.frame>Редактирование Year Table</EditYearTable.frame>
-		<EditDofWTable.frame>Редактирование Days of Work Table</EditDofWTable.frame>
+		<EditWorkerTable.frame>Редактирование Worker</EditWorkerTable.frame>
+		<EditYearTable.frame>Редактирование Year</EditYearTable.frame>
+		<EditDofWTable.frame>Редактирование Days of Work</EditDofWTable.frame>
 		<EditMonth.frame>Редактирование Month</EditMonth.frame>
-		<EditHolidayTable.frame>Редактирование Holiday Table</EditHolidayTable.frame>
-		<EditUserRole.frame>Редактирование User Role Table</EditUserRole.frame>
-
+		<EditHolidayTable.frame>Редактирование Holiday
+		</EditHolidayTable.frame>
+		<EditUserRole.frame>Редактирование User Role</EditUserRole.frame>
+		<EditSpentHolidayTable.frame>Редактирование Spent Holiday
+		</EditSpentHolidayTable.frame>
 	</by.uniterra.system.main.WorkFitFrame>
 
+
+	<!-- DynamicMenuBar -->
+	<by.uniterra.udi.view.DynamicMenuBar>
+		<Fit.menu>Fit</Fit.menu>
+		<Exit.menu>Выход</Exit.menu>
+		<ReLog.menu>Login/Logout</ReLog.menu>
+
+		<Administrationt.menu>Администрирование</Administrationt.menu>
+		<EditTable.menu>Редактировать таблицу</EditTable.menu>
+		<EditSpentHoliday.menu>Spent Holiday</EditSpentHoliday.menu>
+		<EditWorker.menu>Worker</EditWorker.menu>
+		<EditHoliday.menu>Holiday</EditHoliday.menu>
+		<EditDofW.menu>Days of Work</EditDofW.menu>
+		<EditMonth.menu>Month</EditMonth.menu>
+		<EditYear.menu>Year</EditYear.menu>
+		<EditUserRole.menu>User Role</EditUserRole.menu>
+		<AddLog.menu>Добавить данные из лога</AddLog.menu>
+
+		<Help.menu>Помощь</Help.menu>
+		<Welcome.menu>Welcome</Welcome.menu>
+		<About.menu>About</About.menu>
+
+		<User.menu>User Menu</User.menu>
+		<Refresh.menu>Refresh</Refresh.menu>
+		<ViewHistory.menu>View History</ViewHistory.menu>
+	</by.uniterra.udi.view.DynamicMenuBar>
 	<!-- Year Table -->
 	<by.uniterra.udi.view.YearOptionPanel>
 		<jlNumber.label>Год</jlNumber.label>
@@ -100,17 +115,34 @@
 		<errorMessageDialog.lable>Неверный формат данных
 		</errorMessageDialog.lable>
 	</by.uniterra.udi.view.CommonDataTablePanel>
-	
+
 	<!-- DaysOfWorkTableModel -->
 	<by.uniterra.udi.model.DaysOfWorkTableModel>
 		<fromLog.column>Из лога</fromLog.column>
 		<timestamp.column>Обновлено</timestamp.column>
 		<bonusTime.column>Бонус</bonusTime.column>
 		<descBonusTime.column>Примечание</descBonusTime.column>
-		<actualWorkedDays.column>Актуальные рабочие дни</actualWorkedDays.column>
+		<actualWorkedDays.column>Актуальные рабочие дни
+		</actualWorkedDays.column>
 		<daysOfWork.column>Отработанно</daysOfWork.column>
 		<montID.column>Месяц</montID.column>
 		<workerID.column>Работник</workerID.column>
 	</by.uniterra.udi.model.DaysOfWorkTableModel>
+
+	<!-- WorkLogTableModel -->
+	<by.uniterra.udi.model.WorkLogTableModel>
+		<name.column>ФИО</name.column>
+		<current.column>Текущее</current.column>
+		<toPlane.column>До плана</toPlane.column>
+		<toBonus.column>До премии</toBonus.column>
+		<restHoliday.column>Использованно отпуска</restHoliday.column>
+		<updateTime.column>Обновление</updateTime.column>
+	</by.uniterra.udi.model.WorkLogTableModel>
+
+	<!-- Admin Panel -->
+	<by.uniterra.udi.view.AdminPanel>
+		<updateTime.footer>Последнее обновление лога: </updateTime.footer>
+		<infoTime.header>Информация по сотоянию на: </infoTime.header>
+	</by.uniterra.udi.view.AdminPanel>
 </root>
 
