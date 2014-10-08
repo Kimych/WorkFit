@@ -3,11 +3,15 @@ package by.uniterra.udi.view;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.Arrays;
 
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.text.StyledEditorKit.BoldAction;
 
 import org.jdesktop.swingx.JXLabel;
 
@@ -22,6 +26,8 @@ public class LoginPanel extends JPanel
     
     private JTextField tfUserName;
     private JPasswordField ptfPwd;
+    private JCheckBox cbSave;
+    boolean flag = false;
 
 
     public LoginPanel(String strDefaultUser)
@@ -40,6 +46,7 @@ public class LoginPanel extends JPanel
     private void jbUnit()
     {
         tfUserName = new JTextField();
+        cbSave = new JCheckBox("Save" ,false);
         tfUserName.addFocusListener(new SelectAllFocusAdapter(tfUserName));
         tfUserName.addAncestorListener(new RequestFocusListener(true));
         ptfPwd = new JPasswordField();
@@ -50,6 +57,16 @@ public class LoginPanel extends JPanel
         add(tfUserName, new GridBagConstraints(1, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
         add(new JXLabel("Пароль: "), new GridBagConstraints(0, 1, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
         add(ptfPwd,new GridBagConstraints(1, 1, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+        add(cbSave,new GridBagConstraints(1, 2, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+        
+        cbSave.addItemListener(new ItemListener()
+        {
+            @Override
+            public void itemStateChanged(ItemEvent e)
+            {
+                flag = true;
+            }
+        });
     }
     
     /**
@@ -81,10 +98,17 @@ public class LoginPanel extends JPanel
     {
         return tfUserName.getText();
     }
+    
     public String getPassword()
     {
         return ptfPwd.getText();
     }
+    
+    public boolean getStatmentFlag()
+    {
+        return flag;
+    }
+    
 
 
 }

@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import by.uniterra.dai.entity.Authorization;
@@ -59,7 +60,7 @@ public class AuthorizationEAO extends ServiceBaseEAO<Authorization>
 
     public Authorization getAuthorizationByLoginAndPassword(String login, String password)
     {
-        Authorization objResult = new Authorization();
+        Authorization objResult = null;
         try
         {
             Query queryDeleteByDSId = getNamedQuery(Authorization.NQ_FIND_AUTHORIZATION_BY_LOGIN_AND_PASSWORD);
@@ -67,6 +68,10 @@ public class AuthorizationEAO extends ServiceBaseEAO<Authorization>
             queryDeleteByDSId.setParameter(Authorization.PARAMETER_PASSWORD, password);
 
             objResult = (Authorization) queryDeleteByDSId.getSingleResult();
+        }
+        catch(NoResultException e1)
+        {
+           //ignore this error
         }
         catch (Exception e)
         {

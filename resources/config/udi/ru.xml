@@ -159,7 +159,7 @@
 		<current.column>Текущее</current.column>
 		<toPlane.column>До плана</toPlane.column>
 		<toBonus.column>До премии</toBonus.column>
-		<restHoliday.column>Использованно отпуска</restHoliday.column>
+		<restHoliday.column>Осталось отпуска</restHoliday.column>
 		<updateTime.column>Обновление</updateTime.column>
 	</by.uniterra.udi.model.WorkLogTableModel>
 

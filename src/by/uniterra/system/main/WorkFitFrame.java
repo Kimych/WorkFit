@@ -34,11 +34,11 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.prefs.Preferences;
 
 import javax.persistence.EntityManager;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -93,8 +93,12 @@ public class WorkFitFrame extends JFrame implements ActionListener
     static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
 
     AdminPanel adp;
+    static Preferences userPrefs = Preferences.userNodeForPackage(WorkFitFrame.class);;
 
     private static final String UPDATE_LOG = "Update log";
+    private static final String LOGIN = "login";
+    private static final String PASSWORD = "password";
+    private static final String FLAG_AUT = "flag";
 
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 165708470997304032L;
@@ -118,13 +122,22 @@ public class WorkFitFrame extends JFrame implements ActionListener
         wfFrame.setVisible(true);
 
         // args==[login=admin ,password=admin]
-        if (args.length != 0)
+        //Disable
+        if (false)
         {
+            //args.length == 0
             wfFrame.doLogin((args[0].split("="))[1], (args[1].split("="))[1]);
         }
         else
         {
-            wfFrame.doLogin("", "");
+            if(userPrefs.getBoolean(FLAG_AUT, false))
+            {
+                wfFrame.doLogin(userPrefs.get(LOGIN, ""),userPrefs.get(PASSWORD, ""));
+            }
+            else
+            {
+                wfFrame.doLogin("","");
+            }
         }
     }
 
@@ -229,15 +242,24 @@ public class WorkFitFrame extends JFrame implements ActionListener
             int input = JOptionPane.showConfirmDialog(this, panelLogin, UDIPropSingleton.getString(this, "Authotization.frame"), JOptionPane.OK_CANCEL_OPTION,
                     JOptionPane.PLAIN_MESSAGE);
             // check result
+            //boolean cbState = panelLogin.getStatmentFlag();
             if (input == JOptionPane.OK_OPTION)
             {
                 String userName = panelLogin.getUserName();
                 String currentPass = panelLogin.getPassword();
+                
+                //save Login and Password
+                
+                
                 try
                 {
                     Authorization authUser = autEAO.getAuthorizationByLoginAndPassword(userName, currentPass);
                     if (authUser.getAuthorizationId() != 0)
                     {
+                        if(panelLogin.getStatmentFlag() == true)
+                        {
+                            saveLoginAndPassword(userName, currentPass);
+                        }
                         return authUser;
                     }
                     else
@@ -279,8 +301,10 @@ public class WorkFitFrame extends JFrame implements ActionListener
                 getContentPane().removeAll();
                 getContentPane().repaint();
                 setSize(800, 401);
-                // setJMenuBar(createUserMenu());
-                doLogin("", "");
+                
+                setEmtyLoginAndPassword();
+               
+                doLogin("","");
                 break;
             case UPDATE_LOG:
                 // createUserUI();
@@ -374,5 +398,19 @@ public class WorkFitFrame extends JFrame implements ActionListener
         LogParser.saveLogInfoToDB(LogParser.getListFromLog(fileChooser.getSelectedFile().toPath()));
         // return fileChooser.getSelectedFile().toPath();
 
+    }
+    
+    private static void saveLoginAndPassword(String userName, String userPassword)
+    {
+        userPrefs.put(LOGIN, userName);
+        userPrefs.put(PASSWORD, userPassword);
+        userPrefs.putBoolean(FLAG_AUT, true);
+    }
+    
+    private static void setEmtyLoginAndPassword()
+    {
+        userPrefs.put(LOGIN, "");
+        userPrefs.put(PASSWORD, "");
+        userPrefs.putBoolean(FLAG_AUT, false);
     }
 }
