@@ -38,6 +38,7 @@ import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -62,7 +63,7 @@ public class UserRoleOptionPanel extends JPanel implements IModelOwner
 
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = -9107708424856787372L;
-    
+
     private static String DEFAULT_PASSWORD = "!_!_!_!_!_!";
 
     private JComboBox<?> cbName;
@@ -70,6 +71,7 @@ public class UserRoleOptionPanel extends JPanel implements IModelOwner
     private JTextField tfEmail;
     private JTextField tfLogin;
     private JPasswordField tfPassword;
+    private JPasswordField tfConfPassword;
     // private JTextArea taDesck;
 
     private List<Worker> workerArrayList;
@@ -88,6 +90,7 @@ public class UserRoleOptionPanel extends JPanel implements IModelOwner
         tfEmail = new JTextField();
         tfLogin = new JTextField();
         tfPassword = new JPasswordField();
+        tfConfPassword = new JPasswordField();
         // taDesck = new JTextArea();
 
         JLabel jlName = new JLabel(UDIPropSingleton.getString(this, "name.label"));
@@ -96,6 +99,7 @@ public class UserRoleOptionPanel extends JPanel implements IModelOwner
         // JLabel jlDescription = new JLabel("Description");
         JLabel jlLogin = new JLabel(UDIPropSingleton.getString(this, "login.label"));
         JLabel jlPassword = new JLabel(UDIPropSingleton.getString(this, "password.label"));
+        JLabel jlConfPassword = new JLabel(UDIPropSingleton.getString(this, "password.label"));
 
         workerArrayList = new WorkerEAO(SystemModel.getDefaultEM()).loadAll();
         cbName = new JComboBox(new DefaultComboBoxModel(workerArrayList.toArray()));
@@ -113,6 +117,8 @@ public class UserRoleOptionPanel extends JPanel implements IModelOwner
         add(tfLogin, new GridBagConstraints(1, 4, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
         add(jlPassword, new GridBagConstraints(0, 5, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
         add(tfPassword, new GridBagConstraints(1, 5, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
+        add(jlConfPassword, new GridBagConstraints(0, 6, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
+        add(tfConfPassword, new GridBagConstraints(1, 6, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
 
     }
 
@@ -136,9 +142,10 @@ public class UserRoleOptionPanel extends JPanel implements IModelOwner
         tfEmail.setText(authorization.getEmail());
         // taDesck.setText(authorization.getRoles().get(0).getDescription());
         tfLogin.setText(authorization.getLogin());
-        //tfPassword.setText(authorization.getPassword());
-        
+        // tfPassword.setText(authorization.getPassword());
+
         tfPassword.setText(DEFAULT_PASSWORD);
+        tfConfPassword.setText("");
 
     }
 
@@ -146,7 +153,6 @@ public class UserRoleOptionPanel extends JPanel implements IModelOwner
     public Object getModel()
     {
         List<Role> lstRoleToSave = new ArrayList<Role>();
-        
 
         if (authorization == null)
         {
@@ -165,13 +171,22 @@ public class UserRoleOptionPanel extends JPanel implements IModelOwner
         authorization.setEmail(tfEmail.getText());
         authorization.setRoles(lstRoleToSave);
         authorization.setLogin(tfLogin.getText());
-        
+
         String passFromPassField = tfPassword.getText();
-        
-        if(!passFromPassField.equals(DEFAULT_PASSWORD))
+        String passFromConfPassField = tfConfPassword.getText();
+
+        if (!passFromPassField.equals(DEFAULT_PASSWORD))
         {
-            authorization.setPassword(passFromPassField);
+            if (passFromPassField.equals(passFromConfPassField))
+            {
+                authorization.setPassword(passFromPassField);
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(this, "new password does not approved");
+            }
         }
+        
         return authorization;
     }
 }

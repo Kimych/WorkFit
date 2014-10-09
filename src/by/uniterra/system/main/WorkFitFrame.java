@@ -31,6 +31,9 @@ package by.uniterra.system.main;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -117,10 +120,25 @@ public class WorkFitFrame extends JFrame implements ActionListener
 
         WorkFitFrame wfFrame = new WorkFitFrame();
         wfFrame.setTitle("Work Fit Test Frame");
-        wfFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        // wfFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        wfFrame.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         wfFrame.setSize(800, 400);
         wfFrame.setLocationRelativeTo(null);
         wfFrame.setVisible(true);
+        wfFrame.addWindowListener(new WindowAdapter()
+        {
+            public void windowClosing(WindowEvent event)
+            {
+                Object[] options = { UDIPropSingleton.getString(this, "Yes.btn"),UDIPropSingleton.getString(this, "No.btn")};
+                int n = JOptionPane.showOptionDialog(event.getWindow(), UDIPropSingleton.getString(this, "CloseApp.label"), "", JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+                if (n == 0)
+                {
+                    wfFrame.disposeMainFrame();
+                }
+            }
+        });
+            
 
         // args==[login=admin ,password=admin]
         // Disable
@@ -148,7 +166,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
         jbUnit();
     }
 
-    private void disposeMainFrame()
+    private  void disposeMainFrame()
     {
         SystemModel.disposeJPA();
         Log.info(WorkFitFrame.class, "application close.");
@@ -202,7 +220,6 @@ public class WorkFitFrame extends JFrame implements ActionListener
             Log.error(this, "not visible DB");
             Log.info(this, "application close.");
             disposeMainFrame();
-            throw e;
         }
     }
 
@@ -254,7 +271,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
                 try
                 {
                     Authorization authUser = autEAO.getAuthorizationByLoginAndPassword(userName, currentPass);
-                    if (authUser.getAuthorizationId() != 0)
+                    if (authUser != null)
                     {
                         if (panelLogin.getStatmentFlag() == true)
                         {

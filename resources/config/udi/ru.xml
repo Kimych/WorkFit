@@ -12,6 +12,9 @@
 		<EditUserRole.frame>Редактирование User Role</EditUserRole.frame>
 		<EditSpentHolidayTable.frame>Редактирование Spent Holiday
 		</EditSpentHolidayTable.frame>
+		<Yes.btn>Да</Yes.btn>
+		<No.btn>Нет</No.btn>
+		<CloseApp.label>Закрыть приложение?</CloseApp.label>
 	</by.uniterra.system.main.WorkFitFrame>
 
 
