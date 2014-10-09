@@ -66,6 +66,7 @@ import by.uniterra.udi.model.WorkLogInfoHelper;
 import by.uniterra.udi.model.WorkLogInfoHolder;
 import by.uniterra.udi.model.WorkerTableModel;
 import by.uniterra.udi.model.YearTableModel;
+import by.uniterra.udi.util.Cryptor;
 import by.uniterra.udi.util.Log;
 import by.uniterra.udi.util.LogParser;
 import by.uniterra.udi.view.AdminPanel;
@@ -122,23 +123,23 @@ public class WorkFitFrame extends JFrame implements ActionListener
         wfFrame.setVisible(true);
 
         // args==[login=admin ,password=admin]
-        //Disable
-        if (false)
+        // Disable
+        if (userPrefs.getBoolean(FLAG_AUT, false))
         {
-            //args.length == 0
-            wfFrame.doLogin((args[0].split("="))[1], (args[1].split("="))[1]);
+            wfFrame.doLogin(userPrefs.get(LOGIN, ""), userPrefs.get(PASSWORD, ""));
         }
         else
         {
-            if(userPrefs.getBoolean(FLAG_AUT, false))
+            if (args.length != 0)
             {
-                wfFrame.doLogin(userPrefs.get(LOGIN, ""),userPrefs.get(PASSWORD, ""));
+                wfFrame.doLogin((args[0].split("="))[1], Cryptor.getSecurePassword((args[1].split("="))[1]));
             }
             else
             {
-                wfFrame.doLogin("","");
+                wfFrame.doLogin("", "");
             }
         }
+
     }
 
     public WorkFitFrame()
@@ -242,21 +243,20 @@ public class WorkFitFrame extends JFrame implements ActionListener
             int input = JOptionPane.showConfirmDialog(this, panelLogin, UDIPropSingleton.getString(this, "Authotization.frame"), JOptionPane.OK_CANCEL_OPTION,
                     JOptionPane.PLAIN_MESSAGE);
             // check result
-            //boolean cbState = panelLogin.getStatmentFlag();
+            // boolean cbState = panelLogin.getStatmentFlag();
             if (input == JOptionPane.OK_OPTION)
             {
                 String userName = panelLogin.getUserName();
                 String currentPass = panelLogin.getPassword();
-                
-                //save Login and Password
-                
-                
+
+                // save Login and Password
+
                 try
                 {
                     Authorization authUser = autEAO.getAuthorizationByLoginAndPassword(userName, currentPass);
                     if (authUser.getAuthorizationId() != 0)
                     {
-                        if(panelLogin.getStatmentFlag() == true)
+                        if (panelLogin.getStatmentFlag() == true)
                         {
                             saveLoginAndPassword(userName, currentPass);
                         }
@@ -301,10 +301,10 @@ public class WorkFitFrame extends JFrame implements ActionListener
                 getContentPane().removeAll();
                 getContentPane().repaint();
                 setSize(800, 401);
-                
+
                 setEmtyLoginAndPassword();
-               
-                doLogin("","");
+
+                doLogin("", "");
                 break;
             case UPDATE_LOG:
                 // createUserUI();
@@ -399,14 +399,14 @@ public class WorkFitFrame extends JFrame implements ActionListener
         // return fileChooser.getSelectedFile().toPath();
 
     }
-    
+
     private static void saveLoginAndPassword(String userName, String userPassword)
     {
         userPrefs.put(LOGIN, userName);
         userPrefs.put(PASSWORD, userPassword);
         userPrefs.putBoolean(FLAG_AUT, true);
     }
-    
+
     private static void setEmtyLoginAndPassword()
     {
         userPrefs.put(LOGIN, "");

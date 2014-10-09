@@ -197,5 +197,13 @@
 		<login.label>Логин</login.label>
 		<password.label>Пароль</password.label>
 	</by.uniterra.udi.view.UserRoleOptionPanel>
+
+	<!-- LoginPanel -->
+	<by.uniterra.udi.view.LoginPanel>
+		<save.label>запомнить</save.label>
+		<user.label>Логин: </user.label>
+		<password.label>Пароль: </password.label>
+	</by.uniterra.udi.view.LoginPanel>
+
 </root>
 

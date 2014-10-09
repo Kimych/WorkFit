@@ -15,8 +15,10 @@ import javax.swing.text.StyledEditorKit.BoldAction;
 
 import org.jdesktop.swingx.JXLabel;
 
+import by.uniterra.udi.util.Cryptor;
 import by.uniterra.udi.util.SelectAllFocusAdapter;
 import by.uniterra.udi.model.RequestFocusListener;
+import by.uniterra.udi.model.UDIPropSingleton;
 
 public class LoginPanel extends JPanel
 {
@@ -46,16 +48,16 @@ public class LoginPanel extends JPanel
     private void jbUnit()
     {
         tfUserName = new JTextField();
-        cbSave = new JCheckBox("Save" ,false);
+        cbSave = new JCheckBox(UDIPropSingleton.getString(this, "save.label") ,false);
         tfUserName.addFocusListener(new SelectAllFocusAdapter(tfUserName));
         tfUserName.addAncestorListener(new RequestFocusListener(true));
         ptfPwd = new JPasswordField();
         ptfPwd.addFocusListener(new SelectAllFocusAdapter(ptfPwd));
 
         //Add the components to the JPanel        
-        add(new JXLabel("Пользователь: "), new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+        add(new JXLabel(UDIPropSingleton.getString(this, "user.label")), new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
         add(tfUserName, new GridBagConstraints(1, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-        add(new JXLabel("Пароль: "), new GridBagConstraints(0, 1, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+        add(new JXLabel(UDIPropSingleton.getString(this, "password.label")), new GridBagConstraints(0, 1, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
         add(ptfPwd,new GridBagConstraints(1, 1, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
         add(cbSave,new GridBagConstraints(1, 2, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
         
@@ -101,7 +103,7 @@ public class LoginPanel extends JPanel
     
     public String getPassword()
     {
-        return ptfPwd.getText();
+        return Cryptor.getSecurePassword(ptfPwd.getText());
     }
     
     public boolean getStatmentFlag()

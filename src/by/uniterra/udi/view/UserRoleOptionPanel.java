@@ -39,6 +39,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import by.uniterra.dai.eao.RoleEAO;
@@ -61,12 +62,14 @@ public class UserRoleOptionPanel extends JPanel implements IModelOwner
 
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = -9107708424856787372L;
+    
+    private static String DEFAULT_PASSWORD = "!_!_!_!_!_!";
 
     private JComboBox<?> cbName;
     private JComboBox<?> cbRole;
     private JTextField tfEmail;
     private JTextField tfLogin;
-    private JTextField tfPassword;
+    private JPasswordField tfPassword;
     // private JTextArea taDesck;
 
     private List<Worker> workerArrayList;
@@ -84,7 +87,7 @@ public class UserRoleOptionPanel extends JPanel implements IModelOwner
     {
         tfEmail = new JTextField();
         tfLogin = new JTextField();
-        tfPassword = new JTextField();
+        tfPassword = new JPasswordField();
         // taDesck = new JTextArea();
 
         JLabel jlName = new JLabel(UDIPropSingleton.getString(this, "name.label"));
@@ -132,8 +135,10 @@ public class UserRoleOptionPanel extends JPanel implements IModelOwner
         }
         tfEmail.setText(authorization.getEmail());
         // taDesck.setText(authorization.getRoles().get(0).getDescription());
-        tfPassword.setText(authorization.getLogin());
-        tfLogin.setText(authorization.getPassword());
+        tfLogin.setText(authorization.getLogin());
+        //tfPassword.setText(authorization.getPassword());
+        
+        tfPassword.setText(DEFAULT_PASSWORD);
 
     }
 
@@ -141,6 +146,7 @@ public class UserRoleOptionPanel extends JPanel implements IModelOwner
     public Object getModel()
     {
         List<Role> lstRoleToSave = new ArrayList<Role>();
+        
 
         if (authorization == null)
         {
@@ -159,8 +165,13 @@ public class UserRoleOptionPanel extends JPanel implements IModelOwner
         authorization.setEmail(tfEmail.getText());
         authorization.setRoles(lstRoleToSave);
         authorization.setLogin(tfLogin.getText());
-        authorization.setPassword(tfPassword.getText());
-
+        
+        String passFromPassField = tfPassword.getText();
+        
+        if(!passFromPassField.equals(DEFAULT_PASSWORD))
+        {
+            authorization.setPassword(passFromPassField);
+        }
         return authorization;
     }
 }

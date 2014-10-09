@@ -177,15 +177,22 @@
 		<bonusTime.label>Bonus Time</bonusTime.label>
 		<deskription.label>Description</deskription.label>
 	</by.uniterra.udi.view.DaysOfWorkOptionPanel>
-	
+
 	<!-- UserRoleOptionPanel -->
 	<by.uniterra.udi.view.UserRoleOptionPanel>
-	<name.label>Name</name.label>
-	<email.label>Email</email.label>
-	<role.label>Role</role.label>
-	<login.label>Login</login.label>
-	<password.label>Password</password.label>
+		<name.label>Name</name.label>
+		<email.label>Email</email.label>
+		<role.label>Role</role.label>
+		<login.label>Login</login.label>
+		<password.label>Password</password.label>
 	</by.uniterra.udi.view.UserRoleOptionPanel>
+
+	<!-- LoginPanel -->
+	<by.uniterra.udi.view.LoginPanel>
+		<save.label>save</save.label>
+		<user.label>Login: </user.label>
+		<password.label>Password: </password.label>
+	</by.uniterra.udi.view.LoginPanel>
 
 
 </root>

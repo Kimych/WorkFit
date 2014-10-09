@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import by.uniterra.udi.util.Cryptor;
+
 import java.util.List;
 
 /**
@@ -98,7 +100,7 @@ public class Authorization implements Serializable
 
     public void setPassword(String password)
     {
-        this.password = password;
+        this.password = Cryptor.getSecurePassword(password);
     }
 
     public Worker getWorker()
