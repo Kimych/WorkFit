@@ -136,8 +136,6 @@ public class UserRoleOptionPanel extends JPanel implements IModelOwner
         {
             cbName.setSelectedItem(authorization.getWorker());
             cbRole.setSelectedItem(authorization.getRoles().get(0));
-
-            // cbRole.setSelectedItem(authorization.getRoles());
         }
         tfEmail.setText(authorization.getEmail());
         // taDesck.setText(authorization.getRoles().get(0).getDescription());

@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="WorkFit">
+    <property environment="env"/>
+    <property name="ECLIPSE_HOME" value="C:/eclipse/"/>
+    <property name="junit.output.dir" value="junit"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.8"/>
+    <property name="source" value="1.8"/>
+    <path id="EclipseLink 2.5.0 - Kepler.userclasspath">
+        <pathelement location="../../Instal/02_Programing/LIBS/EclipseLink 2.5.0 - Kepler/eclipselink/jlib/eclipselink.jar"/>
+        <pathelement location="../../Instal/02_Programing/LIBS/EclipseLink 2.5.0 - Kepler/eclipselink/jlib/jpa/javax.persistence_2.1.0.v201304241213.jar"/>
+        <pathelement location="../../Instal/02_Programing/LIBS/EclipseLink 2.5.0 - Kepler/eclipselink/jlib/jpa/org.eclipse.persistence.jpa.modelgen_2.5.0.v20130507-3faac2b.jar"/>
+        <pathelement location="../../Instal/02_Programing/LIBS/EclipseLink 2.5.0 - Kepler/eclipselink/jlib/jpa/org.eclipse.persistence.jpars_2.5.0.v20130507-3faac2b.jar"/>
+        <pathelement location="../../Instal/02_Programing/LIBS/EclipseLink 2.5.0 - Kepler/eclipselink/jlib/moxy/com.sun.tools.xjc_2.2.0.jar"/>
+        <pathelement location="../../Instal/02_Programing/LIBS/EclipseLink 2.5.0 - Kepler/eclipselink/jlib/moxy/com.sun.xml.bind_2.2.0.v201004141950.jar"/>
+        <pathelement location="../../Instal/02_Programing/LIBS/EclipseLink 2.5.0 - Kepler/eclipselink/jlib/moxy/javax.activation_1.1.0.v201108011116.jar"/>
+        <pathelement location="../../Instal/02_Programing/LIBS/EclipseLink 2.5.0 - Kepler/eclipselink/jlib/moxy/javax.mail_1.4.0.v201005080615.jar"/>
+        <pathelement location="../../Instal/02_Programing/LIBS/EclipseLink 2.5.0 - Kepler/eclipselink/jlib/moxy/javax.xml.bind_2.2.0.v201105210648.jar"/>
+        <pathelement location="../../Instal/02_Programing/LIBS/EclipseLink 2.5.0 - Kepler/eclipselink/jlib/moxy/javax.xml.stream_1.0.1.v201004272200.jar"/>
+    </path>
+    <path id="WorkFit.classpath">
+        <pathelement location="bin"/>
+        <pathelement location="lib/javax.persistence_2.1.0.v201304241213.jar"/>
+        <pathelement location="lib/eclipselink.jar"/>
+        <pathelement location="lib/mysql-connector-java-5.1.26-bin.jar"/>
+        <pathelement location="lib/junit-4.11.jar"/>
+        <pathelement location="lib/hamcrest-core-1.3.jar"/>
+        <pathelement location="lib/swingx-all-1.6.4.jar"/>
+        <pathelement location="lib/jcalendar-1.3.3.jar"/>
+        <pathelement location="lib/log4j-1.2.17.jar"/>
+        <pathelement location="lib/jdom-2.0.5.jar"/>
+        <path refid="EclipseLink 2.5.0 - Kepler.userclasspath"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.java"/>
+                <exclude name="images/"/>
+            </fileset>
+        </copy>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="test">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="lib">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="resources">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src"/>
+            <src path="test"/>
+            <src path="lib"/>
+            <src path="resources"/>
+            <exclude name="images/"/>
+            <classpath refid="WorkFit.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
+    <target name="AllEntitiesTest (1)">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="by.uniterra.dai.AllEntitiesTest" todir="${junit.output.dir}"/>
+            <classpath refid="WorkFit.classpath"/>
+        </junit>
+    </target>
+    <target name="AllEntitiesTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="by.uniterra.test.AllEntitiesTest" todir="${junit.output.dir}"/>
+            <classpath refid="WorkFit.classpath"/>
+        </junit>
+    </target>
+    <target name="AllEntitiesTest.testDaysOfWorkTable">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="by.uniterra.dai.AllEntitiesTest" todir="${junit.output.dir}"/>
+            <classpath refid="WorkFit.classpath"/>
+        </junit>
+    </target>
+    <target name="AuthorizationAndRoleEntitiesTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="by.uniterra.dai.AuthorizationAndRoleEntitiesTest" todir="${junit.output.dir}"/>
+            <classpath refid="WorkFit.classpath"/>
+        </junit>
+    </target>
+    <target name="AuthorizationQueryTest.getRoleByLoginAndPasswordTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="by.uniterra.dai.AuthorizationQueryTest" todir="${junit.output.dir}"/>
+            <classpath refid="WorkFit.classpath"/>
+        </junit>
+    </target>
+    <target name="AuthorizationQueryTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="by.uniterra.dai.AuthorizationQueryTest" todir="${junit.output.dir}"/>
+            <classpath refid="WorkFit.classpath"/>
+        </junit>
+    </target>
+    <target name="AuthorizationQueryTest.tearDownAfterClass">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="by.uniterra.dai.AuthorizationQueryTest" todir="${junit.output.dir}"/>
+            <classpath refid="WorkFit.classpath"/>
+        </junit>
+    </target>
+    <target name="AuthorizationToRoleEntitiesTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="by.uniterra.dai.AuthorizationToRoleEntitiesTest" todir="${junit.output.dir}"/>
+            <classpath refid="WorkFit.classpath"/>
+        </junit>
+    </target>
+    <target name="AuthorizationToRoleEntitiesTest.listTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="by.uniterra.dai.AuthorizationToRoleEntitiesTest" todir="${junit.output.dir}"/>
+            <classpath refid="WorkFit.classpath"/>
+        </junit>
+    </target>
+    <target name="CalendarPanel">
+        <java classname="by.uniterra.udi.view.CalendarPanel" failonerror="true" fork="yes">
+            <classpath refid="WorkFit.classpath"/>
+        </java>
+    </target>
+    <target name="Cryptor">
+        <java classname="by.uniterra.udi.util.Cryptor" failonerror="true" fork="yes">
+            <classpath refid="WorkFit.classpath"/>
+        </java>
+    </target>
+    <target name="CryptorTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="by.uniterra.dai.CryptorTest" todir="${junit.output.dir}"/>
+            <classpath refid="WorkFit.classpath"/>
+        </junit>
+    </target>
+    <target name="DateTimeFormatterTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="by.uniterra.dai.DateTimeFormatterTest" todir="${junit.output.dir}"/>
+            <classpath refid="WorkFit.classpath"/>
+        </junit>
+    </target>
+    <target name="EmployeReportPanel">
+        <java classname="by.uniterra.udi.view.WorkLogReportPanel" failonerror="true" fork="yes">
+            <classpath refid="WorkFit.classpath"/>
+        </java>
+    </target>
+    <target name="HolidayNamedQueryTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="by.uniterra.dai.HolidayNamedQueryTest" todir="${junit.output.dir}"/>
+            <classpath refid="WorkFit.classpath"/>
+        </junit>
+    </target>
+    <target name="InputDialogTest">
+        <java classname="by.uniterra.udi.view.YearOptionPanel" failonerror="true" fork="yes">
+            <classpath refid="WorkFit.classpath"/>
+        </java>
+    </target>
+    <target name="LoginPanel">
+        <java classname="by.uniterra.udi.view.LoginPanel" failonerror="true" fork="yes">
+            <classpath refid="WorkFit.classpath"/>
+        </java>
+    </target>
+    <target name="LogParser">
+        <java classname="by.uniterra.udi.util.LogParser" failonerror="true" fork="yes">
+            <classpath refid="WorkFit.classpath"/>
+        </java>
+    </target>
+    <target name="Main (2)">
+        <java classname="by.uniterra.dai.entity.Main" failonerror="true" fork="yes">
+            <classpath refid="WorkFit.classpath"/>
+        </java>
+    </target>
+    <target name="Main (3)">
+        <java classname="by.uniterra.system.main.Main" failonerror="true" fork="yes">
+            <classpath refid="WorkFit.classpath"/>
+        </java>
+    </target>
+    <target name="MonitorDirectory">
+        <java classname="by.uniterra.system.util.MonitorDirectory" failonerror="true" fork="yes">
+            <classpath refid="WorkFit.classpath"/>
+        </java>
+    </target>
+    <target name="MonthQueryTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="by.uniterra.dai.MonthQueryTest" todir="${junit.output.dir}"/>
+            <classpath refid="WorkFit.classpath"/>
+        </junit>
+    </target>
+    <target name="MontNamedQueryTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="by.uniterra.dai.MontNamedQueryTest" todir="${junit.output.dir}"/>
+            <classpath refid="WorkFit.classpath"/>
+        </junit>
+    </target>
+    <target name="SpentHolidayNamedQueryTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="by.uniterra.dai.SpentHolidayNamedQueryTest" todir="${junit.output.dir}"/>
+            <classpath refid="WorkFit.classpath"/>
+        </junit>
+    </target>
+    <target name="Task13">
+        <java classname="by.uniterra.system.main.Task13" failonerror="true" fork="yes">
+            <classpath refid="WorkFit.classpath"/>
+        </java>
+    </target>
+    <target name="TestDep">
+        <java classname="by.uniterra.dai.entity.TestDep" failonerror="true" fork="yes">
+            <classpath refid="WorkFit.classpath"/>
+        </java>
+    </target>
+    <target name="testFileIO">
+        <java classname="by.uniterra.test.testFileIO" failonerror="true" fork="yes">
+            <classpath refid="WorkFit.classpath"/>
+        </java>
+    </target>
+    <target name="WorkerNamedQueryTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="by.uniterra.dai.WorkerNamedQueryTest" todir="${junit.output.dir}"/>
+            <classpath refid="WorkFit.classpath"/>
+        </junit>
+    </target>
+    <target name="WorkFitCommonFrame">
+        <java classname="by.uniterra.udi.view.WorkFitCommonFrame" failonerror="true" fork="yes">
+            <classpath refid="WorkFit.classpath"/>
+        </java>
+    </target>
+    <target name="WorkFitDesctop">
+        <java classname="by.uniterra.udi.view.WorkFitDesctop" failonerror="true" fork="yes">
+            <classpath refid="WorkFit.classpath"/>
+        </java>
+    </target>
+    <target name="WorkFitFrame">
+        <java classname="by.uniterra.system.main.WorkFitFrame" failonerror="true" fork="yes">
+            <arg line="login=1 ,password=1"/>
+            <classpath refid="WorkFit.classpath"/>
+        </java>
+    </target>
+    <target name="WorkFitMainFrame">
+        <java classname="by.uniterra.udi.view.WorkFitMainFrame" failonerror="true" fork="yes">
+            <classpath refid="WorkFit.classpath"/>
+        </java>
+    </target>
+    <target name="WorkLogReportPanel">
+        <java classname="by.uniterra.udi.view.WorkLogReportPanel" failonerror="true" fork="yes">
+            <classpath refid="WorkFit.classpath"/>
+        </java>
+    </target>
+    <target name="YearOptionPanel">
+        <java classname="by.uniterra.udi.view.YearOptionPanel" failonerror="true" fork="yes">
+            <classpath refid="WorkFit.classpath"/>
+        </java>
+    </target>
+    <target name="YearTablePanel">
+        <java classname="by.uniterra.udi.view.YearTablePanel" failonerror="true" fork="yes">
+            <classpath refid="WorkFit.classpath"/>
+        </java>
+    </target>
+    <target name="junitreport">
+        <junitreport todir="${junit.output.dir}">
+            <fileset dir="${junit.output.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${junit.output.dir}"/>
+        </junitreport>
+    </target>
+</project>
