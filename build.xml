@@ -6,11 +6,19 @@
               as the first entry and export the buildfile again. -->
 <project basedir="." default="build" name="WorkFit">
 	<property environment="env" />
+
+	<property name="workFit" location="D:/Runtime" />
+	<property name="workFitLib" location="D:/Runtime/lib" />
+	<property name="workFitLog" location="D:/Runtime/logs" />
+	<property name="workFitJDK8" location="D:/Runtime/jdk" />
+
+
 	<property name="ECLIPSE_HOME" value="C:/eclipse/" />
 	<property name="junit.output.dir" value="junit" />
 	<property name="debuglevel" value="source,lines,vars" />
 	<property name="target" value="1.8" />
 	<property name="source" value="1.8" />
+
 	<path id="EclipseLink 2.5.0 - Kepler.userclasspath">
 		<pathelement location="../../Instal/02_Programing/LIBS/EclipseLink 2.5.0 - Kepler/eclipselink/jlib/eclipselink.jar" />
 		<pathelement location="../../Instal/02_Programing/LIBS/EclipseLink 2.5.0 - Kepler/eclipselink/jlib/jpa/javax.persistence_2.1.0.v201304241213.jar" />
@@ -44,21 +52,31 @@
 				<exclude name="images/" />
 			</fileset>
 		</copy>
-		<copy includeemptydirs="false" todir="bin">
-			<fileset dir="test">
-				<exclude name="**/*.java" />
-			</fileset>
-		</copy>
-		<copy includeemptydirs="false" todir="bin">
-			<fileset dir="lib">
-				<exclude name="**/*.java" />
-			</fileset>
-		</copy>
+
 		<copy includeemptydirs="false" todir="bin">
 			<fileset dir="resources">
 				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
+
+
+		<mkdir dir="${workFit}"/>
+		<mkdir dir="${workFitLib}"/>
+		<mkdir dir="${workFitLog}"/>
+		<mkdir dir="${workFitJDK8}"/>
+
+		<copy includeemptydirs="false" todir="${workFitLib}">
+			<fileset dir="lib">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+		
+		<copy includeemptydirs="false" todir="${workFitJDK8}">
+					<fileset dir="c:\Program Files\Java\jdk1.8.0_05">
+						<exclude name="**/*.java"/>
+					</fileset>
+				</copy>
+
 	</target>
 	<target name="clean">
 		<delete dir="bin" />
@@ -70,25 +88,19 @@
 		<javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
 			<src path="src" />
 			<src path="test" />
-			<src path="lib" />
+
 			<src path="resources" />
 			<exclude name="images/" />
 			<classpath refid="WorkFit.classpath" />
 		</javac>
 	</target>
-	
+
 	<!-- MANIFEST ???-->
-	
-	<target name="dist" depends="build-project">
-		<echo message="create manifest" />
-	    <manifest file="bin/META-INF/MANIFEST.MF">
-	    	 <attribute name="Class-Path" value="WorkFit.jar" />
-	        <attribute name="Main-Class" value="WorkFitFrame.class"/>  
-	    </manifest>
-	</target>
-	
-	
-	
+
+
+
+
+
 	<target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects" />
 	<target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
 		<copy todir="${ant.library.dir}">
@@ -103,7 +115,7 @@
 		<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter" />
 		<antcall target="build" />
 	</target>
-	<target name="build" depends="dist">
-				<jar manifest="bin/META-INF/MANIFEST.MF" basedir="bin" jarfile="D:/WorkFit.jar" />
+	<target name="build" depends="build-project">
+		<jar  basedir="bin" jarfile="${workFitLib}/WorkFit.jar" />
 	</target>
 </project>
