@@ -6,3 +6,4 @@ log/
 .pmd
 src/custom.properties
 logs/
+build.properties
