@@ -84,7 +84,7 @@ public class AdminPanel extends JPanel implements ActionListener
         table.setDefaultRenderer(Timestamp.class, txrTimestampRenderer);
         table.setDefaultRenderer(Date.class, txrTimestampRenderer);
 
-        table.getColumn(wltm.getColIndex(WorkLogTableModel.COL_TO_PLANE)).setCellRenderer(new DoubleTableCellRenderer(SwingConstants.CENTER, 2));
+        table.getColumn(wltm.getColIndex(WorkLogTableModel.COL_TO_PLAN)).setCellRenderer(new DoubleTableCellRenderer(SwingConstants.CENTER, 2));
         table.getColumn(wltm.getColIndex(WorkLogTableModel.COL_TO_BONUS)).setCellRenderer(new DoubleTableCellRenderer(SwingConstants.CENTER, 2));
         table.getColumn(wltm.getColIndex(WorkLogTableModel.COL_REST_HOLIDAY)).setCellRenderer(new DoubleTableCellRenderer(SwingConstants.CENTER, 0));
 
@@ -172,21 +172,21 @@ public class AdminPanel extends JPanel implements ActionListener
     {
         final List<Highlighter> lstResult = new ArrayList<Highlighter>();
 
-        final int iStatusColumnIndex = wltm.getColIndex(WorkLogTableModel.COL_TO_PLANE);
-        final int iStatusColumnIndex2 = wltm.getColIndex(WorkLogTableModel.COL_TO_BONUS);
-        final int iStatusColumnIndex3 = wltm.getColIndex(WorkLogTableModel.COL_REST_HOLIDAY);
+        final int iStatusColumnIndexToPlane = wltm.getColIndex(WorkLogTableModel.COL_TO_PLAN);
+        //final int iStatusColumnIndexToBonus = wltm.getColIndex(WorkLogTableModel.COL_TO_BONUS);
+        final int iStatusColumnIndexRestHol = wltm.getColIndex(WorkLogTableModel.COL_REST_HOLIDAY);
 
-        final PatternPredicate patternPredicate = new PatternPredicate("-", iStatusColumnIndex, iStatusColumnIndex);
-        final PatternPredicate patternPredicate2 = new PatternPredicate("-", iStatusColumnIndex2, iStatusColumnIndex2);
-        final PatternPredicate patternPredicate3 = new PatternPredicate("-", iStatusColumnIndex3, iStatusColumnIndex3);
+        final PatternPredicate patternPredicateToPlane = new PatternPredicate("^[^-]*$", iStatusColumnIndexToPlane, iStatusColumnIndexToPlane);
+       // final PatternPredicate patternPredicateToBonus = new PatternPredicate("-", iStatusColumnIndexToBonus, iStatusColumnIndexToBonus);
+        final PatternPredicate patternPredicateToRestHol = new PatternPredicate("-", iStatusColumnIndexRestHol, iStatusColumnIndexRestHol);
 
-        final ColorHighlighter colorHighlighter = new ColorHighlighter(patternPredicate, Color.PINK, Color.BLACK, Color.PINK, Color.BLACK);
-        final ColorHighlighter colorHighlighter2 = new ColorHighlighter(patternPredicate2, Color.PINK, Color.BLACK, Color.PINK, Color.BLACK);
-        final ColorHighlighter colorHighlighter3 = new ColorHighlighter(patternPredicate3, Color.PINK, Color.BLACK, Color.PINK, Color.BLACK);
+        final ColorHighlighter colorHighlighterToPlane = new ColorHighlighter(patternPredicateToPlane, Color.PINK, Color.BLACK, Color.PINK, Color.BLACK);
+        //final ColorHighlighter colorHighlighterToBonus = new ColorHighlighter(patternPredicateToBonus, Color.PINK, Color.BLACK, Color.PINK, Color.BLACK);
+        final ColorHighlighter colorHighlighterToRestHol = new ColorHighlighter(patternPredicateToRestHol, Color.PINK, Color.BLACK, Color.PINK, Color.BLACK);
 
-        lstResult.add(colorHighlighter);
-        lstResult.add(colorHighlighter2);
-        lstResult.add(colorHighlighter3);
+        lstResult.add(colorHighlighterToPlane);
+        //lstResult.add(colorHighlighterToBonus);
+        lstResult.add(colorHighlighterToRestHol);
 
         return lstResult;
     }

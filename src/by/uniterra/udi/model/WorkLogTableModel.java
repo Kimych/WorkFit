@@ -12,7 +12,7 @@ public class WorkLogTableModel extends AbstractFlexTableModel
 
     public final static int COL_NAME = 0;
     public final static int COL_CURRENT = 1;
-    public final static int COL_TO_PLANE = 2;
+    public final static int COL_TO_PLAN = 2;
     public final static int COL_TO_BONUS = 3;
     public final static int COL_REST_HOLIDAY = 4;
     public final static int COL_UPDATE_TIME = 5;
@@ -24,7 +24,7 @@ public class WorkLogTableModel extends AbstractFlexTableModel
     {
         addColumn(COL_NAME, UDIPropSingleton.getString(this, "name.column"), String.class);
         addColumn(COL_CURRENT, UDIPropSingleton.getString(this, "current.column"), String.class);
-        addColumn(COL_TO_PLANE, UDIPropSingleton.getString(this, "toPlane.column"), String.class);
+        addColumn(COL_TO_PLAN, UDIPropSingleton.getString(this, "toPlane.column"), String.class);
         addColumn(COL_TO_BONUS, UDIPropSingleton.getString(this, "toBonus.column"), String.class);
         addColumn(COL_REST_HOLIDAY, UDIPropSingleton.getString(this, "restHoliday.column"), String.class);
         addColumn(COL_UPDATE_TIME, UDIPropSingleton.getString(this, "updateTime.column"), Date.class);
@@ -61,7 +61,7 @@ public class WorkLogTableModel extends AbstractFlexTableModel
         case COL_CURRENT:
             objResult = idData.getCurentTime();
             break;
-        case COL_TO_PLANE:
+        case COL_TO_PLAN:
             objResult = idData.getToPlane();
             break;
         case COL_TO_BONUS:
