@@ -95,7 +95,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
 
     static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
 
-    AdminPanel adp;
+    JPanel panelToInsert;
     static Preferences userPrefs = Preferences.userNodeForPackage(WorkFitFrame.class);;
 
     private static final String UPDATE_LOG = "Update log";
@@ -190,7 +190,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
 
             if (auth != null)
             {
-                JPanel panelToInsert = null;
+                panelToInsert = null;
                 // JMenuBar panelMenu = null;
                 SystemModel.setAuthorization(auth);
                 // create UI for Admin or User
@@ -308,9 +308,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
             {
             case IMenuHelper.MCOMMAND_ADD_FROM_LOG:
                 createFileChooser(this);
-                adp = new AdminPanel();
-                getContentPane().add(adp);
-                adp.loadDataInUI();
+                ((AdminPanel) panelToInsert).loadDataInUI();
                 break;
 
             case IMenuHelper.MCOMMAND_LOGOUT:
