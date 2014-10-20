@@ -308,6 +308,8 @@ public class WorkFitFrame extends JFrame implements ActionListener
             {
             case IMenuHelper.MCOMMAND_ADD_FROM_LOG:
                 createFileChooser(this);
+                adp = new AdminPanel();
+                getContentPane().add(adp);
                 adp.loadDataInUI();
                 break;
 
