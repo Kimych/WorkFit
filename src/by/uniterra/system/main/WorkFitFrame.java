@@ -29,6 +29,9 @@
 
 package by.uniterra.system.main;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -177,6 +180,8 @@ public class WorkFitFrame extends JFrame implements ActionListener
         DynamicMenuBar setBarListener = new DynamicMenuBar(this);
         SystemModel.addAuthListener(setBarListener);
         setJMenuBar(setBarListener);
+        // set layout for a content pane
+        getContentPane().setLayout(new GridBagLayout());
     }
 
     public void doLogin(String strLogin, String strPassword)
@@ -210,7 +215,8 @@ public class WorkFitFrame extends JFrame implements ActionListener
                         ((IModelOwner) panelToInsert).setModel(ihUserData);
                     }
                 }
-                getContentPane().add(panelToInsert);
+                getContentPane().add(panelToInsert, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
+                pack();
             }
             setVisible(true);
         }
