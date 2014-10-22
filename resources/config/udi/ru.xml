@@ -118,15 +118,15 @@
 		<jlDays.label>Дни</jlDays.label>
 	</by.uniterra.udi.view.HolidayOptionPanel>
 
-	<!-- WorkLogOptionPanel -->
-	<by.uniterra.udi.view.WorkLogOptionPanel>
+	<!-- UserPanel -->
+	<by.uniterra.udi.view.UserPanel>
 		<jlWorker.label>Сотрудник:</jlWorker.label>
 		<jlLastUpdate.label>Последнее обновление:</jlLastUpdate.label>
 		<jlCurrentTime.label>Текущее время:</jlCurrentTime.label>
 		<jlToPlane.label>До плана:</jlToPlane.label>
 		<jlToBonus.label>До премии:</jlToBonus.label>
 		<jlTimeLeft.label>Осталось отпуска:</jlTimeLeft.label>
-	</by.uniterra.udi.view.WorkLogOptionPanel>
+	</by.uniterra.udi.view.UserPanel>
 
 	<!-- CommonDataTablePanel -->
 	<by.uniterra.udi.view.CommonDataTablePanel>

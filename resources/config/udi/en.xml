@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-
 	<!-- WorkFitFrame -->
 	<by.uniterra.system.main.WorkFitFrame>
 		<Authotization.frame>Authorization:</Authotization.frame>
@@ -111,15 +110,15 @@
 		<jlDays.label>Days</jlDays.label>
 	</by.uniterra.udi.view.HolidayOptionPanel>
 
-	<!-- WorkLogOptionPanel -->
-	<by.uniterra.udi.view.WorkLogOptionPanel>
+	<!-- UserPanel -->  
+	<by.uniterra.udi.view.UserPanel>
 		<jlWorker.label>Worker:</jlWorker.label>
 		<jlLastUpdate.label>Last update:</jlLastUpdate.label>
 		<jlCurrentTime.label>Current time:</jlCurrentTime.label>
 		<jlToPlane.label>Remaining to plane:</jlToPlane.label>
 		<jlToBonus.label>Remaining to bonus:</jlToBonus.label>
 		<jlTimeLeft.label>The rest of the holiday:</jlTimeLeft.label>
-	</by.uniterra.udi.view.WorkLogOptionPanel>
+	</by.uniterra.udi.view.UserPanel>
 
 	<!-- CommonDataTablePanel -->
 	<by.uniterra.udi.view.CommonDataTablePanel>
