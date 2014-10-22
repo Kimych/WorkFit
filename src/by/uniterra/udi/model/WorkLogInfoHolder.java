@@ -40,90 +40,90 @@ import java.util.Date;
  */
 public class WorkLogInfoHolder
 {
-    private String CurentTime;
-    private double ToPlane;
-    private double ToBonus;
-    private double TimeLeft;
-    private Date LastUpdateDate;
-    private String NameWorker;
+    private String сurentTime;
+    private double toPlane;
+    private double toBonus;
+    private double timeLeft;
+    private Date lastUpdateDate;
+    private String nameWorker;
 
     // private boolean BeInPlane;
 
-    public WorkLogInfoHolder(String CurentTime, double ToPlane, double ToBonus, double TimeLeft, Date LastUpdateDate, String NameWorker)
+    public WorkLogInfoHolder(String curentTime, double toPlane, double toBonus, double timeLeft, Date lastUpdateDate, String nameWorker)
     {
-        this.CurentTime = CurentTime;
-        this.ToPlane = ToPlane;
-        this.ToBonus = ToBonus;
-        this.TimeLeft = TimeLeft;
-        this.LastUpdateDate = LastUpdateDate;
-        this.NameWorker = NameWorker;
+        this.сurentTime = curentTime;
+        this.toPlane = toPlane;
+        this.toBonus = toBonus;
+        this.timeLeft = timeLeft;
+        this.lastUpdateDate = lastUpdateDate;
+        this.nameWorker = nameWorker;
     }
 
     public String getCurentTime()
     {
-        return CurentTime;
+        return сurentTime;
     }
 
-    public void setCurentTime(String CurentTime)
+    public void setCurentTime(String curentTime)
     {
-        this.CurentTime = CurentTime;
+        this.сurentTime = curentTime;
     }
 
     public double getToPlane()
     {
-        return ToPlane;
+        return toPlane;
     }
 
-    public void setToPlane(double ToPlane)
+    public void setToPlane(double toPlane)
     {
-        this.ToPlane = ToPlane;
+        this.toPlane = toPlane;
     }
 
     public double getToBonus()
     {
-        return ToBonus;
+        return toBonus;
     }
 
-    public void setToBonus(double ToBonus)
+    public void setToBonus(double toBonus)
     {
-        this.ToBonus = ToBonus;
+        this.toBonus = toBonus;
     }
 
     public double getTimeLeft()
     {
-        return TimeLeft;
+        return timeLeft;
     }
 
-    public void setTimeLeft(double TimeLeft)
+    public void setTimeLeft(double timeLeft)
     {
-        this.TimeLeft = TimeLeft;
+        this.timeLeft = timeLeft;
     }
 
     public Date getLastUpdateDate()
     {
-        return LastUpdateDate;
+        return lastUpdateDate;
     }
 
-    public void setLastUpdateDate(Date LastUpdateDate)
+    public void setLastUpdateDate(Date lastUpdateDate)
     {
-        this.LastUpdateDate = LastUpdateDate;
+        this.lastUpdateDate = lastUpdateDate;
     }
 
     public String getNameWorker()
     {
-        return NameWorker;
+        return nameWorker;
     }
 
-    public void setNameWorker(String NameWorker)
+    public void setNameWorker(String nameWorker)
     {
-        this.NameWorker = NameWorker;
+        this.nameWorker = nameWorker;
     }
 
     @Override
     public String toString()
     {
-        return "WorkLogInfoHolder [CurentTime=" + CurentTime + ", ToPlane=" + ToPlane + ", ToBonus=" + ToBonus + ", TimeLeft=" + TimeLeft + ", LastUpdateDate="
-                + LastUpdateDate + ", NameWorker=" + NameWorker + "]";
+        return "WorkLogInfoHolder [CurentTime=" + сurentTime + ", ToPlane=" + toPlane + ", ToBonus=" + toBonus + ", TimeLeft=" + timeLeft + ", LastUpdateDate="
+                + lastUpdateDate + ", NameWorker=" + nameWorker + "]";
     }
 
     @Override
@@ -131,15 +131,15 @@ public class WorkLogInfoHolder
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((CurentTime == null) ? 0 : CurentTime.hashCode());
-        result = prime * result + ((LastUpdateDate == null) ? 0 : LastUpdateDate.hashCode());
-        result = prime * result + ((NameWorker == null) ? 0 : NameWorker.hashCode());
+        result = prime * result + ((сurentTime == null) ? 0 : сurentTime.hashCode());
+        result = prime * result + ((lastUpdateDate == null) ? 0 : lastUpdateDate.hashCode());
+        result = prime * result + ((nameWorker == null) ? 0 : nameWorker.hashCode());
         long temp;
-        temp = Double.doubleToLongBits(TimeLeft);
+        temp = Double.doubleToLongBits(timeLeft);
         result = prime * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(ToBonus);
+        temp = Double.doubleToLongBits(toBonus);
         result = prime * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(ToPlane);
+        temp = Double.doubleToLongBits(toPlane);
         result = prime * result + (int) (temp ^ (temp >>> 32));
         return result;
     }
@@ -154,32 +154,32 @@ public class WorkLogInfoHolder
         if (getClass() != obj.getClass())
             return false;
         WorkLogInfoHolder other = (WorkLogInfoHolder) obj;
-        if (CurentTime == null)
+        if (сurentTime == null)
         {
-            if (other.CurentTime != null)
+            if (other.сurentTime != null)
                 return false;
         }
-        else if (!CurentTime.equals(other.CurentTime))
+        else if (!сurentTime.equals(other.сurentTime))
             return false;
-        if (LastUpdateDate == null)
+        if (lastUpdateDate == null)
         {
-            if (other.LastUpdateDate != null)
+            if (other.lastUpdateDate != null)
                 return false;
         }
-        else if (!LastUpdateDate.equals(other.LastUpdateDate))
+        else if (!lastUpdateDate.equals(other.lastUpdateDate))
             return false;
-        if (NameWorker == null)
+        if (nameWorker == null)
         {
-            if (other.NameWorker != null)
+            if (other.nameWorker != null)
                 return false;
         }
-        else if (!NameWorker.equals(other.NameWorker))
+        else if (!nameWorker.equals(other.nameWorker))
             return false;
-        if (Double.doubleToLongBits(TimeLeft) != Double.doubleToLongBits(other.TimeLeft))
+        if (Double.doubleToLongBits(timeLeft) != Double.doubleToLongBits(other.timeLeft))
             return false;
-        if (Double.doubleToLongBits(ToBonus) != Double.doubleToLongBits(other.ToBonus))
+        if (Double.doubleToLongBits(toBonus) != Double.doubleToLongBits(other.toBonus))
             return false;
-        if (Double.doubleToLongBits(ToPlane) != Double.doubleToLongBits(other.ToPlane))
+        if (Double.doubleToLongBits(toPlane) != Double.doubleToLongBits(other.toPlane))
             return false;
         return true;
     }

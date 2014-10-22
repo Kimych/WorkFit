@@ -48,8 +48,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-
-
 import by.uniterra.dai.eao.AuthorizationEAO;
 import by.uniterra.dai.eao.DaysOfWorkEAO;
 import by.uniterra.dai.eao.HolidayEAO;
@@ -101,7 +99,6 @@ public class WorkFitFrame extends JFrame implements ActionListener
     JPanel panelToInsert;
     private Authorization auth;
 
-   
     static Preferences userPrefs = Preferences.userNodeForPackage(WorkFitFrame.class);;
 
     private static final String UPDATE_LOG = "Update log";
@@ -125,9 +122,17 @@ public class WorkFitFrame extends JFrame implements ActionListener
 
         WorkFitFrame wfFrame = new WorkFitFrame();
         wfFrame.setTitle("WorkFit");
-        ImageIcon icon = new ImageIcon("resources/icon.png");
-        wfFrame.setIconImage(icon.getImage());
+
+/*        java.net.URL imageURL = WorkFitFrame.class.getClassLoader().getResource("icon.png");
+
+        ImageIcon icon = new ImageIcon(imageURL);
+        wfFrame.setIconImage(icon.getImage());*/
+
         
+         ImageIcon icon = new ImageIcon("resources/icon.png");
+         wfFrame.setIconImage(icon.getImage());
+        
+
         wfFrame.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         wfFrame.setSize(800, 400);
         wfFrame.setLocationRelativeTo(null);
@@ -136,7 +141,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
         {
             public void windowClosing(WindowEvent event)
             {
-                Object[] options = { UDIPropSingleton.getString(this, "Yes.btn"),UDIPropSingleton.getString(this, "No.btn")};
+                Object[] options = { UDIPropSingleton.getString(this, "Yes.btn"), UDIPropSingleton.getString(this, "No.btn") };
                 int n = JOptionPane.showOptionDialog(event.getWindow(), UDIPropSingleton.getString(this, "CloseApp.label"), "", JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
                 if (n == 0)
@@ -145,7 +150,6 @@ public class WorkFitFrame extends JFrame implements ActionListener
                 }
             }
         });
-            
 
         // args==[login=admin ,password=admin]
         // Disable
@@ -173,7 +177,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
         jbUnit();
     }
 
-    private  void disposeMainFrame()
+    private void disposeMainFrame()
     {
         SystemModel.disposeJPA();
         Log.info(WorkFitFrame.class, "application close.");
@@ -212,9 +216,10 @@ public class WorkFitFrame extends JFrame implements ActionListener
                 else
                 {
                     panelToInsert = new UserPanel();
-                    ((UserPanel)panelToInsert).loadDataInUI(auth.getWorker());
+                    ((UserPanel) panelToInsert).loadDataInUI(auth.getWorker());
                 }
-                getContentPane().add(panelToInsert, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
+                getContentPane().add(panelToInsert,
+                        new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
                 pack();
             }
             setVisible(true);
@@ -381,8 +386,8 @@ public class WorkFitFrame extends JFrame implements ActionListener
                 JOptionPane.showMessageDialog(this, new AboutPanel(), "About", JOptionPane.PLAIN_MESSAGE);
                 break;
             case IMenuHelper.MCOMMAND_REFRESH:
-                
-                ((UserPanel)panelToInsert).loadDataInUI(auth.getWorker());
+
+                ((UserPanel) panelToInsert).loadDataInUI(auth.getWorker());
                 break;
             case IMenuHelper.MCOMMAND_VIEW_HISTORY:
                 // TODO
