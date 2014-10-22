@@ -24,12 +24,15 @@
 
 package by.uniterra.udi.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
+
+
 
 import by.uniterra.system.iface.ILogLevels;
 
@@ -166,7 +169,11 @@ public class Log
 		props.load(configStream);
 		configStream.close();
 		//overwrite some properties
-		 props.setProperty("log4j.appender.R.File", "logs\\WorkFit_" + ApplicationUtils.getLocaleHostName() + ".log");
+		props.setProperty("log4j.appender.R.File", new File("").getAbsolutePath() + File.separatorChar + "logs" + File.separatorChar + "WorkFit_" + ApplicationUtils.getLocaleHostName() + ".log");
+		//Log.info(Log.class, new File("").getAbsolutePath());
+		//props.setProperty("log4j.appender.R.File", new java.io.File("").getAbsolutePath() + File.separatorChar + "logs" + File.separatorChar + "WorkFit_" + ApplicationUtils.getLocaleHostName() + ".log");
+		//props.setProperty("log4j.appender.R.File","logs" + java.io.File.separatorChar + "WorkFit_" + ApplicationUtils.getLocaleHostName() + ".log");
+		 //props.setProperty("log4j.appender.R.File", "logs\\WorkFit_" + ApplicationUtils.getLocaleHostName() + ".log");
 		//apply configuration
 		PropertyConfigurator.configure(props);
 	    } catch (IOException e)

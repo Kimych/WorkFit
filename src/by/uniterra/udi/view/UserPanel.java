@@ -6,18 +6,21 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.math.BigDecimal;
+import java.util.Date;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import by.uniterra.dai.entity.Worker;
 import by.uniterra.system.util.DateUtils;
 import by.uniterra.system.util.WorkLogUtils;
 import by.uniterra.udi.iface.IModelOwner;
 import by.uniterra.udi.model.UDIPropSingleton;
+import by.uniterra.udi.model.WorkLogInfoHelper;
 import by.uniterra.udi.model.WorkLogInfoHolder;
 
-public class WorkLogOptionPanel extends JPanel implements IModelOwner
+public class UserPanel extends JPanel implements IModelOwner
 {
 
     /** TODO document <code>serialVersionUID</code> */
@@ -32,7 +35,7 @@ public class WorkLogOptionPanel extends JPanel implements IModelOwner
     JLabel jlLastUpdateDate;
     JLabel jlNameWorker;
 
-    public WorkLogOptionPanel()
+    public UserPanel()
     {
         super(new GridBagLayout());
         jbInit();
@@ -88,8 +91,17 @@ public class WorkLogOptionPanel extends JPanel implements IModelOwner
     @Override
     public Object getModel()
     {
-        // TODO Auto-generated method stub
         return null;
+    }
+
+    public void loadDataInUI(Worker worker)
+    {
+
+        WorkLogInfoHolder ihUserData = WorkLogInfoHelper.getLogListUpToDateAndWorker(worker, new Date());
+        if (ihUserData != null)
+        {
+            setModel(ihUserData);
+        }
     }
 
 }

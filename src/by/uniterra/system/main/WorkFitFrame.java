@@ -42,6 +42,7 @@ import java.util.Date;
 import java.util.prefs.Preferences;
 
 import javax.persistence.EntityManager;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -83,7 +84,7 @@ import by.uniterra.udi.view.LoginPanel;
 import by.uniterra.udi.view.MonthOptionPanel;
 import by.uniterra.udi.view.SpentHolidayOptionPanel;
 import by.uniterra.udi.view.UserRoleOptionPanel;
-import by.uniterra.udi.view.WorkLogOptionPanel;
+import by.uniterra.udi.view.UserPanel;
 import by.uniterra.udi.view.WorkerOptionPanel;
 import by.uniterra.udi.view.YearOptionPanel;
 
@@ -99,6 +100,9 @@ public class WorkFitFrame extends JFrame implements ActionListener
     static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
 
     JPanel panelToInsert;
+    private Authorization auth;
+
+   
     static Preferences userPrefs = Preferences.userNodeForPackage(WorkFitFrame.class);;
 
     private static final String UPDATE_LOG = "Update log";
@@ -121,8 +125,10 @@ public class WorkFitFrame extends JFrame implements ActionListener
         Log.info(WorkFitFrame.class, "Starting the app...");
 
         WorkFitFrame wfFrame = new WorkFitFrame();
-        wfFrame.setTitle("Work Fit Test Frame");
-        // wfFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        wfFrame.setTitle("WorkFit");
+        ImageIcon icon = new ImageIcon("resources/icon.png");
+        wfFrame.setIconImage(icon.getImage());
+        
         wfFrame.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         wfFrame.setSize(800, 400);
         wfFrame.setLocationRelativeTo(null);
@@ -191,11 +197,10 @@ public class WorkFitFrame extends JFrame implements ActionListener
             SystemModel.initJPA();
             EntityManager em = SystemModel.getDefaultEM();
             AuthorizationEAO autEAO = new AuthorizationEAO(em);
-            Authorization auth = checkLogin(strLogin, strPassword, autEAO, 1);
+            auth = checkLogin(strLogin, strPassword, autEAO, 1);
 
             if (auth != null)
             {
-                panelToInsert = null;
                 // JMenuBar panelMenu = null;
                 SystemModel.setAuthorization(auth);
                 // create UI for Admin or User
@@ -203,17 +208,12 @@ public class WorkFitFrame extends JFrame implements ActionListener
                 {
                     panelToInsert = new AdminPanel();
                     ((AdminPanel) panelToInsert).loadDataInUI();
-                    // panelMenu = createAdminMenu();
 
                 }
                 else
                 {
-                    panelToInsert = new WorkLogOptionPanel();
-                    WorkLogInfoHolder ihUserData = WorkLogInfoHelper.getLogListUpToDateAndWorker(auth.getWorker(), new Date());
-                    if (ihUserData != null)
-                    {
-                        ((IModelOwner) panelToInsert).setModel(ihUserData);
-                    }
+                    panelToInsert = new UserPanel();
+                    ((UserPanel)panelToInsert).loadDataInUI(auth.getWorker());
                 }
                 getContentPane().add(panelToInsert, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
                 pack();
@@ -382,7 +382,8 @@ public class WorkFitFrame extends JFrame implements ActionListener
                 // TODO
                 break;
             case IMenuHelper.MCOMMAND_REFRESH:
-                // TODO
+                
+                ((UserPanel)panelToInsert).loadDataInUI(auth.getWorker());
                 break;
             case IMenuHelper.MCOMMAND_VIEW_HISTORY:
                 // TODO
