@@ -16,7 +16,6 @@ import org.eclipse.persistence.config.PersistenceUnitProperties;
 import by.uniterra.dai.entity.Authorization;
 import by.uniterra.dai.model.JPASessionCustomizer;
 import by.uniterra.system.iface.IGlobalProperties;
-import by.uniterra.system.main.WorkFitFrame;
 import by.uniterra.udi.util.Log;
 import by.uniterra.udi.view.IAuthListener;
 

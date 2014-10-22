@@ -38,7 +38,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.prefs.Preferences;
 
 import javax.persistence.EntityManager;
@@ -48,6 +47,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+
 
 import by.uniterra.dai.eao.AuthorizationEAO;
 import by.uniterra.dai.eao.DaysOfWorkEAO;
@@ -61,20 +62,18 @@ import by.uniterra.dai.entity.Role;
 import by.uniterra.system.iface.IRole;
 import by.uniterra.system.model.SystemModel;
 import by.uniterra.udi.iface.IMenuHelper;
-import by.uniterra.udi.iface.IModelOwner;
 import by.uniterra.udi.model.DaysOfWorkTableModel;
 import by.uniterra.udi.model.HolidayTableModel;
 import by.uniterra.udi.model.MonthTableModel;
 import by.uniterra.udi.model.SpentHolidayTableModel;
 import by.uniterra.udi.model.UDIPropSingleton;
 import by.uniterra.udi.model.UserRoleTableMolel;
-import by.uniterra.udi.model.WorkLogInfoHelper;
-import by.uniterra.udi.model.WorkLogInfoHolder;
 import by.uniterra.udi.model.WorkerTableModel;
 import by.uniterra.udi.model.YearTableModel;
 import by.uniterra.udi.util.Cryptor;
 import by.uniterra.udi.util.Log;
 import by.uniterra.udi.util.LogParser;
+import by.uniterra.udi.view.AboutPanel;
 import by.uniterra.udi.view.AdminPanel;
 import by.uniterra.udi.view.CommonDataTablePanel;
 import by.uniterra.udi.view.DaysOfWorkOptionPanel;
@@ -379,7 +378,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
                 // TODO
                 break;
             case IMenuHelper.MCOMMAND_ABOUT:
-                // TODO
+                JOptionPane.showMessageDialog(this, new AboutPanel(), "About", JOptionPane.PLAIN_MESSAGE);
                 break;
             case IMenuHelper.MCOMMAND_REFRESH:
                 
