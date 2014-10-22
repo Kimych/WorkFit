@@ -31,8 +31,6 @@ package by.uniterra.udi.model;
 
 import java.util.Date;
 
-
-
 /**
  * The <code>WorklogInfoHolder</code> is used to hold all necessary worklog
  * statistics for one Worker
@@ -48,9 +46,10 @@ public class WorkLogInfoHolder
     private double TimeLeft;
     private Date LastUpdateDate;
     private String NameWorker;
-    private boolean BeInPlane;
 
-    public WorkLogInfoHolder(String CurentTime, double ToPlane, double ToBonus, double TimeLeft, Date LastUpdateDate, String NameWorker, boolean BeInPlane)
+    // private boolean BeInPlane;
+
+    public WorkLogInfoHolder(String CurentTime, double ToPlane, double ToBonus, double TimeLeft, Date LastUpdateDate, String NameWorker)
     {
         this.CurentTime = CurentTime;
         this.ToPlane = ToPlane;
@@ -58,9 +57,7 @@ public class WorkLogInfoHolder
         this.TimeLeft = TimeLeft;
         this.LastUpdateDate = LastUpdateDate;
         this.NameWorker = NameWorker;
-        this.BeInPlane = BeInPlane;
     }
-
 
     public String getCurentTime()
     {
@@ -122,33 +119,18 @@ public class WorkLogInfoHolder
         this.NameWorker = NameWorker;
     }
 
-
-    public boolean isBeInPlane()
-    {
-        return BeInPlane;
-    }
-
-
-    public void setBeInPlane(boolean BeInPlane)
-    {
-        this.BeInPlane = BeInPlane;
-    }
-    
-
     @Override
     public String toString()
     {
         return "WorkLogInfoHolder [CurentTime=" + CurentTime + ", ToPlane=" + ToPlane + ", ToBonus=" + ToBonus + ", TimeLeft=" + TimeLeft + ", LastUpdateDate="
-                + LastUpdateDate + ", NameWorker=" + NameWorker + ", BeInPlane=" + BeInPlane + "]";
+                + LastUpdateDate + ", NameWorker=" + NameWorker + "]";
     }
-
 
     @Override
     public int hashCode()
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + (BeInPlane ? 1231 : 1237);
         result = prime * result + ((CurentTime == null) ? 0 : CurentTime.hashCode());
         result = prime * result + ((LastUpdateDate == null) ? 0 : LastUpdateDate.hashCode());
         result = prime * result + ((NameWorker == null) ? 0 : NameWorker.hashCode());
@@ -162,7 +144,6 @@ public class WorkLogInfoHolder
         return result;
     }
 
-
     @Override
     public boolean equals(Object obj)
     {
@@ -173,8 +154,6 @@ public class WorkLogInfoHolder
         if (getClass() != obj.getClass())
             return false;
         WorkLogInfoHolder other = (WorkLogInfoHolder) obj;
-        if (BeInPlane != other.BeInPlane)
-            return false;
         if (CurentTime == null)
         {
             if (other.CurentTime != null)
@@ -204,7 +183,4 @@ public class WorkLogInfoHolder
             return false;
         return true;
     }
-
-
- 
 }

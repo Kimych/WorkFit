@@ -60,19 +60,21 @@ public class WorkLogInfoHelper
             // get sum bonus time for the current worker
             double curentSumBonus = eaoDaysOfWork.getSumBonusTimeForWorkerAndMonthNum(curentWorker, calculatedMonth);
             // to plane
-            double ToPlane = WorkLogUtils.getTimeRemainsToPlaneToDay(dayPassed, workLogTime, curentSumBonus, spentHolidayDayInCurrentMont);
+            double toPlan = WorkLogUtils.getTimeRemainsToPlaneToDay(dayPassed, workLogTime, curentSumBonus, spentHolidayDayInCurrentMont);
             // get time to bonus
-            double ToBonus = WorkLogUtils.getTimeRemainsToBonusToDay(dayPassed, workLogTime, curentSumBonus, spentHolidayDayInCurrentMont);
+            double toBonus = WorkLogUtils.getTimeRemainsToBonusToDay(dayPassed, workLogTime, curentSumBonus, spentHolidayDayInCurrentMont);
             // get rest of the holiday
             double holiday = eaoHoliday.getHolidayDaysCountForWorkerAndYear(curentWorker, calculatedYear);
             // get spend holiday
             double timeLeft = eaoSpentHoliday.getSpentHolidayWorkerAndYear(curentWorker, calculatedYear);
-            int workingDaysInMonth = eaoMonth.getWorkDayDataForMonth(calculatedMonth);
+            // int workingDaysInMonth =
+            // eaoMonth.getWorkDayDataForMonth(calculatedMonth);
             // get result of the work
-            boolean beInPlane = WorkLogUtils.beInPlaneAtTime(dayPassed, workingDaysInMonth, ToPlane);
+            // boolean beInPlane = WorkLogUtils.beInPlaneAtTime(dayPassed,
+            // workingDaysInMonth, toPlan);
             // add to result
-            objResult = new WorkLogInfoHolder(WorkLogUtils.roundToString(workLogTime, 2, BigDecimal.ROUND_HALF_UP), ToPlane, ToBonus, (holiday - timeLeft),
-                    dfwLastDaysOfWorl.getTimestamp(), curentWorker.toString(), beInPlane);
+            objResult = new WorkLogInfoHolder(WorkLogUtils.roundToString(workLogTime, 2, BigDecimal.ROUND_HALF_UP), toPlan, toBonus, (holiday - timeLeft),
+                    dfwLastDaysOfWorl.getTimestamp(), curentWorker.toString());
         }
         else
         {

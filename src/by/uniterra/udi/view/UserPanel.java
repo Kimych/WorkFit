@@ -77,9 +77,10 @@ public class UserPanel extends JPanel implements IModelOwner
         jlNameWorker.setText(woih.getNameWorker());
         jlNameWorker.setFont(new Font("Serif", Font.PLAIN, 20));
 
-        tfToPlane.setText(WorkLogUtils.roundToString(woih.getToPlane(), 2, BigDecimal.ROUND_HALF_UP));
+        double toPlan = woih.getToPlane();
+        tfToPlane.setText(WorkLogUtils.roundToString(toPlan, 2, BigDecimal.ROUND_HALF_UP));
         // set color
-        if (woih.isBeInPlane())
+        if(toPlan >= 0)
         {
             tfToPlane.setBackground(COLOR_WARNING_PINK);
         }
