@@ -102,7 +102,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
 
     static Preferences userPrefs = Preferences.userNodeForPackage(WorkFitFrame.class);;
 
-    private static final String UPDATE_LOG = "Update log";
+    //private static final String UPDATE_LOG = "Update log";
     private static final String LOGIN = "login";
     private static final String PASSWORD = "password";
     private static final String FLAG_AUT = "flag";
@@ -323,15 +323,12 @@ public class WorkFitFrame extends JFrame implements ActionListener
 
                 getContentPane().removeAll();
                 getContentPane().repaint();
-                setSize(800, 401);
-
                 setEmtyLoginAndPassword();
-
                 doLogin("", "");
                 break;
-            case UPDATE_LOG:
+/*            case UPDATE_LOG:
                 // createUserUI();
-                break;
+                break;*/
             case IMenuHelper.MCOMMAND_EXIT:
                 disposeMainFrame();
                 break;
@@ -376,20 +373,18 @@ public class WorkFitFrame extends JFrame implements ActionListener
                 showEditPanel(panelUserRole, UDIPropSingleton.getString(this, "EditUserRole.frame"));
                 panelUserRole.writeValues();
                 break;
-            case IMenuHelper.MCOMMAND_WELCOME:
+/*            case IMenuHelper.MCOMMAND_WELCOME:
                 // TODO
-                break;
+                break;*/
             case IMenuHelper.MCOMMAND_ABOUT:
                 JOptionPane.showMessageDialog(this, new AboutPanel(), "About", JOptionPane.PLAIN_MESSAGE);
                 break;
             case IMenuHelper.MCOMMAND_REFRESH:
-
                 ((UserPanel) panelToInsert).loadDataInUI(auth.getWorker());
                 break;
-            case IMenuHelper.MCOMMAND_VIEW_HISTORY:
+/*            case IMenuHelper.MCOMMAND_VIEW_HISTORY:
                 // TODO
-                break;
-
+                break;*/
             default:
                 break;
             }
@@ -420,7 +415,6 @@ public class WorkFitFrame extends JFrame implements ActionListener
         Log.info(WorkFitFrame.class, "Load log from file: " + fileChooser.getSelectedFile());
 
         LogParser.saveLogInfoToDB(LogParser.getListFromLog(fileChooser.getSelectedFile().toPath()));
-        // return fileChooser.getSelectedFile().toPath();
 
     }
 

@@ -168,12 +168,12 @@ public class DynamicMenuBar extends JMenuBar implements ActionListener, IAuthLis
             itemRefresh.setActionCommand(IMenuHelper.MCOMMAND_REFRESH);
             itemRefresh.addActionListener(this);
             // View History
-            JMenuItem itemViewHistory = new JMenuItem(UDIPropSingleton.getString(this, "ViewHistory.menu"));
+            /*JMenuItem itemViewHistory = new JMenuItem(UDIPropSingleton.getString(this, "ViewHistory.menu"));
             itemViewHistory.setActionCommand(IMenuHelper.MCOMMAND_VIEW_HISTORY);
-            itemViewHistory.addActionListener(this);
+            itemViewHistory.addActionListener(this);*/
 
             menuUser.add(itemRefresh);
-            menuUser.add(itemViewHistory);
+            //menuUser.add(itemViewHistory);
         }
         return menuUser;
 
@@ -185,15 +185,15 @@ public class DynamicMenuBar extends JMenuBar implements ActionListener, IAuthLis
         {
             menuHelp = new JMenu(UDIPropSingleton.getString(this, "Help.menu"));
             // Welcome
-            JMenuItem itemWelcome = new JMenuItem(UDIPropSingleton.getString(this, "Welcome.menu"));
+            /*JMenuItem itemWelcome = new JMenuItem(UDIPropSingleton.getString(this, "Welcome.menu"));
             itemWelcome.setActionCommand(IMenuHelper.MCOMMAND_WELCOME);
-            itemWelcome.addActionListener(this);
+            itemWelcome.addActionListener(this);*/
             // About
             JMenuItem itemAbout = new JMenuItem(UDIPropSingleton.getString(this, "About.menu"));
             itemAbout.setActionCommand(IMenuHelper.MCOMMAND_ABOUT);
             itemAbout.addActionListener(this);
 
-            menuHelp.add(itemWelcome);
+            //menuHelp.add(itemWelcome);
             menuHelp.add(itemAbout);
         }
         return menuHelp;

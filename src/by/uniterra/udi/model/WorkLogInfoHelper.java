@@ -7,7 +7,6 @@ import java.util.List;
 
 import by.uniterra.dai.eao.DaysOfWorkEAO;
 import by.uniterra.dai.eao.HolidayEAO;
-import by.uniterra.dai.eao.MonthEAO;
 import by.uniterra.dai.eao.SpentHolidayEAO;
 import by.uniterra.dai.eao.WorkerEAO;
 import by.uniterra.dai.entity.DaysOfWork;
@@ -41,7 +40,6 @@ public class WorkLogInfoHelper
 
         // create set of EAOs
         DaysOfWorkEAO eaoDaysOfWork = new DaysOfWorkEAO(SystemModel.getDefaultEM());
-        MonthEAO eaoMonth = new MonthEAO(SystemModel.getDefaultEM());
         SpentHolidayEAO eaoSpentHoliday = new SpentHolidayEAO(SystemModel.getDefaultEM());
         HolidayEAO eaoHoliday = new HolidayEAO(SystemModel.getDefaultEM());
 
