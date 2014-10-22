@@ -37,6 +37,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.prefs.Preferences;
 
@@ -80,8 +81,8 @@ import by.uniterra.udi.view.HolidayOptionPanel;
 import by.uniterra.udi.view.LoginPanel;
 import by.uniterra.udi.view.MonthOptionPanel;
 import by.uniterra.udi.view.SpentHolidayOptionPanel;
-import by.uniterra.udi.view.UserRoleOptionPanel;
 import by.uniterra.udi.view.UserPanel;
+import by.uniterra.udi.view.UserRoleOptionPanel;
 import by.uniterra.udi.view.WorkerOptionPanel;
 import by.uniterra.udi.view.YearOptionPanel;
 
@@ -123,16 +124,12 @@ public class WorkFitFrame extends JFrame implements ActionListener
         WorkFitFrame wfFrame = new WorkFitFrame();
         wfFrame.setTitle("WorkFit");
 
-/*        java.net.URL imageURL = WorkFitFrame.class.getClassLoader().getResource("icon.png");
-
-        ImageIcon icon = new ImageIcon(imageURL);
-        wfFrame.setIconImage(icon.getImage());*/
-
+        URL imageURL = WorkFitFrame.class.getClassLoader().getResource("images/MainFrameIcon.png");
+        if(imageURL != null)
+        {
+            wfFrame.setIconImage(new ImageIcon(imageURL).getImage());
+        }
         
-         ImageIcon icon = new ImageIcon("resources/icon.png");
-         wfFrame.setIconImage(icon.getImage());
-        
-
         wfFrame.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         wfFrame.setSize(800, 400);
         wfFrame.setLocationRelativeTo(null);
