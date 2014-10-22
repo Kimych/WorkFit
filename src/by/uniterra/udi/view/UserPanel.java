@@ -79,7 +79,7 @@ public class UserPanel extends JPanel implements IModelOwner
 
         tfToPlane.setText(WorkLogUtils.roundToString(woih.getToPlane(), 2, BigDecimal.ROUND_HALF_UP));
         // set color
-        if (!woih.isBeInPlane())
+        if (woih.isBeInPlane())
         {
             tfToPlane.setBackground(COLOR_WARNING_PINK);
         }
