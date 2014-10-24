@@ -102,7 +102,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
 
     static Preferences userPrefs = Preferences.userNodeForPackage(WorkFitFrame.class);;
 
-    //private static final String UPDATE_LOG = "Update log";
+    // private static final String UPDATE_LOG = "Update log";
     private static final String LOGIN = "login";
     private static final String PASSWORD = "password";
     private static final String FLAG_AUT = "flag";
@@ -125,11 +125,11 @@ public class WorkFitFrame extends JFrame implements ActionListener
         wfFrame.setTitle("WorkFit");
 
         URL imageURL = WorkFitFrame.class.getClassLoader().getResource("images/MainFrameIcon.png");
-        if(imageURL != null)
+        if (imageURL != null)
         {
             wfFrame.setIconImage(new ImageIcon(imageURL).getImage());
         }
-        
+
         wfFrame.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         wfFrame.setSize(800, 400);
         wfFrame.setLocationRelativeTo(null);
@@ -197,7 +197,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
             SystemModel.initJPA();
             EntityManager em = SystemModel.getDefaultEM();
             AuthorizationEAO autEAO = new AuthorizationEAO(em);
-            auth = checkLogin(strLogin, strPassword, autEAO, 1);
+            auth = checkLogin(strLogin, strPassword, autEAO);
 
             if (auth != null)
             {
@@ -208,7 +208,6 @@ public class WorkFitFrame extends JFrame implements ActionListener
                 {
                     panelToInsert = new AdminPanel();
                     ((AdminPanel) panelToInsert).loadDataInUI();
-
                 }
                 else
                 {
@@ -243,65 +242,48 @@ public class WorkFitFrame extends JFrame implements ActionListener
         return bReasult;
     }
 
-    private Authorization checkLogin(String strUserName, String strPassword, AuthorizationEAO autEAO, int retryСounter)
+    private Authorization checkLogin(String strUserName, String strPassword, AuthorizationEAO autEAO)
     {
-        if (strUserName != null && !strUserName.isEmpty() && strPassword != null && !strPassword.isEmpty())
+
+        Authorization authUser = autEAO.getAuthorizationByLoginAndPassword(strUserName, strPassword);
+        if (authUser != null)
         {
-            Authorization authUser = autEAO.getAuthorizationByLoginAndPassword(strUserName, strPassword);
-            if (authUser != null)
-            {
-                return authUser;
-            }
-            else
-            {
-                retryСounter++;
-                checkLogin(strUserName, "", autEAO, retryСounter);
-            }
+
+            return authUser;
         }
-        if (retryСounter <= 3)
+        else
         {
-            // create login dialog
+            return showLoginPanel(strUserName, autEAO);
+        }
+    }
+
+    private Authorization showLoginPanel(String strUserName, AuthorizationEAO autEAO)
+    {
+        Authorization authUser = null;
+        // create login dialog
+        while (authUser == null)
+        {
             LoginPanel panelLogin = new LoginPanel(strUserName);
             // show login dialog
             int input = JOptionPane.showConfirmDialog(this, panelLogin, UDIPropSingleton.getString(this, "Authotization.frame"), JOptionPane.OK_CANCEL_OPTION,
                     JOptionPane.PLAIN_MESSAGE);
-            // check result
-            // boolean cbState = panelLogin.getStatmentFlag();
+
             if (input == JOptionPane.OK_OPTION)
             {
                 String userName = panelLogin.getUserName();
                 String currentPass = panelLogin.getPassword();
-
                 // save Login and Password
+                authUser = autEAO.getAuthorizationByLoginAndPassword(userName, currentPass);
+                if (authUser != null)
+                {
+                    if (panelLogin.getStatmentFlag() == true)
+                    {
+                        saveLoginAndPassword(userName, currentPass);
+                    }
+                    return authUser;
+                }
 
-                try
-                {
-                    Authorization authUser = autEAO.getAuthorizationByLoginAndPassword(userName, currentPass);
-                    if (authUser != null)
-                    {
-                        if (panelLogin.getStatmentFlag() == true)
-                        {
-                            saveLoginAndPassword(userName, currentPass);
-                        }
-                        return authUser;
-                    }
-                    else
-                    {
-                        retryСounter++;
-                        checkLogin(userName, "", autEAO, retryСounter);
-                    }
-                }
-                catch (Exception e)
-                {
-                    Log.error(WorkFitFrame.class, "authorization problem...");
-                }
             }
-        }
-        else
-        {
-            Log.info(WorkFitFrame.class, "3 abortive attempts of authorization");
-            JOptionPane.showMessageDialog(null, "Sorry I can not continue...");
-            disposeMainFrame();
         }
         return null;
     }
@@ -320,15 +302,14 @@ public class WorkFitFrame extends JFrame implements ActionListener
 
             case IMenuHelper.MCOMMAND_LOGOUT:
                 SystemModel.setAuthorization(null);
-
                 getContentPane().removeAll();
                 getContentPane().repaint();
                 setEmtyLoginAndPassword();
                 doLogin("", "");
                 break;
-/*            case UPDATE_LOG:
-                // createUserUI();
-                break;*/
+            /*
+             * case UPDATE_LOG: // createUserUI(); break;
+             */
             case IMenuHelper.MCOMMAND_EXIT:
                 disposeMainFrame();
                 break;
@@ -373,18 +354,18 @@ public class WorkFitFrame extends JFrame implements ActionListener
                 showEditPanel(panelUserRole, UDIPropSingleton.getString(this, "EditUserRole.frame"));
                 panelUserRole.writeValues();
                 break;
-/*            case IMenuHelper.MCOMMAND_WELCOME:
-                // TODO
-                break;*/
+            /*
+             * case IMenuHelper.MCOMMAND_WELCOME: // TODO break;
+             */
             case IMenuHelper.MCOMMAND_ABOUT:
                 JOptionPane.showMessageDialog(this, new AboutPanel(), "About", JOptionPane.PLAIN_MESSAGE);
                 break;
             case IMenuHelper.MCOMMAND_REFRESH:
                 ((UserPanel) panelToInsert).loadDataInUI(auth.getWorker());
                 break;
-/*            case IMenuHelper.MCOMMAND_VIEW_HISTORY:
-                // TODO
-                break;*/
+            /*
+             * case IMenuHelper.MCOMMAND_VIEW_HISTORY: // TODO break;
+             */
             default:
                 break;
             }
