@@ -120,7 +120,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
     {
         Log.info(WorkFitFrame.class, "\n\n\n");
         Log.info(WorkFitFrame.class, "Starting the app...");
-
+        SystemModel.initJPA();
         WorkFitFrame wfFrame = new WorkFitFrame();
         wfFrame.setTitle("WorkFit");
 
@@ -194,7 +194,6 @@ public class WorkFitFrame extends JFrame implements ActionListener
     {
         try
         {
-            SystemModel.initJPA();
             EntityManager em = SystemModel.getDefaultEM();
             AuthorizationEAO autEAO = new AuthorizationEAO(em);
             auth = checkLogin(strLogin, strPassword, autEAO);
@@ -282,7 +281,10 @@ public class WorkFitFrame extends JFrame implements ActionListener
                     }
                     return authUser;
                 }
-
+            }
+            else
+            {
+                break;
             }
         }
         return null;
