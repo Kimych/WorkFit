@@ -41,6 +41,6 @@ public interface IGlobalProperties
     // DB connection settings
     String DB_URL = "db.url";
     String DB_USER = "db.user";
-    String DB_PWD = "db.pwd";
+    String DB_PWD = "db.pwd_c";
     String DB_DRIVER = "db.driver";
 }

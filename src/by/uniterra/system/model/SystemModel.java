@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -16,6 +15,7 @@ import org.eclipse.persistence.config.PersistenceUnitProperties;
 import by.uniterra.dai.entity.Authorization;
 import by.uniterra.dai.model.JPASessionCustomizer;
 import by.uniterra.system.iface.IGlobalProperties;
+import by.uniterra.udi.util.EncryptedProperties;
 import by.uniterra.udi.util.Log;
 import by.uniterra.udi.view.IAuthListener;
 
@@ -25,27 +25,82 @@ public class SystemModel
     private static final String PERSISTENCE_UNIT_NAME = "WorkFit";
     private static final String DEFAULT_PROP_FILE = "config/global.properties";
     private static final String CUSTOMER_PROPERTIES = "custom.properties";
+    private static final String APP_KEY = "3w45lk34h5k3p4h673";
 
     // members
     private static SystemModel instance = new SystemModel(DEFAULT_PROP_FILE);
-    private static Properties property;
+    private static EncryptedProperties property;
     private static EntityManagerFactory emfFactory;
     private static EntityManager emDefaultManager;
     private static Authorization authorization;
-    
+
     private static Set<IAuthListener> setAuthListeners;
 
     private SystemModel(String strURLtoProperties)
     {
         // properties holder
-        property = new Properties();
-        // load properties from DEFAULT_PROP_FILE
-        property.putAll(loadPropFromRes(DEFAULT_PROP_FILE));
-        // load properties from CUSTOMER_PROPERTIES
-        property.putAll(loadPropFromRes(CUSTOMER_PROPERTIES));
+        try
+        {
+            property = new EncryptedProperties(APP_KEY);
+            // load properties from DEFAULT_PROP_FILE
+            property.putAll(loadPropFromRes(DEFAULT_PROP_FILE));
+            // load properties from CUSTOMER_PROPERTIES
+            property.putAll(loadPropFromRes(CUSTOMER_PROPERTIES));
+        }
+        catch (Exception e)
+        {
+            Log.error(this, e, "SystemModel error ");
+        }
         // create set for authorisation listeners
         setAuthListeners = new LinkedHashSet<IAuthListener>();
     }
+
+    public static void main(String[] args)
+    {
+        // properties holder
+        try
+        {
+            EncryptedProperties property = new EncryptedProperties(APP_KEY);
+            String strIN = property.encrypt("testdb");
+            String strOut = property.decrypt(strIN);
+            System.out.println(strIN);
+            System.out.println(strOut);
+            boolean b = false;
+        }
+        catch (Exception e)
+        {
+            Log.error(SystemModel.class, e, "SystemModel error ");
+        }
+    }
+ /*   private SystemModel(String strURLtoProperties, String strURLtoCryptProperties)
+    {
+        File f = new File(strURLtoProperties);
+        try {
+            EncryptedProperties ep = new EncryptedProperties(strURLtoCryptProperties);
+                if (f.exists()) {
+                        FileInputStream in = new FileInputStream(f);
+                        ep.load(in);
+                }
+
+                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                FileOutputStream out = new FileOutputStream(f);
+                ep.store(out, "Encrypted Properties File");
+                out.close();
+
+                System.out.println("Dump");
+                Iterator i = ep.keySet().iterator();
+                while (i.hasNext()) {
+                        String k = (String) i.next();
+                        String value = (String) ep.get(k);
+                        System.out.println("   " + k + "=" + value);
+                }
+        }
+        catch (Exception e) {
+                System.out.println("Couldn't access encrypted properties file: " + f.getAbsolutePath());
+                e.printStackTrace();
+        }
+    
+    }*/
 
     public static SystemModel getInstance()
     {
@@ -67,12 +122,12 @@ public class SystemModel
         // load JPA parameters (use global.properties)
         mapCustomProp.put(PersistenceUnitProperties.JDBC_URL, getString(IGlobalProperties.DB_URL, "jdbc:mysql://192.168.186.128:3306/Workfit"));
         mapCustomProp.put(PersistenceUnitProperties.JDBC_USER, getString(IGlobalProperties.DB_USER, "testdb"));
-        mapCustomProp.put(PersistenceUnitProperties.JDBC_PASSWORD, getString(IGlobalProperties.DB_USER, "testdb"));
+        mapCustomProp.put(PersistenceUnitProperties.JDBC_PASSWORD, getString(IGlobalProperties.DB_PWD, ""));
         mapCustomProp.put(PersistenceUnitProperties.JDBC_DRIVER, getString(IGlobalProperties.DB_DRIVER, "com.mysql.jdbc.Driver"));
         // the correct way to disable the shared cache (L2 cache)
         mapCustomProp.put("eclipselink.cache.shared.default", "false");
         // enable SQL lqueries logging
-        //mapCustomProp.put("eclipselink.logging.level","FINE");
+        // mapCustomProp.put("eclipselink.logging.level","FINE");
         // Specify an EclipseLink session customizer class: a Java
         mapCustomProp.put(PersistenceUnitProperties.SESSION_CUSTOMIZER, JPASessionCustomizer.class.getName());
         // a new connection (factory) to target DB
@@ -123,7 +178,7 @@ public class SystemModel
                 Log.info(SystemModel.class, "Properties successfully loaded from \"" + strResourceName + "\".");
             }
         }
-        catch (IOException e)
+        catch (Exception e)
         {
             Log.error(SystemModel.class, e, "Failed to load properties from \"" + strResourceName + "\".");
         }
@@ -224,7 +279,7 @@ public class SystemModel
             throw new IllegalArgumentException("Value shouldn't be null!");
         }
         // put into properties map
-        property.put(strKey, objValue.toString());
+        property.setProperty(strKey, objValue.toString());
     }
 
     /**
@@ -322,13 +377,11 @@ public class SystemModel
         return dResult;
     }
 
-
     public static Authorization getAuthorization()
     {
         return authorization;
     }
 
- 
     public static void setAuthorization(Authorization authorization)
     {
         SystemModel.authorization = authorization;
@@ -343,5 +396,6 @@ public class SystemModel
     {
         SystemModel.setAuthListeners.add(setBarListener);
     }
+    
 
 }

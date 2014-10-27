@@ -106,6 +106,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
     private static final String LOGIN = "login";
     private static final String PASSWORD = "password";
     private static final String FLAG_AUT = "flag";
+    
 
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 165708470997304032L;
@@ -120,6 +121,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
     {
         Log.info(WorkFitFrame.class, "\n\n\n");
         Log.info(WorkFitFrame.class, "Starting the app...");
+        
         SystemModel.initJPA();
         WorkFitFrame wfFrame = new WorkFitFrame();
         wfFrame.setTitle("WorkFit");
@@ -414,4 +416,6 @@ public class WorkFitFrame extends JFrame implements ActionListener
         userPrefs.put(PASSWORD, "");
         userPrefs.putBoolean(FLAG_AUT, false);
     }
+    
+        
 }
