@@ -1,6 +1,5 @@
 package by.uniterra.system.model;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -55,7 +54,7 @@ public class SystemModel
         setAuthListeners = new LinkedHashSet<IAuthListener>();
     }
 
-    public static void main(String[] args)
+ /*   public static void main(String[] args)
     {
         // properties holder
         try
@@ -71,7 +70,7 @@ public class SystemModel
         {
             Log.error(SystemModel.class, e, "SystemModel error ");
         }
-    }
+    }*/
  /*   private SystemModel(String strURLtoProperties, String strURLtoCryptProperties)
     {
         File f = new File(strURLtoProperties);
@@ -122,7 +121,7 @@ public class SystemModel
         // load JPA parameters (use global.properties)
         mapCustomProp.put(PersistenceUnitProperties.JDBC_URL, getString(IGlobalProperties.DB_URL, "jdbc:mysql://192.168.186.128:3306/Workfit"));
         mapCustomProp.put(PersistenceUnitProperties.JDBC_USER, getString(IGlobalProperties.DB_USER, "testdb"));
-        mapCustomProp.put(PersistenceUnitProperties.JDBC_PASSWORD, getString(IGlobalProperties.DB_PWD, ""));
+        mapCustomProp.put(PersistenceUnitProperties.JDBC_PASSWORD, getString(IGlobalProperties.DB_PWD, "testdb"));
         mapCustomProp.put(PersistenceUnitProperties.JDBC_DRIVER, getString(IGlobalProperties.DB_DRIVER, "com.mysql.jdbc.Driver"));
         // the correct way to disable the shared cache (L2 cache)
         mapCustomProp.put("eclipselink.cache.shared.default", "false");

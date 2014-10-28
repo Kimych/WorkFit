@@ -40,7 +40,7 @@ public interface IGlobalProperties
 {
     // DB connection settings
     String DB_URL = "db.url";
-    String DB_USER = "db.user";
-    String DB_PWD = "db.pwd_c";
+    String DB_USER = "db.user.crypted";
+    String DB_PWD = "db.pwd.crypted";
     String DB_DRIVER = "db.driver";
 }

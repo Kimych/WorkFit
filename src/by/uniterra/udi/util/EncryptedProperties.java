@@ -29,7 +29,6 @@
 
 package by.uniterra.udi.util;
 
-import java.util.Map;
 import java.util.Properties;
 
 import javax.crypto.Cipher;
@@ -54,7 +53,7 @@ public class EncryptedProperties extends Properties
 
     private static Cipher decrypter;
     private static byte[] salt = { (byte) 0x03, (byte) 0x33, (byte) 0x33, (byte) 0x33, (byte) 0x33, (byte) 0x33, (byte) 0x33, (byte) 0x33}; // make up your own
-    private static final String CRYPT_FLAG = "_c";
+    private static final String CRYPT_FLAG = ".crypted";
 
     public EncryptedProperties(String password) throws Exception
     {
@@ -96,14 +95,14 @@ public class EncryptedProperties extends Properties
         }
     }
 
-    public synchronized static String decrypt(String str) throws Exception
+    public synchronized  String decrypt(String str) throws Exception
     {
         byte[] dec = decoder.decodeBuffer(str);
         byte[] utf8 = decrypter.doFinal(dec);
         return new String(utf8, "UTF-8");
     }
 
-    public synchronized static String encrypt(String str) throws Exception
+    public synchronized  String encrypt(String str) throws Exception
     {
         byte[] utf8 = str.getBytes("UTF-8");
         byte[] enc = encrypter.doFinal(utf8);
