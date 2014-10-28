@@ -4,18 +4,19 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import by.uniterra.system.iface.IGlobalProperties;
 import by.uniterra.udi.util.EncryptedProperties;
 
 public class CryptPropertiesTest
 {
 
     private static final String APP_KEY = "3w45lk34h5k3p4h673";
-    private static final String INPUT_STR = "test";
+    private static final String INPUT_STR = "workfit";
 
     @Test
     public void test() throws Exception
     {
-                EncryptedProperties property = new EncryptedProperties(APP_KEY);
+                EncryptedProperties property = new EncryptedProperties(APP_KEY, IGlobalProperties.CRYPT_POSTFIX);
                 String strIN = property.encrypt(INPUT_STR);
                 String strOut = property.decrypt(strIN);
                 System.out.println(strIN);

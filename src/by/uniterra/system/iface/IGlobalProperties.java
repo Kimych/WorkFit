@@ -29,6 +29,7 @@
 
 package by.uniterra.system.iface;
 
+
 /**
  * The <code>IGlobalProperties</code> is used to hold all global.parameters
  * properties names
@@ -38,9 +39,13 @@ package by.uniterra.system.iface;
  */
 public interface IGlobalProperties
 {
+    // postfixes
+    String CRYPT_POSTFIX = ".crypted";
+    
     // DB connection settings
     String DB_URL = "db.url";
-    String DB_USER = "db.user.crypted";
-    String DB_PWD = "db.pwd.crypted";
+    String DB_USER = "db.user" + CRYPT_POSTFIX;
+    String DB_PWD = "db.pwd" + CRYPT_POSTFIX;
     String DB_DRIVER = "db.driver";
+    
 }

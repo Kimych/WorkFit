@@ -40,7 +40,7 @@ public class SystemModel
         // properties holder
         try
         {
-            property = new EncryptedProperties(APP_KEY);
+            property = new EncryptedProperties(APP_KEY, IGlobalProperties.CRYPT_POSTFIX);
             // load properties from DEFAULT_PROP_FILE
             property.putAll(loadPropFromRes(DEFAULT_PROP_FILE));
             // load properties from CUSTOMER_PROPERTIES
@@ -120,8 +120,8 @@ public class SystemModel
         Map<String, String> mapCustomProp = new HashMap<String, String>();
         // load JPA parameters (use global.properties)
         mapCustomProp.put(PersistenceUnitProperties.JDBC_URL, getString(IGlobalProperties.DB_URL, "jdbc:mysql://192.168.186.128:3306/Workfit"));
-        mapCustomProp.put(PersistenceUnitProperties.JDBC_USER, getString(IGlobalProperties.DB_USER, "testdb"));
-        mapCustomProp.put(PersistenceUnitProperties.JDBC_PASSWORD, getString(IGlobalProperties.DB_PWD, "testdb"));
+        mapCustomProp.put(PersistenceUnitProperties.JDBC_USER, getString(IGlobalProperties.DB_USER, ""));
+        mapCustomProp.put(PersistenceUnitProperties.JDBC_PASSWORD, getString(IGlobalProperties.DB_PWD, ""));
         mapCustomProp.put(PersistenceUnitProperties.JDBC_DRIVER, getString(IGlobalProperties.DB_DRIVER, "com.mysql.jdbc.Driver"));
         // the correct way to disable the shared cache (L2 cache)
         mapCustomProp.put("eclipselink.cache.shared.default", "false");

@@ -53,10 +53,12 @@ public class EncryptedProperties extends Properties
 
     private static Cipher decrypter;
     private static byte[] salt = { (byte) 0x03, (byte) 0x33, (byte) 0x33, (byte) 0x33, (byte) 0x33, (byte) 0x33, (byte) 0x33, (byte) 0x33}; // make up your own
-    private static final String CRYPT_FLAG = ".crypted";
 
-    public EncryptedProperties(String password) throws Exception
+    private String strCryptedKeyPostfix;
+
+    public EncryptedProperties(String password, String strCryptedKeyPostfix) throws Exception
     {
+        this.strCryptedKeyPostfix = strCryptedKeyPostfix;
         PBEParameterSpec ps = new javax.crypto.spec.PBEParameterSpec(salt, 20);
         SecretKeyFactory kf = SecretKeyFactory.getInstance("PBEWithMD5AndDES");
         SecretKey k = kf.generateSecret(new javax.crypto.spec.PBEKeySpec(password.toCharArray()));
@@ -71,7 +73,7 @@ public class EncryptedProperties extends Properties
         String strResult = null;
         try
         {
-            strResult = key.endsWith(CRYPT_FLAG) ? decrypt(super.getProperty(key)) : super.getProperty(key);
+            strResult = key.endsWith(strCryptedKeyPostfix) ? decrypt(super.getProperty(key)) : super.getProperty(key);
         }
         catch (Exception e)
         {
@@ -87,7 +89,7 @@ public class EncryptedProperties extends Properties
     {
         try
         {
-            return super.setProperty(key, key.endsWith(CRYPT_FLAG) ? encrypt(value) : value);
+            return super.setProperty(key, key.endsWith(strCryptedKeyPostfix) ? encrypt(value) : value);
         }
         catch (Exception e)
         {
