@@ -38,12 +38,6 @@ import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Store;
 
-
-
-
-
-
-
 /**
  * The <code>MailChecker</code> is used for ...
  *
@@ -73,14 +67,13 @@ public class MailChecker
             store.connect("mail.uniterra.by", "worklog@uniterra.by", "Ljm6StWhLLy3HBQlixdl");
             Folder folder = store.getFolder("INBOX");
             folder.open(Folder.READ_ONLY);
-            // int iMessageCount = folder.getMessageCount();
-              // get 
             Message message[] = folder.getMessages();
             for (int i = 0, n = message.length; i < n; i++)
             {
-
                 System.out.println(i + ": " + message[i].getContentType() );
+               
                 Object objMp = message[i].getContent();
+              
                 if (objMp instanceof Multipart)
                 {
                     BodyPart bp = ((Multipart)objMp).getBodyPart(0);
@@ -89,13 +82,9 @@ public class MailChecker
                 {
                     System.out.println("CONTENT:" + objMp);
                 }
-                
                 System.out.println("SENT DATE:" + message[i].getSentDate());
                 System.out.println("SUBJECT:" + message[i].getSubject());
-                
-               
             }
-
             // close
             folder.close(false);
             store.close();
