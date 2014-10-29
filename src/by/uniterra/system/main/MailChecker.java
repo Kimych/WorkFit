@@ -32,14 +32,17 @@ package by.uniterra.system.main;
 import java.util.Properties;
 
 import javax.mail.BodyPart;
+import javax.mail.Flags;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Store;
+import javax.mail.search.FlagTerm;
 
 /**
- * The <code>MailChecker</code> is used for ...
+ * The <code>MailChecker</code> is used for read new mail
+ *
  *
  * @author Sergio Alecky
  * @since 28 окт. 2014 г.
@@ -53,38 +56,58 @@ public class MailChecker
      * @author Sergio Alecky
      * @date 28 окт. 2014 г.
      */
+    private static String SERVER = "mail.uniterra.by";
+    private static String EMAIL = "worklog@uniterra.by";
+    private static String PASSWORD = "";
+
     public static void main(String[] args)
     {
         Properties props = new Properties();
-        props.setProperty("mail.store.protocol", "pop3");
+        props.setProperty("mail.store.protocol", "imap");
         // props.setProperty("mail.protocol.port", "995");
-        props.put("mail.pop3.port", "110");
+        props.put("mail.imap.port", "143");
 
         try
         {
             Session session = Session.getInstance(props, null);
             Store store = session.getStore();
-            store.connect("mail.uniterra.by", "worklog@uniterra.by", "Ljm6StWhLLy3HBQlixdl");
+            store.connect(SERVER, EMAIL, PASSWORD);
             Folder folder = store.getFolder("INBOX");
-            folder.open(Folder.READ_ONLY);
-            Message message[] = folder.getMessages();
+            folder.open(Folder.READ_WRITE);
+
+            // search for all "unseen" messages
+            Flags seen = new Flags(Flags.Flag.SEEN);
+            FlagTerm unseenFlagTerm = new FlagTerm(seen, false);
+            // FlagTerm seenFlagTerm = new FlagTerm(seen, true);
+
+            // Message message[] = folder.getMessages();
+
+            Message message[] = folder.search(unseenFlagTerm);
+            String out = message.length == 0 ? ("No new  messages found...") : ("We have: " + message.length + " new mail");
+            System.out.println(out);
+
             for (int i = 0, n = message.length; i < n; i++)
             {
-                System.out.println(i + ": " + message[i].getContentType() );
-               
+                System.out.println(i + 1 + ": " + message[i].getContentType());
+
                 Object objMp = message[i].getContent();
-              
+
                 if (objMp instanceof Multipart)
                 {
-                    BodyPart bp = ((Multipart)objMp).getBodyPart(0);
+                    BodyPart bp = ((Multipart) objMp).getBodyPart(0);
                     System.out.println("CONTENT:" + bp.getContent());
-                } else if (objMp instanceof String)
+                }
+                else if (objMp instanceof String)
                 {
                     System.out.println("CONTENT:" + objMp);
                 }
                 System.out.println("SENT DATE:" + message[i].getSentDate());
                 System.out.println("SUBJECT:" + message[i].getSubject());
+
+                // mark as read
+                message[i].setFlags(seen, true);
             }
+
             // close
             folder.close(false);
             store.close();
