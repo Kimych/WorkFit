@@ -80,11 +80,20 @@ public class MailChecker
             {
 
                 System.out.println(i + ": " + message[i].getContentType() );
-                Multipart mp = (Multipart) message[i].getContent();
-                BodyPart bp = mp.getBodyPart(0);
+                Object objMp = message[i].getContent();
+                if (objMp instanceof Multipart)
+                {
+                    BodyPart bp = ((Multipart)objMp).getBodyPart(0);
+                    System.out.println("CONTENT:" + bp.getContent());
+                } else if (objMp instanceof String)
+                {
+                    System.out.println("CONTENT:" + objMp);
+                }
+                
                 System.out.println("SENT DATE:" + message[i].getSentDate());
                 System.out.println("SUBJECT:" + message[i].getSubject());
-                System.out.println("CONTENT:" + bp.getContent());
+                
+               
             }
 
             // close
