@@ -80,7 +80,7 @@ public class MailChecker
         Properties props = new Properties();
         props.setProperty("mail.store.protocol", "imap");
         props.put("mail.imap.port", "143");
-        String strToSave = null;
+        byte[] strToSave = null;
 
         try
         {
@@ -110,19 +110,34 @@ public class MailChecker
                     BodyPart bp = ((Multipart) objMp).getBodyPart(0);
                     System.out.println("CONTENT:" + bp.getContent());
                     
-                    //TODO attachment
-                    
-                    strToSave = bp.getContent().toString();
+                    for (int j = 0; j < ((Multipart) objMp).getCount(); j++)
+                    {
+                        Object objBodyPartContent = bp.getContent();
+                        if (objBodyPartContent instanceof byte[])
+                        {
+                            if (createFileFromMail((byte[])objBodyPartContent))
+                            { 
+                                break;
+                            }
+                        } else if (objBodyPartContent instanceof String)
+                        {
+                            if (createFileFromMail(((String)objBodyPartContent) to byte array))
+                            { 
+                                break;
+                            }
+                        }
+                        
+                    }
                 }
                 else if (objMp instanceof String)
                 {
                     System.out.println("CONTENT:" + objMp);
-                    strToSave = (String) objMp;
+                    createFileFromMail((String) objMp) to byte array);
                 }
                 System.out.println("SENT DATE:" + DateUtils.toGMT(message[i].getSentDate()));
                 System.out.println("SUBJECT:" + message[i].getSubject());
 
-                createFileFromMail(strToSave);
+                
                 // mark as read
                // message[i].setFlags(seen, true);
             }
@@ -139,13 +154,14 @@ public class MailChecker
     }
     
     
-    public static void createFileFromMail(String strToSave)
+    public static boolean createFileFromMail(byte[] strToSave)
     {
+        boolean bResult = false;
         Path path = Paths.get("D:/temp.txt");
         
         try
         {
-            Files.write(path , strToSave.getBytes(), StandardOpenOption.CREATE);
+            Files.write(path , strToSave, StandardOpenOption.CREATE);
         }
         catch (IOException e)
         {
@@ -160,6 +176,7 @@ public class MailChecker
             try
             {
                 Files.move(path, path.resolveSibling(logDate.replace(":", "-") +".txt"));
+                bResult = true;
             }
             catch (IOException e)
             {
@@ -176,6 +193,7 @@ public class MailChecker
                 Log.error(MailChecker.class, e, "createFileFromMail error ");
             }
         }
+        return bResult;
     }
     
     public static String findLogInAttach()
