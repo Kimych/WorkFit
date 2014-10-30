@@ -18,7 +18,9 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import javax.swing.JOptionPane;
+import javax.swing.text.StyledEditorKit.BoldAction;
 
+import jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode;
 import by.uniterra.dai.eao.DaysOfWorkEAO;
 import by.uniterra.dai.eao.MonthEAO;
 import by.uniterra.dai.eao.WorkerEAO;
@@ -164,9 +166,34 @@ public class LogParser
         }
         else
         {
-            JOptionPane.showMessageDialog(null,"data from the log for: " + DateUtils.toGMT(dateFromLog.getTime()) + " already added!");
+            JOptionPane.showMessageDialog(null, "data from the log for: " + DateUtils.toGMT(dateFromLog.getTime()) + " already added!");
             Log.warning(LogParser.class, "attempted to add existing data");
         }
 
+    }
+
+    public static String isALog(Path path)
+    {
+        String strDate = "";
+        List<String> lstOriginalData = new ArrayList<String>();
+        try
+        {
+            lstOriginalData.addAll(Files.readAllLines(path, StandardCharsets.UTF_8));
+        }
+        catch (IOException e)
+        {
+            Log.error(LogParser.class, e, "isALog error");
+        }
+
+        for (String parseString : lstOriginalData)
+        {
+            if (parseString.contains(SEPARATOR_TO_DATE))
+            {
+                int iDatePos = parseString.indexOf(SEPARATOR_TO_DATE) + SEPARATOR_TO_DATE.length();
+                strDate = parseString.substring(iDatePos);
+                break; 
+            }
+        }
+        return strDate;
     }
 }

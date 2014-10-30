@@ -29,6 +29,11 @@
 
 package by.uniterra.system.main;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Properties;
 
 import javax.mail.BodyPart;
@@ -39,6 +44,10 @@ import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.search.FlagTerm;
+
+import by.uniterra.system.util.DateUtils;
+import by.uniterra.udi.util.Log;
+import by.uniterra.udi.util.LogParser;
 
 /**
  * The <code>MailChecker</code> is used for read new mail
@@ -62,27 +71,31 @@ public class MailChecker
 
     public static void main(String[] args)
     {
+        checkMail();
+
+    }
+    
+    public static void checkMail()
+    {
         Properties props = new Properties();
         props.setProperty("mail.store.protocol", "imap");
-        // props.setProperty("mail.protocol.port", "995");
         props.put("mail.imap.port", "143");
+        String strToSave = null;
 
         try
         {
             Session session = Session.getInstance(props, null);
             Store store = session.getStore();
             store.connect(SERVER, EMAIL, PASSWORD);
-            Folder folder = store.getFolder("INBOX");
-            folder.open(Folder.READ_WRITE);
-
+            Folder inbox = store.getFolder("INBOX");
+            inbox.open(Folder.READ_ONLY);
             // search for all "unseen" messages
             Flags seen = new Flags(Flags.Flag.SEEN);
             FlagTerm unseenFlagTerm = new FlagTerm(seen, false);
-            // FlagTerm seenFlagTerm = new FlagTerm(seen, true);
 
             // Message message[] = folder.getMessages();
 
-            Message message[] = folder.search(unseenFlagTerm);
+            Message message[] = inbox.search(unseenFlagTerm);
             String out = message.length == 0 ? ("No new  messages found...") : ("We have: " + message.length + " new mail");
             System.out.println(out);
 
@@ -96,20 +109,25 @@ public class MailChecker
                 {
                     BodyPart bp = ((Multipart) objMp).getBodyPart(0);
                     System.out.println("CONTENT:" + bp.getContent());
+                    
+                    //TODO attachment
+                    
+                    strToSave = bp.getContent().toString();
                 }
                 else if (objMp instanceof String)
                 {
                     System.out.println("CONTENT:" + objMp);
+                    strToSave = (String) objMp;
                 }
-                System.out.println("SENT DATE:" + message[i].getSentDate());
+                System.out.println("SENT DATE:" + DateUtils.toGMT(message[i].getSentDate()));
                 System.out.println("SUBJECT:" + message[i].getSubject());
 
+                createFileFromMail(strToSave);
                 // mark as read
-                message[i].setFlags(seen, true);
+               // message[i].setFlags(seen, true);
             }
-
             // close
-            folder.close(false);
+            inbox.close(false);
             store.close();
             System.exit(0);
 
@@ -119,4 +137,53 @@ public class MailChecker
             mex.printStackTrace();
         }
     }
+    
+    
+    public static void createFileFromMail(String strToSave)
+    {
+        Path path = Paths.get("D:/temp.txt");
+        
+        try
+        {
+            Files.write(path , strToSave.getBytes(), StandardOpenOption.CREATE);
+        }
+        catch (IOException e)
+        {
+            Log.error(MailChecker.class, e, "createFileFromMail error ");
+        }
+        
+        String logDate = LogParser.isALog(path);
+        
+        if(logDate.length() != 0)
+        {
+            System.out.println("Лог за: " + logDate);
+            try
+            {
+                Files.move(path, path.resolveSibling(logDate.replace(":", "-") +".txt"));
+            }
+            catch (IOException e)
+            {
+                Log.error(MailChecker.class, e, "createFileFromMail error ");
+            }
+        }
+        else {
+            try
+            {
+                Files.delete(path);
+            }
+            catch (IOException e)
+            {
+                Log.error(MailChecker.class, e, "createFileFromMail error ");
+            }
+        }
+    }
+    
+    public static String findLogInAttach()
+    {
+        String strReturn = "";
+        return strReturn;
+        
+    }
+    
 }
+
