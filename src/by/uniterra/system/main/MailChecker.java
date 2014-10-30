@@ -121,7 +121,7 @@ public class MailChecker
                             }
                         } else if (objBodyPartContent instanceof String)
                         {
-                            if (createFileFromMail(((String)objBodyPartContent) to byte array))
+                            if (createFileFromMail(((String)objBodyPartContent).getBytes()))
                             { 
                                 break;
                             }
@@ -132,7 +132,7 @@ public class MailChecker
                 else if (objMp instanceof String)
                 {
                     System.out.println("CONTENT:" + objMp);
-                    createFileFromMail((String) objMp) to byte array);
+                    createFileFromMail(((String) objMp).getBytes());
                 }
                 System.out.println("SENT DATE:" + DateUtils.toGMT(message[i].getSentDate()));
                 System.out.println("SUBJECT:" + message[i].getSubject());
