@@ -11,7 +11,7 @@ public class CryptPropertiesTest
 {
 
     private static final String APP_KEY = "3w45lk34h5k3p4h673";
-    private static final String INPUT_STR = "workfit";
+    private static final String INPUT_STR = "123";
 
     @Test
     public void test() throws Exception

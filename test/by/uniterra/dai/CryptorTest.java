@@ -15,7 +15,7 @@ public class CryptorTest
     @Test
     public void test()
     {
-        assertTrue(Cryptor.getSecurePassword(SECURE_PASSW).equals(Cryptor.getSecurePassword(SECURE_PASSW)));
+        assertTrue(Cryptor.getSecureString(SECURE_PASSW).equals(Cryptor.getSecureString(SECURE_PASSW)));
     }
 
 }

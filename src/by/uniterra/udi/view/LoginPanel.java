@@ -103,7 +103,7 @@ public class LoginPanel extends JPanel
     
     public String getPassword()
     {
-        return Cryptor.getSecurePassword(ptfPwd.getText());
+        return Cryptor.getSecureString(ptfPwd.getText());
     }
     
     public boolean getStatmentFlag()

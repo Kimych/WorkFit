@@ -100,7 +100,7 @@ public class Authorization implements Serializable
 
     public void setPassword(String password)
     {
-        this.password = Cryptor.getSecurePassword(password);
+        this.password = Cryptor.getSecureString(password);
     }
 
     public Worker getWorker()

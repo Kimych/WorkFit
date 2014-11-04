@@ -15,7 +15,7 @@ public  class Cryptor
      * @author Sergio Alecky
      * @date 09 окт. 2014 г.
      */
-    public static String getSecurePassword(String passwordToHash)
+    public static String getSecureString(String passwordToHash)
     {
         String generatedPassword = null;
         try {

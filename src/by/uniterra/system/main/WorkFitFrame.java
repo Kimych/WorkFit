@@ -160,7 +160,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
         {
             if (args.length != 0)
             {
-                wfFrame.doLogin((args[0].split("="))[1], Cryptor.getSecurePassword((args[1].split("="))[1]));
+                wfFrame.doLogin((args[0].split("="))[1], Cryptor.getSecureString((args[1].split("="))[1]));
             }
             else
             {

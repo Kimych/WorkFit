@@ -38,24 +38,19 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Properties;
 
-import javax.activation.DataHandler;
 import javax.mail.BodyPart;
 import javax.mail.Flags;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
-import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.Store;
-import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.search.FlagTerm;
-import javax.swing.text.StyledEditorKit.BoldAction;
 
-import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
-import com.sun.org.apache.regexp.internal.recompile;
-
+import by.uniterra.system.iface.IGlobalProperties;
+import by.uniterra.system.model.SystemModel;
 import by.uniterra.system.util.DateUtils;
 import by.uniterra.udi.util.Log;
 import by.uniterra.udi.util.LogParser;
@@ -76,12 +71,13 @@ public class MailChecker
      * @author Sergio Alecky
      * @date 28 окт. 2014 г.
      */
-    private static String SERVER = "mail.uniterra.by";
-    private static String EMAIL = "worklog@uniterra.by";
-    private static String PASSWORD = "IYBh9Vk7Bckt0vtsafdV";
+    private static String SERVER = SystemModel.getString(IGlobalProperties.ML_SERVER, "");
+    private static String EMAIL = SystemModel.getString(IGlobalProperties.ML_EMAIL, "");
+    private static String PASSWORD = SystemModel.getString(IGlobalProperties.ML_PWD, "");
 
     public static void main(String[] args)
     {
+        SystemModel.initJPA();
         checkMail();
 
     }
@@ -187,72 +183,20 @@ public class MailChecker
         return bResult;
     }
 
-    @SuppressWarnings("unused")
-   /* public static byte[] findLogInMultipart(Multipart multiPart) throws MessagingException, IOException
+
+    public static boolean findLogInMultipart(Multipart multiPart) throws MessagingException, IOException
     {
-        byte[] byteResult = null;
-        boolean bFlagLog = true;
-
-        //Multipart multiPart = (Multipart) message.getContent();
-
         int numberOfParts = multiPart.getCount();
-
         for (int partCount = 0; partCount < numberOfParts; partCount++)
         {
             BodyPart part = (BodyPart) multiPart.getBodyPart(partCount);
-
-            // !Part.ATTACHMENT.equalsIgnoreCase(part.getDisposition()))
-
             Object objBodyPartContent = part.getContent();
             if (objBodyPartContent instanceof MimeMultipart)
             {
-                for (int mimeCount = 0; mimeCount < ((MimeMultipart) objBodyPartContent).getCount(); mimeCount++)
+                if(findLogInMultipart((Multipart) objBodyPartContent))
                 {
-                    BodyPart mimePart = (BodyPart) ((Multipart) objBodyPartContent).getBodyPart(partCount);
-                    Object objMimePartContent = mimePart.getContent();
-                    if (objMimePartContent instanceof byte[])
-                    {
-                        if (createFileFromMail((byte[]) objMimePartContent))
-                        {
-                            bFlagLog = false;
-                            break;
-                        }
-                    }
-                    else if (objMimePartContent instanceof String)
-                    {
-                        if (createFileFromMail(((String) objMimePartContent).getBytes()))
-                        {
-                            bFlagLog = false;
-                            break;
-                        }
-                    }
-                    break;
+                    return true;
                 }
-                break;
-            }
-            
-`
-            if (bFlagLog  && Part.ATTACHMENT.equalsIgnoreCase(part.getDisposition()))
-            {
-                byteResult = getBytesFromInputStream(part.getInputStream());
-                createFileFromMail(byteResult);
-            }
-
-        }
-        return byteResult;
-    }*/
-
-    public static void findLogInMultipart(Multipart multiPart) throws MessagingException, IOException
-    {
-        Boolean bResult = true;
-        int numberOfParts = multiPart.getCount();
-        for (int partCount = 0; partCount < numberOfParts; partCount++)
-        {
-            BodyPart part = (BodyPart) multiPart.getBodyPart(partCount);
-            Object objBodyPartContent = part.getContent();
-            if (objBodyPartContent instanceof MimeMultipart)
-            {
-                findLogInMultipart((Multipart) objBodyPartContent);
             }
             else
             {
@@ -260,19 +204,19 @@ public class MailChecker
                 {
                     if (createFileFromMail((byte[]) objBodyPartContent))
                     {
-                        break;
+                        return true;
                     }
                 }
                 if (objBodyPartContent instanceof String)
                 {
                     if (createFileFromMail(((String) objBodyPartContent).getBytes()))
                     {
-                        break;
+                        return true;
                     }
                 }
             }
         }
-        
+        return false;
     }
     
     public static byte[] getBytesFromInputStream(InputStream is)

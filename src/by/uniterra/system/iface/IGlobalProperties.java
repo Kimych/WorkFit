@@ -48,4 +48,10 @@ public interface IGlobalProperties
     String DB_PWD = "db.pwd" + CRYPT_POSTFIX;
     String DB_DRIVER = "db.driver";
     
+    //mail connection settings
+    String ML_SERVER = "ml.mailserver"+CRYPT_POSTFIX;
+    String ML_EMAIL = "ml.email"+CRYPT_POSTFIX;
+    String ML_PWD = "ml.password"+CRYPT_POSTFIX;
+    
+    
 }
