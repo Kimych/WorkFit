@@ -27,12 +27,13 @@ package by.uniterra.udi.util;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadInfo;
+import java.lang.management.ThreadMXBean;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
-
-
 
 import by.uniterra.system.iface.ILogLevels;
 
@@ -162,25 +163,42 @@ public class Log
 	    m_logger = Logger.getLogger(Log.class.getName());
 	    // load configuration
 	    Properties props = new Properties();
-	    try
-	    {
-		//load configuration file
-		InputStream configStream = Log.class.getClassLoader().getResourceAsStream("config/log4j.properties");
-		props.load(configStream);
-		configStream.close();
-		//overwrite some properties
-		props.setProperty("log4j.appender.R.File", new File("").getAbsolutePath() + File.separatorChar + "logs" + File.separatorChar + "WorkFit_" + ApplicationUtils.getLocaleHostName() + ".log");
-		//Log.info(Log.class, new File("").getAbsolutePath());
-		//props.setProperty("log4j.appender.R.File", new java.io.File("").getAbsolutePath() + File.separatorChar + "logs" + File.separatorChar + "WorkFit_" + ApplicationUtils.getLocaleHostName() + ".log");
-		//props.setProperty("log4j.appender.R.File","logs" + java.io.File.separatorChar + "WorkFit_" + ApplicationUtils.getLocaleHostName() + ".log");
-		 //props.setProperty("log4j.appender.R.File", "logs\\WorkFit_" + ApplicationUtils.getLocaleHostName() + ".log");
-		//apply configuration
-		PropertyConfigurator.configure(props);
-	    } catch (IOException e)
-	    {
-	        e.printStackTrace();
-		System.out.println("Error: Cannot configure Log4J");
-	    }
+            try
+            {
+                // load configuration file
+                InputStream configStream = Log.class.getClassLoader().getResourceAsStream("config/log4j.properties");
+                props.load(configStream);
+                configStream.close();
+
+                ThreadMXBean temp = ManagementFactory.getThreadMXBean();
+                ThreadInfo t = temp.getThreadInfo(1, Integer.MAX_VALUE);
+                System.out.println("Name: " + t.getThreadName());
+                StackTraceElement st[] = t.getStackTrace();
+                // get full class name
+                String strAppName = st[st.length - 1].getClassName();
+                // convert to simple class name
+                strAppName = strAppName.substring(strAppName.lastIndexOf(".") + 1);
+                System.out.println("Main Class Name: " + strAppName);
+                // overwrite some properties
+                props.setProperty("log4j.appender.R.File", new File("").getAbsolutePath() + File.separatorChar + "logs" + File.separatorChar + strAppName + "_"
+                        + ApplicationUtils.getLocaleHostName() + ".log");
+                // Log.info(Log.class, new File("").getAbsolutePath());
+                // props.setProperty("log4j.appender.R.File", new
+                // java.io.File("").getAbsolutePath() + File.separatorChar +
+                // "logs" + File.separatorChar + "WorkFit_" +
+                // ApplicationUtils.getLocaleHostName() + ".log");
+                // props.setProperty("log4j.appender.R.File","logs" +
+                // java.io.File.separatorChar + "WorkFit_" +
+                // ApplicationUtils.getLocaleHostName() + ".log");
+                // props.setProperty("log4j.appender.R.File", "logs\\WorkFit_" +
+                // ApplicationUtils.getLocaleHostName() + ".log");
+                // apply configuration
+                PropertyConfigurator.configure(props);
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+                System.out.println("Error: Cannot configure Log4J");
+            }
 	} catch (Exception e)
 	{
 	    System.out.println(e.getMessage() + " " + e.getCause() + "" + e.getClass().getName());
