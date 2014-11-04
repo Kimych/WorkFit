@@ -29,21 +29,32 @@
 
 package by.uniterra.system.main;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Properties;
 
+import javax.activation.DataHandler;
 import javax.mail.BodyPart;
 import javax.mail.Flags;
 import javax.mail.Folder;
 import javax.mail.Message;
+import javax.mail.MessagingException;
 import javax.mail.Multipart;
+import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.Store;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMultipart;
 import javax.mail.search.FlagTerm;
+import javax.swing.text.StyledEditorKit.BoldAction;
+
+import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
+import com.sun.org.apache.regexp.internal.recompile;
 
 import by.uniterra.system.util.DateUtils;
 import by.uniterra.udi.util.Log;
@@ -67,20 +78,20 @@ public class MailChecker
      */
     private static String SERVER = "mail.uniterra.by";
     private static String EMAIL = "worklog@uniterra.by";
-    private static String PASSWORD = "";
+    private static String PASSWORD = "IYBh9Vk7Bckt0vtsafdV";
 
     public static void main(String[] args)
     {
         checkMail();
 
     }
-    
+
     public static void checkMail()
     {
         Properties props = new Properties();
         props.setProperty("mail.store.protocol", "imap");
         props.put("mail.imap.port", "143");
-        byte[] strToSave = null;
+        // byte[] strToSave = null;
 
         try
         {
@@ -104,30 +115,11 @@ public class MailChecker
                 System.out.println(i + 1 + ": " + message[i].getContentType());
 
                 Object objMp = message[i].getContent();
+                // String contentType = message[i].getContentType();
 
-                if (objMp instanceof Multipart)
+                if (objMp instanceof Multipart || objMp instanceof MimeMultipart)
                 {
-                    BodyPart bp = ((Multipart) objMp).getBodyPart(0);
-                    System.out.println("CONTENT:" + bp.getContent());
-                    
-                    for (int j = 0; j < ((Multipart) objMp).getCount(); j++)
-                    {
-                        Object objBodyPartContent = bp.getContent();
-                        if (objBodyPartContent instanceof byte[])
-                        {
-                            if (createFileFromMail((byte[])objBodyPartContent))
-                            { 
-                                break;
-                            }
-                        } else if (objBodyPartContent instanceof String)
-                        {
-                            if (createFileFromMail(((String)objBodyPartContent).getBytes()))
-                            { 
-                                break;
-                            }
-                        }
-                        
-                    }
+                    findLogInMultipart((Multipart)objMp);
                 }
                 else if (objMp instanceof String)
                 {
@@ -137,9 +129,8 @@ public class MailChecker
                 System.out.println("SENT DATE:" + DateUtils.toGMT(message[i].getSentDate()));
                 System.out.println("SUBJECT:" + message[i].getSubject());
 
-                
                 // mark as read
-               // message[i].setFlags(seen, true);
+                // message[i].setFlags(seen, true);
             }
             // close
             inbox.close(false);
@@ -152,30 +143,29 @@ public class MailChecker
             mex.printStackTrace();
         }
     }
-    
-    
-    public static boolean createFileFromMail(byte[] strToSave)
+
+    public static boolean createFileFromMail(byte[] strToSave) 
     {
         boolean bResult = false;
         Path path = Paths.get("D:/temp.txt");
-        
+
         try
         {
-            Files.write(path , strToSave, StandardOpenOption.CREATE);
+            Files.write(path, strToSave, StandardOpenOption.CREATE);
         }
         catch (IOException e)
         {
             Log.error(MailChecker.class, e, "createFileFromMail error ");
         }
-        
+
         String logDate = LogParser.isALog(path);
-        
-        if(logDate.length() != 0)
+
+        if (logDate.length() != 0)
         {
             System.out.println("Лог за: " + logDate);
             try
             {
-                Files.move(path, path.resolveSibling(logDate.replace(":", "-") +".txt"));
+                Files.move(path, path.resolveSibling(logDate.replace(":", "-") + ".txt"));
                 bResult = true;
             }
             catch (IOException e)
@@ -183,7 +173,8 @@ public class MailChecker
                 Log.error(MailChecker.class, e, "createFileFromMail error ");
             }
         }
-        else {
+        else
+        {
             try
             {
                 Files.delete(path);
@@ -195,13 +186,112 @@ public class MailChecker
         }
         return bResult;
     }
-    
-    public static String findLogInAttach()
+
+    @SuppressWarnings("unused")
+   /* public static byte[] findLogInMultipart(Multipart multiPart) throws MessagingException, IOException
     {
-        String strReturn = "";
-        return strReturn;
+        byte[] byteResult = null;
+        boolean bFlagLog = true;
+
+        //Multipart multiPart = (Multipart) message.getContent();
+
+        int numberOfParts = multiPart.getCount();
+
+        for (int partCount = 0; partCount < numberOfParts; partCount++)
+        {
+            BodyPart part = (BodyPart) multiPart.getBodyPart(partCount);
+
+            // !Part.ATTACHMENT.equalsIgnoreCase(part.getDisposition()))
+
+            Object objBodyPartContent = part.getContent();
+            if (objBodyPartContent instanceof MimeMultipart)
+            {
+                for (int mimeCount = 0; mimeCount < ((MimeMultipart) objBodyPartContent).getCount(); mimeCount++)
+                {
+                    BodyPart mimePart = (BodyPart) ((Multipart) objBodyPartContent).getBodyPart(partCount);
+                    Object objMimePartContent = mimePart.getContent();
+                    if (objMimePartContent instanceof byte[])
+                    {
+                        if (createFileFromMail((byte[]) objMimePartContent))
+                        {
+                            bFlagLog = false;
+                            break;
+                        }
+                    }
+                    else if (objMimePartContent instanceof String)
+                    {
+                        if (createFileFromMail(((String) objMimePartContent).getBytes()))
+                        {
+                            bFlagLog = false;
+                            break;
+                        }
+                    }
+                    break;
+                }
+                break;
+            }
+            
+`
+            if (bFlagLog  && Part.ATTACHMENT.equalsIgnoreCase(part.getDisposition()))
+            {
+                byteResult = getBytesFromInputStream(part.getInputStream());
+                createFileFromMail(byteResult);
+            }
+
+        }
+        return byteResult;
+    }*/
+
+    public static void findLogInMultipart(Multipart multiPart) throws MessagingException, IOException
+    {
+        Boolean bResult = true;
+        int numberOfParts = multiPart.getCount();
+        for (int partCount = 0; partCount < numberOfParts; partCount++)
+        {
+            BodyPart part = (BodyPart) multiPart.getBodyPart(partCount);
+            Object objBodyPartContent = part.getContent();
+            if (objBodyPartContent instanceof MimeMultipart)
+            {
+                findLogInMultipart((Multipart) objBodyPartContent);
+            }
+            else
+            {
+                if (objBodyPartContent instanceof byte[])
+                {
+                    if (createFileFromMail((byte[]) objBodyPartContent))
+                    {
+                        break;
+                    }
+                }
+                if (objBodyPartContent instanceof String)
+                {
+                    if (createFileFromMail(((String) objBodyPartContent).getBytes()))
+                    {
+                        break;
+                    }
+                }
+            }
+        }
         
     }
     
-}
+    public static byte[] getBytesFromInputStream(InputStream is)
+    {
+        try (ByteArrayOutputStream os = new ByteArrayOutputStream();)
+        {
+            byte[] buffer = new byte[0xFFFF];
 
+            for (int len; (len = is.read(buffer)) != -1;)
+                os.write(buffer, 0, len);
+
+            os.flush();
+
+            return os.toByteArray();
+        }
+        catch (IOException e)
+        {
+            return null;
+        }
+    }
+
+}
