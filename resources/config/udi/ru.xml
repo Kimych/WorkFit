@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<!-- WorkFitFrame -->
+	<by.uniterra.system.main.WorkFitFrame>
+		<Authotization.frame>Авторизация:</Authotization.frame>
+		<EditWorkerTable.frame>Редактирование Worker</EditWorkerTable.frame>
+		<EditYearTable.frame>Редактирование Year</EditYearTable.frame>
+		<EditDofWTable.frame>Редактирование Days of Work</EditDofWTable.frame>
+		<EditMonth.frame>Редактирование Month</EditMonth.frame>
+		<EditHolidayTable.frame>Редактирование Holiday
+		</EditHolidayTable.frame>
+		<EditUserRole.frame>Редактирование User Role</EditUserRole.frame>
+		<EditSpentHolidayTable.frame>Редактирование Spent Holiday
+		</EditSpentHolidayTable.frame>
+		<Yes.btn>Да</Yes.btn>
+		<No.btn>Нет</No.btn>
+		<CloseApp.label>Закрыть приложение?</CloseApp.label>
+	</by.uniterra.system.main.WorkFitFrame>
+
+
+	<!-- DynamicMenuBar -->
+	<by.uniterra.udi.view.DynamicMenuBar>
+		<Fit.menu>Fit</Fit.menu>
+		<Exit.menu>Выход</Exit.menu>
+		<ReLog.menu>Login/Logout</ReLog.menu>
+
+		<Administrationt.menu>Администрирование</Administrationt.menu>
+		<EditTable.menu>Редактировать таблицу</EditTable.menu>
+		<EditSpentHoliday.menu>Spent Holiday</EditSpentHoliday.menu>
+		<EditWorker.menu>Worker</EditWorker.menu>
+		<EditHoliday.menu>Holiday</EditHoliday.menu>
+		<EditDofW.menu>Days of Work</EditDofW.menu>
+		<EditMonth.menu>Month</EditMonth.menu>
+		<EditYear.menu>Year</EditYear.menu>
+		<EditUserRole.menu>User Role</EditUserRole.menu>
+		<AddLog.menu>Добавить данные из лога</AddLog.menu>
+
+		<Help.menu>Помощь</Help.menu>
+		<Welcome.menu>Welcome</Welcome.menu>
+		<About.menu>About</About.menu>
+
+		<User.menu>User Menu</User.menu>
+		<Refresh.menu>Refresh</Refresh.menu>
+		<ViewHistory.menu>View History</ViewHistory.menu>
+	</by.uniterra.udi.view.DynamicMenuBar>
+
+	<!-- Year Table -->
+	<by.uniterra.udi.view.YearOptionPanel>
+		<jlNumber.label>Год</jlNumber.label>
+		<jlDesk.label>Примечание</jlDesk.label>
+	</by.uniterra.udi.view.YearOptionPanel>
+
+	<by.uniterra.udi.model.YearTableModel>
+		<ColNumberYear.column>Год</ColNumberYear.column>
+		<ColDescYear.column>Примечание</ColDescYear.column>
+	</by.uniterra.udi.model.YearTableModel>
+
+	<!-- Month table -->
+	<by.uniterra.udi.model.MonthTableModel>
+		<ColNameMounts.column>Месяц</ColNameMounts.column>
+		<ColYearMonth.column>Год</ColYearMonth.column>
+		<ColWorkingDaysCountMonth.column>Кол-во рабочих дней
+		</ColWorkingDaysCountMonth.column>
+		<ColDescMonth.column>Примечание</ColDescMonth.column>
+	</by.uniterra.udi.model.MonthTableModel>
+
+	<by.uniterra.udi.view.MonthOptionPanel>
+		<jlNumber.label>Раб дней</jlNumber.label>
+		<jlDesk.label>Примечание</jlDesk.label>
+	</by.uniterra.udi.view.MonthOptionPanel>
+
+	<!-- Worker Table -->
+	<by.uniterra.udi.model.WorkerTableModel>
+		<FirstName.column>Имя</FirstName.column>
+		<SecondName.column>Фамилия</SecondName.column>
+		<ThirdName.column>Отчество</ThirdName.column>
+		<Alias.column>Псевдоним</Alias.column>
+	</by.uniterra.udi.model.WorkerTableModel>
+
+	<by.uniterra.udi.view.WorkerOptionPanel>
+		<jlFirstName.label>Имя</jlFirstName.label>
+		<jlSecondName.label>Фамилия</jlSecondName.label>
+		<jlThirdName.label>Отчество</jlThirdName.label>
+	</by.uniterra.udi.view.WorkerOptionPanel>
+
+	<!-- Holiday Table -->
+	<by.uniterra.udi.model.HolidayTableModel>
+		<ColCountDaysHoliday.column>Дней</ColCountDaysHoliday.column>
+		<ColIdYearHoliday.column>Год</ColIdYearHoliday.column>
+		<ColIdWorkerHoliday.column>Ф.И.О.</ColIdWorkerHoliday.column>
+	</by.uniterra.udi.model.HolidayTableModel>
+
+	<by.uniterra.udi.view.HolidayOptionPanel>
+		<jlName.label>Ф.И.О</jlName.label>
+		<jlYear.label>Год</jlYear.label>
+		<jlDays.label>Дней</jlDays.label>
+	</by.uniterra.udi.view.HolidayOptionPanel>
+
+	<!-- Spent holiday table -->
+	<by.uniterra.udi.model.SpentHolidayTableModel>
+		<DaysCount.column>Дней</DaysCount.column>
+		<Worker.column>ФИО</Worker.column>
+		<Date.column>Дата</Date.column>
+		<Desc.column>Описание</Desc.column>
+	</by.uniterra.udi.model.SpentHolidayTableModel>
+
+	<!-- Spent Holiday Option Panel -->
+	<by.uniterra.udi.view.SpentHolidayOptionPanel>
+		<DaysCount.label>Дни</DaysCount.label>
+		<Date.label>Дата</Date.label>
+		<Worker.label>ФИО</Worker.label>
+		<Desc.label>Описание</Desc.label>
+	</by.uniterra.udi.view.SpentHolidayOptionPanel>
+
+	<by.uniterra.udi.view.HolidayOptionPanel>
+		<jlName.label>Имя</jlName.label>
+		<jlYear.label>Год</jlYear.label>
+		<jlDays.label>Дни</jlDays.label>
+	</by.uniterra.udi.view.HolidayOptionPanel>
+
+	<!-- UserPanel -->
+	<by.uniterra.udi.view.UserPanel>
+		<jlWorker.label>Сотрудник:</jlWorker.label>
+		<jlLastUpdate.label>Последнее обновление:</jlLastUpdate.label>
+		<jlCurrentTime.label>Текущее время:</jlCurrentTime.label>
+		<jlToPlane.label>До плана:</jlToPlane.label>
+		<jlToBonus.label>До премии:</jlToBonus.label>
+		<jlTimeLeft.label>Осталось отпуска:</jlTimeLeft.label>
+	</by.uniterra.udi.view.UserPanel>
+
+	<!-- CommonDataTablePanel -->
+	<by.uniterra.udi.view.CommonDataTablePanel>
+		<menuItemDelRow.label>Удалить запись</menuItemDelRow.label>
+		<menuItemEditRow.label>Редактировать запись</menuItemEditRow.label>
+		<addOptionPanel.title>Добавление данных
+		</addOptionPanel.title>
+		<editOptionPanel.title>Редактирование данных
+		</editOptionPanel.title>
+		<buttonSaveDB.label>Новая запись</buttonSaveDB.label>
+		<buttonRefreshDB.label>Отменить изменения</buttonRefreshDB.label>
+		<errorMessageDialog.title>Ошибка!</errorMessageDialog.title>
+		<errorMessageDialog.lable>Неверный формат данных
+		</errorMessageDialog.lable>
+	</by.uniterra.udi.view.CommonDataTablePanel>
+
+	<!-- DaysOfWorkTableModel -->
+	<by.uniterra.udi.model.DaysOfWorkTableModel>
+		<fromLog.column>Из лога</fromLog.column>
+		<timestamp.column>Обновлено</timestamp.column>
+		<bonusTime.column>Бонус</bonusTime.column>
+		<descBonusTime.column>Примечание</descBonusTime.column>
+		<actualWorkedDays.column>Актуальные рабочие дни
+		</actualWorkedDays.column>
+		<daysOfWork.column>Отработанно</daysOfWork.column>
+		<montID.column>Месяц</montID.column>
+		<workerID.column>Работник</workerID.column>
+	</by.uniterra.udi.model.DaysOfWorkTableModel>
+
+	<!-- WorkLogTableModel -->
+	<by.uniterra.udi.model.WorkLogTableModel>
+		<name.column>ФИО</name.column>
+		<current.column>Текущее</current.column>
+		<toPlane.column>До плана</toPlane.column>
+		<toBonus.column>До премии</toBonus.column>
+		<restHoliday.column>Осталось отпуска</restHoliday.column>
+		<updateTime.column>Обновление</updateTime.column>
+	</by.uniterra.udi.model.WorkLogTableModel>
+
+	<!-- UserRoleTableMolel -->
+	<by.uniterra.udi.model.UserRoleTableMolel>
+		<name.column>ФИО</name.column>
+		<login.column>Логин</login.column>
+		<roleName.column>Роль</roleName.column>
+		<description.column>Описание</description.column>
+		<email.column>Email</email.column>
+	</by.uniterra.udi.model.UserRoleTableMolel>
+
+	<!-- Admin Panel -->
+	<by.uniterra.udi.view.AdminPanel>
+		<updateTime.footer>Последнее обновление лога: </updateTime.footer>
+		<infoTime.header>Информация по сотоянию на: </infoTime.header>
+	</by.uniterra.udi.view.AdminPanel>
+
+	<!-- DaysOfWorkOptionPanel -->
+	<by.uniterra.udi.view.DaysOfWorkOptionPanel>
+		<month.label>Месяц</month.label>
+		<actualsDay.label>Актуальное число дней</actualsDay.label>
+		<worker.label>Сотрудник</worker.label>
+		<refresh.label>Обновление</refresh.label>
+		<timeFromLog.label>Время из лога</timeFromLog.label>
+		<bonusTime.label>Бонусное время</bonusTime.label>
+		<deskription.label>Описание</deskription.label>
+	</by.uniterra.udi.view.DaysOfWorkOptionPanel>
+
+	<!-- UserRoleOptionPanel -->
+	<by.uniterra.udi.view.UserRoleOptionPanel>
+		<name.label>Имя</name.label>
+		<email.label>Email</email.label>
+		<role.label>Роль</role.label>
+		<login.label>Логин</login.label>
+		<password.label>Пароль</password.label>
+	</by.uniterra.udi.view.UserRoleOptionPanel>
+
+	<!-- LoginPanel -->
+	<by.uniterra.udi.view.LoginPanel>
+		<save.label>запомнить</save.label>
+		<user.label>Логин: </user.label>
+		<password.label>Пароль: </password.label>
+	</by.uniterra.udi.view.LoginPanel>
+
+</root>
+

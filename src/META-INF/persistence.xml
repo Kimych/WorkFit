@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	
+	<persistence-unit name="WorkFit">
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		<class>by.uniterra.dai.entity.DaysOfWork</class>
+		<class>by.uniterra.dai.entity.Holiday</class>
+		<class>by.uniterra.dai.entity.HolidayPK</class>
+		<class>by.uniterra.dai.entity.Month</class>
+		<class>by.uniterra.dai.entity.NameMonth</class>
+		<class>by.uniterra.dai.entity.SpentHoliday</class>
+		<class>by.uniterra.dai.entity.SpentHolidayPK</class>
+		<class>by.uniterra.dai.entity.Worker</class>
+		<class>by.uniterra.dai.entity.Year</class>
+		<class>by.uniterra.dai.entity.Authorization</class>
+		<class>by.uniterra.dai.entity.Role</class>
+	</persistence-unit>
+</persistence>

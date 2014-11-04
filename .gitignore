@@ -1,4 +1,9 @@
 /bin/
-
+log/
+.settings/
 *.classpath
 *.project
+.pmd
+src/custom.properties
+logs/
+build.properties
