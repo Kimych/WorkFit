@@ -95,38 +95,25 @@ public class MailChecker
             Store store = session.getStore();
             store.connect(SERVER, EMAIL, PASSWORD);
             Folder inbox = store.getFolder("INBOX");
+            // ---!!!!----
             inbox.open(Folder.READ_ONLY);
+            //----!!!!----
             // search for all "unseen" messages
             Flags seen = new Flags(Flags.Flag.SEEN);
             FlagTerm unseenFlagTerm = new FlagTerm(seen, false);
-
-            // Message message[] = folder.getMessages();
-
             Message message[] = inbox.search(unseenFlagTerm);
-            String out = message.length == 0 ? ("No new  messages found...") : ("We have: " + message.length + " new mail");
-            System.out.println(out);
-
             for (int i = 0, n = message.length; i < n; i++)
             {
-                System.out.println(i + 1 + ": " + message[i].getContentType());
-
                 Object objMp = message[i].getContent();
-                // String contentType = message[i].getContentType();
-
                 if (objMp instanceof Multipart || objMp instanceof MimeMultipart)
                 {
                     findLogInMultipart((Multipart)objMp);
                 }
                 else if (objMp instanceof String)
                 {
-                    System.out.println("CONTENT:" + objMp);
                     createFileFromMail(((String) objMp).getBytes());
                 }
-                System.out.println("SENT DATE:" + DateUtils.toGMT(message[i].getSentDate()));
-                System.out.println("SUBJECT:" + message[i].getSubject());
-
-                // mark as read
-                // message[i].setFlags(seen, true);
+                Log.info(MailChecker.class, "SENT DATE:" + DateUtils.toGMT(message[i].getSentDate()));
             }
             // close
             inbox.close(false);
@@ -140,7 +127,7 @@ public class MailChecker
         }
     }
 
-    public static boolean createFileFromMail(byte[] strToSave) 
+    public static boolean createFileFromMail(byte[] strToSave) throws IOException 
     {
         boolean bResult = false;
         Path path = Paths.get("D:/temp.txt");
@@ -158,15 +145,30 @@ public class MailChecker
 
         if (logDate.length() != 0)
         {
-            System.out.println("Лог за: " + logDate);
+            Log.info(MailChecker.class, "Log date from mail: " + logDate);
             try
             {
-                Files.move(path, path.resolveSibling(logDate.replace(":", "-") + ".txt"));
+                //add log in db and save to storage
+                LogParser.addLogInDBfromMail(path);
+             /*   if(LogParser.addLogInDBfromPath(path))
+                {
+                  //save in storage
+                    LogParser.saveLogToАrchive(path, "_mail");
+                    //Files.move(path, path.resolveSibling(logDate.replace(":", "-") + "_mail.txt"));
+                }
+                else
+                {
+                    Log.error(MailChecker.class, "Log " + logDate.replace(":", "-") + "not added in DB");
+                }*/
                 bResult = true;
             }
-            catch (IOException e)
+            catch ( Exception e)
             {
                 Log.error(MailChecker.class, e, "createFileFromMail error ");
+            }
+            finally
+            {
+                Files.delete(path);
             }
         }
         else
@@ -233,7 +235,7 @@ public class MailChecker
             return os.toByteArray();
         }
         catch (IOException e)
-        {
+        { 
             return null;
         }
     }

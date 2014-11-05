@@ -38,6 +38,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.prefs.Preferences;
 
@@ -388,7 +389,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
         JOptionPane.showConfirmDialog(this, panelCommon, frameTitle, JOptionPane.OK_CANCEL_OPTION);
     }
 
-    private static void createFileChooser(final JFrame frame)
+    private static void createFileChooser(final JFrame frame) throws ParseException
     {
         String filename = File.separator + "tmp";
         JFileChooser fileChooser = new JFileChooser(new File(filename));
@@ -399,7 +400,8 @@ public class WorkFitFrame extends JFrame implements ActionListener
 
         Log.info(WorkFitFrame.class, "Load log from file: " + fileChooser.getSelectedFile());
 
-        LogParser.saveLogInfoToDB(LogParser.getListFromLog(fileChooser.getSelectedFile().toPath()));
+        //LogParser.saveLogInfoToDB(LogParser.getListFromLog(fileChooser.getSelectedFile().toPath()));
+        LogParser.saveLogInDbfromHand(fileChooser.getSelectedFile().toPath());
 
     }
 

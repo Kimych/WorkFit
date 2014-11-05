@@ -3,24 +3,13 @@ package by.uniterra.udi.view;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import by.uniterra.dai.eao.ServiceBaseEAO;
-import by.uniterra.dai.eao.YearEAO;
-import by.uniterra.udi.model.YearTableModel;
 import by.uniterra.udi.util.Log;
 import by.uniterra.udi.util.LogParser;
 
@@ -97,7 +86,6 @@ public class WorkFitCommonFrame
         
         return fileChooser.getSelectedFile().toPath();
         
-
     }
 
 }
