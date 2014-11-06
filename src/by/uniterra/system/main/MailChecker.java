@@ -33,10 +33,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
 import javax.mail.BodyPart;
@@ -47,9 +50,9 @@ import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Store;
-import javax.mail.internet.MimeMultipart;
 import javax.mail.search.FlagTerm;
 
+import by.uniterra.dai.entity.DaysOfWork;
 import by.uniterra.system.iface.IGlobalProperties;
 import by.uniterra.system.model.SystemModel;
 import by.uniterra.system.util.DateUtils;
@@ -106,7 +109,7 @@ public class MailChecker
             for (int i = 0, n = message.length; i < n; i++)
             {
                 Object objMp = message[i].getContent();
-                if (objMp instanceof Multipart || objMp instanceof MimeMultipart)
+                if (objMp instanceof Multipart)
                 {
                     findLogInMultipart((Multipart)objMp);
                 }
@@ -131,8 +134,8 @@ public class MailChecker
     public static boolean createFileFromMail(byte[] strToSave) throws IOException 
     {
         boolean bResult = false;
-        Path path = Paths.get(new File("").getAbsolutePath());
-
+        Path path = Paths.get(new File("").getAbsolutePath() + File.separatorChar + "temp.txt");
+        // 1 save to temp file
         try
         {
             Files.write(path, strToSave, StandardOpenOption.CREATE);
@@ -141,50 +144,21 @@ public class MailChecker
         {
             Log.error(MailChecker.class, e, "createFileFromMail error ");
         }
-
-        String logDate = LogParser.isALog(path);
-
-        if (logDate.length() != 0)
+        
+        // parse worklog, insert into DB and copy into archive folder
+        LogParser.processWorklogFile(path);
+        
+        try
         {
-            Log.info(MailChecker.class, "Log date from mail: " + logDate);
-            try
-            {
-                //add log in db and save to storage
-                LogParser.addLogInDBfromMail(path);
-             /*   if(LogParser.addLogInDBfromPath(path))
-                {
-                  //save in storage
-                    LogParser.saveLogToАrchive(path, "_mail");
-                    //Files.move(path, path.resolveSibling(logDate.replace(":", "-") + "_mail.txt"));
-                }
-                else
-                {
-                    Log.error(MailChecker.class, "Log " + logDate.replace(":", "-") + "not added in DB");
-                }*/
-                bResult = true;
-            }
-            catch ( Exception e)
-            {
-                Log.error(MailChecker.class, e, "createFileFromMail error ");
-            }
-            finally
-            {
-                Files.delete(path);
-            }
+            Files.delete(path);
         }
-        else
+        catch (IOException e)
         {
-            try
-            {
-                Files.delete(path);
-            }
-            catch (IOException e)
-            {
-                Log.error(MailChecker.class, e, "createFileFromMail error ");
-            }
+            Log.error(MailChecker.class, e, "createFileFromMail error ");
         }
         return bResult;
     }
+
 
 
     public static boolean findLogInMultipart(Multipart multiPart) throws MessagingException, IOException
@@ -194,7 +168,7 @@ public class MailChecker
         {
             BodyPart part = (BodyPart) multiPart.getBodyPart(partCount);
             Object objBodyPartContent = part.getContent();
-            if (objBodyPartContent instanceof MimeMultipart)
+            if (objBodyPartContent instanceof Multipart)
             {
                 if(findLogInMultipart((Multipart) objBodyPartContent))
                 {

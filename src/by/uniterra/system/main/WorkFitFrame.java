@@ -38,6 +38,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.prefs.Preferences;
@@ -401,8 +402,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
         Log.info(WorkFitFrame.class, "Load log from file: " + fileChooser.getSelectedFile());
 
         //LogParser.saveLogInfoToDB(LogParser.getListFromLog(fileChooser.getSelectedFile().toPath()));
-        LogParser.saveLogInDbfromHand(fileChooser.getSelectedFile().toPath());
-
+        LogParser.processWorklogFile(fileChooser.getSelectedFile().toPath());
     }
 
     private static void saveLoginAndPassword(String userName, String userPassword)

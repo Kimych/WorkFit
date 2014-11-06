@@ -25,6 +25,7 @@ import by.uniterra.dai.eao.WorkerEAO;
 import by.uniterra.dai.entity.DaysOfWork;
 import by.uniterra.dai.entity.Month;
 import by.uniterra.dai.entity.Worker;
+import by.uniterra.system.main.MailChecker;
 import by.uniterra.system.model.SystemModel;
 import by.uniterra.system.util.DateUtils;
 import by.uniterra.system.util.WorkLogUtils;
@@ -58,10 +59,10 @@ public class LogParser
             Log.error(LogParser.class, e, "readAllLInes error");
         }
         Date date = null;
+        SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT_FROM_LOG);
+        formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
         for (String parseString : lstOriginalData)
         {
-            SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT_FROM_LOG);
-            formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
             if (parseString.contains(SEPARATOR_TO_ALIAS))
             {
                 int iAliasPos = parseString.indexOf(SEPARATOR_TO_ALIAS) + SEPARATOR_TO_ALIAS.length();
@@ -110,7 +111,6 @@ public class LogParser
                 }
             }
             // create empty List<DaysOfWork>
-            daysOfWorkList = new ArrayList<DaysOfWork>();
             List<Worker> workerArrayList;
             workerArrayList = new WorkerEAO(SystemModel.getDefaultEM()).loadAll();
 
@@ -139,7 +139,16 @@ public class LogParser
         return daysOfWorkList;
     }
 
-    private static boolean saveLogInfoToDB(List<DaysOfWork> lstDoWfromLog)
+    /**
+     * 
+     * FIXME we should return "true" only in case of all values in the list successfully inserted. If any item failed to save - we should rollback others. 
+     * @param lstDoWfromLog
+     * @return
+     *
+     * @author Sergio Alecky
+     * @date 06 нояб. 2014 г.
+     */
+    public static boolean saveLogInfoToDB(List<DaysOfWork> lstDoWfromLog)
     {
         Date dateFromLog = lstDoWfromLog.get(0).getTimestamp();
 
@@ -155,12 +164,11 @@ public class LogParser
                 {
                     dofEAO.save(dow);
                     Log.info(LogParser.class, "Data successfully added!");
-                    return true;
                 }
+                return true;
             }
             catch (Exception e)
             {
-
                 Log.error(LogParser.class, e, "save info from log to DB problems");
                 return false;
             }
@@ -174,9 +182,17 @@ public class LogParser
 
     }
 
-    public static String isALog(Path path)
+    /**
+     * 
+     * @param path
+     * @return
+     *
+     * @author Sergio Alecky
+     * @date 06 нояб. 2014 г.
+     */
+    public static Date getDateFromWorklog(Path path)
     {
-        String strDate = "";
+        Date dDate = null;
         List<String> lstOriginalData = new ArrayList<String>();
         try
         {
@@ -187,21 +203,32 @@ public class LogParser
             Log.error(LogParser.class, e, "isALog error");
         }
 
+        SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT_FROM_LOG);
+        formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
         for (String parseString : lstOriginalData)
         {
             if (parseString.contains(SEPARATOR_TO_DATE))
             {
                 int iDatePos = parseString.indexOf(SEPARATOR_TO_DATE) + SEPARATOR_TO_DATE.length();
-                strDate = parseString.substring(iDatePos);
+                String strDate = parseString.substring(iDatePos);
+                try
+                {
+                    dDate = formatter.parse(strDate);
+                    Log.info(LogParser.class, "Parsing Log Date " + DateUtils.toGMT(dDate));
+                }
+                catch (ParseException e)
+                {
+                    Log.error(LogParser.class, e, "date parse error");
+                }
                 break;
             }
         }
-        return strDate;
+        return dDate;
     }
-
+/*
     public static void saveLogToАrchive(Path path, String suffix) throws IOException, ParseException
     {
-        String strLogDate = LogParser.isALog(path);
+        String strLogDate = LogParser.getDateFromWorklog(path);
 
         if (strLogDate.length() != 0)
         {
@@ -214,9 +241,9 @@ public class LogParser
             Log.info(LogParser.class, "not a log!");
         }
 
-    }
+    }*/
 
-    public static void addLogInDBfromMail(Path path)
+   /* public static void addLogInDBfromMail(Path path)
     {
         try
         {
@@ -227,8 +254,8 @@ public class LogParser
             Log.error(LogParser.class, e, "addLogInDBfromMail error ");
         }
     }
-
-    public static void saveLogInDbfromHand(Path path) throws ParseException
+*/
+   /* public static void saveLogInDbfromHand(Path path) throws ParseException
     {
         if (saveLogInfoToDB(getListFromLog(path)))
         {
@@ -244,7 +271,7 @@ public class LogParser
             }
         }
 
-    }
+    }*/
 
     private static String getPathToSaveLog(String strDate) throws ParseException
     {
@@ -253,14 +280,55 @@ public class LogParser
         Date date = formatter.parse(strDate);
         
         String strPath = (new File("").getAbsolutePath() + File.separatorChar + "WorkLogStorage" + File.separatorChar + DateUtils.getYearNumber(date) + File.separatorChar +DateUtils.getMonthNumber(date) + File.separatorChar );
-        
-        if(!(new File(strPath).exists()))
+        File fileDestDir = new File(strPath);
+        if(!(fileDestDir.exists()))
         {
-            new File(strPath).mkdirs();
+            fileDestDir.mkdirs();
         }
         
         return strPath;
 
     }
 
+    public static Path createDestinationPath(Path pathBaseDestDir, String strDestFolder, Date dDateFromFile)
+    {
+        // create dest directory name
+        String strDestDir = pathBaseDestDir.toString() + File.separatorChar + strDestFolder + File.separatorChar + DateUtils.getYearNumber(dDateFromFile) + File.separatorChar +DateUtils.getMonthNumber(dDateFromFile) + File.separatorChar;
+        File fileDestDir = new File(strDestDir);
+        // check if the directory exists
+        if(!(fileDestDir.exists()))
+        {
+            fileDestDir.mkdirs();
+        }
+        // add file name
+        return Paths.get(strDestDir + DateUtils.toUTCString(dDateFromFile.getTime(), DateUtils.FILENAME_DATETIMEFORMAT) + ".txt");
+    }
+    
+    public static boolean processWorklogFile(Path path)
+    {
+        boolean bResult = false;
+        // 2 check for worklog
+        Date dDateFromWorklog = LogParser.getDateFromWorklog(path);
+
+        if (dDateFromWorklog != null)
+        {
+            Log.info(MailChecker.class, "Log date from mail: " + DateUtils.toGMT(dDateFromWorklog));
+            try
+            {
+                // 3 insert into DB
+                List<DaysOfWork> lstWorklogDtaa = LogParser.getListFromLog(path);
+                if (!lstWorklogDtaa.isEmpty() && LogParser.saveLogInfoToDB(lstWorklogDtaa))
+                {
+                    // 4 save into archive with renaming in case of success 
+                    Files.copy(path, LogParser.createDestinationPath(Paths.get(new File("").getAbsolutePath()), "WorkLogStorage", dDateFromWorklog));
+                }
+                bResult = true;
+            }
+            catch ( Exception e)
+            {
+                Log.error(MailChecker.class, e, "createFileFromMail error ");
+            }
+        }
+        return bResult;
+    }
 }

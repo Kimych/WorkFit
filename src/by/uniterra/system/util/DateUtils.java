@@ -27,8 +27,6 @@ package by.uniterra.system.util;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Clock;
-import java.time.YearMonth;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -51,6 +49,7 @@ public class DateUtils
     public static final String STANDARD_DATETIMEFORMAT = "dd.MM.yyyy HH:mm";
     public static final String STRAVITA_CSV_FILENAME_DATEFORMAT = "yyyyMMdd";
     public static final String FULL_MONTH_NAME_DATEFORMAT = "dd MMMM yyyy";
+    public static final String FILENAME_DATETIMEFORMAT = "yyyyMMdd HH_mm";
     
     public static final String TZ_GMTplus3 = "GMT+3";
     public static final String TZ_UTC = "UTC";
