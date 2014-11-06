@@ -30,6 +30,7 @@
 package by.uniterra.system.main;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -130,7 +131,7 @@ public class MailChecker
     public static boolean createFileFromMail(byte[] strToSave) throws IOException 
     {
         boolean bResult = false;
-        Path path = Paths.get("D:/temp.txt");
+        Path path = Paths.get(new File("").getAbsolutePath());
 
         try
         {
