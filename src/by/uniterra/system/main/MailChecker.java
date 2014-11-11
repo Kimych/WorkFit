@@ -29,17 +29,14 @@
 
 package by.uniterra.system.main;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Properties;
 
 import javax.mail.BodyPart;
@@ -52,7 +49,6 @@ import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.search.FlagTerm;
 
-import by.uniterra.dai.entity.DaysOfWork;
 import by.uniterra.system.iface.IGlobalProperties;
 import by.uniterra.system.model.SystemModel;
 import by.uniterra.system.util.DateUtils;
@@ -68,7 +64,6 @@ import by.uniterra.udi.util.LogParser;
  */
 public class MailChecker
 {
-
     /**
      * @param args
      *
@@ -78,20 +73,54 @@ public class MailChecker
     private static String SERVER = SystemModel.getString(IGlobalProperties.ML_SERVER, "");
     private static String EMAIL = SystemModel.getString(IGlobalProperties.ML_EMAIL, "");
     private static String PASSWORD = SystemModel.getString(IGlobalProperties.ML_PWD, "");
-
+    private static int HOUR_PR = SystemModel.getInt(IGlobalProperties.MC_HOUR,0);
+    private static int MINUTE_PR = SystemModel.getInt(IGlobalProperties.MC_MINUTE,0);
+    private static int SECOND_PR = SystemModel.getInt(IGlobalProperties.MC_SEKOND,0);
+    
+    private static long CHACK_MAIL_INTERVAL = DateUtils.ONE_MINUTE * 10;
+    private static int sleepTime = 300000;
+    
     public static void main(String[] args)
     {
         SystemModel.initJPA();
-        checkMail();
+        System.out.println("Mail checker started");
+        MailChecker mcEngine = new MailChecker();
+        // initial check
+        mcEngine.checkMail();
+        Calendar calNow = Calendar.getInstance();
+        calNow.set(Calendar.HOUR, HOUR_PR);
+        calNow.set(Calendar.MINUTE, MINUTE_PR);
+        calNow.set(Calendar.SECOND, SECOND_PR);
+        long lLastMailCheck = calNow.getTimeInMillis();
+        // check in additional every CHACK_MAIL_INTERVAL
+        while (!Thread.interrupted())
+        {
+            try
+            {
+                System.out.println("Mail cheker " + new Date());//+ current time
+                Thread.sleep(sleepTime);
+                if (System.currentTimeMillis() - lLastMailCheck > CHACK_MAIL_INTERVAL)
+                {
+                    mcEngine.checkMail();
+                    Log.info(MailChecker.class, "Mail checked:" +  new Date());
+                    lLastMailCheck = System.currentTimeMillis();
+                }
+            } catch (InterruptedException e)
+            {
+                System.out.println("..in sleep()");// NOPMD
+                System.exit(1);
+            }
+        }
+        
+        
 
     }
 
-    public static void checkMail()
+    public void checkMail()
     {
         Properties props = new Properties();
         props.setProperty("mail.store.protocol", "imap");
         props.put("mail.imap.port", "143");
-        // byte[] strToSave = null;
 
         try
         {
@@ -100,7 +129,7 @@ public class MailChecker
             store.connect(SERVER, EMAIL, PASSWORD);
             Folder inbox = store.getFolder("INBOX");
             // ---!!!!----
-            inbox.open(Folder.READ_ONLY);
+            inbox.open(Folder.READ_WRITE);
             //----!!!!----
             // search for all "unseen" messages
             Flags seen = new Flags(Flags.Flag.SEEN);
@@ -122,8 +151,6 @@ public class MailChecker
             // close
             inbox.close(false);
             store.close();
-            System.exit(0);
-
         }
         catch (Exception mex)
         {
@@ -131,7 +158,7 @@ public class MailChecker
         }
     }
 
-    public static boolean createFileFromMail(byte[] strToSave) throws IOException 
+    private boolean createFileFromMail(byte[] strToSave) throws IOException 
     {
         boolean bResult = false;
         Path path = Paths.get(new File("").getAbsolutePath() + File.separatorChar + "temp.txt");
@@ -161,7 +188,7 @@ public class MailChecker
 
 
 
-    public static boolean findLogInMultipart(Multipart multiPart) throws MessagingException, IOException
+    private boolean findLogInMultipart(Multipart multiPart) throws MessagingException, IOException
     {
         int numberOfParts = multiPart.getCount();
         for (int partCount = 0; partCount < numberOfParts; partCount++)
@@ -195,24 +222,4 @@ public class MailChecker
         }
         return false;
     }
-    
-    public static byte[] getBytesFromInputStream(InputStream is)
-    {
-        try (ByteArrayOutputStream os = new ByteArrayOutputStream();)
-        {
-            byte[] buffer = new byte[0xFFFF];
-
-            for (int len; (len = is.read(buffer)) != -1;)
-                os.write(buffer, 0, len);
-
-            os.flush();
-
-            return os.toByteArray();
-        }
-        catch (IOException e)
-        { 
-            return null;
-        }
-    }
-
 }

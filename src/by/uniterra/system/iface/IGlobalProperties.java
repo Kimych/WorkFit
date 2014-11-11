@@ -53,5 +53,8 @@ public interface IGlobalProperties
     String ML_EMAIL = "ml.email"+CRYPT_POSTFIX;
     String ML_PWD = "ml.password"+CRYPT_POSTFIX;
     
-    
+    //mail checker
+    String MC_HOUR = "mc.hour";
+    String MC_MINUTE = "mc.minute";
+    String MC_SEKOND = "mc.sekond";
 }

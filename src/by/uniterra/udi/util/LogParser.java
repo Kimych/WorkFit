@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
-import javax.swing.JOptionPane;
 
 import by.uniterra.dai.eao.DaysOfWorkEAO;
 import by.uniterra.dai.eao.MonthEAO;
@@ -36,14 +35,6 @@ public class LogParser
     private final static String SEPARATOR_TO_HOURS = " = ";
     private final static String SEPARATOR_TO_DATE = "startdate = ";
     private final static String DATE_FORMAT_FROM_LOG = "yyyy-MM-dd hh:mm:ss";
-
-    // private final static String DATE_FORMAT_SQL = "yyyy-MM-dd hh:mm:ss";
-
-    /*
-     * public static void main(String[] args) {
-     * getListFromLog(Paths.get("C:\\Users\\Comp\\Documents\\worklog.txt")); //
-     * getListFromLog(Paths.get("e:\\Temp\\worklog.txt")); }
-     */
 
     public static List<DaysOfWork> getListFromLog(Path path)
     {
@@ -175,7 +166,7 @@ public class LogParser
         }
         else
         {
-            JOptionPane.showMessageDialog(null, "data from the log for: " + DateUtils.toGMT(dateFromLog.getTime()) + " already added!");
+            //JOptionPane.showMessageDialog(null, "data from the log for: " + DateUtils.toGMT(dateFromLog.getTime()) + " already added!");
             Log.warning(LogParser.class, "attempted to add existing data");
         }
         return false;
@@ -225,70 +216,7 @@ public class LogParser
         }
         return dDate;
     }
-/*
-    public static void saveLogToАrchive(Path path, String suffix) throws IOException, ParseException
-    {
-        String strLogDate = LogParser.getDateFromWorklog(path);
 
-        if (strLogDate.length() != 0)
-        {
-            Path pathToSaveLog = Paths.get(getPathToSaveLog(strLogDate) + strLogDate.replace(":", "-") + suffix + ".txt");
-            //TODO temp -> move; other -> copy
-            Files.move(path, pathToSaveLog);
-        }
-        else
-        {
-            Log.info(LogParser.class, "not a log!");
-        }
-
-    }*/
-
-   /* public static void addLogInDBfromMail(Path path)
-    {
-        try
-        {
-            saveLogToАrchive(path, "_mail");
-        }
-        catch (Exception e)
-        {
-            Log.error(LogParser.class, e, "addLogInDBfromMail error ");
-        }
-    }
-*/
-   /* public static void saveLogInDbfromHand(Path path) throws ParseException
-    {
-        if (saveLogInfoToDB(getListFromLog(path)))
-        {
-            JOptionPane.showMessageDialog(null, "Success!!!");
-            
-            try
-            {
-                saveLogToАrchive(path, "_hand");
-            }
-            catch (IOException e)
-            {
-                Log.error(LogParser.class, e, "saveLogInDbfromHand error ");
-            }
-        }
-
-    }*/
-
-    private static String getPathToSaveLog(String strDate) throws ParseException
-    {
-        SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT_FROM_LOG);
-        formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-        Date date = formatter.parse(strDate);
-        
-        String strPath = (new File("").getAbsolutePath() + File.separatorChar + "WorkLogStorage" + File.separatorChar + DateUtils.getYearNumber(date) + File.separatorChar +DateUtils.getMonthNumber(date) + File.separatorChar );
-        File fileDestDir = new File(strPath);
-        if(!(fileDestDir.exists()))
-        {
-            fileDestDir.mkdirs();
-        }
-        
-        return strPath;
-
-    }
 
     public static Path createDestinationPath(Path pathBaseDestDir, String strDestFolder, Date dDateFromFile)
     {
