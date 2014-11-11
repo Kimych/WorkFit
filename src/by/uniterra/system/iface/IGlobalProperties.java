@@ -56,5 +56,5 @@ public interface IGlobalProperties
     //mail checker
     String MC_HOUR = "mc.hour";
     String MC_MINUTE = "mc.minute";
-    String MC_SEKOND = "mc.sekond";
+    String MC_INTERVAL = "mc.checkIntervalMinune";
 }
