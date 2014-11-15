@@ -168,12 +168,12 @@ public class DynamicMenuBar extends JMenuBar implements ActionListener, IAuthLis
             itemRefresh.setActionCommand(IMenuHelper.MCOMMAND_REFRESH);
             itemRefresh.addActionListener(this);
             // View History
-            /*JMenuItem itemViewHistory = new JMenuItem(UDIPropSingleton.getString(this, "ViewHistory.menu"));
+            JMenuItem itemViewHistory = new JMenuItem(UDIPropSingleton.getString(this, "ViewHistory.menu"));
             itemViewHistory.setActionCommand(IMenuHelper.MCOMMAND_VIEW_HISTORY);
-            itemViewHistory.addActionListener(this);*/
+            itemViewHistory.addActionListener(this);
 
             menuUser.add(itemRefresh);
-            //menuUser.add(itemViewHistory);
+            menuUser.add(itemViewHistory);
         }
         return menuUser;
 

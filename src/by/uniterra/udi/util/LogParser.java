@@ -85,8 +85,17 @@ public class LogParser
 
         if (date != null && !mapAliasHours.isEmpty())
         {
+            Date curentMonthStart = WorkLogUtils.getDateCurentMonthStart(date);
+            //Date curenDate = new Date();
             // get actual worked days
-            int actualWorkedDays = WorkLogUtils.getWorkingDaysBetweenTwoDates(WorkLogUtils.getDateCurentMonthStart(), new Date());
+            int actualWorkedDays = WorkLogUtils.getWorkingDaysBetweenTwoDates(curentMonthStart, date);
+            
+            
+            Log.info(LogParser.class, ">>>>>>>>>>>>>>Curent month start at: " + DateUtils.toGMT(curentMonthStart));
+            Log.info(LogParser.class, ">>>>>>>>>>>>>>ActualWorkedDays: " +  actualWorkedDays);
+            Log.info(LogParser.class, ">>>>>>>>>>>>>>Date from Log: " +  DateUtils.toGMT(date));
+            //Log.info(LogParser.class, ">>>>>>>>>>>>>>new Date(): " +  curenDate);
+            
             // get month object
             int curentMonth = YearMonth.now(Clock.systemUTC()).getMonthValue();
             int numberYear = YearMonth.now(Clock.systemUTC()).getYear();

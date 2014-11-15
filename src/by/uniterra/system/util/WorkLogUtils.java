@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 import by.uniterra.udi.util.Log;
 
@@ -134,16 +135,16 @@ public class WorkLogUtils
     {
         Calendar startCal;
         Calendar endCal;
-        startCal = Calendar.getInstance();
+        startCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         startCal.setTime(startDate);
-        endCal = Calendar.getInstance();
+        endCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         endCal.setTime(endDate);
         int workDays = 0;
 
         // Return 0 if start and end are the same
         if (startCal.getTimeInMillis() == endCal.getTimeInMillis())
         {
-            return 0;
+            return workDays;
         }
 
         if (startCal.getTimeInMillis() > endCal.getTimeInMillis())
@@ -151,25 +152,46 @@ public class WorkLogUtils
             startCal.setTime(endDate);
             endCal.setTime(startDate);
         }
-
-        do
+        
+        Log.debug(WorkLogUtils.class, DateUtils.toUTC(startCal.getTimeInMillis()) + " is a start time, " 
+                + DateUtils.toUTC(endCal.getTimeInMillis()) + " is an end time.");
+        
+        while (startCal.getTimeInMillis() < endCal.getTimeInMillis())
         {
-            startCal.add(Calendar.DAY_OF_MONTH, 1);
             if (startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY)
             {
                 ++workDays;
+                Log.debug(WorkLogUtils.class, DateUtils.toUTC(startCal.getTimeInMillis()) + " added to working days (" + workDays + ")");
             }
+            startCal.add(Calendar.DAY_OF_MONTH, 1);
         }
-        while (startCal.getTimeInMillis() < endCal.getTimeInMillis());
+        
 
         return workDays;
     }
 
-    public static Date getDateCurentMonthStart()
+    public static Date getDateCurentMonthStart(Date dateFromLog)
     {
-        ZoneId tz = Clock.systemDefaultZone().getZone();
+        /*ZoneId tz = Clock.systemDefaultZone().getZone();
         // tha same zone should be used twice to annihilate time shifting
-        return Date.from(LocalDateTime.now(tz).withDayOfMonth(1).atZone(tz).toInstant());
+        Date dateItNow = Date.from(LocalDateTime.now(tz).withDayOfMonth(1).atZone(tz).toInstant());
+        dateItNow.setHours(0);
+        dateItNow.setMinutes(0);
+        dateItNow.setSeconds(1);*/
+        
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        calendar.setTime(dateFromLog);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.HOUR, 0 );
+        calendar.set(Calendar.MINUTE, 1);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND,0);
+
+        
+
+       // Date firstDayOfMonth = calendar.getTime();
+
+        return calendar.getTime();
     }
 
 }

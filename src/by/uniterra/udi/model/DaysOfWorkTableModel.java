@@ -33,7 +33,7 @@ public class DaysOfWorkTableModel extends AbstractFlexTableModel
         addColumn(COL_BONUS_TIME, UDIPropSingleton.getString(this, "bonusTime.column"), String.class);
         addColumn(COL_BONUS_TIME_DESC, UDIPropSingleton.getString(this, "descBonusTime.column"), String.class);
         addColumn(COL_AKTUAL_WORKED_DAYS, UDIPropSingleton.getString(this, "actualWorkedDays.column"), String.class);
-        addColumn(COL_DAYS_OF_WORK_ID, UDIPropSingleton.getString(this, "daysOfWork.column"), String.class);
+        //addColumnNames.addColumn(COL_DAYS_OF_WORK_ID, UDIPropSingleton.getString(this, "daysOfWork.column"), String.class);
         addColumn(COL_MONTH_ID, UDIPropSingleton.getString(this, "montID.column"), String.class);
         addColumn(COL_WORKERE_ID, UDIPropSingleton.getString(this, "workerID.column"), String.class);
     }

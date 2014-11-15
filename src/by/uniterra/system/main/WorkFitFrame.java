@@ -368,9 +368,9 @@ public class WorkFitFrame extends JFrame implements ActionListener
             case IMenuHelper.MCOMMAND_REFRESH:
                 ((UserPanel) panelToInsert).loadDataInUI(auth.getWorker());
                 break;
-            /*
-             * case IMenuHelper.MCOMMAND_VIEW_HISTORY: // TODO break;
-             */
+            
+             case IMenuHelper.MCOMMAND_VIEW_HISTORY: // TODO break;
+             
             default:
                 break;
             }

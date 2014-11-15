@@ -172,13 +172,11 @@ public class Log
 
                 ThreadMXBean temp = ManagementFactory.getThreadMXBean();
                 ThreadInfo t = temp.getThreadInfo(1, Integer.MAX_VALUE);
-                System.out.println("Name: " + t.getThreadName());
                 StackTraceElement st[] = t.getStackTrace();
                 // get full class name
                 String strAppName = st[st.length - 1].getClassName();
                 // convert to simple class name
                 strAppName = strAppName.substring(strAppName.lastIndexOf(".") + 1);
-                System.out.println("Main Class Name: " + strAppName);
                 // overwrite some properties
                 props.setProperty("log4j.appender.R.File", new File("").getAbsolutePath() + File.separatorChar + "logs" + File.separatorChar + strAppName + "_"
                         + ApplicationUtils.getLocaleHostName() + ".log");
