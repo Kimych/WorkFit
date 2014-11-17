@@ -11,7 +11,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.text.StyledEditorKit.BoldAction;
 
 import org.jdesktop.swingx.JXLabel;
 

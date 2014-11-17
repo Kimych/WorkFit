@@ -11,9 +11,10 @@
 		<EditUserRole.frame>Edit User Role</EditUserRole.frame>
 		<EditSpentHolidayTable.frame>Edit Spent Holiday
 		</EditSpentHolidayTable.frame>
+		<History.frame>Log history</History.frame>
 		<Yes.btn>Yes</Yes.btn>
 		<No.btn>No</No.btn>
-		<CloseApp.label>Сomplete the application?</CloseApp.label>
+		<CloseApp.label>Close?</CloseApp.label>
 	</by.uniterra.system.main.WorkFitFrame>
 
 	<!-- DynamicMenuBar -->

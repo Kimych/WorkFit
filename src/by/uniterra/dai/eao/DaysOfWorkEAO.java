@@ -143,4 +143,26 @@ public class DaysOfWorkEAO extends ServiceBaseEAO<DaysOfWork>
         }
         return lstResult;
     }
+    
+    public List<DaysOfWork> finAllByWorker(Worker wWorker)
+    {
+        List<DaysOfWork> lstResult = null;
+        
+        try
+        {
+         // get according query
+            Query queryDeleteByDSId = getNamedQuery(DaysOfWork.NQ_FIND_ALL_BY_WORKER_ID);
+            // set Worker
+            queryDeleteByDSId.setParameter(DaysOfWork.PARAMETER_WORKER, wWorker);
+            // execute and return result
+            lstResult = (List<DaysOfWork>) queryDeleteByDSId.getResultList();
+        }
+        catch (Exception e)
+        {
+            Log.error(this, e, "finAllByWorker error");
+        }
+        
+        return lstResult;
+    
+    }
 }

@@ -82,6 +82,7 @@ import by.uniterra.udi.view.HolidayOptionPanel;
 import by.uniterra.udi.view.LoginPanel;
 import by.uniterra.udi.view.MonthOptionPanel;
 import by.uniterra.udi.view.SpentHolidayOptionPanel;
+import by.uniterra.udi.view.UserHistoryPanel;
 import by.uniterra.udi.view.UserPanel;
 import by.uniterra.udi.view.UserRoleOptionPanel;
 import by.uniterra.udi.view.WorkerOptionPanel;
@@ -369,8 +370,12 @@ public class WorkFitFrame extends JFrame implements ActionListener
                 ((UserPanel) panelToInsert).loadDataInUI(auth.getWorker());
                 break;
             
-             case IMenuHelper.MCOMMAND_VIEW_HISTORY: // TODO break;
+             case IMenuHelper.MCOMMAND_VIEW_HISTORY: 
+                 UserHistoryPanel userHistoryPanel = new UserHistoryPanel(auth.getWorker());
+                 JOptionPane.showMessageDialog(this, userHistoryPanel, UDIPropSingleton.getString(this, "History.frame"), JOptionPane.NO_OPTION);
+                 break;
              
+                 
             default:
                 break;
             }

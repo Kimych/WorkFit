@@ -12,6 +12,7 @@
 		<EditUserRole.frame>Редактирование User Role</EditUserRole.frame>
 		<EditSpentHolidayTable.frame>Редактирование Spent Holiday
 		</EditSpentHolidayTable.frame>
+		<History.frame>История логов</History.frame>
 		<Yes.btn>Да</Yes.btn>
 		<No.btn>Нет</No.btn>
 		<CloseApp.label>Закрыть приложение?</CloseApp.label>
