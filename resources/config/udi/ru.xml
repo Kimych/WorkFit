@@ -12,7 +12,7 @@
 		<EditUserRole.frame>Редактирование User Role</EditUserRole.frame>
 		<EditSpentHolidayTable.frame>Редактирование Spent Holiday
 		</EditSpentHolidayTable.frame>
-		<History.frame>История логов</History.frame>
+		<History.frame>История логов: </History.frame>
 		<Yes.btn>Да</Yes.btn>
 		<No.btn>Нет</No.btn>
 		<CloseApp.label>Закрыть приложение?</CloseApp.label>
@@ -150,7 +150,7 @@
 		<timestamp.column>Обновлено</timestamp.column>
 		<bonusTime.column>Бонус</bonusTime.column>
 		<descBonusTime.column>Примечание</descBonusTime.column>
-		<actualWorkedDays.column>Актуальные рабочие дни
+		<actualWorkedDays.column>Раб. дней
 		</actualWorkedDays.column>
 		<daysOfWork.column>Отработанно</daysOfWork.column>
 		<montID.column>Месяц</montID.column>

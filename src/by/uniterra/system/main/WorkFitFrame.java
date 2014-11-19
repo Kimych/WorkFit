@@ -372,7 +372,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
             
              case IMenuHelper.MCOMMAND_VIEW_HISTORY: 
                  UserHistoryPanel userHistoryPanel = new UserHistoryPanel(auth.getWorker());
-                 JOptionPane.showMessageDialog(this, userHistoryPanel, UDIPropSingleton.getString(this, "History.frame"), JOptionPane.NO_OPTION);
+                 JOptionPane.showMessageDialog(this, userHistoryPanel, UDIPropSingleton.getString(this, "History.frame") + auth.getWorker(), JOptionPane.NO_OPTION);
                  break;
              
                  

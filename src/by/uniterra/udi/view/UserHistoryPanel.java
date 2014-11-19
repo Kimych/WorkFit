@@ -40,8 +40,8 @@ public class UserHistoryPanel extends JPanel
         List<DaysOfWork> lstDofW = dofEAO.finAllByWorker(worker);
         if(lstDofW.size() != 0)
         {
-            DaysOfWorkTableModel doftm = new DaysOfWorkTableModel();
-            doftm = new DaysOfWorkTableModel();
+            DaysOfWorkTableModel doftm = new DaysOfWorkTableModel(true);
+            //doftm = new DaysOfWorkTableModel();
             doftm.setTableData(lstDofW);
             JXTable table = new JXTable(doftm);
             add(new JScrollPane(table), new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
