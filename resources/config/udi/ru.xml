@@ -38,11 +38,11 @@
 
 		<Help.menu>Помощь</Help.menu>
 		<Welcome.menu>Welcome</Welcome.menu>
-		<About.menu>About</About.menu>
+		<About.menu>О программе</About.menu>
 
-		<User.menu>User Menu</User.menu>
-		<Refresh.menu>Refresh</Refresh.menu>
-		<ViewHistory.menu>View History</ViewHistory.menu>
+		<User.menu>Меню</User.menu>
+		<Refresh.menu>Обновить</Refresh.menu>
+		<ViewHistory.menu>История</ViewHistory.menu>
 	</by.uniterra.udi.view.DynamicMenuBar>
 
 	<!-- Year Table -->
