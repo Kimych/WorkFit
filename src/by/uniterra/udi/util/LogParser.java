@@ -34,7 +34,7 @@ public class LogParser
     private final static String SEPARATOR_TO_ALIAS = "Hours of ";
     private final static String SEPARATOR_TO_HOURS = " = ";
     private final static String SEPARATOR_TO_DATE = "startdate = ";
-    private final static String DATE_FORMAT_FROM_LOG = "yyyy-MM-dd hh:mm:ss";
+    private final static String DATE_FORMAT_FROM_LOG = "yyyy-MM-dd HH:mm:ss";
 
     public static List<DaysOfWork> getListFromLog(Path path)
     {

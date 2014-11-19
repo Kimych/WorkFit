@@ -43,7 +43,7 @@ public interface IGlobalProperties
     String CRYPT_POSTFIX = ".crypted";
     
     // DB connection settings
-    String DB_URL = "db.url";
+    String DB_URL = "db.url" + CRYPT_POSTFIX ;
     String DB_USER = "db.user" + CRYPT_POSTFIX;
     String DB_PWD = "db.pwd" + CRYPT_POSTFIX;
     String DB_DRIVER = "db.driver";
