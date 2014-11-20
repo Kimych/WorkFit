@@ -6,13 +6,13 @@ import java.sql.Timestamp;
 
 
 /**
- * The persistent class for the day_type database table.
+ * The persistent class for the `calendar_special _days` database table.
  * 
  */
 @Entity
-@Table(name="day_type")
-@NamedQuery(name="DayType.findAll", query="SELECT d FROM DayType d")
-public class DayType implements Serializable {
+@Table(name="`calendar_special _days`")
+@NamedQuery(name="CalendarSpecialDay.findAll", query="SELECT c FROM CalendarSpecialDay c")
+public class CalendarSpecialDay implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -27,7 +27,7 @@ public class DayType implements Serializable {
 	@Column(name="TYPE_DAY")
 	private int typeDay;
 
-	public DayType() {
+	public CalendarSpecialDay() {
 	}
 
 	public int getDayTypeId() {

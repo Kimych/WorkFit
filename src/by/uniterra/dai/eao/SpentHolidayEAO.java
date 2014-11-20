@@ -4,7 +4,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
-import by.uniterra.dai.entity.Month;
 import by.uniterra.dai.entity.SpentHoliday;
 import by.uniterra.dai.entity.Worker;
 import by.uniterra.udi.util.Log;

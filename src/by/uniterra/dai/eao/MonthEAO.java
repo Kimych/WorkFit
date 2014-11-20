@@ -3,7 +3,6 @@ package by.uniterra.dai.eao;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import by.uniterra.dai.entity.Authorization;
 import by.uniterra.dai.entity.Month;
 import by.uniterra.udi.util.Log;
 
