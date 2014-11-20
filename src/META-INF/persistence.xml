@@ -14,5 +14,6 @@
 		<class>by.uniterra.dai.entity.Year</class>
 		<class>by.uniterra.dai.entity.Authorization</class>
 		<class>by.uniterra.dai.entity.Role</class>
+		<class>by.uniterra.dai.entity.DayType</class>
 	</persistence-unit>
 </persistence>

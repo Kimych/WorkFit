@@ -23,7 +23,7 @@ public class SystemModel
     // constants
     private static final String PERSISTENCE_UNIT_NAME = "WorkFit";
     private static final String DEFAULT_PROP_FILE = "config/global.properties";
-    private static final String CUSTOMER_PROPERTIES = "custom.properties";
+    private static final String CUSTOMER_PROPERTIES = "config/custom.properties";
     private static final String APP_KEY = "3w45lk34h5k3p4h673";
 
     // members
