@@ -147,9 +147,14 @@ public class DynamicMenuBar extends JMenuBar implements ActionListener, IAuthLis
             JMenuItem itemAddFromLOg = new JMenuItem(UDIPropSingleton.getString(this, "AddLog.menu"));
             itemAddFromLOg.setActionCommand(IMenuHelper.MCOMMAND_ADD_FROM_LOG);
             itemAddFromLOg.addActionListener(this);
+            
+            JMenuItem editCalSpehial = new JMenuItem("Редактировать календарь");
+            editCalSpehial.setActionCommand(IMenuHelper.MCOMMAND_EDIT_CAL_SPECIAL_DAY);
+            editCalSpehial.addActionListener(this);
 
             menuAdmin.add(menuEditTable);
             menuAdmin.add(itemAddFromLOg);
+            menuAdmin.add(editCalSpehial);
 
         }
 

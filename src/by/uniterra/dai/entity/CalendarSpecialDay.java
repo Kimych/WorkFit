@@ -2,7 +2,7 @@ package by.uniterra.dai.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.util.Date;
 
 
 /**
@@ -10,17 +10,19 @@ import java.sql.Timestamp;
  * 
  */
 @Entity
-@Table(name="`calendar_special _days`")
+@Table(name="calendar_special _days")
 @NamedQuery(name="CalendarSpecialDay.findAll", query="SELECT c FROM CalendarSpecialDay c")
 public class CalendarSpecialDay implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="DAY_TYPE_ID")
 	private int dayTypeId;
 
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_DAY")
-	private Timestamp dateDay;
+	private Date dateDay;
 
 	private String descrition;
 
@@ -38,11 +40,11 @@ public class CalendarSpecialDay implements Serializable {
 		this.dayTypeId = dayTypeId;
 	}
 
-	public Timestamp getDateDay() {
+	public Date getDateDay() {
 		return this.dateDay;
 	}
 
-	public void setDateDay(Timestamp dateDay) {
+	public void setDateDay(Date dateDay) {
 		this.dateDay = dateDay;
 	}
 

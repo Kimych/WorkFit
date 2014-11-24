@@ -51,6 +51,7 @@ import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import by.uniterra.dai.eao.AuthorizationEAO;
+import by.uniterra.dai.eao.CalendarSpecialDayEAO;
 import by.uniterra.dai.eao.DaysOfWorkEAO;
 import by.uniterra.dai.eao.HolidayEAO;
 import by.uniterra.dai.eao.MonthEAO;
@@ -62,6 +63,7 @@ import by.uniterra.dai.entity.Role;
 import by.uniterra.system.iface.IRole;
 import by.uniterra.system.model.SystemModel;
 import by.uniterra.udi.iface.IMenuHelper;
+import by.uniterra.udi.model.CalendarSpecialDayTableModel;
 import by.uniterra.udi.model.DaysOfWorkTableModel;
 import by.uniterra.udi.model.HolidayTableModel;
 import by.uniterra.udi.model.MonthTableModel;
@@ -75,6 +77,7 @@ import by.uniterra.udi.util.Log;
 import by.uniterra.udi.util.LogParser;
 import by.uniterra.udi.view.AboutPanel;
 import by.uniterra.udi.view.AdminPanel;
+import by.uniterra.udi.view.CalendarSpecialDayOptionPanel;
 import by.uniterra.udi.view.CommonDataTablePanel;
 import by.uniterra.udi.view.DaysOfWorkOptionPanel;
 import by.uniterra.udi.view.DynamicMenuBar;
@@ -360,6 +363,13 @@ public class WorkFitFrame extends JFrame implements ActionListener
                 showEditPanel(panelUserRole, UDIPropSingleton.getString(this, "EditUserRole.frame"));
                 panelUserRole.writeValues();
                 break;
+            case IMenuHelper.MCOMMAND_EDIT_CAL_SPECIAL_DAY:
+                CommonDataTablePanel panelCalSpecial = new CommonDataTablePanel(new CalendarSpecialDayTableModel(), new CalendarSpecialDayOptionPanel(), new CalendarSpecialDayEAO(
+                        SystemModel.getDefaultEM()));
+                showEditPanel(panelCalSpecial, UDIPropSingleton.getString(this, "EditUserRole.frame"));
+                panelCalSpecial.writeValues();
+                break;
+                
             /*
              * case IMenuHelper.MCOMMAND_WELCOME: // TODO break;
              */

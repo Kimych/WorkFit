@@ -53,6 +53,7 @@ public interface IMenuHelper
      static final String MCOMMAND_EDIT_YEAR = "Edit year";
      static final String MCOMMAND_EDIT_USER_ROLE = "Edit user role";
      static final String MCOMMAND_ADD_FROM_LOG = "Add from Log";
+     static final String MCOMMAND_EDIT_CAL_SPECIAL_DAY = "Edit cal spesial day";
      
      
      //menuUser
