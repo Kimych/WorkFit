@@ -40,6 +40,7 @@ import java.io.File;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.prefs.Preferences;
 
 import javax.persistence.EntityManager;
@@ -51,7 +52,6 @@ import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import by.uniterra.dai.eao.AuthorizationEAO;
-import by.uniterra.dai.eao.CalendarSpecialDayEAO;
 import by.uniterra.dai.eao.DaysOfWorkEAO;
 import by.uniterra.dai.eao.HolidayEAO;
 import by.uniterra.dai.eao.MonthEAO;
@@ -62,6 +62,7 @@ import by.uniterra.dai.entity.Authorization;
 import by.uniterra.dai.entity.Role;
 import by.uniterra.system.iface.IRole;
 import by.uniterra.system.model.SystemModel;
+import by.uniterra.system.util.DateUtils;
 import by.uniterra.udi.iface.IMenuHelper;
 import by.uniterra.udi.model.CalendarSpecialDayTableModel;
 import by.uniterra.udi.model.DaysOfWorkTableModel;
@@ -77,7 +78,6 @@ import by.uniterra.udi.util.Log;
 import by.uniterra.udi.util.LogParser;
 import by.uniterra.udi.view.AboutPanel;
 import by.uniterra.udi.view.AdminPanel;
-import by.uniterra.udi.view.CalendarSpecialDayOptionPanel;
 import by.uniterra.udi.view.CommonDataTablePanel;
 import by.uniterra.udi.view.DaysOfWorkOptionPanel;
 import by.uniterra.udi.view.DynamicMenuBar;
@@ -90,6 +90,7 @@ import by.uniterra.udi.view.UserPanel;
 import by.uniterra.udi.view.UserRoleOptionPanel;
 import by.uniterra.udi.view.WorkerOptionPanel;
 import by.uniterra.udi.view.YearOptionPanel;
+import by.uniterra.udi.view.YearSpecialCalendar;
 
 /**
  * The <code>WorkFitFrame</code> is used for ...
@@ -364,10 +365,11 @@ public class WorkFitFrame extends JFrame implements ActionListener
                 panelUserRole.writeValues();
                 break;
             case IMenuHelper.MCOMMAND_EDIT_CAL_SPECIAL_DAY:
-                CommonDataTablePanel panelCalSpecial = new CommonDataTablePanel(new CalendarSpecialDayTableModel(), new CalendarSpecialDayOptionPanel(), new CalendarSpecialDayEAO(
-                        SystemModel.getDefaultEM()));
-                showEditPanel(panelCalSpecial, UDIPropSingleton.getString(this, "EditUserRole.frame"));
-                panelCalSpecial.writeValues();
+                /*CommonDataTablePanel panelCalSpecial = new CommonDataTablePanel(new CalendarSpecialDayTableModel(), new CalendarSpecialDayOptionPanel(), new CalendarSpecialDayEAO(
+                        SystemModel.getDefaultEM()));*/
+                //showEditPanel(panelCalSpecial, UDIPropSingleton.getString(this, "EditUserRole.frame"));
+                JOptionPane.showMessageDialog(this, new YearSpecialCalendar(DateUtils.getYearNumber(new Date())), "About", JOptionPane.PLAIN_MESSAGE);
+                //panelCalSpecial.writeValues();
                 break;
                 
             /*

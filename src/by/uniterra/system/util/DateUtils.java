@@ -29,6 +29,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import by.uniterra.system.model.TimePeriodEx;
@@ -42,7 +43,7 @@ import by.uniterra.udi.util.Log;
  */
 public class DateUtils
 {
-    //constants
+    // constants
     public static final String EUROP_FULL_DATETIMEFORMAT = "dd.MM.yyyy HH:mm:ss";
     public static final String EUROP_SHORT_TIMEFORMAT = "HH:mm";
     public static final String EUROP_FULL_DATEFORMAT = "dd.MM.yyyy";
@@ -50,10 +51,10 @@ public class DateUtils
     public static final String STRAVITA_CSV_FILENAME_DATEFORMAT = "yyyyMMdd";
     public static final String FULL_MONTH_NAME_DATEFORMAT = "dd MMMM yyyy";
     public static final String FILENAME_DATETIMEFORMAT = "yyyyMMdd HH_mm";
-    
+
     public static final String TZ_GMTplus3 = "GMT+3";
     public static final String TZ_UTC = "UTC";
-    
+
     /** a hour in ms . */
     public static final long ONE_HOUR = 3600000;
     /** count of hours oer day */
@@ -70,10 +71,9 @@ public class DateUtils
     public static final long ONE_WEEK = 7 * ONE_DAY;
     /** a month in ms . */
     public static final long ONE_MONTH = 30 * ONE_DAY;
-    
+
     public static final long ONE_MINUTE = 60 * ONE_SECOND;
-    
-   
+
     /**
      * Get current time
      * 
@@ -86,10 +86,12 @@ public class DateUtils
     {
         return new Date(System.currentTimeMillis());
     }
-    
+
     /**
-     * @param ts a Timestamp
-     * @param timeZoneId Id of TimeZone
+     * @param ts
+     *            a Timestamp
+     * @param timeZoneId
+     *            Id of TimeZone
      * @return a String formated with SimpleDateFormat
      */
     public static String toFormatedString(final Timestamp ts, final String timeZoneId)
@@ -98,16 +100,16 @@ public class DateUtils
         df.setTimeZone(TimeZone.getTimeZone(timeZoneId));
         return df.format(ts.getTime());
     }
-    
-   /**
-    * 
-    * @param s
-    * @param format
-    * @return
-    *
-    * @author Anton Nedbailo
-    * @date Sep 29, 2013
-    */
+
+    /**
+     * 
+     * @param s
+     * @param format
+     * @return
+     *
+     * @author Anton Nedbailo
+     * @date Sep 29, 2013
+     */
     public static Timestamp stringToTimestamp(final String s, final String format)
     {
         return stringToTimestamp(s, format, TZ_UTC, false);
@@ -150,18 +152,20 @@ public class DateUtils
             try
             {
                 date = df.parse(s);
-            } catch (ParseException e)
+            }
+            catch (ParseException e)
             {
                 Log.error(DateUtils.class, e, "stringToTimestamp error ");
             }
-        } else
+        }
+        else
         {
             date = new java.util.Date();
         }
         Timestamp ts = new Timestamp(date.getTime());
         return ts;
     }
-    
+
     /**
      * 
      * @param tsStart
@@ -175,12 +179,13 @@ public class DateUtils
     {
         return timestampToString(tsStart, STANDARD_DATETIMEFORMAT, TZ_UTC) + " - " + timestampToString(tsEnd, STANDARD_DATETIMEFORMAT, TZ_UTC) + " GMT";
     }
-    
+
     public static String to2GMTString(final Date tsStart, final Date tsEnd)
     {
-        return timestampToString(new Timestamp(tsStart.getTime()), STANDARD_DATETIMEFORMAT, TZ_UTC) + " - " + timestampToString(new Timestamp(tsEnd.getTime()), STANDARD_DATETIMEFORMAT, TZ_UTC) + " GMT";
+        return timestampToString(new Timestamp(tsStart.getTime()), STANDARD_DATETIMEFORMAT, TZ_UTC) + " - "
+                + timestampToString(new Timestamp(tsEnd.getTime()), STANDARD_DATETIMEFORMAT, TZ_UTC) + " GMT";
     }
-    
+
     /**
      * 
      * @param ts
@@ -202,7 +207,6 @@ public class DateUtils
         }
         return formatter.format(ret);
     }
-    
 
     /**
      * @return Wandelt einen Timestamp in eine String bezogen auf UTC um.
@@ -214,7 +218,8 @@ public class DateUtils
     }
 
     /**
-     * @param ts timestamp
+     * @param ts
+     *            timestamp
      * @return in US Format with UTC as postfix
      */
     public static String toUTCString(final long ts)
@@ -223,18 +228,20 @@ public class DateUtils
     }
 
     /**
-     * @param ts time
-     * @param format the dateformat, for example "dd.MM.yyyy HH:mm"
+     * @param ts
+     *            time
+     * @param format
+     *            the dateformat, for example "dd.MM.yyyy HH:mm"
      * @return formatted String
      */
     public static String toUTCString(final long ts, final String format)
     {
         return timestampToString(new Timestamp(ts), format, TZ_UTC);
     }
-    
 
     /**
-     * @param ts time
+     * @param ts
+     *            time
      * @return Wandelt einen Timestamp in eine String bezogen auf GMT um.
      * 
      */
@@ -244,7 +251,8 @@ public class DateUtils
     }
 
     /**
-     * @param ts time
+     * @param ts
+     *            time
      * @return Wandelt einen Timestamp in eine String bezogen auf GMT um.
      * 
      */
@@ -252,7 +260,6 @@ public class DateUtils
     {
         return timestampToString(ts, STANDARD_DATETIMEFORMAT, TZ_UTC);
     }
-
 
     /**
      * 
@@ -269,7 +276,8 @@ public class DateUtils
         if (bRoundTo)
         {
             tsNewBeginTime.setTime(getRoundToBeginTime(tsPeriod, tsOffset, tzTimeZone).getTime());
-        } else
+        }
+        else
         { // BeginTime = (Now + Offset) + ( - Period)
           // make ( - Period)
             final TimePeriodEx extpNegPeriod = new TimePeriodEx(tsPeriod.getTime());
@@ -278,7 +286,7 @@ public class DateUtils
         }
         return tsNewBeginTime;
     }
-    
+
     /**
      * 
      * Get Now + Offset time
@@ -302,21 +310,20 @@ public class DateUtils
      * 
      *         Author: Anton Create date: 20.01.2009 14:01:30
      */
-    public static Timestamp makeNewEndTime(final TimePeriodEx tsPeriod, final TimePeriodEx tsOffset, final boolean bRoundTo,
-            final TimeZone tzTimeZone)
+    public static Timestamp makeNewEndTime(final TimePeriodEx tsPeriod, final TimePeriodEx tsOffset, final boolean bRoundTo, final TimeZone tzTimeZone)
     {
         final Timestamp tsNewEndTime = new Timestamp(new Date().getTime());
         // check RoundTo flag
         if (bRoundTo)
         { // EndTime = RoundToBeginTime + till end of unit (years, months...)
             tsNewEndTime.setTime(getRoundToEndTime(tsPeriod, tsOffset, tzTimeZone).getTime());
-        } else
+        }
+        else
         { // EndTime = (Now + Offset)
             tsNewEndTime.setTime(getNowPlusOffset(tsOffset).getTime());
         }
         return tsNewEndTime;
     }
-    
 
     /**
      * 
@@ -342,7 +349,8 @@ public class DateUtils
             calNow.set(Calendar.MILLISECOND, 0);
             // startTime + Years
             calNow.add(Calendar.YEAR, tsPeriod.getYears());
-        } else if (tsPeriod.getMonths() != 0)
+        }
+        else if (tsPeriod.getMonths() != 0)
         {
             // set beginning of the month
             calNow.set(Calendar.DAY_OF_MONTH, 1);
@@ -352,7 +360,8 @@ public class DateUtils
             calNow.set(Calendar.MILLISECOND, 0);
             // startTime + Month
             calNow.add(Calendar.MONTH, tsPeriod.getMonths());
-        } else if (tsPeriod.getWeeks() != 0)
+        }
+        else if (tsPeriod.getWeeks() != 0)
         {
             // set beginning of the week
             calNow.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
@@ -362,7 +371,8 @@ public class DateUtils
             calNow.set(Calendar.MILLISECOND, 0);
             // startTime + Weeks
             calNow.add(Calendar.WEEK_OF_YEAR, tsPeriod.getWeeks());
-        } else if (tsPeriod.getDays() != 0)
+        }
+        else if (tsPeriod.getDays() != 0)
         {
             // set beginning of the day
             calNow.set(Calendar.HOUR_OF_DAY, 0);
@@ -371,7 +381,8 @@ public class DateUtils
             calNow.set(Calendar.MILLISECOND, 0);
             // startTime + Days
             calNow.add(Calendar.DAY_OF_YEAR, tsPeriod.getDays());
-        } else if (tsPeriod.getHours() != 0)
+        }
+        else if (tsPeriod.getHours() != 0)
         {
             // set beginning of the hour
             calNow.set(Calendar.MINUTE, 0);
@@ -382,7 +393,6 @@ public class DateUtils
         }
         return new Timestamp(calNow.getTimeInMillis());
     }
-
 
     /**
      * 
@@ -408,7 +418,8 @@ public class DateUtils
             calNow.set(Calendar.MINUTE, 0);
             calNow.set(Calendar.SECOND, 0);
             calNow.set(Calendar.MILLISECOND, 0);
-        } else if (tsPeriod.getMonths() != 0)
+        }
+        else if (tsPeriod.getMonths() != 0)
         {
             // startTime - (Month - 1)
             calNow.add(Calendar.MONTH, -(tsPeriod.getMonths() - 1));
@@ -418,7 +429,8 @@ public class DateUtils
             calNow.set(Calendar.MINUTE, 0);
             calNow.set(Calendar.SECOND, 0);
             calNow.set(Calendar.MILLISECOND, 0);
-        } else if (tsPeriod.getWeeks() != 0)
+        }
+        else if (tsPeriod.getWeeks() != 0)
         {
             // startTime - (Weeks - 1)
             calNow.add(Calendar.WEEK_OF_YEAR, -(tsPeriod.getWeeks() - 1));
@@ -428,7 +440,8 @@ public class DateUtils
             calNow.set(Calendar.MINUTE, 0);
             calNow.set(Calendar.SECOND, 0);
             calNow.set(Calendar.MILLISECOND, 0);
-        } else if (tsPeriod.getDays() != 0)
+        }
+        else if (tsPeriod.getDays() != 0)
         {
             // startTime - (Days - 1)
             calNow.add(Calendar.DAY_OF_YEAR, -(tsPeriod.getDays() - 1));
@@ -437,7 +450,8 @@ public class DateUtils
             calNow.set(Calendar.MINUTE, 0);
             calNow.set(Calendar.SECOND, 0);
             calNow.set(Calendar.MILLISECOND, 0);
-        } else if (tsPeriod.getHours() != 0)
+        }
+        else if (tsPeriod.getHours() != 0)
         {
             // startTime - (Hours - 1)
             calNow.add(Calendar.HOUR, -(tsPeriod.getHours() - 1));
@@ -448,28 +462,29 @@ public class DateUtils
         }
         return new Timestamp(calNow.getTimeInMillis());
     }
-    
-    
-    //TODO убрать костыль
+
+    // TODO убрать костыль
     public static int getMonthNumber(Date date)
     {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        return  cal.get(Calendar.MONTH) + 1;
+        return cal.get(Calendar.MONTH) + 1;
     }
+
     public static int getYearNumber(Date date)
     {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         return cal.get(Calendar.YEAR);
     }
+
     public static int getDayNumber(Date date)
     {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         return cal.get(Calendar.DAY_OF_MONTH);
     }
-    
+
     public static Timestamp upToEndDayDate(Date currentDate)
     {
         Calendar cal = Calendar.getInstance();
@@ -478,5 +493,21 @@ public class DateUtils
         cal.set(Calendar.MINUTE, 59);
         cal.set(Calendar.SECOND, 59);
         return new Timestamp(cal.getTimeInMillis());
+    }
+    
+    /**
+     * 
+     * @param monthNum - month number (0-11)
+     * @param yearNum - year number
+     * @return - determining the number of milliseconds beginning of the month of the year
+     *
+     * @author Sergio Alecky
+     * @date 25 нояб. 2014 г.
+     */
+    public static Date getMonthStartDate(int monthNum, int yearNum)
+    {
+        
+        return new Date((new GregorianCalendar(yearNum, monthNum, 1)).getTimeInMillis());
+        
     }
 }
