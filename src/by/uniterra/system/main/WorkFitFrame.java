@@ -368,7 +368,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
                 /*CommonDataTablePanel panelCalSpecial = new CommonDataTablePanel(new CalendarSpecialDayTableModel(), new CalendarSpecialDayOptionPanel(), new CalendarSpecialDayEAO(
                         SystemModel.getDefaultEM()));*/
                 //showEditPanel(panelCalSpecial, UDIPropSingleton.getString(this, "EditUserRole.frame"));
-                JOptionPane.showMessageDialog(this, new YearSpecialCalendar(DateUtils.getYearNumber(new Date())), "About", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(this, new YearSpecialCalendar(), "About", JOptionPane.PLAIN_MESSAGE);
                 //panelCalSpecial.writeValues();
                 break;
                 

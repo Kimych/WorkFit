@@ -19,21 +19,21 @@ public class MonthSpecialCalendar extends JPanel
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 6315005613998935370L;
 
-    
+    JXMonthView monthView;
 
     
-    public MonthSpecialCalendar(int month, int year)
+    public MonthSpecialCalendar()
     {
         super(new GridBagLayout());
-        jbInit(month, year);
+        jbInit();
     }
 
 
-    private void jbInit(int month, int year)
+    private void jbInit()
     {
         JLabel jlWorkingDay = new JLabel("Wrk  Day:");
         
-        JXMonthView monthView = new JXMonthView(DateUtils.getMonthStartDate(month, 2014));
+        monthView = new JXMonthView();
         monthView.setFirstDayOfWeek(Calendar.MONDAY);
         monthView.setTodayBackground(Color.GREEN);
         /*monthView.setPreferredColumnCount(4);
@@ -42,4 +42,15 @@ public class MonthSpecialCalendar extends JPanel
         add(jlWorkingDay, new GridBagConstraints(0, 1, 1, 0, 0, 0, GridBagConstraints.SOUTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
         
     }
+
+    public  void setModel(int numMonth, int numYear)
+    
+    {
+        
+       monthView.setFirstDisplayedDay(DateUtils.getMonthStartDate(numMonth, numYear));
+        
+    }
+
+
+
 }
