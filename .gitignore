@@ -7,3 +7,4 @@ log/
 src/custom.properties
 logs/
 build.properties
+WorkLogStorage/

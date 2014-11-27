@@ -39,13 +39,14 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
 
     private void jbInit()
     {
-        JLabel jlWorkingDay = new JLabel("Wrk  Day:");
+        JLabel jlWorkingDay = new JLabel("work days:");
         
         monthView = new JXMonthView();
         monthView.setFirstDayOfWeek(Calendar.MONDAY);
         monthView.setTodayBackground(Color.GREEN);
         monthView.setDayForeground(Calendar.SUNDAY, Color.MAGENTA);
         monthView.setDayForeground(Calendar.SATURDAY, Color.MAGENTA);
+        monthView.setShowingWeekNumber(true);
         
         monthView.addActionListener(new ActionListener()
         {
