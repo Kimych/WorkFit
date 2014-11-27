@@ -5,12 +5,13 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.util.HashMap;
-
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import by.uniterra.system.util.DateUtils;
 import by.uniterra.udi.util.Log;
 
 public class YearSpecialCalendar extends JPanel implements ActionListener
@@ -21,9 +22,10 @@ public class YearSpecialCalendar extends JPanel implements ActionListener
 
     HashMap<Integer, MonthSpecialCalendar> mpMonth = new HashMap<Integer, MonthSpecialCalendar>();
 
-
+    private static int MAX_ITEMS_IN_LINE = 4;
     private static final String ACTION_NEXT_YEAR = "Next Year";
     private static final String ACTION_PREVIOUS_YEAR = "Previous Year";
+    private int numYear;
 
     public YearSpecialCalendar()
     {
@@ -34,52 +36,31 @@ public class YearSpecialCalendar extends JPanel implements ActionListener
 
     private void jbInit()
     {
+        numYear = DateUtils.getYearNumber(new Date());
+
         // create button
-        JButton btnNextYear = new JButton("Next Year");
+        JButton btnNextYear = new JButton(">>");
         btnNextYear.setActionCommand(ACTION_NEXT_YEAR);
         btnNextYear.addActionListener(this);
 
-        JButton btnPreviousYear = new JButton("Previous Year");
+        JButton btnPreviousYear = new JButton("<<");
         btnPreviousYear.setActionCommand(ACTION_PREVIOUS_YEAR);
         btnPreviousYear.addActionListener(this);
 
         add(btnPreviousYear, new GridBagConstraints(1, 0, 1, 1, 0, 0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
         add(btnNextYear, new GridBagConstraints(2, 0, 1, 1, 0, 0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
         // build calendar 4x3
-  
-        
+
         for (int i = 0; i < 12; i++)
         {
             MonthSpecialCalendar msc = new MonthSpecialCalendar();
-
-            // test
-            msc.setModel(i, 2014);
-
+            msc.setModel(i, numYear);
             mpMonth.put(i, msc);
-            
-
-            if (i < 4)
-            {
-                add(mpMonth.get(i), new GridBagConstraints(i, 1, 1, 1, 0, 0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5),
-                        0, 0));
-            }
-            else
-            {
-                if (i < 8)
-                {
-                    add(mpMonth.get(i), new GridBagConstraints(i - 4, 2, 1, 1, 0, 0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0,
-                            0, 5), 0, 0));
-
-                }
-                else
-                {
-                    add(mpMonth.get(i), new GridBagConstraints(i - 8, 3, 1, 1, 0, 0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0,
-                            0, 5), 0, 0));
-                }
-            }
-            
+            int iYPos = (i / MAX_ITEMS_IN_LINE) + 1;
+            int iXPos = i % MAX_ITEMS_IN_LINE;
+            ;
+            add(msc, new GridBagConstraints(iXPos, iYPos, 1, 1, 0, 0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
         }
-
     }
 
     @Override
@@ -90,12 +71,13 @@ public class YearSpecialCalendar extends JPanel implements ActionListener
             switch (arg0.getActionCommand())
             {
             case ACTION_NEXT_YEAR:
-                setModel(2015);
+                numYear = numYear + 1;
+                setModel(numYear);
                 break;
             case ACTION_PREVIOUS_YEAR:
-                setModel(2013);
+                numYear = numYear - 1;
+                setModel(numYear);
                 break;
-
             default:
                 break;
             }
@@ -109,11 +91,9 @@ public class YearSpecialCalendar extends JPanel implements ActionListener
 
     public void setModel(int numYear)
     {
-        for(int i = 0; i < 12; i++)
+        for (Integer iMonthIndex : mpMonth.keySet())
         {
-            MonthSpecialCalendar msc = mpMonth.get(i);
-            msc.setModel(i, numYear);
-            mpMonth.put(i,  msc);
+            mpMonth.get(iMonthIndex).setModel(iMonthIndex, numYear);
         }
     }
 
