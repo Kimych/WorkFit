@@ -112,7 +112,6 @@ public class WorkFitFrame extends JFrame implements ActionListener
     private static final String LOGIN = "login";
     private static final String PASSWORD = "password";
     private static final String FLAG_AUT = "flag";
-    
 
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 165708470997304032L;
@@ -127,7 +126,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
     {
         Log.info(WorkFitFrame.class, "\n\n\n");
         Log.info(WorkFitFrame.class, "Starting the app...");
-        
+
         SystemModel.initJPA();
         WorkFitFrame wfFrame = new WorkFitFrame();
         wfFrame.setTitle("WorkFit");
@@ -365,13 +364,18 @@ public class WorkFitFrame extends JFrame implements ActionListener
                 panelUserRole.writeValues();
                 break;
             case IMenuHelper.MCOMMAND_EDIT_CAL_SPECIAL_DAY:
-                /*CommonDataTablePanel panelCalSpecial = new CommonDataTablePanel(new CalendarSpecialDayTableModel(), new CalendarSpecialDayOptionPanel(), new CalendarSpecialDayEAO(
-                        SystemModel.getDefaultEM()));*/
-                //showEditPanel(panelCalSpecial, UDIPropSingleton.getString(this, "EditUserRole.frame"));
+                /*
+                 * CommonDataTablePanel panelCalSpecial = new
+                 * CommonDataTablePanel(new CalendarSpecialDayTableModel(), new
+                 * CalendarSpecialDayOptionPanel(), new CalendarSpecialDayEAO(
+                 * SystemModel.getDefaultEM()));
+                 */
+                // showEditPanel(panelCalSpecial,
+                // UDIPropSingleton.getString(this, "EditUserRole.frame"));
                 JOptionPane.showMessageDialog(this, new YearSpecialCalendar(), "About", JOptionPane.PLAIN_MESSAGE);
-                //panelCalSpecial.writeValues();
+                // panelCalSpecial.writeValues();
                 break;
-                
+
             /*
              * case IMenuHelper.MCOMMAND_WELCOME: // TODO break;
              */
@@ -381,13 +385,13 @@ public class WorkFitFrame extends JFrame implements ActionListener
             case IMenuHelper.MCOMMAND_REFRESH:
                 ((UserPanel) panelToInsert).loadDataInUI(auth.getWorker());
                 break;
-            
-             case IMenuHelper.MCOMMAND_VIEW_HISTORY: 
-                 UserHistoryPanel userHistoryPanel = new UserHistoryPanel(auth.getWorker());
-                 JOptionPane.showMessageDialog(this, userHistoryPanel, UDIPropSingleton.getString(this, "History.frame") + auth.getWorker(), JOptionPane.NO_OPTION);
-                 break;
-             
-                 
+
+            case IMenuHelper.MCOMMAND_VIEW_HISTORY:
+                UserHistoryPanel userHistoryPanel = new UserHistoryPanel(auth.getWorker());
+                JOptionPane.showMessageDialog(this, userHistoryPanel, UDIPropSingleton.getString(this, "History.frame") + auth.getWorker(),
+                        JOptionPane.NO_OPTION);
+                break;
+
             default:
                 break;
             }
@@ -417,7 +421,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
 
         Log.info(WorkFitFrame.class, "Load log from file: " + fileChooser.getSelectedFile());
 
-        //LogParser.saveLogInfoToDB(LogParser.getListFromLog(fileChooser.getSelectedFile().toPath()));
+        // LogParser.saveLogInfoToDB(LogParser.getListFromLog(fileChooser.getSelectedFile().toPath()));
         LogParser.processWorklogFile(fileChooser.getSelectedFile().toPath());
     }
 
@@ -434,6 +438,5 @@ public class WorkFitFrame extends JFrame implements ActionListener
         userPrefs.put(PASSWORD, "");
         userPrefs.putBoolean(FLAG_AUT, false);
     }
-    
-        
+
 }

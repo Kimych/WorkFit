@@ -59,7 +59,6 @@ public class YearSpecialCalendar extends JPanel implements ActionListener
         // add to main panel
         add(panelYearControls, new GridBagConstraints(0, 0, 4, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
         // build calendar 4x3
-
         for (int i = 0; i < 12; i++)
         {
             MonthSpecialCalendar msc = new MonthSpecialCalendar();
@@ -92,7 +91,6 @@ public class YearSpecialCalendar extends JPanel implements ActionListener
         {
             Log.error(YearSpecialCalendar.class, e, "actionPerformed expressions");
         }
-
     }
 
     public void setModel(int numYear)

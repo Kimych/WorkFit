@@ -510,4 +510,15 @@ public class DateUtils
         return new Date((new GregorianCalendar(yearNum, monthNum, 1)).getTimeInMillis());
         
     }
+    
+    
+    
+    public static Date getMonthLastDate(int monthNum, int yearNum)
+    {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.MONTH, monthNum);
+        calendar.set(Calendar.YEAR, yearNum);
+        calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DATE));
+        return calendar.getTime();
+    }
 }

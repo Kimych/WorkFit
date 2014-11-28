@@ -1,67 +1,89 @@
 package by.uniterra.dai.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.util.Date;
 
+import javax.persistence.*;
+
+import java.util.Date;
 
 /**
  * The persistent class for the `calendar_special _days` database table.
  * 
  */
 @Entity
-@Table(name="calendar_special _days")
-@NamedQuery(name="CalendarSpecialDay.findAll", query="SELECT c FROM CalendarSpecialDay c")
-public class CalendarSpecialDay implements Serializable {
-	private static final long serialVersionUID = 1L;
+@Table(name = "calendar_special _days")
+@NamedQueries({
+        @NamedQuery(name = CalendarSpecialDay.NQ_FIND_ALL, query = "SELECT c FROM CalendarSpecialDay c"),
+        @NamedQuery(name = CalendarSpecialDay.NQ_FIND_ALL_BETWEEN_TWO_DATE, query = "SELECT c FROM CalendarSpecialDay c WHERE c.dateDay BETWEEN :"
+                + CalendarSpecialDay.PARAMETER_START_DATE + " AND :" + CalendarSpecialDay.PARAMETER_FINISH_DATE)
+        
+})
+public class CalendarSpecialDay implements Serializable
+{
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="DAY_TYPE_ID")
-	private int dayTypeId;
+    public static final String NQ_FIND_ALL = "CalendarSpecialDay.findAll";
+    public static final String NQ_FIND_ALL_BETWEEN_TWO_DATE = "CalendarSpecialDay.findAllbetweenTwoDates";
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_DAY")
-	private Date dateDay;
+    public static final String PARAMETER_START_DATE = "dateStart";
+    public static final String PARAMETER_FINISH_DATE = "dateFinish";
 
-	private String descrition;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "DAY_TYPE_ID")
+    private int dayTypeId;
 
-	@Column(name="TYPE_DAY")
-	private int typeDay;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_DAY")
+    private Date dateDay;
 
-	public CalendarSpecialDay() {
-	}
+    private String descrition;
 
-	public int getDayTypeId() {
-		return this.dayTypeId;
-	}
+    @Column(name = "TYPE_DAY")
+    private int typeDay;
 
-	public void setDayTypeId(int dayTypeId) {
-		this.dayTypeId = dayTypeId;
-	}
+    public CalendarSpecialDay()
+    {
+    }
 
-	public Date getDateDay() {
-		return this.dateDay;
-	}
+    public int getDayTypeId()
+    {
+        return this.dayTypeId;
+    }
 
-	public void setDateDay(Date dateDay) {
-		this.dateDay = dateDay;
-	}
+    public void setDayTypeId(int dayTypeId)
+    {
+        this.dayTypeId = dayTypeId;
+    }
 
-	public String getDescrition() {
-		return this.descrition;
-	}
+    public Date getDateDay()
+    {
+        return this.dateDay;
+    }
 
-	public void setDescrition(String descrition) {
-		this.descrition = descrition;
-	}
+    public void setDateDay(Date dateDay)
+    {
+        this.dateDay = dateDay;
+    }
 
-	public int getTypeDay() {
-		return this.typeDay;
-	}
+    public String getDescrition()
+    {
+        return this.descrition;
+    }
 
-	public void setTypeDay(int typeDay) {
-		this.typeDay = typeDay;
-	}
+    public void setDescrition(String descrition)
+    {
+        this.descrition = descrition;
+    }
+
+    public int getTypeDay()
+    {
+        return this.typeDay;
+    }
+
+    public void setTypeDay(int typeDay)
+    {
+        this.typeDay = typeDay;
+    }
 
 }
