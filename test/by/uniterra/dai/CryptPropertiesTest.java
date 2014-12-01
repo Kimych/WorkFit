@@ -11,8 +11,7 @@ public class CryptPropertiesTest
 {
 
     private static final String APP_KEY = "3w45lk34h5k3p4h673";
-    private static final String INPUT_STR = "jdbc:mysql://192.168.186.128:3306/Workfit"
-;
+    private static final String INPUT_STR = "jdbc:mysql://192.168.56.103:3306/workfit";
 
     @Test
     public void test() throws Exception

@@ -35,6 +35,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.time.Duration;
 import java.util.Calendar;
 import java.util.Properties;
 
@@ -84,32 +85,39 @@ public class MailChecker
     {
         SystemModel.initJPA();
         
-        Log.info(MailChecker.class,"Mail checker started");
+        Log.info(MailChecker.class, MailChecker.class.getSimpleName() + " started");
         
         MailChecker mcEngine = new MailChecker();
         // initial check
         mcEngine.checkMail();
+        long lLastMailCheck = System.currentTimeMillis();
+        Log.info(MailChecker.class, "Mail checked at: " + DateUtils.toUTC(lLastMailCheck));
 
         Calendar calNow = Calendar.getInstance();
         calNow.set(Calendar.HOUR_OF_DAY, HOUR_PR);
         calNow.set(Calendar.MINUTE, MINUTE_PR);
-        long lLastMailCheck = calNow.getTimeInMillis();
-
+        // scheduler start time
+        long lSchedulerTime = calNow.getTimeInMillis();
+        Log.info(MailChecker.class,"Scheduler start time is " + DateUtils.toUTC(lSchedulerTime) + ", check interval = " + Duration.ofMillis(INTERVAL).toString());
+        // increase scheduler time to do not check mail twice at startup
+        for (; lSchedulerTime < lLastMailCheck - INTERVAL; lSchedulerTime += INTERVAL);
         // check in additional every CHACK_MAIL_INTERVAL
         while (!Thread.interrupted())
         {
             try
             {
-                Log.info(MailChecker.class,"Mail cheker in process... " + DateUtils.toUTC(System.currentTimeMillis()));
-                Log.info(MailChecker.class,"Last check " + DateUtils.toUTC(lLastMailCheck) + ", check interval = " + INTERVAL/60000 + " mins");
-                
-                if (System.currentTimeMillis() - lLastMailCheck > INTERVAL)
+                long lNow = System.currentTimeMillis();
+                Log.info(MailChecker.class,"Alive message at " + DateUtils.toUTC(lNow));
+                // check if it time to check mail again
+                if (lNow - lSchedulerTime > INTERVAL)
                 {
-                    lLastMailCheck = System.currentTimeMillis();
+                    // increase scheduler time
+                    for (; lSchedulerTime < lNow - INTERVAL; lSchedulerTime += INTERVAL);
+                    // check mail
                     mcEngine.checkMail();
-                    Log.info(MailChecker.class, "Mail checked:" + DateUtils.toUTC(lLastMailCheck));
+                    Log.info(MailChecker.class, "Mail checked at: " + DateUtils.toUTC(lNow));
                 }
-                Log.info(MailChecker.class,"Next check after minutes: " + (INTERVAL + lLastMailCheck - System.currentTimeMillis()) / 60000 + " minutes.");
+                Log.info(MailChecker.class,"Next check in: " + Duration.ofMillis(INTERVAL + lSchedulerTime - lNow).toString());
                 Thread.sleep(sleepTime);
             }
             catch (InterruptedException e)

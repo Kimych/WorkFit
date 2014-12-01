@@ -27,10 +27,12 @@ package by.uniterra.system.util;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 import by.uniterra.system.model.TimePeriodEx;
 import by.uniterra.udi.util.Log;
@@ -521,4 +523,5 @@ public class DateUtils
         calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DATE));
         return calendar.getTime();
     }
+
 }

@@ -1,7 +1,11 @@
 package by.uniterra.udi.util;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CodingErrorAction;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,7 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
-
 
 import by.uniterra.dai.eao.DaysOfWorkEAO;
 import by.uniterra.dai.eao.MonthEAO;
@@ -40,15 +43,25 @@ public class LogParser
     {
         List<DaysOfWork> daysOfWorkList = new ArrayList<DaysOfWork>();
         List<String> lstOriginalData = new ArrayList<String>();
-        HashMap<String, Double> mapAliasHours = new HashMap<String, Double>();
-        try
+        Map<String, Double> mapAliasHours = new HashMap<String, Double>();
+        try (FileInputStream input = new FileInputStream(path.toFile());)
         {
-            lstOriginalData.addAll(Files.readAllLines(path, StandardCharsets.UTF_8));
-        }
-        catch (IOException e)
+            CharsetDecoder decoder = StandardCharsets.UTF_8.newDecoder();
+            decoder.onMalformedInput(CodingErrorAction.IGNORE);
+            InputStreamReader reader = new InputStreamReader(input, decoder);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            String line = bufferedReader.readLine();
+            while (line != null)
+            {
+                lstOriginalData.add(line);
+                line = bufferedReader.readLine();
+            }
+            bufferedReader.close();
+        } catch (Exception e)
         {
-            Log.error(LogParser.class, e, "readAllLInes error");
+           Log.error(LogParser.class, e);
         }
+
         Date date = null;
         SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT_FROM_LOG);
         formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -91,10 +104,8 @@ public class LogParser
             int actualWorkedDays = WorkLogUtils.getWorkingDaysBetweenTwoDates(curentMonthStart, date);
             
             
-            Log.info(LogParser.class, ">>>>>>>>>>>>>>Curent month start at: " + DateUtils.toGMT(curentMonthStart));
-            Log.info(LogParser.class, ">>>>>>>>>>>>>>ActualWorkedDays: " +  actualWorkedDays);
-            Log.info(LogParser.class, ">>>>>>>>>>>>>>Date from Log: " +  DateUtils.toGMT(date));
-            //Log.info(LogParser.class, ">>>>>>>>>>>>>>new Date(): " +  curenDate);
+            Log.info(LogParser.class, "getListFromLog: Curent month start at: " + DateUtils.toGMT(curentMonthStart) 
+                    + ", ActualWorkedDays: " +  actualWorkedDays + ", Date from Log: " +  DateUtils.toGMT(date));
             
             // get month object
             int curentMonth = YearMonth.now(Clock.systemUTC()).getMonthValue();
@@ -194,13 +205,22 @@ public class LogParser
     {
         Date dDate = null;
         List<String> lstOriginalData = new ArrayList<String>();
-        try
+        try (FileInputStream input = new FileInputStream(path.toFile());)
         {
-            lstOriginalData.addAll(Files.readAllLines(path, StandardCharsets.UTF_8));
-        }
-        catch (IOException e)
+            CharsetDecoder decoder = StandardCharsets.UTF_8.newDecoder();
+            decoder.onMalformedInput(CodingErrorAction.IGNORE);
+            InputStreamReader reader = new InputStreamReader(input, decoder);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            String line = bufferedReader.readLine();
+            while (line != null)
+            {
+                lstOriginalData.add(line);
+                line = bufferedReader.readLine();
+            }
+            bufferedReader.close();
+        } catch (Exception e)
         {
-            Log.error(LogParser.class, e, "isALog error");
+           Log.error(LogParser.class, e);
         }
 
         SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT_FROM_LOG);

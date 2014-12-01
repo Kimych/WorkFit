@@ -153,15 +153,15 @@ public class WorkLogUtils
             endCal.setTime(startDate);
         }
         
-        Log.debug(WorkLogUtils.class, DateUtils.toUTC(startCal.getTimeInMillis()) + " is a start time, " 
-                + DateUtils.toUTC(endCal.getTimeInMillis()) + " is an end time.");
+       /* Log.debug(WorkLogUtils.class, DateUtils.toUTC(startCal.getTimeInMillis()) + " is a start time, " 
+                + DateUtils.toUTC(endCal.getTimeInMillis()) + " is an end time.");*/
         
         while (startCal.getTimeInMillis() < endCal.getTimeInMillis())
         {
             if (startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY)
             {
                 ++workDays;
-                Log.debug(WorkLogUtils.class, DateUtils.toUTC(startCal.getTimeInMillis()) + " added to working days (" + workDays + ")");
+                //Log.debug(WorkLogUtils.class, DateUtils.toUTC(startCal.getTimeInMillis()) + " added to working days (" + workDays + ")");
             }
             startCal.add(Calendar.DAY_OF_MONTH, 1);
         }
