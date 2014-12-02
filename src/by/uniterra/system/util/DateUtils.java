@@ -546,4 +546,9 @@ public class DateUtils
         return new Date(cal.getTimeInMillis());
     }
 
+    public static boolean isSameDay(Date dayOne, Date dayTwo)
+    {
+        return upToEndDayDate(dayOne).equals(upToEndDayDate(dayTwo));
+    }
+
 }
