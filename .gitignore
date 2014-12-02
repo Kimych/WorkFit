@@ -7,4 +7,8 @@ log/
 src/custom.properties
 logs/
 build.properties
+<<<<<<< Updated upstream
 WorkLogStorage/
+=======
+src/config/custom.properties
+>>>>>>> Stashed changes

@@ -34,6 +34,8 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
+import org.jdesktop.swingx.JXMonthView;
+
 import by.uniterra.system.model.TimePeriodEx;
 import by.uniterra.udi.util.Log;
 
@@ -522,6 +524,26 @@ public class DateUtils
         calendar.set(Calendar.YEAR, yearNum);
         calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DATE));
         return calendar.getTime();
+    }
+    
+    public static Date getMonthStartDate(JXMonthView monthView)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(monthView.getFirstDisplayedDay());
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        return new Date(cal.getTimeInMillis());
+    }
+    
+    public static Date getMonthLastDate(JXMonthView monthView)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(monthView.getLastDisplayedDay());
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+        return new Date(cal.getTimeInMillis());
     }
 
 }

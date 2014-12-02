@@ -7,11 +7,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import by.uniterra.dai.eao.CalendarSpecialDayEAO;
+import by.uniterra.dai.entity.CalendarSpecialDay;
+import by.uniterra.system.model.SystemModel;
 import by.uniterra.system.util.DateUtils;
 import by.uniterra.udi.util.Log;
 
@@ -28,8 +32,9 @@ public class YearSpecialCalendar extends JPanel implements ActionListener
     private static final String ACTION_PREVIOUS_YEAR = "Previous Year";
     private int numYear;
 
+    CalendarSpecialDayEAO eaoCalSpecDay = new CalendarSpecialDayEAO(SystemModel.getDefaultEM());
     private JLabel lblYearNumber;
-
+    
     public YearSpecialCalendar()
     {
         super(new GridBagLayout());
@@ -58,11 +63,16 @@ public class YearSpecialCalendar extends JPanel implements ActionListener
         panelYearControls.add(btnNextYear, new GridBagConstraints(2, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
         // add to main panel
         add(panelYearControls, new GridBagConstraints(0, 0, 4, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+        //get list special day in current year
+        List<CalendarSpecialDay> lstYearCalSpecDay = eaoCalSpecDay.getCSpecialDayBetweenTwoDate(DateUtils.getMonthStartDate(0, numYear),
+                DateUtils.getMonthLastDate(11, numYear));
         // build calendar 4x3
         for (int i = 0; i < 12; i++)
         {
             MonthSpecialCalendar msc = new MonthSpecialCalendar();
             msc.setModel(i, numYear);
+            List<Date> lstSpecialDay= msc.setListSpecialdays(lstYearCalSpecDay);
+            msc.setSpecialDays(lstSpecialDay);
             mpMonth.put(i, msc);
             int iYPos = (i / MAX_ITEMS_IN_LINE) + 1;
             int iXPos = i % MAX_ITEMS_IN_LINE;
@@ -95,9 +105,17 @@ public class YearSpecialCalendar extends JPanel implements ActionListener
 
     public void setModel(int numYear)
     {
+        //get list year special day in numYear
+        List<CalendarSpecialDay> lstYearCalSpecDay = eaoCalSpecDay.getCSpecialDayBetweenTwoDate(DateUtils.getMonthStartDate(0, numYear),
+                DateUtils.getMonthLastDate(11, numYear));
+        
         for (Integer iMonthIndex : mpMonth.keySet())
         {
-            mpMonth.get(iMonthIndex).setModel(iMonthIndex, numYear);
+            MonthSpecialCalendar msc = mpMonth.get(iMonthIndex);
+            msc.setModel(iMonthIndex, numYear);
+            List<Date> lstSpecialDay= msc.setListSpecialdays(lstYearCalSpecDay);
+            msc.setSpecialDays(lstSpecialDay);
+            mpMonth.put(iMonthIndex, msc);
         }
         // update year number
         lblYearNumber.setText(String.valueOf(numYear));

@@ -16,9 +16,7 @@ import javax.swing.JPanel;
 
 import org.jdesktop.swingx.JXMonthView;
 
-import by.uniterra.dai.eao.CalendarSpecialDayEAO;
 import by.uniterra.dai.entity.CalendarSpecialDay;
-import by.uniterra.system.model.SystemModel;
 import by.uniterra.system.util.DateUtils;
 import by.uniterra.udi.util.Log;
 
@@ -42,7 +40,7 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
 
         monthView = new JXMonthView();
         monthView.setFirstDayOfWeek(Calendar.MONDAY);
-        
+
         monthView.setDayForeground(Calendar.SUNDAY, Color.MAGENTA);
         monthView.setDayForeground(Calendar.SATURDAY, Color.MAGENTA);
         monthView.setShowingWeekNumber(true);
@@ -67,10 +65,6 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
                 }
             }
         });
-        /*
-         * monthView.setPreferredColumnCount(4);
-         * monthView.setPreferredRowCount(3);
-         */
         add(monthView, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
         add(jlWorkingDay, new GridBagConstraints(0, 1, 1, 0, 0, 0, GridBagConstraints.SOUTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
 
@@ -78,51 +72,35 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
 
     public void setModel(int numMonth, int numYear)
     {
-
-       monthView.setFirstDisplayedDay(DateUtils.getMonthStartDate(numMonth, numYear));
-  
-       paintSpecialdays(numMonth,numYear);
-       
+        monthView.setFirstDisplayedDay(DateUtils.getMonthStartDate(numMonth, numYear));
     }
 
-    public  void paintSpecialdays(int numMonth, int numYear)
+    public List<Date> setListSpecialdays(List<CalendarSpecialDay> lstSpecialDayInYear)
     {
-        // lst for change the color to MAGENTA (typeDay = 1)
-        List<Date> lstDateHoliday = new ArrayList<Date>();
-        // lst for change the color to BLACK (typeDay = 0)
-        List<Date> lstDateWrk = new ArrayList<Date>();
-
-        CalendarSpecialDayEAO eaoCalSpecDay = new CalendarSpecialDayEAO(SystemModel.getDefaultEM());
-        List<CalendarSpecialDay> lstCalSpecDay = eaoCalSpecDay.getCSpecialDayBetweenTwoDate(DateUtils.getMonthStartDate(numMonth, numYear),DateUtils.getMonthLastDate(numMonth, numYear));
-        for (CalendarSpecialDay csd : lstCalSpecDay)
+        List<Date> lstFlaggetDate = new ArrayList<Date>();
+        Date monthStart = DateUtils.getMonthStartDate(monthView);//00:00:00
+        Date monthFinish =DateUtils.getMonthLastDate(monthView);//23:59:59
+        for (CalendarSpecialDay calSpecialDay : lstSpecialDayInYear)
         {
+            Date currentDay = calSpecialDay.getDateDay();
+            if (currentDay.getTime() >= monthStart.getTime() && currentDay.getTime() <= monthFinish.getTime())
             {
-                lstDateHoliday.add(csd.getDateDay());
-            }
-
-            if (csd.getTypeDay() == 0)
-            {
-                lstDateWrk.add(csd.getDateDay());
+                lstFlaggetDate.add(currentDay);
             }
         }
-        
-        if(!lstDateHoliday.isEmpty())
-        {
-            Date[] arrDateHoliday = new Date[lstDateHoliday.size()];
-            arrDateHoliday = lstDateHoliday.toArray(arrDateHoliday);
-            monthView.setFlaggedDayForeground(Color.MAGENTA);
-            monthView.setFlaggedDates(arrDateHoliday);
-        }
-        if(!lstDateWrk.isEmpty())
-        {
-            Date[] arrDateWrk = new Date[lstDateHoliday.size()];
-            arrDateWrk = lstDateHoliday.toArray(arrDateWrk);
-            monthView.setFlaggedDayForeground(Color.BLACK);
-            monthView.setFlaggedDates(arrDateWrk);
-        }
-        
+        return  lstFlaggetDate;
+    }
+
+    
+    public void setSpecialDays(List<Date> lstFlaggetDate)
+    {
+        Date[] arrDateHoliday = new Date[lstFlaggetDate.size()];
+        arrDateHoliday = lstFlaggetDate.toArray(arrDateHoliday);
+        monthView.setFlaggedDayForeground(Color.RED);
+        monthView.setFlaggedDates(arrDateHoliday);
     }
     
+
     @Override
     public void actionPerformed(ActionEvent arg0)
     {
