@@ -15,8 +15,9 @@ import java.util.Date;
 @NamedQueries({
         @NamedQuery(name = CalendarSpecialDay.NQ_FIND_ALL, query = "SELECT c FROM CalendarSpecialDay c"),
         @NamedQuery(name = CalendarSpecialDay.NQ_FIND_ALL_BETWEEN_TWO_DATE, query = "SELECT c FROM CalendarSpecialDay c WHERE c.dateDay BETWEEN :"
-                + CalendarSpecialDay.PARAMETER_START_DATE + " AND :" + CalendarSpecialDay.PARAMETER_FINISH_DATE)
-        
+                + CalendarSpecialDay.PARAMETER_START_DATE + " AND :" + CalendarSpecialDay.PARAMETER_FINISH_DATE),
+        @NamedQuery(name = CalendarSpecialDay.NQ_FIND_BY_DATE, query = "SELECT c FROM CalendarSpecialDay c WHERE c.dateDay = :"
+                + CalendarSpecialDay.PARAMETER_DATE)
 })
 public class CalendarSpecialDay implements Serializable
 {
@@ -24,9 +25,11 @@ public class CalendarSpecialDay implements Serializable
 
     public static final String NQ_FIND_ALL = "CalendarSpecialDay.findAll";
     public static final String NQ_FIND_ALL_BETWEEN_TWO_DATE = "CalendarSpecialDay.findAllbetweenTwoDates";
+    public static final String NQ_FIND_BY_DATE = "CalendarSpecialDay.findByDate";
 
     public static final String PARAMETER_START_DATE = "dateStart";
     public static final String PARAMETER_FINISH_DATE = "dateFinish";
+    public static final String PARAMETER_DATE = "date";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

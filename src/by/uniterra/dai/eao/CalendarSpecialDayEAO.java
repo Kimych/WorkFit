@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import by.uniterra.dai.entity.CalendarSpecialDay;
@@ -47,5 +48,25 @@ public class CalendarSpecialDayEAO extends ServiceBaseEAO<CalendarSpecialDay>
         
         return lstResult;
         
+    }
+    
+    public CalendarSpecialDay getCSpecialDayByDate(Date date)
+    {
+        CalendarSpecialDay objResult = null;
+        try
+        {
+            Query queryDeleteByDSId = getNamedQuery(CalendarSpecialDay.NQ_FIND_BY_DATE);
+            queryDeleteByDSId.setParameter(CalendarSpecialDay.PARAMETER_DATE, date);
+            objResult = (CalendarSpecialDay) queryDeleteByDSId.getSingleResult();
+        }
+        catch(NoResultException e1)
+        {
+           //ignore this error
+        }
+        catch (Exception e)
+        {
+            Log.error(CalendarSpecialDayEAO.class, e, " getCSpecialDayByDate namedQuery error");
+        }
+        return objResult;
     }
 }

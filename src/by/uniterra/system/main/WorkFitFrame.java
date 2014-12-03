@@ -372,7 +372,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
                  */
                 // showEditPanel(panelCalSpecial,
                 // UDIPropSingleton.getString(this, "EditUserRole.frame"));
-                JOptionPane.showMessageDialog(this, new YearSpecialCalendar(), "About", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(this, new YearSpecialCalendar(), "Calendar", JOptionPane.PLAIN_MESSAGE);
                 // panelCalSpecial.writeValues();
                 break;
 

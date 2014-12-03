@@ -15,14 +15,19 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
 import org.jdesktop.swingx.JXMonthView;
 
+import by.uniterra.dai.eao.CalendarSpecialDayEAO;
 import by.uniterra.dai.entity.CalendarSpecialDay;
+import by.uniterra.system.model.SystemModel;
 import by.uniterra.system.util.DateUtils;
+import by.uniterra.udi.model.CalendarSpecialDayTableModel;
+import by.uniterra.udi.model.UDIPropSingleton;
 import by.uniterra.udi.util.Log;
 
 public class MonthSpecialCalendar extends JPanel implements ActionListener
@@ -63,10 +68,19 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
                     pmTooltip.add(new JLabel(getDayType(monthView.getDayAtLocation(e.getX(), e.getY()))));
                     pmTooltip.show((JXMonthView) e.getSource(), e.getX(), e.getY());
                 }
+                // show edit view on mouse right click
+                if(SwingUtilities.isRightMouseButton(e))
+                {
+                    //get date from JXMonthView
+                    //use  NQ_FIND_BY_DATE
+                    //create CalendarSpecialDayOptionPanel()
+                    //save changes in db
+                    
+                    CalendarSpecialDayOptionPanel csdop = new CalendarSpecialDayOptionPanel();
+                }
             }
-
         });
-
+        
         monthView.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
@@ -130,8 +144,6 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
         {
             if(DateUtils.isSameDay(currentDate, dateFromMap))
             {
-                //TODO add day type identification
-                
                 strResult = mapDayType.get(dateFromMap) + " type flagged DAY!";
             }
         }
