@@ -108,7 +108,7 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
             if (currentDay.getTime() >= monthStart.getTime() && currentDay.getTime() <= monthFinish.getTime())
             {
                 lstFlaggetDate.add(currentDay);
-                mapDayType.put(currentDay, calSpecialDay.getDayTypeId());
+                mapDayType.put(currentDay, calSpecialDay.getTypeDay());
 
             }
         }
@@ -131,7 +131,8 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
             if(DateUtils.isSameDay(currentDate, dateFromMap))
             {
                 //TODO add day type identification
-                strResult = "flagged DAY!";
+                
+                strResult = mapDayType.get(dateFromMap) + " type flagged DAY!";
             }
         }
 
