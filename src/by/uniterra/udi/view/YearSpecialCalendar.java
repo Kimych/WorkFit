@@ -72,7 +72,6 @@ public class YearSpecialCalendar extends JPanel implements ActionListener
             MonthSpecialCalendar msc = new MonthSpecialCalendar();
             msc.setModel(i, numYear);
             msc.selectCSDforCurrentMonth(lstYearCalSpecDay);
-            msc.colorizeSpecialDays();
             mpMonth.put(i, msc);
             int iYPos = (i / MAX_ITEMS_IN_LINE) + 1;
             int iXPos = i % MAX_ITEMS_IN_LINE;
@@ -114,7 +113,6 @@ public class YearSpecialCalendar extends JPanel implements ActionListener
             MonthSpecialCalendar msc = mpMonth.get(iMonthIndex);
             msc.setModel(iMonthIndex, numYear);
             msc.selectCSDforCurrentMonth(lstYearCalSpecDay);
-            msc.colorizeSpecialDays();;
             mpMonth.put(iMonthIndex, msc);
         }
         // update year number

@@ -536,16 +536,6 @@ public class DateUtils
         return new Date(cal.getTimeInMillis());
     }
     
-    public static Date getMonthLastDate(JXMonthView monthView)
-    {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(monthView.getLastDisplayedDay());
-        cal.set(Calendar.HOUR_OF_DAY, 23);
-        cal.set(Calendar.MINUTE, 59);
-        cal.set(Calendar.SECOND, 59);
-        return new Date(cal.getTimeInMillis());
-    }
-
     public static boolean isSameDay(Date dayOne, Date dayTwo)
     {
         return upToEndDayDate(dayOne).equals(upToEndDayDate(dayTwo));

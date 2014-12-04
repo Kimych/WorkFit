@@ -196,6 +196,13 @@
 		<user.label>Login: </user.label>
 		<password.label>Password: </password.label>
 	</by.uniterra.udi.view.LoginPanel>
+	
+	<!-- MonthSpecialCalendar -->
+	<by.uniterra.udi.view.MonthSpecialCalendar>
+	<WrkDay.label>Working day</WrkDay.label>
+	<DayOff.label>Day off</DayOff.label>
+	<Birthday.lqbel>Birthday</Birthday.lqbel>
+	</by.uniterra.udi.view.MonthSpecialCalendar>
 
 
 </root>

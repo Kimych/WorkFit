@@ -208,6 +208,13 @@
 		<user.label>Логин: </user.label>
 		<password.label>Пароль: </password.label>
 	</by.uniterra.udi.view.LoginPanel>
+	
+		<!-- MonthSpecialCalendar -->
+	<by.uniterra.udi.view.MonthSpecialCalendar>
+	<WrkDay.label>Рабочий день</WrkDay.label>
+	<DayOff.label>Выходной</DayOff.label>
+	<Birthday.lqbel>День рождения</Birthday.lqbel>
+	</by.uniterra.udi.view.MonthSpecialCalendar>
 
 </root>
 
