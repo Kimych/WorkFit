@@ -15,19 +15,14 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
 import org.jdesktop.swingx.JXMonthView;
 
-import by.uniterra.dai.eao.CalendarSpecialDayEAO;
 import by.uniterra.dai.entity.CalendarSpecialDay;
-import by.uniterra.system.model.SystemModel;
 import by.uniterra.system.util.DateUtils;
-import by.uniterra.udi.model.CalendarSpecialDayTableModel;
-import by.uniterra.udi.model.UDIPropSingleton;
 import by.uniterra.udi.util.Log;
 
 public class MonthSpecialCalendar extends JPanel implements ActionListener
@@ -38,6 +33,13 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
     HashMap<Date, Integer> mapDayType = new HashMap<Date, Integer>();
 
     JXMonthView monthView;
+    
+    public enum YearDayType{DayOff, WorkingDay, Birthday};
+    
+    private List<CalendarSpecialDay> lstFlaggetDays;
+    private List<CalendarSpecialDay> lstToDelete;
+    private List<CalendarSpecialDay> lstToChange;
+    
 
     public MonthSpecialCalendar()
     {
@@ -65,7 +67,9 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
                 if (SwingUtilities.isLeftMouseButton(e))
                 {
                     JPopupMenu pmTooltip = new JPopupMenu();
-                    pmTooltip.add(new JLabel(getDayType(monthView.getDayAtLocation(e.getX(), e.getY()))));
+                    
+                   // pmTooltip.add(new JLabel(getDayType(monthView.getDayAtLocation(e.getX(), e.getY()))));
+                    
                     pmTooltip.show((JXMonthView) e.getSource(), e.getX(), e.getY());
                 }
                 // show edit view on mouse right click
@@ -75,8 +79,6 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
                     //use  NQ_FIND_BY_DATE
                     //create CalendarSpecialDayOptionPanel()
                     //save changes in db
-                    
-                    CalendarSpecialDayOptionPanel csdop = new CalendarSpecialDayOptionPanel();
                 }
             }
         });
@@ -89,11 +91,8 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
                 if (date instanceof Date)
                 {
                     // if select
-
                     // add in List
-
                     // change color
-
                 }
                 else
                 {
@@ -111,9 +110,12 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
         monthView.setFirstDisplayedDay(DateUtils.getMonthStartDate(numMonth, numYear));
     }
 
-    public List<Date> setListSpecialdays(List<CalendarSpecialDay> lstSpecialDayInYear)
+    public void selectCSDforCurrentMonth(List<CalendarSpecialDay> lstSpecialDayInYear)
     {
-        List<Date> lstFlaggetDate = new ArrayList<Date>();
+        lstFlaggetDays = new ArrayList<CalendarSpecialDay>();
+        
+        lstFlaggetDays.clear();
+        
         Date monthStart = DateUtils.getMonthStartDate(monthView);// 00:00:00
         Date monthFinish = DateUtils.getMonthLastDate(monthView);// 23:59:59
         for (CalendarSpecialDay calSpecialDay : lstSpecialDayInYear)
@@ -121,34 +123,36 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
             Date currentDay = calSpecialDay.getDateDay();
             if (currentDay.getTime() >= monthStart.getTime() && currentDay.getTime() <= monthFinish.getTime())
             {
-                lstFlaggetDate.add(currentDay);
-                mapDayType.put(currentDay, calSpecialDay.getTypeDay());
-
+                lstFlaggetDays.add(calSpecialDay);
             }
         }
-        return lstFlaggetDate;
     }
 
-    public void setSpecialDays(List<Date> lstFlaggetDate)
+    public void colorizeSpecialDays()
     {
-        Date[] arrDateHoliday = new Date[lstFlaggetDate.size()];
-        arrDateHoliday = lstFlaggetDate.toArray(arrDateHoliday);
-        monthView.setFlaggedDayForeground(Color.RED);
-        monthView.setFlaggedDates(arrDateHoliday);
-    }
-
-    public String getDayType(Date currentDate)
-    {
-        String strResult = "simple day";
-        for (Date dateFromMap : mapDayType.keySet())
+        List<Date> lstDate = new ArrayList<Date>();
+        for(CalendarSpecialDay csd : lstFlaggetDays)
         {
-            if(DateUtils.isSameDay(currentDate, dateFromMap))
-            {
-                strResult = mapDayType.get(dateFromMap) + " type flagged DAY!";
-            }
+            lstDate.add(csd.getDateDay());
         }
+        if(!lstDate.isEmpty())
+        {
+            Date[] arrDate = new Date[lstDate.size()];
+            arrDate = lstDate.toArray(arrDate);
+            monthView.setFlaggedDayForeground(Color.RED);
+            monthView.setFlaggedDates(arrDate);
+        }
+    }
 
-        return strResult;
+    public List<String> getDayType(Date currentDate)
+    {
+        
+        List<String> lstStrResult = new ArrayList<String>();
+        for(CalendarSpecialDay csd : lstFlaggetDays)
+        {
+          //разбираюсь с enum
+        }
+        return lstStrResult;
 
     }
 

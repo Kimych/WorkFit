@@ -69,14 +69,22 @@ public class LogParser
         {
             if (parseString.contains(SEPARATOR_TO_ALIAS))
             {
-                int iAliasPos = parseString.indexOf(SEPARATOR_TO_ALIAS) + SEPARATOR_TO_ALIAS.length();
-                int iSeparatorPos = parseString.indexOf(SEPARATOR_TO_HOURS);
-                // get alias
-                String aliasName = parseString.substring(iAliasPos, iSeparatorPos).trim();
-                // get hour
-                double hours = Double.parseDouble(parseString.substring(iSeparatorPos + SEPARATOR_TO_HOURS.length()));
-                // add data in a Map
-                mapAliasHours.put(aliasName, hours);
+                try
+                {
+                    int iAliasPos = parseString.indexOf(SEPARATOR_TO_ALIAS) + SEPARATOR_TO_ALIAS.length();
+                    int iSeparatorPos = parseString.indexOf(SEPARATOR_TO_HOURS);
+                    // get alias
+                    String aliasName = parseString.substring(iAliasPos, iSeparatorPos).trim();
+                    // get hour
+                    double hours = Double.parseDouble(parseString.substring(iSeparatorPos + SEPARATOR_TO_HOURS.length()));
+                    // add data in a Map
+                    mapAliasHours.put(aliasName, hours);
+                }
+                catch(Exception e)
+                {
+                    Log.error(LogParser.class, e);
+                }
+               
             }
             else if (parseString.contains(SEPARATOR_TO_DATE))
             {
