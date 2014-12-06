@@ -139,6 +139,7 @@ public class MailChecker
         {
             Session session = Session.getInstance(props, null);
             Store store = session.getStore();
+            Log.info(MailChecker.class, "Connecting to " + EMAIL + "...");
             store.connect(SERVER, EMAIL, PASSWORD);
             Folder inbox = store.getFolder("INBOX");
             // ---!!!!----
@@ -147,9 +148,12 @@ public class MailChecker
             // search for all "unseen" messages
             Flags seen = new Flags(Flags.Flag.SEEN);
             FlagTerm unseenFlagTerm = new FlagTerm(seen, false);
+            Log.info(MailChecker.class, "Retrieving new messages...");
             Message message[] = inbox.search(unseenFlagTerm);
+            Log.info(MailChecker.class, message.length + " new unread message(s) retrieved.");
             for (int i = 0, n = message.length; i < n; i++)
             {
+                Log.info(MailChecker.class, "Parsing message #" + (i + 1) + " with SENT DATE " + DateUtils.toGMT(message[i].getSentDate()));
                 Object objMp = message[i].getContent();
                 if (objMp instanceof Multipart)
                 {
@@ -159,7 +163,6 @@ public class MailChecker
                 {
                     createFileFromMail(((String) objMp).getBytes());
                 }
-                Log.info(MailChecker.class, "SENT DATE:" + DateUtils.toGMT(message[i].getSentDate()));
             }
             // close
             inbox.close(false);
@@ -167,7 +170,7 @@ public class MailChecker
         }
         catch (Exception mex)
         {
-            mex.printStackTrace();
+            Log.error(this, mex);
         }
     }
 

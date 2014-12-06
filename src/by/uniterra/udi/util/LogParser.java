@@ -10,6 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Clock;
@@ -62,7 +63,7 @@ public class LogParser
            Log.error(LogParser.class, e);
         }
 
-        Date date = null;
+        Date dParsedDate = null;
         SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT_FROM_LOG);
         formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
         for (String parseString : lstOriginalData)
@@ -75,8 +76,10 @@ public class LogParser
                     int iSeparatorPos = parseString.indexOf(SEPARATOR_TO_HOURS);
                     // get alias
                     String aliasName = parseString.substring(iAliasPos, iSeparatorPos).trim();
+                    // get hours string
+                    String strHours = parseString.substring(iSeparatorPos + SEPARATOR_TO_HOURS.length());
                     // get hour
-                    double hours = Double.parseDouble(parseString.substring(iSeparatorPos + SEPARATOR_TO_HOURS.length()));
+                    double hours = strHours.indexOf("null") != -1 ? 0 : Double.parseDouble(strHours);
                     // add data in a Map
                     mapAliasHours.put(aliasName, hours);
                 }
@@ -84,17 +87,12 @@ public class LogParser
                 {
                     Log.error(LogParser.class, e);
                 }
-               
             }
             else if (parseString.contains(SEPARATOR_TO_DATE))
             {
-                int iDatePos = parseString.indexOf(SEPARATOR_TO_DATE) + SEPARATOR_TO_DATE.length();
-                String strDate = parseString.substring(iDatePos);
-
                 try
                 {
-                    date = formatter.parse(strDate);
-                    Log.info(LogParser.class, "Parsing Log Date " + DateUtils.toGMT(date));
+                    dParsedDate = formatter.parse(parseString.substring(parseString.indexOf(SEPARATOR_TO_DATE) + SEPARATOR_TO_DATE.length()));
                 }
                 catch (ParseException e)
                 {
@@ -104,16 +102,15 @@ public class LogParser
             }
         }
 
-        if (date != null && !mapAliasHours.isEmpty())
+        if (dParsedDate != null && !mapAliasHours.isEmpty())
         {
-            Date curentMonthStart = WorkLogUtils.getDateCurentMonthStart(date);
+            Date curentMonthStart = WorkLogUtils.getDateCurentMonthStart(dParsedDate);
             //Date curenDate = new Date();
             // get actual worked days
-            int actualWorkedDays = WorkLogUtils.getWorkingDaysBetweenTwoDates(curentMonthStart, date);
-            
+            int actualWorkedDays = WorkLogUtils.getWorkingDaysBetweenTwoDates(curentMonthStart, dParsedDate);
             
             Log.info(LogParser.class, "getListFromLog: Curent month start at: " + DateUtils.toGMT(curentMonthStart) 
-                    + ", ActualWorkedDays: " +  actualWorkedDays + ", Date from Log: " +  DateUtils.toGMT(date));
+                    + ", worklog date is " + DateUtils.toGMT(dParsedDate) + ", ActualWorkedDays: " +  actualWorkedDays);
             
             // get month object
             int curentMonth = YearMonth.now(Clock.systemUTC()).getMonthValue();
@@ -142,7 +139,7 @@ public class LogParser
                     {
                         DaysOfWork dof = new DaysOfWork();
                         dof.setWorklog((double) hmAliasHours.getValue());
-                        dof.setTimestamp(date);
+                        dof.setTimestamp(dParsedDate);
                         dof.setBonusTime(0);
                         dof.setBonusTimeDescription(null);
                         dof.setAktualWorkedDays(actualWorkedDays);
@@ -169,90 +166,33 @@ public class LogParser
      */
     public static boolean saveLogInfoToDB(List<DaysOfWork> lstDoWfromLog)
     {
-        Date dateFromLog = lstDoWfromLog.get(0).getTimestamp();
-
+        boolean bResult = false;
         // check whether there is a record with the Timestamp of the log
         DaysOfWorkEAO dofEAO = new DaysOfWorkEAO(SystemModel.getDefaultEM());
-        long count = dofEAO.getCountForTimestamp(dateFromLog);
-
-        if (count == 0)
+        try
         {
-            try
+            for (DaysOfWork dow : lstDoWfromLog)
             {
-                for (DaysOfWork dow : lstDoWfromLog)
+                if (dofEAO.getCountForTimestamp(dow.getTimestamp()) == 0)
                 {
                     dofEAO.save(dow);
-                    Log.info(LogParser.class, "Data successfully added!");
+                    Log.info(LogParser.class,
+                            "New worklog data inserted for \"" + dow.getWorker()+ "\" with timestamp " + DateUtils.toGMT(dow.getTimestamp()));
+                } else
+                {
+                    Log.warning(LogParser.class, "Detected attempt to insert existing worklog data (for worker \"" + dow.getWorker() + "\" with date "
+                            + DateUtils.toGMT(dow.getTimestamp()) + "). ");
                 }
-                return true;
             }
-            catch (Exception e)
-            {
-                Log.error(LogParser.class, e, "save info from log to DB problems");
-                return false;
-            }
-        }
-        else
-        {
-            //JOptionPane.showMessageDialog(null, "data from the log for: " + DateUtils.toGMT(dateFromLog.getTime()) + " already added!");
-            Log.warning(LogParser.class, "attempted to add existing data");
-        }
-        return false;
-
-    }
-
-    /**
-     * 
-     * @param path
-     * @return
-     *
-     * @author Sergio Alecky
-     * @date 06 нояб. 2014 г.
-     */
-    public static Date getDateFromWorklog(Path path)
-    {
-        Date dDate = null;
-        List<String> lstOriginalData = new ArrayList<String>();
-        try (FileInputStream input = new FileInputStream(path.toFile());)
-        {
-            CharsetDecoder decoder = StandardCharsets.UTF_8.newDecoder();
-            decoder.onMalformedInput(CodingErrorAction.IGNORE);
-            InputStreamReader reader = new InputStreamReader(input, decoder);
-            BufferedReader bufferedReader = new BufferedReader(reader);
-            String line = bufferedReader.readLine();
-            while (line != null)
-            {
-                lstOriginalData.add(line);
-                line = bufferedReader.readLine();
-            }
-            bufferedReader.close();
+            bResult = true;
         } catch (Exception e)
         {
-           Log.error(LogParser.class, e);
+            Log.error(LogParser.class, e, "save info from log to DB problems");
         }
+        return bResult;
 
-        SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT_FROM_LOG);
-        formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-        for (String parseString : lstOriginalData)
-        {
-            if (parseString.contains(SEPARATOR_TO_DATE))
-            {
-                int iDatePos = parseString.indexOf(SEPARATOR_TO_DATE) + SEPARATOR_TO_DATE.length();
-                String strDate = parseString.substring(iDatePos);
-                try
-                {
-                    dDate = formatter.parse(strDate);
-                    Log.info(LogParser.class, "Parsing Log Date " + DateUtils.toGMT(dDate));
-                }
-                catch (ParseException e)
-                {
-                    Log.error(LogParser.class, e, "date parse error");
-                }
-                break;
-            }
-        }
-        return dDate;
     }
+
 
 
     public static Path createDestinationPath(Path pathBaseDestDir, String strDestFolder, Date dDateFromFile)
@@ -272,20 +212,19 @@ public class LogParser
     public static boolean processWorklogFile(Path path)
     {
         boolean bResult = false;
-        // 2 check for worklog
-        Date dDateFromWorklog = LogParser.getDateFromWorklog(path);
-
-        if (dDateFromWorklog != null)
+        // 1 try to parse given file
+        List<DaysOfWork> lstWorklogDtaa = LogParser.getListFromLog(path);
+        if (!lstWorklogDtaa.isEmpty())
         {
-            Log.info(MailChecker.class, "Log date from mail: " + DateUtils.toGMT(dDateFromWorklog));
             try
             {
-                // 3 insert into DB
-                List<DaysOfWork> lstWorklogDtaa = LogParser.getListFromLog(path);
-                if (!lstWorklogDtaa.isEmpty() && LogParser.saveLogInfoToDB(lstWorklogDtaa))
+                // 2 insert parsed data into DB
+                if (LogParser.saveLogInfoToDB(lstWorklogDtaa))
                 {
-                    // 4 save into archive with renaming in case of success 
-                    Files.copy(path, LogParser.createDestinationPath(Paths.get(new File("").getAbsolutePath()), "WorkLogStorage", dDateFromWorklog));
+                    // 3 save into archive with renaming
+                    Files.copy(path, 
+                            LogParser.createDestinationPath(Paths.get(new File("").getAbsolutePath()), "WorkLogStorage", lstWorklogDtaa.get(0).getTimestamp()),
+                            StandardCopyOption.REPLACE_EXISTING);
                 }
                 bResult = true;
             }
