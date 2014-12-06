@@ -173,7 +173,7 @@ public class LogParser
         {
             for (DaysOfWork dow : lstDoWfromLog)
             {
-                if (dofEAO.getCountForTimestamp(dow.getTimestamp()) == 0)
+                if (dofEAO.getCountForTimestamp(dow.getTimestamp(), dow.getWorker()) == 0)
                 {
                     dofEAO.save(dow);
                     Log.info(LogParser.class,
