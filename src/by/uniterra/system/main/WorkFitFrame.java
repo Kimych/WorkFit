@@ -78,6 +78,7 @@ import by.uniterra.udi.util.Log;
 import by.uniterra.udi.util.LogParser;
 import by.uniterra.udi.view.AboutPanel;
 import by.uniterra.udi.view.AdminPanel;
+import by.uniterra.udi.view.CalendarSpecialDayOptionPanel;
 import by.uniterra.udi.view.CommonDataTablePanel;
 import by.uniterra.udi.view.DaysOfWorkOptionPanel;
 import by.uniterra.udi.view.DynamicMenuBar;
