@@ -38,7 +38,7 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
     
     //HashMap<Date, Integer> mapDayType = new HashMap<Date, Integer>();
 
-    JXMonthViewExt monthView;
+    private JXMonthViewExt monthView;
 
 
     private List<CalendarSpecialDay> lstFlaggetDays;
@@ -82,10 +82,13 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
                 // show edit view on mouse right click
                 if (SwingUtilities.isRightMouseButton(e))
                 {
-                    Date dateFromCal = monthView.getDayAtLocation(e.getX(), e.getY());
-                    CalendarSpecialDayOptionPanel csd = new CalendarSpecialDayOptionPanel(dateFromCal);
-                    csd.setModel(getListEnumDayType(dateFromCal));
-                    JOptionPane.showMessageDialog(monthView, csd, DATE_FORMAT.format(dateFromCal), JOptionPane.PLAIN_MESSAGE);
+                    CalendarSpecialDayOptionPanel csd = new CalendarSpecialDayOptionPanel();
+                    // get list of EDayType to be selected
+                    List<EDayType> lstDaySpecialStates = getListEnumDayType(monthView.getDayOfYearAtLocation(e.getX(), e.getY()), lstFlaggetDays);
+                    // set list of EDayType to be selected and marker of week end
+                    csd.setModel(lstDaySpecialStates, monthView.isWeekEndAtLocation(e.getX(), e.getY()));
+                    // show the editor
+                    JOptionPane.showMessageDialog(monthView, csd, DATE_FORMAT.format(monthView.getDayAtLocation(e.getX(), e.getY())), JOptionPane.PLAIN_MESSAGE);
                     //lstToChange = csd.getModel();
                     csd.getModel();
                     //System.out.println(lstToChange); 
@@ -174,10 +177,9 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
 
     }
 
-    public List<EDayType> getListEnumDayType(Date date)
+    public List<EDayType> getListEnumDayType(int dayYearNum, List<CalendarSpecialDay> lstFlaggetDays)
     {
         List<EDayType> lstREsult = new ArrayList<EDayType>();
-        int dayYearNum = DateUtils.getDayNumberInYear(date);
         for (CalendarSpecialDay csd : lstFlaggetDays)
         {
             if(dayYearNum == csd.getYearDayNumber())

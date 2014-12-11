@@ -38,33 +38,25 @@ public class CalendarSpecialDayOptionPanel extends JPanel
         fFrame.setVisible(true);
     }*/
     
-    public CalendarSpecialDayOptionPanel(Date date)
+    public CalendarSpecialDayOptionPanel()
     {
         super(new GridBagLayout());
-        jbInit(date);
+        jbInit();
     }
 
-    private void jbInit(Date date)
+    private void jbInit()
     {
         chblDayType = new UTCheckBoxList();
-        EDayType[] arrDayType = EDayType.values();
-        List<EDayType> dayTypeList = new ArrayList<EDayType>(Arrays.asList(arrDayType));
-        if(DateUtils.isDayOff(date))
-        {
-           dayTypeList.remove(1);
-           chblDayType.setListData(dayTypeList.stream().toArray(EDayType[]::new));
-        }
-        else
-        {
-            dayTypeList.remove(0);
-            chblDayType.setListData(dayTypeList.stream().toArray(EDayType[]::new));
-        }
-        
         add(chblDayType, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 0, 5), 0, 0));
     }
 
-    public void setModel(List<EDayType> lstDayType)
+    public void setModel(List<EDayType> lstDayType, boolean bIsWeekEnd)
     {
+        EDayType[] arrDayType = EDayType.values();       
+        List<EDayType> dayTypeList = new ArrayList<EDayType>(Arrays.asList(arrDayType));   
+        dayTypeList.remove(bIsWeekEnd ? EDayType.DAY_OFF.ordinal() : EDayType.WORKING_DAY.ordinal());
+        chblDayType.setListData(dayTypeList.stream().toArray(EDayType[]::new));
+        
         chblDayType.setSelectedItems(lstDayType);
     }
 

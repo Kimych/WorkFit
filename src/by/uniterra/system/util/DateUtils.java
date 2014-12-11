@@ -561,28 +561,6 @@ public class DateUtils
         return new Date(cal.getTimeInMillis());
     }
     
-    /**
-     * 
-     * @param date
-     * @return true if  day Sunday or Saturday
-     *
-     * @author Sergio Alecky
-     * @date 11 дек. 2014 г.
-     */
-    public static boolean isDayOff(Date date)
-    {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        if(cal.get(Calendar.DAY_OF_WEEK) == cal.SATURDAY || cal.get(Calendar.DAY_OF_WEEK) == cal.SUNDAY )
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-    
     public static boolean isSameDay(Date dayOne, Date dayTwo)
     {
         return upToEndDayDate(dayOne).equals(upToEndDayDate(dayTwo));
