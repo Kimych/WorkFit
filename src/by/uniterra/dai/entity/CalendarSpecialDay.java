@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-import java.util.Date;
-
 /**
  * The persistent class for the `calendar_special _days` database table.
  * 
@@ -13,37 +11,34 @@ import java.util.Date;
 @Entity
 @Table(name = "calendar_special _days")
 @NamedQueries({
-        @NamedQuery(name = CalendarSpecialDay.NQ_FIND_ALL, query = "SELECT c FROM CalendarSpecialDay c"),
-        @NamedQuery(name = CalendarSpecialDay.NQ_FIND_ALL_BETWEEN_TWO_DATE, query = "SELECT c FROM CalendarSpecialDay c WHERE c.dateDay BETWEEN :"
-                + CalendarSpecialDay.PARAMETER_START_DATE + " AND :" + CalendarSpecialDay.PARAMETER_FINISH_DATE),
-        @NamedQuery(name = CalendarSpecialDay.NQ_FIND_BY_DATE, query = "SELECT c FROM CalendarSpecialDay c WHERE c.dateDay = :"
-                + CalendarSpecialDay.PARAMETER_DATE)
+    @NamedQuery( name = CalendarSpecialDay.NQ_FIND_ALL, query = "SELECT c FROM CalendarSpecialDay c"),
+    @NamedQuery( name = CalendarSpecialDay.NQ_FIND_SPECIAL_DAYS_BY_YEAR, query = "SELECT c FROM CalendarSpecialDay c WHERE c.year.number = :" + CalendarSpecialDay.PARAMETER_YEAR_NUMBER)
 })
 public class CalendarSpecialDay implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
     public static final String NQ_FIND_ALL = "CalendarSpecialDay.findAll";
-    public static final String NQ_FIND_ALL_BETWEEN_TWO_DATE = "CalendarSpecialDay.findAllbetweenTwoDates";
-    public static final String NQ_FIND_BY_DATE = "CalendarSpecialDay.findByDate";
-
-    public static final String PARAMETER_START_DATE = "dateStart";
-    public static final String PARAMETER_FINISH_DATE = "dateFinish";
-    public static final String PARAMETER_DATE = "date";
-
+    public static final String NQ_FIND_SPECIAL_DAYS_BY_YEAR = "CalendarSpecialDay.findSpecialDayByYear";
+    
+    public static final String PARAMETER_YEAR_NUMBER = "yearNumber";
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "DAY_TYPE_ID")
     private int dayTypeId;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "DATE_DAY")
-    private Date dateDay;
-
     private String descrition;
 
     @Column(name = "TYPE_DAY")
     private int typeDay;
+
+    @Column(name = "YEAR_DAY_NUMBER")
+    private int yearDayNumber;
+
+    @ManyToOne
+    @JoinColumn(name = "YEAR_ID")
+    private Year year;
 
     public CalendarSpecialDay()
     {
@@ -57,16 +52,6 @@ public class CalendarSpecialDay implements Serializable
     public void setDayTypeId(int dayTypeId)
     {
         this.dayTypeId = dayTypeId;
-    }
-
-    public Date getDateDay()
-    {
-        return this.dateDay;
-    }
-
-    public void setDateDay(Date dateDay)
-    {
-        this.dateDay = dateDay;
     }
 
     public String getDescrition()
@@ -87,6 +72,26 @@ public class CalendarSpecialDay implements Serializable
     public void setTypeDay(int typeDay)
     {
         this.typeDay = typeDay;
+    }
+
+    public int getYearDayNumber()
+    {
+        return this.yearDayNumber;
+    }
+
+    public void setYearDayNumber(int yearDayNumber)
+    {
+        this.yearDayNumber = yearDayNumber;
+    }
+
+    public Year getYear()
+    {
+        return this.year;
+    }
+
+    public void setYear(Year year)
+    {
+        this.year = year;
     }
 
 }

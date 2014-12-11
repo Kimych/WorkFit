@@ -36,6 +36,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.jdesktop.swingx.JXMonthView;
 
+import com.sun.org.apache.regexp.internal.recompile;
+
 import by.uniterra.system.model.TimePeriodEx;
 import by.uniterra.udi.util.Log;
 
@@ -482,13 +484,34 @@ public class DateUtils
         return cal.get(Calendar.YEAR);
     }
 
-    public static int getDayNumber(Date date)
+    public static int getDayNumberInMonth(Date date)
     {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         return cal.get(Calendar.DAY_OF_MONTH);
     }
+    
+    public static int getDayNumberInYear(Date date)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal.get(Calendar.DAY_OF_YEAR);
+    }
 
+    public static Date getDateByYearAndDayNum(int yearNum, int dayNum)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, yearNum);
+        cal.set(Calendar.DAY_OF_YEAR, dayNum);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        
+        return new Timestamp(cal.getTimeInMillis());
+    }
+    
+    
     public static Timestamp upToEndDayDate(Date currentDate)
     {
         Calendar cal = Calendar.getInstance();
@@ -536,6 +559,28 @@ public class DateUtils
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
         return new Date(cal.getTimeInMillis());
+    }
+    
+    /**
+     * 
+     * @param date
+     * @return true if  day Sunday or Saturday
+     *
+     * @author Sergio Alecky
+     * @date 11 дек. 2014 г.
+     */
+    public static boolean isDayOff(Date date)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        if(cal.get(Calendar.DAY_OF_WEEK) == cal.SATURDAY || cal.get(Calendar.DAY_OF_WEEK) == cal.SUNDAY )
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
     
     public static boolean isSameDay(Date dayOne, Date dayTwo)

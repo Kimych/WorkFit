@@ -5,11 +5,14 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import by.uniterra.system.util.DateUtils;
 import by.uniterra.udi.util.EDayType;
 import by.uniterra.udi.util.UTCheckBoxList;
 
@@ -23,7 +26,7 @@ public class CalendarSpecialDayOptionPanel extends JPanel
     
     private UTCheckBoxList chblDayType;
     
-    public static void main(String[] args)
+ /*   public static void main(String[] args)
     {
     
         JFrame fFrame = new JFrame();
@@ -33,18 +36,29 @@ public class CalendarSpecialDayOptionPanel extends JPanel
         
         fFrame.add(panelCommon);
         fFrame.setVisible(true);
-    }
+    }*/
     
-    public CalendarSpecialDayOptionPanel()
+    public CalendarSpecialDayOptionPanel(Date date)
     {
         super(new GridBagLayout());
-        jbInit();
+        jbInit(date);
     }
 
-    private void jbInit()
+    private void jbInit(Date date)
     {
         chblDayType = new UTCheckBoxList();
-        chblDayType.setListData(EDayType.values());
+        EDayType[] arrDayType = EDayType.values();
+        List<EDayType> dayTypeList = new ArrayList<EDayType>(Arrays.asList(arrDayType));
+        if(DateUtils.isDayOff(date))
+        {
+           dayTypeList.remove(1);
+           chblDayType.setListData(dayTypeList.stream().toArray(EDayType[]::new));
+        }
+        else
+        {
+            dayTypeList.remove(0);
+            chblDayType.setListData(dayTypeList.stream().toArray(EDayType[]::new));
+        }
         
         add(chblDayType, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 0, 5), 0, 0));
     }

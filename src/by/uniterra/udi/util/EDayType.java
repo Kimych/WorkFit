@@ -25,6 +25,7 @@ public enum EDayType
         }
         return lstResult;
     }
+    
 
     public String toString()
     {

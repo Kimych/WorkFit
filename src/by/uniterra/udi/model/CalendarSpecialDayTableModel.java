@@ -56,7 +56,7 @@ public class CalendarSpecialDayTableModel extends AbstractFlexTableModel
             objResult = idData.getDayTypeId();
             break;
         case COL_DATE:
-            objResult = idData.getDateDay();
+            //objResult = idData.getDateDay();
             break;
         case COL_TYPE_DAY:
             objResult = idData.getTypeDay();

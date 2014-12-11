@@ -38,7 +38,7 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
     
     //HashMap<Date, Integer> mapDayType = new HashMap<Date, Integer>();
 
-    JXMonthView monthView;
+    JXMonthViewExt monthView;
 
 
     private List<CalendarSpecialDay> lstFlaggetDays;
@@ -57,7 +57,7 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
 
         JLabel jlWorkingDay = new JLabel("work days:");
 
-        monthView = new JXMonthView();
+        monthView = new JXMonthViewExt();
         monthView.setFirstDayOfWeek(Calendar.MONDAY);
 
         monthView.setDayForeground(Calendar.SUNDAY, Color.MAGENTA);
@@ -83,12 +83,12 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
                 if (SwingUtilities.isRightMouseButton(e))
                 {
                     Date dateFromCal = monthView.getDayAtLocation(e.getX(), e.getY());
-                    CalendarSpecialDayOptionPanel csd = new CalendarSpecialDayOptionPanel();
+                    CalendarSpecialDayOptionPanel csd = new CalendarSpecialDayOptionPanel(dateFromCal);
                     csd.setModel(getListEnumDayType(dateFromCal));
                     JOptionPane.showMessageDialog(monthView, csd, DATE_FORMAT.format(dateFromCal), JOptionPane.PLAIN_MESSAGE);
                     //lstToChange = csd.getModel();
                     csd.getModel();
-                    //System.out.println(lstToChange);
+                    //System.out.println(lstToChange); 
                    
                 }
             }
@@ -127,12 +127,13 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
     public void selectCSDforCurrentMonth(List<CalendarSpecialDay> lstSpecialDayInYear)
     {
         lstFlaggetDays.clear();
-        Date monthStart = DateUtils.getMonthStartDate(monthView);// 00:00:00
-        Date monthFinish = DateUtils.upToEndDayDate(monthView.getLastDisplayedDay());
+        
+        int monthStartNum = monthView.getFirstDisplayedDayOfYear();
+        int monthFinishNum = monthView.getLastDisplayedDayOfYear();
         for (CalendarSpecialDay calSpecialDay : lstSpecialDayInYear)
         {
-            Date currentDay = calSpecialDay.getDateDay();
-            if (currentDay.getTime() >= monthStart.getTime() && currentDay.getTime() <= monthFinish.getTime())
+            int currentDayNum = calSpecialDay.getYearDayNumber();
+            if (currentDayNum >= monthStartNum && currentDayNum <= monthFinishNum)
             {
                 lstFlaggetDays.add(calSpecialDay);
             }
@@ -141,7 +142,7 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
         List<Date> lstDate = new ArrayList<Date>();
         for (CalendarSpecialDay csd : lstFlaggetDays)
         {
-            lstDate.add(csd.getDateDay());
+            lstDate.add(DateUtils.getDateByYearAndDayNum(csd.getYear().getNumber(),csd.getYearDayNumber()));
         }
         if (!lstDate.isEmpty())
         {
@@ -157,11 +158,11 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
 
         List<String> lstStrResult = new ArrayList<String>();
         List<EDayType> lstDayTypes = new ArrayList<EDayType>();
+        int dayYearNum = DateUtils.getDayNumberInYear(currentDate);
         for (CalendarSpecialDay csd : lstFlaggetDays)
         {
-            if (DateUtils.isSameDay(currentDate, csd.getDateDay()))
+            if (dayYearNum == csd.getYearDayNumber())
             {
-                //lstStrResult.add(EDayType.fromInteger(csd.getTypeDay()).toString());
                 lstDayTypes = EDayType.fromInteger(csd.getTypeDay());
                 for (EDayType eDayType : lstDayTypes)
                 {
@@ -176,9 +177,10 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
     public List<EDayType> getListEnumDayType(Date date)
     {
         List<EDayType> lstREsult = new ArrayList<EDayType>();
+        int dayYearNum = DateUtils.getDayNumberInYear(date);
         for (CalendarSpecialDay csd : lstFlaggetDays)
         {
-            if(DateUtils.isSameDay(csd.getDateDay(), date))
+            if(dayYearNum == csd.getYearDayNumber())
             {
                 lstREsult = EDayType.fromInteger(csd.getTypeDay());
                 break;
