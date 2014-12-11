@@ -13,7 +13,7 @@ public enum EDayType
     DAY_OFF, // 1
     BIRTHDAY; // 2
 
-    public static List<EDayType> fromInteger(int intDayType)
+/*    public static List<EDayType> fromInteger(int intDayType)
     {
         List<EDayType> lstResult = new ArrayList<EDayType>();
         for (EDayType edt : EDayType.values())
@@ -24,7 +24,7 @@ public enum EDayType
             }
         }
         return lstResult;
-    }
+    }*/
     
 
     public String toString()

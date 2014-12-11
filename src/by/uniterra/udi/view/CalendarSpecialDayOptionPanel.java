@@ -11,7 +11,10 @@ import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
+import by.uniterra.dai.entity.CalendarSpecialDay;
+import by.uniterra.dai.entity.DaysOfWork;
 import by.uniterra.system.util.DateUtils;
 import by.uniterra.udi.util.EDayType;
 import by.uniterra.udi.util.UTCheckBoxList;
@@ -23,21 +26,11 @@ public class CalendarSpecialDayOptionPanel extends JPanel
     private static final long serialVersionUID = 8380269231834025937L;
 
     static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
-    
+
     private UTCheckBoxList chblDayType;
-    
- /*   public static void main(String[] args)
-    {
-    
-        JFrame fFrame = new JFrame();
-        JPanel panelCommon = new JPanel();
-        panelCommon.add(new CalendarSpecialDayOptionPanel());
-        panelCommon.setVisible(true);
-        
-        fFrame.add(panelCommon);
-        fFrame.setVisible(true);
-    }*/
-    
+    private JTextArea taDescription;
+    private CalendarSpecialDay objCSD;
+
     public CalendarSpecialDayOptionPanel()
     {
         super(new GridBagLayout());
@@ -47,32 +40,37 @@ public class CalendarSpecialDayOptionPanel extends JPanel
     private void jbInit()
     {
         chblDayType = new UTCheckBoxList();
+        taDescription = new JTextArea();
+        taDescription.setColumns(20);
+        taDescription.setRows(5);
+        taDescription.setLineWrap(true);
+
         add(chblDayType, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 0, 5), 0, 0));
+        add(taDescription, new GridBagConstraints(0, 1, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 0, 5), 0, 0));
     }
 
-    public void setModel(List<EDayType> lstDayType, boolean bIsWeekEnd)
+    public void setModel(CalendarSpecialDay objCSD, boolean bIsWeekEnd)
     {
-        EDayType[] arrDayType = EDayType.values();       
-        List<EDayType> dayTypeList = new ArrayList<EDayType>(Arrays.asList(arrDayType));   
+        this.objCSD = objCSD;
+
+        List<EDayType> lstDayType = objCSD.getTypeDay();
+        EDayType[] arrDayType = EDayType.values();
+        List<EDayType> dayTypeList = new ArrayList<EDayType>(Arrays.asList(arrDayType));
         dayTypeList.remove(bIsWeekEnd ? EDayType.DAY_OFF.ordinal() : EDayType.WORKING_DAY.ordinal());
         chblDayType.setListData(dayTypeList.stream().toArray(EDayType[]::new));
-        
+
         chblDayType.setSelectedItems(lstDayType);
+
+        taDescription.setText(objCSD.getDescrition());
     }
 
-    public int getModel()
+    @SuppressWarnings("unchecked")
+    public CalendarSpecialDay getModel()
     {
-        int iResult = 0;
-        List<EDayType> lstReturn = new ArrayList<EDayType>();
-        lstReturn = (List<EDayType>) chblDayType.getSelectedItems();
-        for (EDayType eDayType : lstReturn)
-        {
-            iResult |=  (int) Math.pow(2, eDayType.ordinal());
-        }
-        return iResult;
+        objCSD.setTypeDay((List<EDayType>) chblDayType.getSelectedItems());
+        objCSD.setDescrition(taDescription.getText());
+
+        return objCSD;
     }
-    
-    
- 
 
 }

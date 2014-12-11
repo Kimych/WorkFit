@@ -1,8 +1,12 @@
 package by.uniterra.dai.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.*;
+
+import by.uniterra.udi.util.EDayType;
 
 /**
  * The persistent class for the `calendar_special _days` database table.
@@ -64,14 +68,27 @@ public class CalendarSpecialDay implements Serializable
         this.descrition = descrition;
     }
 
-    public int getTypeDay()
+    public List<EDayType> getTypeDay()
     {
-        return this.typeDay;
+        List<EDayType> lstResult = new ArrayList<EDayType>();
+        for (EDayType edt : EDayType.values())
+        {
+            if ((this.typeDay & (int) Math.pow(2, edt.ordinal())) > 0)
+            {
+                lstResult.add(edt);
+            }
+        }
+        return lstResult;
     }
 
-    public void setTypeDay(int typeDay)
+    public void setTypeDay(List<EDayType> lstEDayType)
     {
-        this.typeDay = typeDay;
+        int typeDayResult = 0;
+        for (EDayType eDayType : lstEDayType)
+        {
+            typeDayResult |=  (int) Math.pow(2, eDayType.ordinal());
+        }
+        this.typeDay = typeDayResult;
     }
 
     public int getYearDayNumber()

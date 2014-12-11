@@ -12,7 +12,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JLabel;
@@ -25,7 +24,6 @@ import org.jdesktop.swingx.JXMonthView;
 
 import by.uniterra.dai.entity.CalendarSpecialDay;
 import by.uniterra.system.util.DateUtils;
-import by.uniterra.udi.model.UDIPropSingleton;
 import by.uniterra.udi.util.EDayType;
 import by.uniterra.udi.util.Log;
 
@@ -36,9 +34,9 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
     private static final long serialVersionUID = 6315005613998935370L;
     static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
     
-    //HashMap<Date, Integer> mapDayType = new HashMap<Date, Integer>();
+   // HashMap<Integer, Integer> mapDayType = new HashMap<Date, Integer>();
 
-    private JXMonthViewExt monthView;
+    JXMonthViewExt monthView;
 
 
     private List<CalendarSpecialDay> lstFlaggetDays;
@@ -82,13 +80,12 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
                 // show edit view on mouse right click
                 if (SwingUtilities.isRightMouseButton(e))
                 {
+                    Date dateFromCal = monthView.getDayAtLocation(e.getX(), e.getY());
                     CalendarSpecialDayOptionPanel csd = new CalendarSpecialDayOptionPanel();
-                    // get list of EDayType to be selected
-                    List<EDayType> lstDaySpecialStates = getListEnumDayType(monthView.getDayOfYearAtLocation(e.getX(), e.getY()), lstFlaggetDays);
-                    // set list of EDayType to be selected and marker of week end
-                    csd.setModel(lstDaySpecialStates, monthView.isWeekEndAtLocation(e.getX(), e.getY()));
-                    // show the editor
-                    JOptionPane.showMessageDialog(monthView, csd, DATE_FORMAT.format(monthView.getDayAtLocation(e.getX(), e.getY())), JOptionPane.PLAIN_MESSAGE);
+                    
+                    csd.setModel(getCalendarSpecialDay(dateFromCal), monthView.isWeekEndAtLocation(e.getX(), e.getY()));
+                    
+                    JOptionPane.showMessageDialog(monthView, csd, DATE_FORMAT.format(dateFromCal), JOptionPane.PLAIN_MESSAGE);
                     //lstToChange = csd.getModel();
                     csd.getModel();
                     //System.out.println(lstToChange); 
@@ -166,7 +163,7 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
         {
             if (dayYearNum == csd.getYearDayNumber())
             {
-                lstDayTypes = EDayType.fromInteger(csd.getTypeDay());
+                lstDayTypes = csd.getTypeDay();
                 for (EDayType eDayType : lstDayTypes)
                 {
                     lstStrResult.add(eDayType.toString());
@@ -176,20 +173,36 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
         return lstStrResult;    
 
     }
-
-    public List<EDayType> getListEnumDayType(int dayYearNum, List<CalendarSpecialDay> lstFlaggetDays)
+     
+    public CalendarSpecialDay getCalendarSpecialDay(Date date)
     {
-        List<EDayType> lstREsult = new ArrayList<EDayType>();
+        CalendarSpecialDay objResult = new CalendarSpecialDay();
+        int dayYearNum = DateUtils.getDayNumberInYear(date);
         for (CalendarSpecialDay csd : lstFlaggetDays)
         {
             if(dayYearNum == csd.getYearDayNumber())
             {
-                lstREsult = EDayType.fromInteger(csd.getTypeDay());
+                objResult = csd;
+                break;
+            }
+        }
+        return objResult;
+    }
+
+  /*  public List<EDayType> getListEnumDayType(Date date)
+    {
+        List<EDayType> lstREsult = new ArrayList<EDayType>();
+        int dayYearNum = DateUtils.getDayNumberInYear(date);
+        for (CalendarSpecialDay csd : lstFlaggetDays)
+        {
+            if(dayYearNum == csd.getYearDayNumber())
+            {
+                lstREsult = csd.getTypeDay();
                 break;
             }
         }
         return lstREsult;
-    }
+    }*/
     
     
     @Override
