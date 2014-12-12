@@ -58,7 +58,7 @@ public class CalendarSpecialDayEAO extends ServiceBaseEAO<CalendarSpecialDay>
             // check "detach" flag and detach objects form associated EM
             for (int i = 0; bReturnDetachedObjects && i < lstResult.size(); i++)
             {
-                em.detach(lstResult.get(i));
+                emEntityManager.detach(lstResult.get(i));
             }
         }
         catch (Exception e)

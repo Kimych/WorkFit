@@ -156,7 +156,7 @@ public class AllEntitiesTest
             HolidayEAO holidayEAO = new HolidayEAO(emManager);
             holiday = holidayEAO.save(holiday);
             // delete saved entry
-            holidayEAO.remove(holiday);
+            holidayEAO.delete(holiday);
         }
         catch(Exception e)
         {
@@ -178,7 +178,7 @@ public class AllEntitiesTest
         {
             SpentHolidayEAO spHolidayEAO = new SpentHolidayEAO(emManager);
             spholiday = spHolidayEAO.save(spholiday);
-            spHolidayEAO.remove(spholiday);
+            spHolidayEAO.delete(spholiday);
         }
         catch(Exception e)
         {

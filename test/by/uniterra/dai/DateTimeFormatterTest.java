@@ -77,7 +77,7 @@ public class DateTimeFormatterTest
         for (DaysOfWork daysOfWork : lstDaysOfWorkItemsToDelete)
         {
             // remove test data
-            eaoDaysOfWork.remove(daysOfWork);
+            eaoDaysOfWork.delete(daysOfWork);
         }
         // disconnect from DB
         SystemModel.disposeJPA();
