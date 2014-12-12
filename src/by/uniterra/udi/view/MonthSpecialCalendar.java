@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JLabel;
@@ -33,16 +34,11 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 6315005613998935370L;
     static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
-    
-   // HashMap<Integer, Integer> mapDayType = new HashMap<Date, Integer>();
 
     JXMonthViewExt monthView;
 
-
-    private List<CalendarSpecialDay> lstFlaggetDays;
-    private List<CalendarSpecialDay> lstToDelete;
-    private List<String> lstToChange;
-
+    HashMap<Integer, CalendarSpecialDay> mapFlaggetMonthDay = new HashMap<Integer, CalendarSpecialDay>();
+    
     public MonthSpecialCalendar()
     {
         super(new GridBagLayout());
@@ -51,7 +47,6 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
 
     private void jbInit()
     {
-        lstFlaggetDays = new ArrayList<CalendarSpecialDay>();
 
         JLabel jlWorkingDay = new JLabel("work days:");
 
@@ -61,7 +56,6 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
         monthView.setDayForeground(Calendar.SUNDAY, Color.MAGENTA);
         monthView.setDayForeground(Calendar.SATURDAY, Color.MAGENTA);
         monthView.setShowingWeekNumber(true);
-
         //monthView.setTimeZone(TimeZone.getTimeZone("UTC"));
         monthView.addMouseListener(new MouseAdapter()
         {
@@ -88,7 +82,6 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
                     JOptionPane.showMessageDialog(monthView, csd, DATE_FORMAT.format(dateFromCal), JOptionPane.PLAIN_MESSAGE);
                     //lstToChange = csd.getModel();
                     csd.getModel();
-                    //System.out.println(lstToChange); 
                    
                 }
             }
@@ -124,9 +117,9 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
     
 
 
-    public void selectCSDforCurrentMonth(List<CalendarSpecialDay> lstSpecialDayInYear)
+    public void selectCSDforCurrentMonth(List<CalendarSpecialDay> lstSpecialDayInYear , int numYear)
     {
-        lstFlaggetDays.clear();
+        mapFlaggetMonthDay.clear();
         
         int monthStartNum = monthView.getFirstDisplayedDayOfYear();
         int monthFinishNum = monthView.getLastDisplayedDayOfYear();
@@ -135,14 +128,14 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
             int currentDayNum = calSpecialDay.getYearDayNumber();
             if (currentDayNum >= monthStartNum && currentDayNum <= monthFinishNum)
             {
-                lstFlaggetDays.add(calSpecialDay);
+                mapFlaggetMonthDay.put(currentDayNum, calSpecialDay);
             }
         }
 
         List<Date> lstDate = new ArrayList<Date>();
-        for (CalendarSpecialDay csd : lstFlaggetDays)
+        for(Integer numDay : mapFlaggetMonthDay.keySet())
         {
-            lstDate.add(DateUtils.getDateByYearAndDayNum(csd.getYear().getNumber(),csd.getYearDayNumber()));
+            lstDate.add(DateUtils.getDateByYearAndDayNum(numYear,numDay));
         }
         if (!lstDate.isEmpty())
         {
@@ -159,15 +152,14 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
         List<String> lstStrResult = new ArrayList<String>();
         List<EDayType> lstDayTypes = new ArrayList<EDayType>();
         int dayYearNum = DateUtils.getDayNumberInYear(currentDate);
-        for (CalendarSpecialDay csd : lstFlaggetDays)
+        
+        if(mapFlaggetMonthDay.containsKey(dayYearNum))
         {
-            if (dayYearNum == csd.getYearDayNumber())
+            CalendarSpecialDay csd = mapFlaggetMonthDay.get(dayYearNum);
+            lstDayTypes = csd.getTypeDay();
+            for (EDayType eDayType : lstDayTypes)
             {
-                lstDayTypes = csd.getTypeDay();
-                for (EDayType eDayType : lstDayTypes)
-                {
-                    lstStrResult.add(eDayType.toString());
-                }
+                lstStrResult.add(eDayType.toString());
             }
         }
         return lstStrResult;    
@@ -178,13 +170,9 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
     {
         CalendarSpecialDay objResult = new CalendarSpecialDay();
         int dayYearNum = DateUtils.getDayNumberInYear(date);
-        for (CalendarSpecialDay csd : lstFlaggetDays)
+        if(mapFlaggetMonthDay.containsKey(dayYearNum))
         {
-            if(dayYearNum == csd.getYearDayNumber())
-            {
-                objResult = csd;
-                break;
-            }
+            objResult = mapFlaggetMonthDay.get(dayYearNum);
         }
         return objResult;
     }
