@@ -64,7 +64,7 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
                 if (SwingUtilities.isLeftMouseButton(e))
                 {
                     JPopupMenu pmTooltip = new JPopupMenu();
-                    List<String> lstType = getDayType(monthView.getDayAtLocation(e.getX(), e.getY()));
+                    List<String> lstType = getDayType(monthView.getDayOfYearAtLocation(e.getX(), e.getY()));
                     for (String strDayType : lstType)
                     {
                         pmTooltip.add(strDayType);
@@ -74,12 +74,12 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
                 // show edit view on mouse right click
                 if (SwingUtilities.isRightMouseButton(e))
                 {
-                    Date dateFromCal = monthView.getDayAtLocation(e.getX(), e.getY());
+                    int dateFromCal = monthView.getDayOfYearAtLocation(e.getX(), e.getY());
                     CalendarSpecialDayOptionPanel csd = new CalendarSpecialDayOptionPanel();
                     
                     csd.setModel(getCalendarSpecialDay(dateFromCal), monthView.isWeekEndAtLocation(e.getX(), e.getY()));
                     
-                    JOptionPane.showMessageDialog(monthView, csd, DATE_FORMAT.format(dateFromCal), JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.showMessageDialog(monthView, csd, DATE_FORMAT.format(monthView.getDayAtLocation(e.getX(), e.getY())), JOptionPane.PLAIN_MESSAGE);
                     //lstToChange = csd.getModel();
                     csd.getModel();
                    
@@ -139,12 +139,11 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
         }
     }
 
-    public List<String> getDayType(Date currentDate)
+    public List<String> getDayType(int dayYearNum)
     {
 
         List<String> lstStrResult = new ArrayList<String>();
         List<EDayType> lstDayTypes = new ArrayList<EDayType>();
-        int dayYearNum = DateUtils.getDayNumberInYear(currentDate);
         
         if(mapFlaggetMonthDay.containsKey(dayYearNum))
         {
@@ -159,10 +158,9 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
 
     }
      
-    public CalendarSpecialDay getCalendarSpecialDay(Date date)
+    public CalendarSpecialDay getCalendarSpecialDay(int dayYearNum)
     {
         CalendarSpecialDay objResult = new CalendarSpecialDay();
-        int dayYearNum = DateUtils.getDayNumberInYear(date);
         if(mapFlaggetMonthDay.containsKey(dayYearNum))
         {
             objResult = mapFlaggetMonthDay.get(dayYearNum);

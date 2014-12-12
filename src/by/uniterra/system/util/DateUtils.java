@@ -491,12 +491,6 @@ public class DateUtils
         return cal.get(Calendar.DAY_OF_MONTH);
     }
     
-    public static int getDayNumberInYear(Date date)
-    {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        return cal.get(Calendar.DAY_OF_YEAR);
-    }
 
     public static Date getDateByYearAndDayNum(int yearNum, int dayNum)
     {
