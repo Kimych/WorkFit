@@ -27,16 +27,9 @@ package by.uniterra.system.util;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
-
-import org.jdesktop.swingx.JXMonthView;
-
-import com.sun.org.apache.regexp.internal.recompile;
 
 import by.uniterra.system.model.TimePeriodEx;
 import by.uniterra.udi.util.Log;
@@ -483,29 +476,7 @@ public class DateUtils
         cal.setTime(date);
         return cal.get(Calendar.YEAR);
     }
-
-    public static int getDayNumberInMonth(Date date)
-    {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        return cal.get(Calendar.DAY_OF_MONTH);
-    }
-    
-
-    public static Date getDateByYearAndDayNum(int yearNum, int dayNum)
-    {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, yearNum);
-        cal.set(Calendar.DAY_OF_YEAR, dayNum);
-        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        
-        return new Timestamp(cal.getTimeInMillis());
-    }
-    
-    
+   
     public static Timestamp upToEndDayDate(Date currentDate)
     {
         Calendar cal = Calendar.getInstance();
@@ -517,47 +488,4 @@ public class DateUtils
         return new Timestamp(cal.getTimeInMillis());
     }
     
-    /**
-     * 
-     * @param monthNum - month number (0-11)
-     * @param yearNum - year number
-     * @return - determining the number of milliseconds beginning of the month of the year
-     *
-     * @author Sergio Alecky
-     * @date 25 нояб. 2014 г.
-     */
-    public static Date getMonthStartDate(int monthNum, int yearNum)
-    {
-        
-        return new Date((new GregorianCalendar(yearNum, monthNum, 1)).getTimeInMillis());
-        
-    }
-    
-    
-    
-    public static Date getMonthLastDate(int monthNum, int yearNum)
-    {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.MONTH, monthNum);
-        calendar.set(Calendar.YEAR, yearNum);
-        calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DATE));
-        return calendar.getTime();
-    }
-    
-    public static Date getMonthStartDate(JXMonthView monthView)
-    {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(monthView.getFirstDisplayedDay());
-        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        return new Date(cal.getTimeInMillis());
-    }
-    
-    public static boolean isSameDay(Date dayOne, Date dayTwo)
-    {
-        return upToEndDayDate(dayOne).equals(upToEndDayDate(dayTwo));
-    }
-
 }

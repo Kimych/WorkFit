@@ -111,12 +111,9 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
 
     public void setModel(int numMonth, int numYear)
     {
-        monthView.setFirstDisplayedDay(DateUtils.getMonthStartDate(numMonth, numYear));
+        monthView.setDisplayedMonth(numMonth, numYear);
     }
     
-    
-
-
     public void selectCSDforCurrentMonth(List<CalendarSpecialDay> lstSpecialDayInYear)
     {
         mapFlaggetMonthDay.clear();

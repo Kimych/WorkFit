@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.jdesktop.swingx.JXMonthView;
+import org.jdesktop.swingx.calendar.CalendarUtils;
 
 public class JXMonthViewExt extends JXMonthView
 {
@@ -89,16 +90,45 @@ public class JXMonthViewExt extends JXMonthView
         return getDayOfYear(getDayAtLocation(x, y));
     }
 
-    public void setFlaggedDates(List<Integer> arrayList)
+    /**
+     * Replace all flags with the given days of current year.
+     * 
+     * @param lstDaysOfYear - lstDaysOfYear list of days of year to be flagged
+     *
+     * @author Anton Nedbailo
+     * @date Dec 12, 2014
+     */
+    public void setFlaggedDates(List<Integer> lstDaysOfYear)
     {
-        List<Date> lstSelectedDates = new ArrayList<Date>(arrayList.size());
-        for (Integer iCurDayOfYear : arrayList)
+        List<Date> lstSelectedDates = new ArrayList<Date>(lstDaysOfYear.size());
+        for (Integer iCurDayOfYear : lstDaysOfYear)
         {
             Calendar cal = getCalendar();
             cal.set(Calendar.DAY_OF_YEAR, iCurDayOfYear);
             lstSelectedDates.add(cal.getTime());
         }
         setFlaggedDates(lstSelectedDates.stream().toArray(Date[]::new));
+    }
+
+    /**
+     * Set month and year number to be displayed
+     * 
+     * @param numMonth - month number
+     * @param numYear - year nember
+     *
+     * @author Anton Nedbailo
+     * @date Dec 12, 2014
+     */
+    public void setDisplayedMonth(int numMonth, int numYear)
+    {
+        Calendar calMonthCal = getCalendar();
+        // set new month and year numbers
+        calMonthCal.set(Calendar.MONTH, numMonth);
+        calMonthCal.set(Calendar.YEAR, numYear);
+        // round to start of current month
+        CalendarUtils.startOfMonth(calMonthCal);
+        // set new first displayed day
+        setFirstDisplayedDay(calMonthCal.getTime());
     }
 
 }
