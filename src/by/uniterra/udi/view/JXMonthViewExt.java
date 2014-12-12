@@ -1,7 +1,9 @@
 package by.uniterra.udi.view;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.jdesktop.swingx.JXMonthView;
 
@@ -85,6 +87,18 @@ public class JXMonthViewExt extends JXMonthView
     public int getDayOfYearAtLocation(int x, int y)
     {
         return getDayOfYear(getDayAtLocation(x, y));
+    }
+
+    public void setFlaggedDates(List<Integer> arrayList)
+    {
+        List<Date> lstSelectedDates = new ArrayList<Date>(arrayList.size());
+        for (Integer iCurDayOfYear : arrayList)
+        {
+            Calendar cal = getCalendar();
+            cal.set(Calendar.DAY_OF_YEAR, iCurDayOfYear);
+            lstSelectedDates.add(cal.getTime());
+        }
+        setFlaggedDates(lstSelectedDates.stream().toArray(Date[]::new));
     }
 
 }

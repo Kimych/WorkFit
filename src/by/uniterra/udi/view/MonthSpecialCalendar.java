@@ -117,7 +117,7 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
     
 
 
-    public void selectCSDforCurrentMonth(List<CalendarSpecialDay> lstSpecialDayInYear , int numYear)
+    public void selectCSDforCurrentMonth(List<CalendarSpecialDay> lstSpecialDayInYear)
     {
         mapFlaggetMonthDay.clear();
         
@@ -131,18 +131,11 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
                 mapFlaggetMonthDay.put(currentDayNum, calSpecialDay);
             }
         }
-
-        List<Date> lstDate = new ArrayList<Date>();
-        for(Integer numDay : mapFlaggetMonthDay.keySet())
+       
+        if (!mapFlaggetMonthDay.isEmpty())
         {
-            lstDate.add(DateUtils.getDateByYearAndDayNum(numYear,numDay));
-        }
-        if (!lstDate.isEmpty())
-        {
-            Date[] arrDate = new Date[lstDate.size()];
-            arrDate = lstDate.toArray(arrDate);
             monthView.setFlaggedDayForeground(Color.RED);
-            monthView.setFlaggedDates(arrDate);
+            monthView.setFlaggedDates(new ArrayList<Integer>(mapFlaggetMonthDay.keySet()));
         }
     }
 

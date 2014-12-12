@@ -53,13 +53,12 @@ public class CalendarSpecialDayOptionPanel extends JPanel
     {
         this.objCSD = objCSD;
 
-        List<EDayType> lstDayType = objCSD.getTypeDay();
         EDayType[] arrDayType = EDayType.values();
         List<EDayType> dayTypeList = new ArrayList<EDayType>(Arrays.asList(arrDayType));
         dayTypeList.remove(bIsWeekEnd ? EDayType.DAY_OFF.ordinal() : EDayType.WORKING_DAY.ordinal());
         chblDayType.setListData(dayTypeList.stream().toArray(EDayType[]::new));
 
-        chblDayType.setSelectedItems(lstDayType);
+        chblDayType.setSelectedItems(objCSD.getTypeDay());
 
         taDescription.setText(objCSD.getDescrition());
     }
