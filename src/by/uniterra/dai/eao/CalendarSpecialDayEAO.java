@@ -8,8 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import by.uniterra.dai.entity.CalendarSpecialDay;
-import by.uniterra.dai.entity.DaysOfWork;
-import by.uniterra.udi.util.EDayType;
 import by.uniterra.udi.util.Log;
 
 public class CalendarSpecialDayEAO extends ServiceBaseEAO<CalendarSpecialDay>
@@ -20,7 +18,33 @@ public class CalendarSpecialDayEAO extends ServiceBaseEAO<CalendarSpecialDay>
         super(em, CalendarSpecialDay.class);
     }
     
+    /**
+     * Get list of DETACHED special days for given year
+     *  
+     * @param yearNumber - year number
+     * 
+     * @return list of detached special days for given year
+     *
+     * @author Anton Nedbailo
+     * @date Dec 12, 2014
+     */
     public List<CalendarSpecialDay> getSpecialDayByYear(int yearNumber)
+    {
+        return getSpecialDayByYear(yearNumber, true);
+    }
+    
+    /**
+     * Get list of special days for given year
+     * 
+     * @param yearNumber - year number
+     * @param bReturnDetachedObjects - if true: result list will be detached from according EM
+     * 
+     * @return list of special days for given year
+     *
+     * @author Anton Nedbailo
+     * @date Dec 12, 2014
+     */
+    public List<CalendarSpecialDay> getSpecialDayByYear(int yearNumber, boolean bReturnDetachedObjects)
     {
         List<CalendarSpecialDay> lstResult = null;
         try
@@ -31,6 +55,11 @@ public class CalendarSpecialDayEAO extends ServiceBaseEAO<CalendarSpecialDay>
             // set Month
             // execute and return result
             lstResult = (List<CalendarSpecialDay>) queryDeleteByDSId.getResultList();
+            // check "detach" flag and detach objects form associated EM
+            for (int i = 0; bReturnDetachedObjects && i < lstResult.size(); i++)
+            {
+                em.detach(lstResult.get(i));
+            }
         }
         catch (Exception e)
         {
