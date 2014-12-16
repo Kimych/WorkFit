@@ -156,7 +156,6 @@ public class YearSpecialCalendar extends JPanel implements ActionListener
                     // save changes (and remove this records from maps)
                     csdEAO.save(mapFlaggetDay.get(iYearIndex));
                     mapFlaggetDay.remove(iYearIndex);
-                    mapYearCalSpecDay.remove(iYearIndex);
                 }
                 mapYearCalSpecDay.remove(iYearIndex);
             }
