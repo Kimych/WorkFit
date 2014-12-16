@@ -29,29 +29,21 @@ import by.uniterra.system.model.SystemModel;
 import by.uniterra.udi.util.EDayType;
 import by.uniterra.udi.util.Log;
 
-public class MonthSpecialCalendar extends JPanel implements ActionListener
+public class MonthSpecialCalendar extends JPanel
 {
 
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 6315005613998935370L;
-    static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
-
-    JXMonthViewExt monthView;
-
-    HashMap<Integer, CalendarSpecialDay> mapFlaggetMonthDay = new HashMap<Integer, CalendarSpecialDay>();
-    HashMap<Integer, CalendarSpecialDay> mapToDelCSD = new HashMap<Integer, CalendarSpecialDay>();
-    private int numYear;
+    
+    private static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+    private JXMonthViewExt monthView;
+    private HashMap<Integer, CalendarSpecialDay> mapFlaggetMonthDay = new HashMap<Integer, CalendarSpecialDay>();
     
     public  HashMap<Integer, CalendarSpecialDay> getMapFlaggetMonthDay()
     {
         return this.mapFlaggetMonthDay;
     }
-    
-    public HashMap<Integer, CalendarSpecialDay> getMapToDelCSD()
-    {
-        return this.mapToDelCSD;
-    }
-    
+
     public MonthSpecialCalendar()
     {
         super(new GridBagLayout());
@@ -77,7 +69,7 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
                 if (SwingUtilities.isLeftMouseButton(e))
                 {
                     JPopupMenu pmTooltip = new JPopupMenu();
-                    List<String> lstType = getDayType(monthView.getDayOfYearAtLocation(e.getX(), e.getY()));
+                    List<String> lstType = getDayTooltip(monthView.getDayOfYearAtLocation(e.getX(), e.getY()));
                     for (String strDayType : lstType)
                     {
                         pmTooltip.add(strDayType);
@@ -97,11 +89,9 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
                     CalendarSpecialDay objCurrentCSD = csdPanel.getModel();
                     
                     //for new empty object
-                    if(objCurrentCSD.getDayTypeId() == 0 && objCurrentCSD.getDescrition().isEmpty() && objCurrentCSD.getTypeDay().isEmpty())
+                    if(objCurrentCSD.getDescrition().isEmpty() && objCurrentCSD.getTypeDay().isEmpty())
                     {
-                        {
-                            JOptionPane.showMessageDialog(monthView, "Not selected!");
-                        }
+                        mapFlaggetMonthDay.remove(objCurrentCSD.getYearDayNumber());
                     }
                     else
                     {
@@ -138,7 +128,6 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
     
     public void setModel(int numMonth, int numYear)
     {
-        this.numYear = numYear;
         monthView.setDisplayedMonth(numMonth, numYear);
     }
     
@@ -157,46 +146,26 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
             }
         }
        
-        if (!mapFlaggetMonthDay.isEmpty())
-        {
-            monthView.setFlaggedDayForeground(Color.RED);
-            monthView.setFlaggedDates(new ArrayList<Integer>(mapFlaggetMonthDay.keySet()));
-        }
+        repaintFlaggedDays();
     }
     
     public void repaintFlaggedDays()
     {
-        
-        for (Integer index : mapFlaggetMonthDay.keySet())
-        {
-            CalendarSpecialDay csd = mapFlaggetMonthDay.get(index);
-            if(csd.getDescrition().isEmpty() && csd.getTypeDay().isEmpty())
-            {
-                mapToDelCSD.put(index, csd);
-                mapFlaggetMonthDay.remove(index);
-            }
-        }
         monthView.setFlaggedDayForeground(Color.RED);
         monthView.setFlaggedDates(new ArrayList<Integer>(mapFlaggetMonthDay.keySet()));
     }
 
-    public List<String> getDayType(int dayYearNum)
+    public List<String> getDayTooltip(int dayYearNum)
     {
-
         List<String> lstStrResult = new ArrayList<String>();
-        List<EDayType> lstDayTypes = new ArrayList<EDayType>();
-        
         if(mapFlaggetMonthDay.containsKey(dayYearNum))
         {
-            CalendarSpecialDay csd = mapFlaggetMonthDay.get(dayYearNum);
-            lstDayTypes = csd.getTypeDay();
-            for (EDayType eDayType : lstDayTypes)
+            for (EDayType eDayType : mapFlaggetMonthDay.get(dayYearNum).getTypeDay())
             {
                 lstStrResult.add(eDayType.toString());
             }
         }
         return lstStrResult;    
-
     }
      
     public CalendarSpecialDay getCalendarSpecialDay(int dayYearNum)
@@ -211,14 +180,6 @@ public class MonthSpecialCalendar extends JPanel implements ActionListener
             mapFlaggetMonthDay.put(dayYearNum, objResult);
         }
         return  mapFlaggetMonthDay.get(dayYearNum);
-    }
-
-    
-    @Override
-    public void actionPerformed(ActionEvent arg0)
-    {
-        // TODO Auto-generated method stub
-
     }
 
 }

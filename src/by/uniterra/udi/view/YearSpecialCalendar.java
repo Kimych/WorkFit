@@ -34,7 +34,6 @@ public class YearSpecialCalendar extends JPanel implements ActionListener
     public static Year objYear;
     private HashMap<Integer, MonthSpecialCalendar> mpMonthPanels = new HashMap<Integer, MonthSpecialCalendar>();
     HashMap<Integer, CalendarSpecialDay> mapFlaggetDay = new HashMap<Integer, CalendarSpecialDay>();
-    HashMap<Integer, CalendarSpecialDay> mapDelCSD = new HashMap<Integer, CalendarSpecialDay>();
     private List<CalendarSpecialDay> lstYearCalSpecDay = new ArrayList<CalendarSpecialDay>();
 
     private CalendarSpecialDayEAO eaoCalSpecDay = new CalendarSpecialDayEAO(SystemModel.getDefaultEM());
@@ -133,13 +132,10 @@ public class YearSpecialCalendar extends JPanel implements ActionListener
         boolean bResult = false;
         //get  changes
         mapFlaggetDay.clear();
-        mapDelCSD.clear();
         for (Integer iMonthIndex : mpMonthPanels.keySet())
         {
             MonthSpecialCalendar msc = mpMonthPanels.get(iMonthIndex);
-            
             mapFlaggetDay.putAll(msc.getMapFlaggetMonthDay());
-            mapDelCSD.putAll(msc.getMapToDelCSD());
         }
         
         for (Integer iIndex : mapFlaggetDay.keySet() )
@@ -153,10 +149,14 @@ public class YearSpecialCalendar extends JPanel implements ActionListener
             
         }
         
-
+        
+        // remove duplication
+        
+        // save changes and new (and remove this records from maps)
+        
+        // delete from DB rest of values from original map
        
         
-        mapDelCSD.size();
         mapFlaggetDay.size();
         
         return bResult;
