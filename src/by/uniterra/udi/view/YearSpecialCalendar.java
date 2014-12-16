@@ -84,10 +84,11 @@ public class YearSpecialCalendar extends JPanel implements ActionListener
             switch (arg0.getActionCommand())
             {
             case ACTION_NEXT_YEAR:
-                //update db
+                //saveChanges();
                 setModel(++numYear);
                 break;
             case ACTION_PREVIOUS_YEAR:
+                //saveChanges();
                 setModel(--numYear);
                 break;
             default:
@@ -129,7 +130,7 @@ public class YearSpecialCalendar extends JPanel implements ActionListener
    
     public boolean saveChanges()
     {
-        List<CalendarSpecialDay> lstToSave = new ArrayList<CalendarSpecialDay>();
+        CalendarSpecialDayEAO csdEAO = new CalendarSpecialDayEAO(SystemModel.getDefaultEM());
         boolean bResult = false;
         //get  changes
         mapFlaggetDay.clear();
@@ -150,37 +151,27 @@ public class YearSpecialCalendar extends JPanel implements ActionListener
         {
             if(mapFlaggetDay.containsKey(iYearIndex))
             {
-                if(!mapYearCalSpecDay.values().equals(mapFlaggetDay.get(iYearIndex)))
+                if(!mapYearCalSpecDay.get(iYearIndex).equals(mapFlaggetDay.get(iYearIndex)))
                 {
                     // save changes (and remove this records from maps)
-                    lstToSave.add(mapFlaggetDay.get(iYearIndex));
-                    mapYearCalSpecDay.remove(iYearIndex);
+                    csdEAO.save(mapFlaggetDay.get(iYearIndex));
                     mapFlaggetDay.remove(iYearIndex);
-                }
-                else
-                {
-                    // remove duplication
                     mapYearCalSpecDay.remove(iYearIndex);
                 }
+                mapYearCalSpecDay.remove(iYearIndex);
             }
         }
         //save new
         for (Integer iIndex : mapFlaggetDay.keySet())
         {
-            lstToSave.add(mapFlaggetDay.get(iIndex));
+            csdEAO.save(mapFlaggetDay.get(iIndex));
+        }
+       
+        for (Integer iIndex : mapYearCalSpecDay.keySet())
+        {
+            csdEAO.delete(mapYearCalSpecDay.get(iIndex));
         }
         
-        //to save
-        lstToSave.size();
-        //to delete
-        mapYearCalSpecDay.size();
-        
-        // remove duplication
-        
-        // save changes and new (and remove this records from maps)
-        
-        // delete from DB rest of values from original map
-       
         return bResult;
     }
 
