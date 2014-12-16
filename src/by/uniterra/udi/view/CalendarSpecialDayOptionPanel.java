@@ -6,16 +6,12 @@ import java.awt.Insets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import by.uniterra.dai.entity.CalendarSpecialDay;
-import by.uniterra.dai.entity.DaysOfWork;
-import by.uniterra.system.util.DateUtils;
 import by.uniterra.udi.util.EDayType;
 import by.uniterra.udi.util.UTCheckBoxList;
 

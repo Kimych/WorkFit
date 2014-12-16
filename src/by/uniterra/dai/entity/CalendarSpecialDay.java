@@ -46,6 +46,17 @@ public class CalendarSpecialDay implements Serializable
 
     public CalendarSpecialDay()
     {
+        descrition = "";
+    }
+    
+    public CalendarSpecialDay(CalendarSpecialDay calSpecialDay)
+    {
+        this.dayTypeId = calSpecialDay.getDayTypeId();
+        this.descrition = calSpecialDay.getDescrition();
+        this.year = calSpecialDay.getYear();
+        this.yearDayNumber = calSpecialDay.getYearDayNumber();
+        this.setTypeDay(calSpecialDay.getTypeDay());
+        
     }
 
     public int getDayTypeId()
@@ -109,6 +120,65 @@ public class CalendarSpecialDay implements Serializable
     public void setYear(Year year)
     {
         this.year = year;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((descrition == null) ? 0 : descrition.hashCode());
+        result = prime * result + typeDay;
+        result = prime * result + ((year == null) ? 0 : year.hashCode());
+        result = prime * result + yearDayNumber;
+        return result;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        CalendarSpecialDay other = (CalendarSpecialDay) obj;
+        if (descrition == null)
+        {
+            if (other.descrition != null)
+                return false;
+        }
+        else if (!descrition.equals(other.descrition))
+            return false;
+        if (typeDay != other.typeDay)
+            return false;
+        if (year == null)
+        {
+            if (other.year != null)
+                return false;
+        }
+        else if (!year.equals(other.year))
+            return false;
+        if (yearDayNumber != other.yearDayNumber)
+            return false;
+        return true;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString()
+    {
+        return "CalendarSpecialDay [dayTypeId=" + dayTypeId + ", descrition=" + descrition + ", typeDay=" + typeDay + ", yearDayNumber=" + yearDayNumber
+                + ", year=" + year + "]";
     }
 
 }

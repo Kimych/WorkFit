@@ -11,10 +11,20 @@ import java.util.List;
  * 
  */
 @Entity
-@NamedQuery(name = "Year.findAll", query = "SELECT y FROM Year y")
+@NamedQueries({
+        @NamedQuery(name = Year.NQ_FIND_ALL, query = "SELECT y FROM Year y"),
+        @NamedQuery(name = Year.NQ_FIND_YEAR_BY_NUM, query = "SELECT y FROM Year y WHERE y.number = :" + Year.PARAMETER_NUM_YEAR )
+        
+})
 public class Year implements Serializable
 {
     private static final long serialVersionUID = 1L;
+    
+    
+    public static final String NQ_FIND_ALL = "Year.findAll";
+    public static final String NQ_FIND_YEAR_BY_NUM = "Year.getYearByYearNumber";
+    
+    public static final String PARAMETER_NUM_YEAR = "numYear";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

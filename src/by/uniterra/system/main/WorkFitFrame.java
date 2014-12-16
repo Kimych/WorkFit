@@ -365,16 +365,10 @@ public class WorkFitFrame extends JFrame implements ActionListener
                 panelUserRole.writeValues();
                 break;
             case IMenuHelper.MCOMMAND_EDIT_CAL_SPECIAL_DAY:
-                /*
-                 * CommonDataTablePanel panelCalSpecial = new
-                 * CommonDataTablePanel(new CalendarSpecialDayTableModel(), new
-                 * CalendarSpecialDayOptionPanel(), new CalendarSpecialDayEAO(
-                 * SystemModel.getDefaultEM()));
-                 */
-                // showEditPanel(panelCalSpecial,
-                // UDIPropSingleton.getString(this, "EditUserRole.frame"));
-                JOptionPane.showMessageDialog(this, new YearSpecialCalendar(), "Calendar", JOptionPane.PLAIN_MESSAGE);
-                // panelCalSpecial.writeValues();
+                YearSpecialCalendar yscCalendar = new YearSpecialCalendar();
+                yscCalendar.setModel(DateUtils.getYearNumber(new Date()));
+                JOptionPane.showMessageDialog(this, yscCalendar, "Calendar", JOptionPane.PLAIN_MESSAGE);
+                yscCalendar.saveChanges();
                 break;
 
             /*
