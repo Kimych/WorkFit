@@ -7,7 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -146,8 +148,27 @@ public class YearSpecialCalendar extends JPanel implements ActionListener
             mapYearCalSpecDay.put(csd.getYearDayNumber(), csd);
         }
         
+        for (Iterator<Entry<Integer, CalendarSpecialDay>> iterator = mapYearCalSpecDay.entrySet().iterator(); iterator.hasNext();)
+        {
+            // get current entry
+            Entry<Integer, CalendarSpecialDay> enOrigEntry = iterator.next();
+            // get key
+            Integer iYearIndex = iterator.next().getKey();
+            if(mapFlaggetDay.containsKey(iYearIndex))
+            {
+                if(!enOrigEntry.getValue().equals(mapFlaggetDay.get(iYearIndex)))
+                {
+                    // save changes (and remove this records from maps)
+                    csdEAO.save(mapFlaggetDay.get(iYearIndex));
+                }
+                // remove duplication to have at finish only "deleted" elements
+                iterator.remove();
+                // remove from map to have at finish only "new" elements
+                mapFlaggetDay.remove(iYearIndex);
+            }
+        }
         
-        for (Integer iYearIndex : mapYearCalSpecDay.keySet())
+/*        for (Integer iYearIndex : mapYearCalSpecDay.keySet())
         {
             if(mapFlaggetDay.containsKey(iYearIndex))
             {
@@ -159,7 +180,7 @@ public class YearSpecialCalendar extends JPanel implements ActionListener
                 }
                 mapYearCalSpecDay.remove(iYearIndex);
             }
-        }
+        }*/
         //save new
         for (Integer iIndex : mapFlaggetDay.keySet())
         {
