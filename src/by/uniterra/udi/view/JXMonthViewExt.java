@@ -14,7 +14,7 @@ public class JXMonthViewExt extends JXMonthView
 
     /**
      * 
-     * @return day of year of first day in current month 
+     * @return day of year of first day in current month
      *
      * @author Anton Nedbailo
      * @date Dec 11, 2014
@@ -26,7 +26,7 @@ public class JXMonthViewExt extends JXMonthView
 
     /**
      * 
-     * @return day of year of last day in current month 
+     * @return day of year of last day in current month
      *
      * @author Anton Nedbailo
      * @date Dec 11, 2014
@@ -39,7 +39,8 @@ public class JXMonthViewExt extends JXMonthView
     /**
      * Get day of year number by given Date
      * 
-     * @param dDate - Date to calculate the number 
+     * @param dDate
+     *            - Date to calculate the number
      * 
      * @return day number in year
      *
@@ -56,8 +57,10 @@ public class JXMonthViewExt extends JXMonthView
     /**
      * Returns true if the Date at the location is week end
      * 
-     * @param x - the x position of the location in pixel
-     * @param y - the y position of the location in pixel
+     * @param x
+     *            - the x position of the location in pixel
+     * @param y
+     *            - the y position of the location in pixel
      * 
      * @return true if date at given location is week end
      *
@@ -77,8 +80,10 @@ public class JXMonthViewExt extends JXMonthView
     /**
      * Returns day of year at given location
      * 
-     * @param x - the x position of the location in pixel
-     * @param y - the y position of the location in pixel
+     * @param x
+     *            - the x position of the location in pixel
+     * @param y
+     *            - the y position of the location in pixel
      * 
      * @return day of year at given location
      *
@@ -87,13 +92,14 @@ public class JXMonthViewExt extends JXMonthView
      */
     public int getDayOfYearAtLocation(int x, int y)
     {
-        return getDayOfYear(getDayAtLocation(x, y));
+        return getDayAtLocation(x, y) != null ?  getDayOfYear(getDayAtLocation(x, y)): 0;
     }
 
     /**
      * Replace all flags with the given days of current year.
      * 
-     * @param lstDaysOfYear - lstDaysOfYear list of days of year to be flagged
+     * @param lstDaysOfYear
+     *            - lstDaysOfYear list of days of year to be flagged
      *
      * @author Anton Nedbailo
      * @date Dec 12, 2014
@@ -113,8 +119,10 @@ public class JXMonthViewExt extends JXMonthView
     /**
      * Set month and year number to be displayed
      * 
-     * @param numMonth - month number
-     * @param numYear - year nember
+     * @param numMonth
+     *            - month number
+     * @param numYear
+     *            - year nember
      *
      * @author Anton Nedbailo
      * @date Dec 12, 2014

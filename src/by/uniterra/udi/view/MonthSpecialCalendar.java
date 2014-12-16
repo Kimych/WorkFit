@@ -23,9 +23,7 @@ import javax.swing.SwingUtilities;
 
 import org.jdesktop.swingx.JXMonthView;
 
-import by.uniterra.dai.eao.YearEAO;
 import by.uniterra.dai.entity.CalendarSpecialDay;
-import by.uniterra.system.model.SystemModel;
 import by.uniterra.udi.util.EDayType;
 import by.uniterra.udi.util.Log;
 
@@ -34,12 +32,12 @@ public class MonthSpecialCalendar extends JPanel
 
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 6315005613998935370L;
-    
+
     private static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
     private JXMonthViewExt monthView;
     private HashMap<Integer, CalendarSpecialDay> mapFlaggetMonthDay = new HashMap<Integer, CalendarSpecialDay>();
-    
-    public  HashMap<Integer, CalendarSpecialDay> getMapFlaggetMonthDay()
+
+    public HashMap<Integer, CalendarSpecialDay> getMapFlaggetMonthDay()
     {
         return this.mapFlaggetMonthDay;
     }
@@ -61,7 +59,7 @@ public class MonthSpecialCalendar extends JPanel
         monthView.setDayForeground(Calendar.SUNDAY, Color.MAGENTA);
         monthView.setDayForeground(Calendar.SATURDAY, Color.MAGENTA);
         monthView.setShowingWeekNumber(true);
-        //monthView.setTimeZone(TimeZone.getTimeZone("UTC"));
+        // monthView.setTimeZone(TimeZone.getTimeZone("UTC"));
         monthView.addMouseListener(new MouseAdapter()
         {
             public void mouseReleased(MouseEvent e)
@@ -69,36 +67,48 @@ public class MonthSpecialCalendar extends JPanel
                 if (SwingUtilities.isLeftMouseButton(e))
                 {
                     JPopupMenu pmTooltip = new JPopupMenu();
-                    List<String> lstType = getDayTooltip(monthView.getDayOfYearAtLocation(e.getX(), e.getY()));
-                    for (String strDayType : lstType)
+                    int dayNumber = monthView.getDayOfYearAtLocation(e.getX(), e.getY());
+                    if (dayNumber != 0)
                     {
-                        pmTooltip.add(strDayType);
+                        List<String> lstType = getDayTooltip(dayNumber);
+                        if (!lstType.isEmpty())
+                        {
+                            for (String strDayType : lstType)
+                            {
+                                pmTooltip.add(strDayType);
+                            }
+                            pmTooltip.show((JXMonthView) e.getSource(), e.getX(), e.getY());
+                        }
+
                     }
-                    pmTooltip.show((JXMonthView) e.getSource(), e.getX(), e.getY());
                 }
                 // show edit view on mouse right click
                 if (SwingUtilities.isRightMouseButton(e))
                 {
                     int dateFromCal = monthView.getDayOfYearAtLocation(e.getX(), e.getY());
-                    CalendarSpecialDayOptionPanel csdPanel = new CalendarSpecialDayOptionPanel();
-                    
-                    csdPanel.setModel(getCalendarSpecialDay(dateFromCal), monthView.isWeekEndAtLocation(e.getX(), e.getY()));
-                    
-                    JOptionPane.showMessageDialog(monthView, csdPanel, DATE_FORMAT.format(monthView.getDayAtLocation(e.getX(), e.getY())), JOptionPane.PLAIN_MESSAGE);
-                    
-                    CalendarSpecialDay objCurrentCSD = csdPanel.getModel();
-                    
-                    //for new empty object
-                    if(objCurrentCSD.getDescrition().isEmpty() && objCurrentCSD.getTypeDay().isEmpty())
+                    if (dateFromCal != 0)
                     {
-                        mapFlaggetMonthDay.remove(objCurrentCSD.getYearDayNumber());
+                        CalendarSpecialDayOptionPanel csdPanel = new CalendarSpecialDayOptionPanel();
+
+                        csdPanel.setModel(getCalendarSpecialDay(dateFromCal), monthView.isWeekEndAtLocation(e.getX(), e.getY()));
+
+                        JOptionPane.showMessageDialog(monthView, csdPanel, DATE_FORMAT.format(monthView.getDayAtLocation(e.getX(), e.getY())),
+                                JOptionPane.PLAIN_MESSAGE);
+
+                        CalendarSpecialDay objCurrentCSD = csdPanel.getModel();
+
+                        // for new empty object
+                        if (objCurrentCSD.getDescrition().isEmpty() && objCurrentCSD.getTypeDay().isEmpty())
+                        {
+                            mapFlaggetMonthDay.remove(objCurrentCSD.getYearDayNumber());
+                        }
+                        else
+                        {
+                            mapFlaggetMonthDay.put(objCurrentCSD.getYearDayNumber(), objCurrentCSD);
+                        }
+
+                        repaintFlaggedDays();
                     }
-                    else
-                    {
-                        mapFlaggetMonthDay.put(objCurrentCSD.getYearDayNumber(), objCurrentCSD);
-                    }
-               
-                    repaintFlaggedDays();
                 }
             }
         });
@@ -125,16 +135,15 @@ public class MonthSpecialCalendar extends JPanel
 
     }
 
-    
     public void setModel(int numMonth, int numYear)
     {
         monthView.setDisplayedMonth(numMonth, numYear);
     }
-    
+
     public void selectCSDforCurrentMonth(List<CalendarSpecialDay> lstSpecialDayInYear)
     {
         mapFlaggetMonthDay.clear();
-        
+
         int monthStartNum = monthView.getFirstDisplayedDayOfYear();
         int monthFinishNum = monthView.getLastDisplayedDayOfYear();
         for (CalendarSpecialDay calSpecialDay : lstSpecialDayInYear)
@@ -145,10 +154,10 @@ public class MonthSpecialCalendar extends JPanel
                 mapFlaggetMonthDay.put(currentDayNum, new CalendarSpecialDay(calSpecialDay));
             }
         }
-       
+
         repaintFlaggedDays();
     }
-    
+
     public void repaintFlaggedDays()
     {
         monthView.setFlaggedDayForeground(Color.RED);
@@ -158,28 +167,32 @@ public class MonthSpecialCalendar extends JPanel
     public List<String> getDayTooltip(int dayYearNum)
     {
         List<String> lstStrResult = new ArrayList<String>();
-        if(mapFlaggetMonthDay.containsKey(dayYearNum))
+        if (mapFlaggetMonthDay.containsKey(dayYearNum))
         {
             for (EDayType eDayType : mapFlaggetMonthDay.get(dayYearNum).getTypeDay())
             {
                 lstStrResult.add(eDayType.toString());
             }
+            if (!mapFlaggetMonthDay.get(dayYearNum).getDescrition().isEmpty())
+            {
+                lstStrResult.add("* " + mapFlaggetMonthDay.get(dayYearNum).getDescrition());
+            }
         }
-        return lstStrResult;    
+        return lstStrResult;
     }
-     
+
     public CalendarSpecialDay getCalendarSpecialDay(int dayYearNum)
     {
-        if(!mapFlaggetMonthDay.containsKey(dayYearNum))
+        if (!mapFlaggetMonthDay.containsKey(dayYearNum))
         {
-            // create new 
+            // create new
             CalendarSpecialDay objResult = new CalendarSpecialDay();
             objResult.setYear(YearSpecialCalendar.objYear);
             objResult.setYearDayNumber(dayYearNum);
             // add to map
             mapFlaggetMonthDay.put(dayYearNum, objResult);
         }
-        return  mapFlaggetMonthDay.get(dayYearNum);
+        return mapFlaggetMonthDay.get(dayYearNum);
     }
 
 }

@@ -31,17 +31,17 @@ public class YearSpecialCalendar extends JPanel implements ActionListener
     private static int MAX_ITEMS_IN_LINE = 4;
     private static final String ACTION_NEXT_YEAR = "Next Year";
     private static final String ACTION_PREVIOUS_YEAR = "Previous Year";
-    
+
     private int numYear;
     public static Year objYear;
     private HashMap<Integer, MonthSpecialCalendar> mpMonthPanels = new HashMap<Integer, MonthSpecialCalendar>();
     HashMap<Integer, CalendarSpecialDay> mapFlaggetDay = new HashMap<Integer, CalendarSpecialDay>();
-    
+
     private List<CalendarSpecialDay> lstYearCalSpecDay = new ArrayList<CalendarSpecialDay>();
 
     private CalendarSpecialDayEAO eaoCalSpecDay = new CalendarSpecialDayEAO(SystemModel.getDefaultEM());
     private JLabel lblYearNumber;
-    
+
     public YearSpecialCalendar()
     {
         super(new GridBagLayout());
@@ -59,12 +59,15 @@ public class YearSpecialCalendar extends JPanel implements ActionListener
         JButton btnPreviousYear = new JButton("<<");
         btnPreviousYear.setActionCommand(ACTION_PREVIOUS_YEAR);
         btnPreviousYear.addActionListener(this);
-        
+
         lblYearNumber = new JLabel();
         // add to control panel
-        panelYearControls.add(btnPreviousYear, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-        panelYearControls.add(lblYearNumber, new GridBagConstraints(1, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 5, 0, 5), 0, 0));
-        panelYearControls.add(btnNextYear, new GridBagConstraints(2, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+        panelYearControls.add(btnPreviousYear, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0,
+                0), 0, 0));
+        panelYearControls.add(lblYearNumber, new GridBagConstraints(1, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
+                new Insets(0, 5, 0, 5), 0, 0));
+        panelYearControls.add(btnNextYear, new GridBagConstraints(2, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0),
+                0, 0));
         // add to main panel
         add(panelYearControls, new GridBagConstraints(0, 0, 4, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
         // build calendar 4x3
@@ -86,11 +89,11 @@ public class YearSpecialCalendar extends JPanel implements ActionListener
             switch (arg0.getActionCommand())
             {
             case ACTION_NEXT_YEAR:
-                //saveChanges();
+                saveChanges();
                 setModel(++numYear);
                 break;
             case ACTION_PREVIOUS_YEAR:
-                //saveChanges();
+                saveChanges();
                 setModel(--numYear);
                 break;
             default:
@@ -106,57 +109,46 @@ public class YearSpecialCalendar extends JPanel implements ActionListener
     public void setModel(int numYear)
     {
         this.numYear = numYear;
-        this.objYear = new YearEAO(SystemModel.getDefaultEM()).getYearByYearNum(numYear);
-        
-        //get list year special day in numYear
+        YearSpecialCalendar.objYear = new YearEAO(SystemModel.getDefaultEM()).getYearByYearNum(numYear);
+
+        // get list year special day in numYear
         lstYearCalSpecDay = eaoCalSpecDay.getSpecialDayByYear(numYear);
         for (Integer iMonthIndex : mpMonthPanels.keySet())
         {
             MonthSpecialCalendar msc = mpMonthPanels.get(iMonthIndex);
             msc.setModel(iMonthIndex, numYear);
             msc.selectCSDforCurrentMonth(lstYearCalSpecDay);
-           // lstChangedYearCSD.addAll(msc.getLstChangedMonthCSD());
-        /*    
-            HashMap<Integer,CalendarSpecialDay > mapCSD = new HashMap<Integer, CalendarSpecialDay>();
-            mapCSD = msc.getMapFlaggetMonthDay();
-            mapCSD.size();
-            for(Integer iMapCSD : mapCSD.keySet())
-            {
-                lstChangedYearCSD.add(mapCSD.get(iMapCSD));
-            }*/
         }
         // update year number
         lblYearNumber.setText(String.valueOf(numYear));
     }
-    
-   
+
     public boolean saveChanges()
     {
         CalendarSpecialDayEAO csdEAO = new CalendarSpecialDayEAO(SystemModel.getDefaultEM());
         boolean bResult = false;
-        //get  changes
+        // get changes
         mapFlaggetDay.clear();
         for (Integer iMonthIndex : mpMonthPanels.keySet())
         {
             MonthSpecialCalendar msc = mpMonthPanels.get(iMonthIndex);
             mapFlaggetDay.putAll(msc.getMapFlaggetMonthDay());
         }
-        //create map
+        // create map
         HashMap<Integer, CalendarSpecialDay> mapYearCalSpecDay = new HashMap<Integer, CalendarSpecialDay>();
         for (CalendarSpecialDay csd : lstYearCalSpecDay)
         {
             mapYearCalSpecDay.put(csd.getYearDayNumber(), csd);
         }
-        
         for (Iterator<Entry<Integer, CalendarSpecialDay>> iterator = mapYearCalSpecDay.entrySet().iterator(); iterator.hasNext();)
         {
             // get current entry
             Entry<Integer, CalendarSpecialDay> enOrigEntry = iterator.next();
             // get key
-            Integer iYearIndex = iterator.next().getKey();
-            if(mapFlaggetDay.containsKey(iYearIndex))
+            Integer iYearIndex = enOrigEntry.getKey();
+            if (mapFlaggetDay.containsKey(iYearIndex))
             {
-                if(!enOrigEntry.getValue().equals(mapFlaggetDay.get(iYearIndex)))
+                if (!enOrigEntry.getValue().equals(mapFlaggetDay.get(iYearIndex)))
                 {
                     // save changes (and remove this records from maps)
                     csdEAO.save(mapFlaggetDay.get(iYearIndex));
@@ -167,31 +159,16 @@ public class YearSpecialCalendar extends JPanel implements ActionListener
                 mapFlaggetDay.remove(iYearIndex);
             }
         }
-        
-/*        for (Integer iYearIndex : mapYearCalSpecDay.keySet())
-        {
-            if(mapFlaggetDay.containsKey(iYearIndex))
-            {
-                if(!mapYearCalSpecDay.get(iYearIndex).equals(mapFlaggetDay.get(iYearIndex)))
-                {
-                    // save changes (and remove this records from maps)
-                    csdEAO.save(mapFlaggetDay.get(iYearIndex));
-                    mapFlaggetDay.remove(iYearIndex);
-                }
-                mapYearCalSpecDay.remove(iYearIndex);
-            }
-        }*/
-        //save new
+        // save new
         for (Integer iIndex : mapFlaggetDay.keySet())
         {
             csdEAO.save(mapFlaggetDay.get(iIndex));
         }
-       
+        //remove from db
         for (Integer iIndex : mapYearCalSpecDay.keySet())
         {
             csdEAO.delete(mapYearCalSpecDay.get(iIndex));
         }
-        
         return bResult;
     }
 
