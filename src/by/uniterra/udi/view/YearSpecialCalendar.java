@@ -34,6 +34,7 @@ public class YearSpecialCalendar extends JPanel implements ActionListener
     public static Year objYear;
     private HashMap<Integer, MonthSpecialCalendar> mpMonthPanels = new HashMap<Integer, MonthSpecialCalendar>();
     HashMap<Integer, CalendarSpecialDay> mapFlaggetDay = new HashMap<Integer, CalendarSpecialDay>();
+    
     private List<CalendarSpecialDay> lstYearCalSpecDay = new ArrayList<CalendarSpecialDay>();
 
     private CalendarSpecialDayEAO eaoCalSpecDay = new CalendarSpecialDayEAO(SystemModel.getDefaultEM());
@@ -128,7 +129,7 @@ public class YearSpecialCalendar extends JPanel implements ActionListener
    
     public boolean saveChanges()
     {
-        List<CalendarSpecialDay> lstToDelete = new ArrayList<CalendarSpecialDay>();
+        List<CalendarSpecialDay> lstToSave = new ArrayList<CalendarSpecialDay>();
         boolean bResult = false;
         //get  changes
         mapFlaggetDay.clear();
@@ -137,18 +138,42 @@ public class YearSpecialCalendar extends JPanel implements ActionListener
             MonthSpecialCalendar msc = mpMonthPanels.get(iMonthIndex);
             mapFlaggetDay.putAll(msc.getMapFlaggetMonthDay());
         }
-        
-        for (Integer iIndex : mapFlaggetDay.keySet() )
+        //create map
+        HashMap<Integer, CalendarSpecialDay> mapYearCalSpecDay = new HashMap<Integer, CalendarSpecialDay>();
+        for (CalendarSpecialDay csd : lstYearCalSpecDay)
         {
-            CalendarSpecialDay objCSD = mapFlaggetDay.get(iIndex);
-            if(objCSD.getTypeDay().isEmpty() && objCSD.getDescrition().isEmpty())
-            {
-                lstToDelete.add(objCSD);
-                mapFlaggetDay.remove(iIndex);
-            }
-            
+            mapYearCalSpecDay.put(csd.getYearDayNumber(), csd);
         }
         
+        
+        for (Integer iYearIndex : mapYearCalSpecDay.keySet())
+        {
+            if(mapFlaggetDay.containsKey(iYearIndex))
+            {
+                if(!mapYearCalSpecDay.values().equals(mapFlaggetDay.get(iYearIndex)))
+                {
+                    // save changes (and remove this records from maps)
+                    lstToSave.add(mapFlaggetDay.get(iYearIndex));
+                    mapYearCalSpecDay.remove(iYearIndex);
+                    mapFlaggetDay.remove(iYearIndex);
+                }
+                else
+                {
+                    // remove duplication
+                    mapYearCalSpecDay.remove(iYearIndex);
+                }
+            }
+        }
+        //save new
+        for (Integer iIndex : mapFlaggetDay.keySet())
+        {
+            lstToSave.add(mapFlaggetDay.get(iIndex));
+        }
+        
+        //to save
+        lstToSave.size();
+        //to delete
+        mapYearCalSpecDay.size();
         
         // remove duplication
         
@@ -156,9 +181,6 @@ public class YearSpecialCalendar extends JPanel implements ActionListener
         
         // delete from DB rest of values from original map
        
-        
-        mapFlaggetDay.size();
-        
         return bResult;
     }
 
