@@ -25,7 +25,6 @@ import by.uniterra.dai.entity.Month;
 import by.uniterra.dai.entity.Worker;
 import by.uniterra.system.model.SystemModel;
 import by.uniterra.system.util.DateUtils;
-import by.uniterra.system.util.WorkLogUtils;
 import by.uniterra.udi.iface.IModelOwner;
 import by.uniterra.udi.model.UDIPropSingleton;
 import by.uniterra.udi.util.UIUtils;
@@ -55,10 +54,10 @@ public class DaysOfWorkOptionPanel extends JPanel implements IModelOwner
     public DaysOfWorkOptionPanel()
     {
         super(new GridBagLayout());
-        jbUnit();
+        jbInit();
     }
 
-    private void jbUnit()
+    private void jbInit()
     {
 
         tfActualDays = new JTextField();
@@ -143,9 +142,9 @@ public class DaysOfWorkOptionPanel extends JPanel implements IModelOwner
                 }
             }
             // set estimated number of working days
-            Date monthStart = WorkLogUtils.getDateCurentMonthStart(new Date());
+            Date monthStart = DateUtils.getDateMonthStart(new Date());
             System.out.println(DateUtils.toGMT(monthStart.getTime()));
-            tfActualDays.setText(String.valueOf(WorkLogUtils.getWorkingDaysBetweenTwoDates(monthStart, curentDate)));
+            tfActualDays.setText(String.valueOf(DateUtils.getWorkingDaysBetweenTwoDates(monthStart, curentDate)));
             
         }
         else

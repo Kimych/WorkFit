@@ -24,6 +24,8 @@ import javax.swing.SwingUtilities;
 import org.jdesktop.swingx.JXMonthView;
 
 import by.uniterra.dai.entity.CalendarSpecialDay;
+import by.uniterra.system.util.DateUtils;
+import by.uniterra.udi.model.UDIPropSingleton;
 import by.uniterra.udi.util.EDayType;
 import by.uniterra.udi.util.Log;
 
@@ -35,6 +37,9 @@ public class MonthSpecialCalendar extends JPanel
 
     private static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
     private JXMonthViewExt monthView;
+    private JLabel jlWorkingDay;
+    public int numWorkingDay = 0;
+    
     private HashMap<Integer, CalendarSpecialDay> mapFlaggetMonthDay = new HashMap<Integer, CalendarSpecialDay>();
 
     public HashMap<Integer, CalendarSpecialDay> getMapFlaggetMonthDay()
@@ -51,7 +56,7 @@ public class MonthSpecialCalendar extends JPanel
     private void jbInit()
     {
 
-        JLabel jlWorkingDay = new JLabel("work days:");
+        jlWorkingDay = new JLabel("work days:");
 
         monthView = new JXMonthViewExt();
         monthView.setFirstDayOfWeek(Calendar.MONDAY);
@@ -79,7 +84,6 @@ public class MonthSpecialCalendar extends JPanel
                             }
                             pmTooltip.show((JXMonthView) e.getSource(), e.getX(), e.getY());
                         }
-
                     }
                 }
                 // show edit view on mouse right click
@@ -96,7 +100,6 @@ public class MonthSpecialCalendar extends JPanel
                                 JOptionPane.PLAIN_MESSAGE);
 
                         CalendarSpecialDay objCurrentCSD = csdPanel.getModel();
-
                         // for new empty object
                         if (objCurrentCSD.getDescrition().isEmpty() && objCurrentCSD.getTypeDay().isEmpty())
                         {
@@ -106,7 +109,6 @@ public class MonthSpecialCalendar extends JPanel
                         {
                             mapFlaggetMonthDay.put(objCurrentCSD.getYearDayNumber(), objCurrentCSD);
                         }
-
                         repaintFlaggedDays();
                     }
                 }
@@ -138,6 +140,7 @@ public class MonthSpecialCalendar extends JPanel
     public void setModel(int numMonth, int numYear)
     {
         monthView.setDisplayedMonth(numMonth, numYear);
+        numWorkingDay = DateUtils.getNumWorkindDaysInMonth(numYear, numMonth);
     }
 
     public void selectCSDforCurrentMonth(List<CalendarSpecialDay> lstSpecialDayInYear)
@@ -154,14 +157,26 @@ public class MonthSpecialCalendar extends JPanel
                 mapFlaggetMonthDay.put(currentDayNum, new CalendarSpecialDay(calSpecialDay));
             }
         }
-
         repaintFlaggedDays();
     }
 
     public void repaintFlaggedDays()
     {
+        int iDelta = 0;
+        for (Integer iIndex : mapFlaggetMonthDay.keySet())
+        {
+            if(mapFlaggetMonthDay.get(iIndex).getTypeDay().contains(EDayType.WORKING_DAY))
+            {
+                iDelta++;
+            }
+            if(mapFlaggetMonthDay.get(iIndex).getTypeDay().contains(EDayType.DAY_OFF))
+            {
+                iDelta--;
+            }
+        }
         monthView.setFlaggedDayForeground(Color.RED);
         monthView.setFlaggedDates(new ArrayList<Integer>(mapFlaggetMonthDay.keySet()));
+        jlWorkingDay.setText(UDIPropSingleton.getString(this, "Wrk.label") + (numWorkingDay + iDelta));
     }
 
     public List<String> getDayTooltip(int dayYearNum)
@@ -194,5 +209,7 @@ public class MonthSpecialCalendar extends JPanel
         }
         return mapFlaggetMonthDay.get(dayYearNum);
     }
+    
+    
 
 }

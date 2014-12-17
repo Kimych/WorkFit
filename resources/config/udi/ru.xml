@@ -214,6 +214,7 @@
 	<WrkDay.label>Рабочий день</WrkDay.label>
 	<DayOff.label>Выходной</DayOff.label>
 	<Birthday.lqbel>День рождения</Birthday.lqbel>
+	<Wrk.label>Рабочих дней: </Wrk.label>
 	</by.uniterra.udi.view.MonthSpecialCalendar>
 
 </root>

@@ -31,6 +31,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+import org.jdesktop.swingx.calendar.CalendarUtils;
+
 import by.uniterra.system.model.TimePeriodEx;
 import by.uniterra.udi.util.Log;
 
@@ -488,4 +490,88 @@ public class DateUtils
         return new Timestamp(cal.getTimeInMillis());
     }
     
+    public static Date getMonthStartDate(int numMonth, int numYear)
+    {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.MONTH, numMonth);
+        calendar.set(Calendar.YEAR, numYear);
+        CalendarUtils.startOfMonth(calendar);
+        return calendar.getTime();
+    }
+    
+    public static Date getMonthEndDate(int numMonth, int numYear)
+    {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.MONTH, numMonth);
+        calendar.set(Calendar.YEAR, numYear);
+        CalendarUtils.endOfMonth(calendar);
+        return calendar.getTime();
+    }
+
+    public static Date getDateMonthStart(Date dateFromLog)
+    {
+        
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        calendar.setTime(dateFromLog);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.HOUR, 0 );
+        calendar.set(Calendar.MINUTE, 1);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND,0);
+    
+        return calendar.getTime();
+    }
+
+    public static int getWorkingDaysBetweenTwoDates(Date startDate, Date endDate)
+    {
+        Calendar startCal;
+        Calendar endCal;
+        startCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        startCal.setTime(startDate);
+        endCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        endCal.setTime(endDate);
+        int workDays = 0;
+    
+        // Return 0 if start and end are the same
+        if (startCal.getTimeInMillis() == endCal.getTimeInMillis())
+        {
+            return workDays;
+        }
+    
+        if (startCal.getTimeInMillis() > endCal.getTimeInMillis())
+        {
+            startCal.setTime(endDate);
+            endCal.setTime(startDate);
+        }
+        
+       /* Log.debug(WorkLogUtils.class, DateUtils.toUTC(startCal.getTimeInMillis()) + " is a start time, " 
+                + DateUtils.toUTC(endCal.getTimeInMillis()) + " is an end time.");*/
+        
+        while (startCal.getTimeInMillis() < endCal.getTimeInMillis())
+        {
+            if (startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY)
+            {
+                ++workDays;
+                //Log.debug(WorkLogUtils.class, DateUtils.toUTC(startCal.getTimeInMillis()) + " added to working days (" + workDays + ")");
+            }
+            startCal.add(Calendar.DAY_OF_MONTH, 1);
+        }
+        
+    
+        return workDays;
+    }
+
+    /**
+     * 
+     * @param numMonth
+     * @param numYear
+     * @return
+     *
+     * @author Sergio Alecky
+     * @date 17 дек. 2014 г.
+     */
+    public static int getNumWorkindDaysInMonth(int numMonth, int numYear)
+    {
+        return getWorkingDaysBetweenTwoDates(getMonthStartDate(numMonth, numYear),getMonthEndDate(numMonth, numYear));
+    }
 }
