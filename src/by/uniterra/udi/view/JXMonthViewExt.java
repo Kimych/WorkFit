@@ -140,6 +140,11 @@ public class JXMonthViewExt extends JXMonthView
     }
     
     
+    public int getLastSelectedData(int x, int y)
+    {
+        return getDayAtLocation(x, y) != null ?  getDayOfYear(getDayAtLocation(x, y)): 0;
+    }
+    
     //TODO
     public int getNumWorkindDay()
     {

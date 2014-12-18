@@ -4,9 +4,6 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.SimpleDateFormat;
@@ -15,6 +12,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.SortedSet;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -28,7 +26,6 @@ import by.uniterra.dai.entity.CalendarSpecialDay;
 import by.uniterra.system.util.DateUtils;
 import by.uniterra.udi.model.UDIPropSingleton;
 import by.uniterra.udi.util.EDayType;
-import by.uniterra.udi.util.Log;
 
 public class MonthSpecialCalendar extends JPanel implements MouseListener
 {
@@ -40,7 +37,7 @@ public class MonthSpecialCalendar extends JPanel implements MouseListener
     private JXMonthViewExt monthView;
     private JLabel jlWorkingDay;
     public int numWorkingDay = 0;
-    
+
     private HashMap<Integer, CalendarSpecialDay> mapFlaggetMonthDay = new HashMap<Integer, CalendarSpecialDay>();
 
     public HashMap<Integer, CalendarSpecialDay> getMapFlaggetMonthDay()
@@ -54,24 +51,18 @@ public class MonthSpecialCalendar extends JPanel implements MouseListener
         jbInit();
     }
 
-    
     private void jbInit()
     {
-
-        jlWorkingDay = new JLabel("work days:");
-
+        jlWorkingDay = new JLabel("");
         monthView = new JXMonthViewExt();
         monthView.setFirstDayOfWeek(Calendar.MONDAY);
-
         monthView.setDayForeground(Calendar.SUNDAY, Color.MAGENTA);
         monthView.setDayForeground(Calendar.SATURDAY, Color.MAGENTA);
         monthView.setShowingWeekNumber(true);
         // monthView.setTimeZone(TimeZone.getTimeZone("UTC"));
         monthView.addMouseListener(this);
-
         add(monthView, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
         add(jlWorkingDay, new GridBagConstraints(0, 1, 1, 0, 0, 0, GridBagConstraints.SOUTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
-
     }
 
     public void setModel(int numMonth, int numYear)
@@ -79,16 +70,25 @@ public class MonthSpecialCalendar extends JPanel implements MouseListener
         monthView.setDisplayedMonth(numMonth, numYear);
         numWorkingDay = DateUtils.getNumWorkindDaysInMonth(numYear, numMonth);
     }
-    
+
     public void setZoomable(boolean bSet)
     {
         monthView.setZoomable(bSet);
     }
 
+    public void setFlaggedDates(Date[] arrDate)
+    {
+        monthView.setFlaggedDates(arrDate);
+    }
+
+    public SortedSet<Date> getFlaggedDates()
+    {
+        return monthView.getFlaggedDates();
+    }
+
     public void selectCSDforCurrentMonth(List<CalendarSpecialDay> lstSpecialDayInYear)
     {
         mapFlaggetMonthDay.clear();
-
         int monthStartNum = monthView.getFirstDisplayedDayOfYear();
         int monthFinishNum = monthView.getLastDisplayedDayOfYear();
         for (CalendarSpecialDay calSpecialDay : lstSpecialDayInYear)
@@ -107,11 +107,11 @@ public class MonthSpecialCalendar extends JPanel implements MouseListener
         int iDelta = 0;
         for (Integer iIndex : mapFlaggetMonthDay.keySet())
         {
-            if(mapFlaggetMonthDay.get(iIndex).getTypeDay().contains(EDayType.WORKING_DAY))
+            if (mapFlaggetMonthDay.get(iIndex).getTypeDay().contains(EDayType.WORKING_DAY))
             {
                 iDelta++;
             }
-            if(mapFlaggetMonthDay.get(iIndex).getTypeDay().contains(EDayType.DAY_OFF))
+            if (mapFlaggetMonthDay.get(iIndex).getTypeDay().contains(EDayType.DAY_OFF))
             {
                 iDelta--;
             }
@@ -156,28 +156,28 @@ public class MonthSpecialCalendar extends JPanel implements MouseListener
     public void mouseClicked(MouseEvent arg0)
     {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void mouseEntered(MouseEvent arg0)
     {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void mouseExited(MouseEvent arg0)
     {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void mousePressed(MouseEvent arg0)
     {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
@@ -200,7 +200,6 @@ public class MonthSpecialCalendar extends JPanel implements MouseListener
                 }
             }
         }
-
         // show edit view on mouse right click
         if (SwingUtilities.isRightMouseButton(e))
         {
@@ -219,7 +218,8 @@ public class MonthSpecialCalendar extends JPanel implements MouseListener
                 if (objCurrentCSD.getDescrition().isEmpty() && objCurrentCSD.getTypeDay().isEmpty())
                 {
                     mapFlaggetMonthDay.remove(objCurrentCSD.getYearDayNumber());
-                } else
+                }
+                else
                 {
                     mapFlaggetMonthDay.put(objCurrentCSD.getYearDayNumber(), objCurrentCSD);
                 }
