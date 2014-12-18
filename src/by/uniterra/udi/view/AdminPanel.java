@@ -74,7 +74,33 @@ public class AdminPanel extends JPanel implements ActionListener
         jlLastUpdateInMonth = new JLabel(UDIPropSingleton.getString(this, "updateTime.footer") + "--.--.--");
         setLayout(new GridBagLayout());
 
-        jxmvCalendar = new MonthSpecialCalendar();
+        jxmvCalendar = new MonthSpecialCalendar()
+        {
+            /** TODO document <code>serialVersionUID</code> */
+            private static final long serialVersionUID = 1029511220030271022L;
+
+            public void mouseReleased(MouseEvent e)
+            {
+                if (SwingUtilities.isLeftMouseButton(e))
+                {
+                    Date date = ((JXMonthView) e.getSource()).getSelection().last();
+                    if (date instanceof Date)
+                    {
+                        List<WorkLogInfoHolder> lstNewData = WorkLogInfoHelper.getLogListUpToDate(date);
+                        jlUpdatedate.setText(UDIPropSingleton.getString(this, "infoTime.header") + DATE_FORMAT.format(date));
+                        wltm.setTableData(lstNewData);
+                    }
+                    else
+                    {
+                        Log.error(AdminPanel.class, "actionPerformed(ActionEvent e)");
+                    }
+                }
+                // show edit view on mouse right click
+                if (SwingUtilities.isRightMouseButton(e))
+                {
+                }
+            }  
+        };
         jxmvCalendar.setZoomable(true);
         
         /*JButton btnNextYear = new JButton(">>");
@@ -109,32 +135,6 @@ public class AdminPanel extends JPanel implements ActionListener
         {
             table.addHighlighter(curHighlighter);
         }
-
-      
-        jxmvCalendar.addMouseListener(new MouseAdapter()
-        {
-            public void mouseReleased(MouseEvent e)
-            {
-                if (SwingUtilities.isLeftMouseButton(e))
-                {
-                    Date date = ((JXMonthView) e.getSource()).getSelection().last();
-                    if (date instanceof Date)
-                    {
-                        List<WorkLogInfoHolder> lstNewData = WorkLogInfoHelper.getLogListUpToDate(date);
-                        jlUpdatedate.setText(UDIPropSingleton.getString(this, "infoTime.header") + DATE_FORMAT.format(date));
-                        wltm.setTableData(lstNewData);
-                    }
-                    else
-                    {
-                        Log.error(AdminPanel.class, "actionPerformed(ActionEvent e)");
-                    }
-                }
-                // show edit view on mouse right click
-                if (SwingUtilities.isRightMouseButton(e))
-                {
-                }
-            }
-        });
         
 /*        jxmvCalendar.addActionListener(new ActionListener()
         {
