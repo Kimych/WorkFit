@@ -53,6 +53,7 @@ public class MonthSpecialCalendar extends JPanel
         jbInit();
     }
 
+    
     private void jbInit()
     {
 
@@ -142,6 +143,11 @@ public class MonthSpecialCalendar extends JPanel
         monthView.setDisplayedMonth(numMonth, numYear);
         numWorkingDay = DateUtils.getNumWorkindDaysInMonth(numYear, numMonth);
     }
+    
+    public void setZoomable(boolean bSet)
+    {
+        monthView.setZoomable(bSet);
+    }
 
     public void selectCSDforCurrentMonth(List<CalendarSpecialDay> lstSpecialDayInYear)
     {
@@ -209,7 +215,6 @@ public class MonthSpecialCalendar extends JPanel
         }
         return mapFlaggetMonthDay.get(dayYearNum);
     }
-    
     
 
 }

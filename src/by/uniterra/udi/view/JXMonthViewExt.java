@@ -139,6 +139,8 @@ public class JXMonthViewExt extends JXMonthView
         setFirstDisplayedDay(calMonthCal.getTime());
     }
     
+    
+    //TODO
     public int getNumWorkindDay()
     {
         

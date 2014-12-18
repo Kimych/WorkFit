@@ -6,16 +6,22 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import org.jdesktop.swingx.JXMonthView;
 import org.jdesktop.swingx.JXTable;
@@ -25,6 +31,7 @@ import org.jdesktop.swingx.decorator.HighlighterFactory;
 import org.jdesktop.swingx.decorator.PatternPredicate;
 
 import by.uniterra.dai.eao.DaysOfWorkEAO;
+import by.uniterra.dai.entity.CalendarSpecialDay;
 import by.uniterra.dai.entity.DaysOfWork;
 import by.uniterra.system.model.SystemModel;
 import by.uniterra.system.util.DateUtils;
@@ -43,10 +50,11 @@ public class AdminPanel extends JPanel implements ActionListener
     private static final long serialVersionUID = -6399838252872491307L;
 
     static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
-    private static final String ACTION_SAVE_TO_MODEL = "Save to model";
+/*    private static final String ACTION_NEXT_MONTH = "Next Month";
+    private static final String ACTION_PREVIOUS_MONTH = "Previous Month";*/
 
     private WorkLogTableModel wltm;
-    private JXMonthView jxmvCalendar;
+    private MonthSpecialCalendar jxmvCalendar;
     // private JMenu jmMenu;
     // private JMenuBar jmBar;
     private JLabel jlLastUpdateInMonth;
@@ -66,12 +74,21 @@ public class AdminPanel extends JPanel implements ActionListener
         jlLastUpdateInMonth = new JLabel(UDIPropSingleton.getString(this, "updateTime.footer") + "--.--.--");
         setLayout(new GridBagLayout());
 
-        jxmvCalendar = new JXMonthView();
-        jxmvCalendar.setFirstDayOfWeek(Calendar.MONDAY);
+        jxmvCalendar = new MonthSpecialCalendar();
+        jxmvCalendar.setZoomable(true);
+        
+        /*JButton btnNextYear = new JButton(">>");
+        btnNextYear.setActionCommand(ACTION_NEXT_MONTH);
+        btnNextYear.addActionListener(this);
+
+        JButton btnPreviousYear = new JButton("<<");
+        btnPreviousYear.setActionCommand(ACTION_PREVIOUS_MONTH);
+        btnPreviousYear.addActionListener(this);*/
+       /* jxmvCalendar.setFirstDayOfWeek(Calendar.MONDAY);
         // old style: set visual property with JXMonthView api
         jxmvCalendar.setDayForeground(Calendar.SUNDAY, Color.MAGENTA);
         jxmvCalendar.setDayForeground(Calendar.SATURDAY, Color.MAGENTA);
-        jxmvCalendar.setZoomable(true);
+        jxmvCalendar.setZoomable(true);*/
 
         wltm = new WorkLogTableModel();
         // wltm.setTableData(WorkLogInfoHelper.getLogListUpToDate(currentDate));
@@ -93,7 +110,33 @@ public class AdminPanel extends JPanel implements ActionListener
             table.addHighlighter(curHighlighter);
         }
 
-        jxmvCalendar.addActionListener(new ActionListener()
+      
+        jxmvCalendar.addMouseListener(new MouseAdapter()
+        {
+            public void mouseReleased(MouseEvent e)
+            {
+                if (SwingUtilities.isLeftMouseButton(e))
+                {
+                    Date date = ((JXMonthView) e.getSource()).getSelection().last();
+                    if (date instanceof Date)
+                    {
+                        List<WorkLogInfoHolder> lstNewData = WorkLogInfoHelper.getLogListUpToDate(date);
+                        jlUpdatedate.setText(UDIPropSingleton.getString(this, "infoTime.header") + DATE_FORMAT.format(date));
+                        wltm.setTableData(lstNewData);
+                    }
+                    else
+                    {
+                        Log.error(AdminPanel.class, "actionPerformed(ActionEvent e)");
+                    }
+                }
+                // show edit view on mouse right click
+                if (SwingUtilities.isRightMouseButton(e))
+                {
+                }
+            }
+        });
+        
+/*        jxmvCalendar.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
             {
@@ -109,7 +152,7 @@ public class AdminPanel extends JPanel implements ActionListener
                     Log.error(AdminPanel.class, "actionPerformed(ActionEvent e)");
                 }
             }
-        });
+        });*/
 
         add(jlUpdatedate, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
         add(new JScrollPane(table), new GridBagConstraints(0, 1, 1, 1, 12, 100, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0,
@@ -140,32 +183,33 @@ public class AdminPanel extends JPanel implements ActionListener
             Date[] arrDate = new Date[lstDate.size()];
             arrDate = lstDate.toArray(arrDate);
             // change color
-            jxmvCalendar.setFlaggedDayForeground(Color.RED);
-            jxmvCalendar.setFlaggedDates(arrDate);
-            jlLastUpdateInMonth.setText(UDIPropSingleton.getString(this, "updateTime.footer") + DATE_FORMAT.format(jxmvCalendar.getFlaggedDates().last()));
+  /*          ((JXMonthView) jxmvCalendar).setFlaggedDayForeground(Color.RED);
+            ((JXMonthView) jxmvCalendar).setFlaggedDates(arrDate);
+            jlLastUpdateInMonth.setText(UDIPropSingleton.getString(this, "updateTime.footer") + DATE_FORMAT.format(jxmvCalendar.getFlaggedDates().last()));*/
         }
     }
 
     @Override
     public void actionPerformed(ActionEvent arg0)
     {
-        try
+        /*try
         {
             switch (arg0.getActionCommand())
             {
-            case ACTION_SAVE_TO_MODEL:
-                ;
+            case ACTION_NEXT_MONTH:
+                jxmvCalendar.setModel(++numYear);
                 break;
-
+            case ACTION_PREVIOUS_MONTH:
+                setModel(--numYear);
+                break;
             default:
                 break;
             }
         }
         catch (Exception e)
         {
-            Log.error(AdminPanel.class, "actionPerformed error!");
-            e.printStackTrace();
-        }
+            Log.error(YearSpecialCalendar.class, e, "actionPerformed expressions");
+        }*/
     }
 
     private List<Highlighter> getSpecilHighlighters()
