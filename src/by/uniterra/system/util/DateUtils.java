@@ -495,7 +495,8 @@ public class DateUtils
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.MONTH, numMonth);
         calendar.set(Calendar.YEAR, numYear);
-        CalendarUtils.startOfMonth(calendar);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        //CalendarUtils.startOfMonth(calendar);
         return calendar.getTime();
     }
     
@@ -517,7 +518,7 @@ public class DateUtils
         calendar.set(Calendar.HOUR, 0 );
         calendar.set(Calendar.MINUTE, 1);
         calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND,0);
+        calendar.set(Calendar.MILLISECOND,0);           
     
         return calendar.getTime();
     }

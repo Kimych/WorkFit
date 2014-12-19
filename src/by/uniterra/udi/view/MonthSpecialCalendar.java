@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.SortedSet;
+import java.util.TimeZone;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -59,7 +60,7 @@ public class MonthSpecialCalendar extends JPanel implements MouseListener
         monthView.setDayForeground(Calendar.SUNDAY, Color.MAGENTA);
         monthView.setDayForeground(Calendar.SATURDAY, Color.MAGENTA);
         monthView.setShowingWeekNumber(true);
-        // monthView.setTimeZone(TimeZone.getTimeZone("UTC"));
+        monthView.setTimeZone(TimeZone.getTimeZone("UTC"));
         monthView.addMouseListener(this);
         add(monthView, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
         add(jlWorkingDay, new GridBagConstraints(0, 1, 1, 0, 0, 0, GridBagConstraints.SOUTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
@@ -68,7 +69,7 @@ public class MonthSpecialCalendar extends JPanel implements MouseListener
     public void setModel(int numMonth, int numYear)
     {
         monthView.setDisplayedMonth(numMonth, numYear);
-        numWorkingDay = DateUtils.getNumWorkindDaysInMonth(numYear, numMonth);
+        numWorkingDay = DateUtils.getNumWorkindDaysInMonth(numMonth, numYear);
     }
 
     public void setZoomable(boolean bSet)
