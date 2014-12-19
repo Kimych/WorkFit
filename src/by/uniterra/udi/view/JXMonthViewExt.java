@@ -153,4 +153,17 @@ public class JXMonthViewExt extends JXMonthView
     }
     
 
+    public int getNumWorkingDays()
+    {
+        int iResult = 0;
+        Calendar startCal = getCalendar();
+        startCal.setTime(getFirstDisplayedDay());
+        while (startCal.getTimeInMillis() < getLastDisplayedDay().getTime())
+        {
+            int iDayOfWeek = startCal.get(Calendar.DAY_OF_WEEK);
+            iResult += (iDayOfWeek != Calendar.SATURDAY && iDayOfWeek != Calendar.SUNDAY) ? 1 : 0;
+            startCal.add(Calendar.DAY_OF_MONTH, 1);
+        }
+        return iResult;
+    }
 }
