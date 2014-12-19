@@ -69,7 +69,7 @@ public class MonthSpecialCalendar extends JPanel implements MouseListener
     public void setModel(int numMonth, int numYear)
     {
         monthView.setDisplayedMonth(numMonth, numYear);
-        numWorkingDay = DateUtils.getNumWorkindDaysInMonth(numMonth, numYear);
+        numWorkingDay = getNumWorkingDays();
     }
 
     public void setZoomable(boolean bSet)
@@ -227,5 +227,52 @@ public class MonthSpecialCalendar extends JPanel implements MouseListener
                 repaintFlaggedDays();
             }
         }
+    }
+    
+    /**
+     * 
+     * @return  number of working days in current month
+     *
+     * @author Sergio Alecky
+     * @date 19 дек. 2014 г.
+     */
+    public int getNumWorkingDays()
+    {
+        Date startDate = monthView.getFirstDisplayedDay();
+        Date endDate = monthView.getLastDisplayedDay();
+        Calendar startCal;
+        Calendar endCal;
+        startCal = Calendar.getInstance(monthView.getTimeZone());
+        startCal.setTime(startDate);
+        endCal = Calendar.getInstance(monthView.getTimeZone());
+        endCal.setTime(endDate);
+        int workDays = 0;
+    
+        // Return 0 if start and end are the same
+        if (startCal.getTimeInMillis() == endCal.getTimeInMillis())
+        {
+            return workDays;
+        }
+    
+        if (startCal.getTimeInMillis() > endCal.getTimeInMillis())
+        {
+            startCal.setTime(endDate);
+            endCal.setTime(startDate);
+        }
+        
+       /* Log.debug(WorkLogUtils.class, DateUtils.toUTC(startCal.getTimeInMillis()) + " is a start time, " 
+                + DateUtils.toUTC(endCal.getTimeInMillis()) + " is an end time.");*/
+        
+        while (startCal.getTimeInMillis() < endCal.getTimeInMillis())
+        {
+            if (startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY)
+            {
+                ++workDays;
+                //Log.debug(WorkLogUtils.class, DateUtils.toUTC(startCal.getTimeInMillis()) + " added to working days (" + workDays + ")");
+            }
+            startCal.add(Calendar.DAY_OF_MONTH, 1);
+        }
+    
+        return workDays;
     }
 }

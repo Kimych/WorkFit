@@ -519,7 +519,6 @@ public class DateUtils
         calendar.set(Calendar.MINUTE, 1);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND,0);           
-    
         return calendar.getTime();
     }
 
@@ -562,17 +561,5 @@ public class DateUtils
         return workDays;
     }
 
-    /**
-     * 
-     * @param numMonth
-     * @param numYear
-     * @return
-     *
-     * @author Sergio Alecky
-     * @date 17 дек. 2014 г.
-     */
-    public static int getNumWorkindDaysInMonth(int numMonth, int numYear)
-    {
-        return getWorkingDaysBetweenTwoDates(getMonthStartDate(numMonth, numYear),getMonthEndDate(numMonth, numYear));
-    }
+
 }
