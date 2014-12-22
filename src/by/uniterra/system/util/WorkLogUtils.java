@@ -65,8 +65,8 @@ public class WorkLogUtils
     {
         int iWrkDays = DateUtils.getWorkingDaysBetweenTwoDates(startDate, endDate);
         int iDelta = 0;
-        int iStartDay = DateUtils.getDayOfYear(startDate);
-        int iEndDate = DateUtils.getDayOfYear(endDate);
+        int iStartDay = DateUtils.getDayOfYearUTC(startDate);
+        int iEndDate = DateUtils.getDayOfYearUTC(endDate);
         // get list CSD
         CalendarSpecialDayEAO eaoCalSpecDay = new CalendarSpecialDayEAO(SystemModel.getDefaultEM());
         List<CalendarSpecialDay> lstCSD = eaoCalSpecDay.getSpecialDayByYear(DateUtils.getYearNumber(endDate));

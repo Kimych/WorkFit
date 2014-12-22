@@ -10,7 +10,6 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 import by.uniterra.dai.eao.NameMonthEAO;
 import by.uniterra.dai.eao.YearEAO;
@@ -27,7 +26,6 @@ public class MonthOptionPanel extends JPanel implements IModelOwner
     private static final long serialVersionUID = 3210721310184243056L;
     
     private JTextArea tfDeskription;
-    private JTextField tfNumber;
     private JComboBox cbMonth;
     private JComboBox cbYear;
     private Month month;
@@ -42,9 +40,7 @@ public class MonthOptionPanel extends JPanel implements IModelOwner
 
     private void jbInit()
     {
-        JLabel jlNumber = new JLabel(UDIPropSingleton.getString(this, "jlNumber.label"));
         JLabel jlDesk = new JLabel(UDIPropSingleton.getString(this, "jlDesk.label"));
-        tfNumber = new JTextField(10);
         nameMonthArrayList = new NameMonthEAO(SystemModel.getDefaultEM()).loadAll();
         cbMonth = new JComboBox(new DefaultComboBoxModel(nameMonthArrayList.toArray()));
         yearArrayList = new YearEAO(SystemModel.getDefaultEM()).loadAll();
@@ -57,8 +53,6 @@ public class MonthOptionPanel extends JPanel implements IModelOwner
 
         add(cbMonth, new GridBagConstraints(1, 0, 1, 1, 1, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
         add(cbYear, new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
-        add(jlNumber, new GridBagConstraints(2, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
-        add(tfNumber, new GridBagConstraints(3, 0, 1, 1, 1, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
         add(jlDesk, new GridBagConstraints(0, 1, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 0, 5), 0, 0));
         add(tfDeskription, new GridBagConstraints(1, 1, 1, 1, 1, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 0, 0), 0, 0));
 
@@ -71,7 +65,7 @@ public class MonthOptionPanel extends JPanel implements IModelOwner
     public void setModel(Object objMonth)
     {
         this.month = (Month) objMonth;
-        tfNumber.setText(String.valueOf(month.getWorkingDaysCount()));
+        //tfNumber.setText(String.valueOf(month.getWorkingDaysCount()));
         tfDeskription.setText(month.getDescription());
         cbYear.setSelectedItem(month.getYear());
         cbMonth.setSelectedItem(month.getNameMonth());
@@ -89,7 +83,7 @@ public class MonthOptionPanel extends JPanel implements IModelOwner
         {
             month = new Month();
         }
-        month.setWorkingDaysCount(Integer.valueOf(tfNumber.getText()));
+        //month.setWorkingDaysCount(Integer.valueOf(tfNumber.getText()));
         month.setDescription(tfDeskription.getText());
         month.setYear((Year) cbYear.getSelectedItem());
         month.setNameMonth((NameMonth) cbMonth.getSelectedItem());

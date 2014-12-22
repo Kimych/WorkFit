@@ -567,9 +567,14 @@ public class DateUtils
      * @author Sergio Alecky
      * @date 22 дек. 2014 г.
      */
-    public static int getDayOfYear(Date dDate)
+    public static int getDayOfYearUTC(Date dDate)
     {
-        Calendar calMonthCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        return getDayOfYear(dDate, TimeZone.getTimeZone("UTC"));
+    }
+    
+    public static int getDayOfYear(Date dDate, TimeZone tzTimeZone )
+    {
+        Calendar calMonthCal = Calendar.getInstance(tzTimeZone);
         calMonthCal.setTime(dDate);
         return calMonthCal.get(Calendar.DAY_OF_YEAR);
     }

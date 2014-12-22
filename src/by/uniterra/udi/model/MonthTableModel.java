@@ -12,10 +12,9 @@ public class MonthTableModel extends AbstractFlexTableModel
     private static final long serialVersionUID = -711301084307271936L;
 
     private final static int COL_ID_MONTHS = 0;
-    private final static int COL_WORKING_DAYS_COUNT_MONTHS = 1;
-    private final static int COL_DESC_MONTHS = 2;
-    private final static int COL_NAME_MONTH_ID_MONTHS = 3;
-    private final static int COL_YEAR_ID_MONTHS = 4;
+    private final static int COL_DESC_MONTHS = 1;
+    private final static int COL_NAME_MONTH_ID_MONTHS = 2;
+    private final static int COL_YEAR_ID_MONTHS = 3;
 
     private List<Month> dataArrayList;
     public List<String> arrColumnNames;
@@ -25,7 +24,6 @@ public class MonthTableModel extends AbstractFlexTableModel
         // addColumn(COL_ID_MONTHS,"#ID" , String.class);
         addColumn(COL_NAME_MONTH_ID_MONTHS, UDIPropSingleton.getString(this, "ColNameMounts.column"), Integer.class);
         addColumn(COL_YEAR_ID_MONTHS, UDIPropSingleton.getString(this, "ColYearMonth.column"), Integer.class);
-        addColumn(COL_WORKING_DAYS_COUNT_MONTHS,UDIPropSingleton.getString(this, "ColWorkingDaysCountMonth.column"), Integer.class);
         addColumn(COL_DESC_MONTHS, UDIPropSingleton.getString(this, "ColDescMonth.column"), String.class);
 
     }
@@ -57,9 +55,6 @@ public class MonthTableModel extends AbstractFlexTableModel
         {
         case COL_ID_MONTHS:
             objResult = idData.getMonthId();
-            break;
-        case COL_WORKING_DAYS_COUNT_MONTHS:
-            objResult = idData.getWorkingDaysCount();
             break;
         case COL_DESC_MONTHS:
             objResult = idData.getDescription();

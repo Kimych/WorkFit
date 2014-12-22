@@ -193,7 +193,6 @@ public class AllEntitiesTest
         Year yAssciatedYear = new YearEAO(emManager).find(ID_YEAR_ADD_MONTH);
         // create a new entry
         Month month = new Month(yAssciatedYear);
-        month.setWorkingDaysCount(20);
         month.setDescription("тестовая запись месяца");
         month.setNameMonth(new NameMonthEAO(emManager).find(ID_NAME_MONTH_ADD_MONTH));
         try
