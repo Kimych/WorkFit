@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.SimpleDateFormat;
@@ -24,7 +25,6 @@ import javax.swing.SwingUtilities;
 import org.jdesktop.swingx.JXMonthView;
 
 import by.uniterra.dai.entity.CalendarSpecialDay;
-import by.uniterra.system.util.DateUtils;
 import by.uniterra.udi.model.UDIPropSingleton;
 import by.uniterra.udi.util.EDayType;
 
@@ -52,6 +52,11 @@ public class MonthSpecialCalendar extends JPanel implements MouseListener
         jbInit();
     }
 
+    public JXMonthViewExt getMonthView()
+    {
+        return monthView;
+    }
+
     private void jbInit()
     {
         jlWorkingDay = new JLabel("");
@@ -62,6 +67,7 @@ public class MonthSpecialCalendar extends JPanel implements MouseListener
         monthView.setShowingWeekNumber(true);
         monthView.setTimeZone(TimeZone.getTimeZone("UTC"));
         monthView.addMouseListener(this);
+
         add(monthView, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
         add(jlWorkingDay, new GridBagConstraints(0, 1, 1, 0, 0, 0, GridBagConstraints.SOUTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 0, 0));
     }
@@ -87,7 +93,7 @@ public class MonthSpecialCalendar extends JPanel implements MouseListener
         return monthView.getFlaggedDates();
     }
 
-    public void selectCSDforCurrentMonth(List<CalendarSpecialDay> lstSpecialDayInYear)
+    public void selectCSDforCurrentMonth(List<CalendarSpecialDay> lstSpecialDayInYear, boolean bRepaintFlag)
     {
         mapFlaggetMonthDay.clear();
         int monthStartNum = monthView.getFirstDisplayedDayOfYear();
@@ -100,11 +106,22 @@ public class MonthSpecialCalendar extends JPanel implements MouseListener
                 mapFlaggetMonthDay.put(currentDayNum, new CalendarSpecialDay(calSpecialDay));
             }
         }
-        repaintFlaggedDays();
+        if (bRepaintFlag)
+        {
+            repaintFlaggedDays();
+        }
     }
 
     public void repaintFlaggedDays()
     {
+        setNumWrkDays();
+        monthView.setFlaggedDayForeground(Color.RED);
+        monthView.setFlaggedDates(new ArrayList<Integer>(mapFlaggetMonthDay.keySet()));
+    }
+    
+    public void setNumWrkDays()
+    {
+        numWorkingDay = monthView.getNumWorkingDays();
         int iDelta = 0;
         for (Integer iIndex : mapFlaggetMonthDay.keySet())
         {
@@ -117,9 +134,7 @@ public class MonthSpecialCalendar extends JPanel implements MouseListener
                 iDelta--;
             }
         }
-        monthView.setFlaggedDayForeground(Color.RED);
-        monthView.setFlaggedDates(new ArrayList<Integer>(mapFlaggetMonthDay.keySet()));
-        jlWorkingDay.setText(UDIPropSingleton.getString(this, "Wrk.label") + (numWorkingDay + iDelta));
+        jlWorkingDay.setText(UDIPropSingleton.getString(MonthSpecialCalendar.class, "Wrk.label") + (numWorkingDay + iDelta));
     }
 
     public List<String> getDayTooltip(int dayYearNum)
@@ -151,6 +166,11 @@ public class MonthSpecialCalendar extends JPanel implements MouseListener
             mapFlaggetMonthDay.put(dayYearNum, objResult);
         }
         return mapFlaggetMonthDay.get(dayYearNum);
+    }
+
+    public void actionPerformed(ActionEvent arg0)
+    {
+
     }
 
     @Override

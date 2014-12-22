@@ -43,7 +43,7 @@ public class WorkLogInfoHelper
         SpentHolidayEAO eaoSpentHoliday = new SpentHolidayEAO(SystemModel.getDefaultEM());
         HolidayEAO eaoHoliday = new HolidayEAO(SystemModel.getDefaultEM());
 
-        List<DaysOfWork> lstDaysOfWork = eaoDaysOfWork.getfindLastForWorkerAndTimestamp(curentWorker, DateUtils.upToEndDayDate(date));
+        List<DaysOfWork> lstDaysOfWork = eaoDaysOfWork.getLastForWorkerAndTimestamp(curentWorker, DateUtils.upToEndDayDate(date));
         if (lstDaysOfWork.size() == 1)
         {
             DaysOfWork dfwLastDaysOfWorl = lstDaysOfWork.get(0);

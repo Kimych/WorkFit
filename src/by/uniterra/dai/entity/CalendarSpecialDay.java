@@ -16,7 +16,8 @@ import by.uniterra.udi.util.EDayType;
 @Table(name = "calendar_special _days")
 @NamedQueries({
     @NamedQuery( name = CalendarSpecialDay.NQ_FIND_ALL, query = "SELECT c FROM CalendarSpecialDay c"),
-    @NamedQuery( name = CalendarSpecialDay.NQ_FIND_SPECIAL_DAYS_BY_YEAR, query = "SELECT c FROM CalendarSpecialDay c WHERE c.year.number = :" + CalendarSpecialDay.PARAMETER_YEAR_NUMBER)
+    @NamedQuery( name = CalendarSpecialDay.NQ_FIND_SPECIAL_DAYS_BY_YEAR, query = "SELECT c FROM CalendarSpecialDay c WHERE c.year.number = :" + CalendarSpecialDay.PARAMETER_YEAR_NUMBER),
+    @NamedQuery( name = CalendarSpecialDay.NQ_FIND_SPECIAL_MONTH_BY, query = "SELECT c FROM CalendarSpecialDay c")
 })
 public class CalendarSpecialDay implements Serializable
 {
@@ -24,8 +25,11 @@ public class CalendarSpecialDay implements Serializable
 
     public static final String NQ_FIND_ALL = "CalendarSpecialDay.findAll";
     public static final String NQ_FIND_SPECIAL_DAYS_BY_YEAR = "CalendarSpecialDay.findSpecialDayByYear";
+    public static final String NQ_FIND_SPECIAL_MONTH_BY = "CalendarSpecialDay.findSpecialDayByMonth";
     
     public static final String PARAMETER_YEAR_NUMBER = "yearNumber";
+    public static final String PARAMETER_MONTH_NUMBER = "monthNumber";
+    
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

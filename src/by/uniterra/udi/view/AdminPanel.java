@@ -7,9 +7,12 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JLabel;
@@ -25,7 +28,9 @@ import org.jdesktop.swingx.decorator.Highlighter;
 import org.jdesktop.swingx.decorator.HighlighterFactory;
 import org.jdesktop.swingx.decorator.PatternPredicate;
 
+import by.uniterra.dai.eao.CalendarSpecialDayEAO;
 import by.uniterra.dai.eao.DaysOfWorkEAO;
+import by.uniterra.dai.entity.CalendarSpecialDay;
 import by.uniterra.dai.entity.DaysOfWork;
 import by.uniterra.system.model.SystemModel;
 import by.uniterra.system.util.DateUtils;
@@ -50,6 +55,9 @@ public class AdminPanel extends JPanel implements ActionListener
     private JLabel jlLastUpdateInMonth;
     private JLabel jlUpdatedate;
 
+    private HashMap<Integer, List<CalendarSpecialDay>> mapFlaggetMonthDay = new HashMap<Integer, List<CalendarSpecialDay>>();
+    private CalendarSpecialDayEAO eaoCalSpecDay = new CalendarSpecialDayEAO(SystemModel.getDefaultEM());
+    
     public AdminPanel()
     {
         super(new GridBagLayout());
@@ -89,9 +97,20 @@ public class AdminPanel extends JPanel implements ActionListener
                         }
                     }
                 }
-             }  
+             }
         };
         jxmvCalendar.setZoomable(true);
+        jxmvCalendar.getMonthView().addPropertyChangeListener(new PropertyChangeListener()
+        {
+            @Override
+            public void propertyChange(PropertyChangeEvent e)
+            {
+                if ("firstDisplayedDay".equals(e.getPropertyName()))
+                {
+                    setNumWorkingDays();
+                }
+            }
+        });
 
         wltm = new WorkLogTableModel();
         // wltm.setTableData(WorkLogInfoHelper.getLogListUpToDate(currentDate));
@@ -125,6 +144,7 @@ public class AdminPanel extends JPanel implements ActionListener
 
     public void loadDataInUI()
     {
+        setNumWorkingDays();
         // change the color in the days that came logs
         List<Date> lstDate = new ArrayList<Date>();
         DaysOfWorkEAO eaoDoW = new DaysOfWorkEAO(SystemModel.getDefaultEM());
@@ -144,28 +164,37 @@ public class AdminPanel extends JPanel implements ActionListener
             jlLastUpdateInMonth.setText(UDIPropSingleton.getString(this, "updateTime.footer") + DATE_FORMAT.format(jxmvCalendar.getFlaggedDates().last()));
         }
     }
+    
+    
+    public void setNumWorkingDays()
+    {
+        int yearNumber = jxmvCalendar.getMonthView().getYearNumber();
+        if(!mapFlaggetMonthDay.containsKey(yearNumber))
+        {
+            mapFlaggetMonthDay.put(yearNumber, eaoCalSpecDay.getSpecialDayByYear(yearNumber));
+        }
+        jxmvCalendar.selectCSDforCurrentMonth(mapFlaggetMonthDay.get(yearNumber), false);
+        jxmvCalendar.setNumWrkDays();
+    }
 
     @Override
     public void actionPerformed(ActionEvent arg0)
     {
+        
     }
 
     private List<Highlighter> getSpecilHighlighters()
     {
         final List<Highlighter> lstResult = new ArrayList<Highlighter>();
-
         final int iStatusColumnIndexToPlane = wltm.getColIndex(WorkLogTableModel.COL_TO_PLAN);
         //final int iStatusColumnIndexToBonus = wltm.getColIndex(WorkLogTableModel.COL_TO_BONUS);
         final int iStatusColumnIndexRestHol = wltm.getColIndex(WorkLogTableModel.COL_REST_HOLIDAY);
-
         final PatternPredicate patternPredicateToPlane = new PatternPredicate("^[^-]*$", iStatusColumnIndexToPlane, iStatusColumnIndexToPlane);
        // final PatternPredicate patternPredicateToBonus = new PatternPredicate("-", iStatusColumnIndexToBonus, iStatusColumnIndexToBonus);
         final PatternPredicate patternPredicateToRestHol = new PatternPredicate("-", iStatusColumnIndexRestHol, iStatusColumnIndexRestHol);
-
         final ColorHighlighter colorHighlighterToPlane = new ColorHighlighter(patternPredicateToPlane, Color.PINK, Color.BLACK, Color.PINK, Color.BLACK);
         //final ColorHighlighter colorHighlighterToBonus = new ColorHighlighter(patternPredicateToBonus, Color.PINK, Color.BLACK, Color.PINK, Color.BLACK);
         final ColorHighlighter colorHighlighterToRestHol = new ColorHighlighter(patternPredicateToRestHol, Color.PINK, Color.BLACK, Color.PINK, Color.BLACK);
-
         lstResult.add(colorHighlighterToPlane);
         //lstResult.add(colorHighlighterToBonus);
         lstResult.add(colorHighlighterToRestHol);

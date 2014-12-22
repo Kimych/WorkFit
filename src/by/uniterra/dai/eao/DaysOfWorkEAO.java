@@ -97,7 +97,7 @@ public class DaysOfWorkEAO extends ServiceBaseEAO<DaysOfWork>
         return lstResult;
     }
     
-    public List<DaysOfWork> getfindLastForWorkerAndTimestamp(Worker wWorker, Timestamp timestamp)
+    public List<DaysOfWork> getLastForWorkerAndTimestamp(Worker wWorker, Timestamp timestamp)
     {
         List<DaysOfWork> lstResult = null;
         

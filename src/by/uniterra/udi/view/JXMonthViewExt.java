@@ -139,6 +139,11 @@ public class JXMonthViewExt extends JXMonthView
         setFirstDisplayedDay(calMonthCal.getTime());
     }
     
+    public int getYearNumber()
+    {
+        Calendar cal = getCalendar();
+        return cal.get(Calendar.YEAR);
+    }
     
     public int getLastSelectedData(int x, int y)
     {
@@ -166,4 +171,6 @@ public class JXMonthViewExt extends JXMonthView
         }
         return iResult;
     }
+    
+    
 }

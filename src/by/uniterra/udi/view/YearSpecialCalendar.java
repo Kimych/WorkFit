@@ -117,7 +117,7 @@ public class YearSpecialCalendar extends JPanel implements ActionListener
         {
             MonthSpecialCalendar msc = mpMonthPanels.get(iMonthIndex);
             msc.setModel(iMonthIndex, numYear);
-            msc.selectCSDforCurrentMonth(lstYearCalSpecDay);
+            msc.selectCSDforCurrentMonth(lstYearCalSpecDay, true);
         }
         // update year number
         lblYearNumber.setText(String.valueOf(numYear));
