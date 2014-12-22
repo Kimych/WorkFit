@@ -19,7 +19,7 @@ public class DaysOfWorkTableModel extends AbstractFlexTableModel
     private final static int COL_AKTUAL_WORKED_DAYS = 4;
     private final static int COL_DAYS_OF_WORK_ID = 5;
     private final static int COL_MONTH_ID = 6;
-    private final static int COL_WORKERE_ID = 7;
+    private final static int COL_WORKER_ID = 7;
 
     private List<DaysOfWork> dataArrayList;
     public List<String> arrColumnNames;
@@ -32,7 +32,7 @@ public class DaysOfWorkTableModel extends AbstractFlexTableModel
         addColumn(COL_AKTUAL_WORKED_DAYS, UDIPropSingleton.getString(this, "actualWorkedDays.column"), String.class);
         //addColumnNames.addColumn(COL_DAYS_OF_WORK_ID, UDIPropSingleton.getString(this, "daysOfWork.column"), String.class);
         addColumn(COL_MONTH_ID, UDIPropSingleton.getString(this, "montID.column"), String.class);
-        addColumn(COL_WORKERE_ID, UDIPropSingleton.getString(this, "workerID.column"), String.class);
+        addColumn(COL_WORKER_ID, UDIPropSingleton.getString(this, "workerID.column"), String.class);
         addColumn(COL_BONUS_TIME_DESC, UDIPropSingleton.getString(this, "descBonusTime.column"), String.class);
     }
     
@@ -89,7 +89,7 @@ public class DaysOfWorkTableModel extends AbstractFlexTableModel
         case COL_MONTH_ID:
             objResult = idData.getMonth().getNameMonth().getName();
             break;
-        case COL_WORKERE_ID:
+        case COL_WORKER_ID:
             objResult = idData.getWorker().toString();
             break;
         default:

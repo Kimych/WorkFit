@@ -46,15 +46,15 @@ public class WorkLogInfoHelper
         List<DaysOfWork> lstDaysOfWork = eaoDaysOfWork.getLastForWorkerAndTimestamp(curentWorker, DateUtils.upToEndDayDate(date));
         if (lstDaysOfWork.size() == 1)
         {
-            DaysOfWork dfwLastDaysOfWorl = lstDaysOfWork.get(0);
-            int calculatedMonth = DateUtils.getMonthNumber(dfwLastDaysOfWorl.getTimestamp());
-            int calculatedYear = DateUtils.getYearNumber(dfwLastDaysOfWorl.getTimestamp());
+            DaysOfWork dfwLastDaysOfWork = lstDaysOfWork.get(0);
+            int calculatedMonth = DateUtils.getMonthNumber(dfwLastDaysOfWork.getTimestamp());
+            int calculatedYear = DateUtils.getYearNumber(dfwLastDaysOfWork.getTimestamp());
 
             double spentHolidayDayInCurrentMont = eaoSpentHoliday.getSpentHolidayByWorkerAndMonthAndYear(curentWorker, calculatedMonth, calculatedYear);
 
-            int dayPassed = dfwLastDaysOfWorl.getAktualWorkedDays();
+            int dayPassed = dfwLastDaysOfWork.getAktualWorkedDays();
             // get work log time
-            double workLogTime = dfwLastDaysOfWorl.getWorklog();
+            double workLogTime = dfwLastDaysOfWork.getWorklog();
             // get sum bonus time for the current worker
             double curentSumBonus = eaoDaysOfWork.getSumBonusTimeForWorkerAndMonthNum(curentWorker, calculatedMonth);
             // to plane
@@ -72,7 +72,7 @@ public class WorkLogInfoHelper
             // workingDaysInMonth, toPlan);
             // add to result
             objResult = new WorkLogInfoHolder(WorkLogUtils.roundToString(workLogTime, 2, BigDecimal.ROUND_HALF_UP), toPlan, toBonus, (holiday - timeLeft),
-                    dfwLastDaysOfWorl.getTimestamp(), curentWorker.toString());
+                    dfwLastDaysOfWork.getTimestamp(), curentWorker.toString());
         }
         else
         {

@@ -1,7 +1,13 @@
 package by.uniterra.system.util;
 
 import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
+import by.uniterra.dai.eao.CalendarSpecialDayEAO;
+import by.uniterra.dai.entity.CalendarSpecialDay;
+import by.uniterra.system.model.SystemModel;
+import by.uniterra.udi.util.EDayType;
 import by.uniterra.udi.util.Log;
 
 public class WorkLogUtils
@@ -26,31 +32,72 @@ public class WorkLogUtils
     {
         return workDayInMonth * WORK_HOUR_IN_DAY - (worklog + bonustime);
     }
-    
-    
+
     /**
      * 
-     * @param actualWorkeDays - the number of working days in a current day
-     * @param worklog -  time from last log in a month
-     * @param bonustime - - the sum of bonus time from log
-     * @return amount of time to be processed before the closing current time period
+     * @param actualWorkeDays
+     *            - the number of working days in a current day
+     * @param worklog
+     *            - time from last log in a month
+     * @param bonustime
+     *            - - the sum of bonus time from log
+     * @return amount of time to be processed before the closing current time
+     *         period
      *
      * @author Sergio Alecky
      * @date 02 окт. 2014 г.
      */
     public static double getTimeRemainsToPlaneToDay(int actualWorkeDays, double worklog, double bonustime, double spentholiday)
     {
-        return actualWorkeDays * WORK_HOUR_IN_DAY - (worklog + bonustime + spentholiday*WORK_HOUR_IN_DAY);
+        return actualWorkeDays * WORK_HOUR_IN_DAY - (worklog + bonustime + spentholiday * WORK_HOUR_IN_DAY);
+    }
+
+    /**
+     * 
+     * @param startDate
+     * @param endDate
+     * @return actual worked days taking into account the special days
+     *
+     * @author Sergio Alecky
+     * @date 22 дек. 2014 г.
+     */
+    public static int getAсtualWorkedDays(Date startDate, Date endDate)
+    {
+        int iWrkDays = DateUtils.getWorkingDaysBetweenTwoDates(startDate, endDate);
+        int iDelta = 0;
+        int iStartDay = DateUtils.getDayOfYear(startDate);
+        int iEndDate = DateUtils.getDayOfYear(endDate);
+        // get list CSD
+        CalendarSpecialDayEAO eaoCalSpecDay = new CalendarSpecialDayEAO(SystemModel.getDefaultEM());
+        List<CalendarSpecialDay> lstCSD = eaoCalSpecDay.getSpecialDayByYear(DateUtils.getYearNumber(endDate));
+        for (CalendarSpecialDay calendarSpecialDay : lstCSD)
+        {
+            int iYearDayNumber = calendarSpecialDay.getYearDayNumber();
+            if (iYearDayNumber >= iStartDay && iYearDayNumber <= iEndDate)
+            {
+                List<EDayType> lstDayType = calendarSpecialDay.getTypeDay();
+                if (lstDayType.contains(EDayType.WORKING_DAY))
+                {
+                    iDelta++;
+                }
+                if (lstDayType.contains(EDayType.DAY_OFF))
+                {
+                    iDelta--;
+                }
+            }
+        }
+
+        return iWrkDays+iDelta;
     }
 
     public static double getTimeRemainsToBonusInMonth(int workDayInMonth, double worklog, double bonustime)
     {
         return workDayInMonth * WORK_HOUR_IN_DAY * PERCENT_REMAINS_TO_BONUS - (worklog + bonustime);
     }
-    
+
     public static double getTimeRemainsToBonusToDay(int actualWorkeDays, double worklog, double bonustime, double spentholiday)
     {
-        return actualWorkeDays * WORK_HOUR_IN_DAY * PERCENT_REMAINS_TO_BONUS - (worklog + bonustime + spentholiday*WORK_HOUR_IN_DAY);
+        return actualWorkeDays * WORK_HOUR_IN_DAY * PERCENT_REMAINS_TO_BONUS - (worklog + bonustime + spentholiday * WORK_HOUR_IN_DAY);
     }
 
     /**

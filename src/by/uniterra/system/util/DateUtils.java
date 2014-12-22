@@ -556,9 +556,22 @@ public class DateUtils
             }
             startCal.add(Calendar.DAY_OF_MONTH, 1);
         }
-        
-    
         return workDays;
+    }
+    
+    /**
+     * 
+     * @param dDate
+     * @return day of the year (UTC)
+     *
+     * @author Sergio Alecky
+     * @date 22 дек. 2014 г.
+     */
+    public static int getDayOfYear(Date dDate)
+    {
+        Calendar calMonthCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        calMonthCal.setTime(dDate);
+        return calMonthCal.get(Calendar.DAY_OF_YEAR);
     }
 
 

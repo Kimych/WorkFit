@@ -31,6 +31,7 @@ import by.uniterra.dai.entity.Worker;
 import by.uniterra.system.main.MailChecker;
 import by.uniterra.system.model.SystemModel;
 import by.uniterra.system.util.DateUtils;
+import by.uniterra.system.util.WorkLogUtils;
 
 public class LogParser
 {
@@ -106,7 +107,7 @@ public class LogParser
             Date curentMonthStart = DateUtils.getDateMonthStart(dParsedDate);
             //Date curenDate = new Date();
             // get actual worked days
-            int actualWorkedDays = DateUtils.getWorkingDaysBetweenTwoDates(curentMonthStart, dParsedDate);
+            int actualWorkedDays = WorkLogUtils.getAсtualWorkedDays(curentMonthStart, dParsedDate);
             
             Log.info(LogParser.class, "getListFromLog: Curent month start at: " + DateUtils.toGMT(curentMonthStart) 
                     + ", worklog date is " + DateUtils.toGMT(dParsedDate) + ", ActualWorkedDays: " +  actualWorkedDays);
