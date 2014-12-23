@@ -112,7 +112,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
     private static final String LOGIN = "login";
     private static final String PASSWORD = "password";
     private static final String FLAG_AUT = "flag"; 
-    private static final String LAST_DIR_PATH = "";
+    private static final String LAST_DIR_PATH = "lastDirPass";
 
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 165708470997304032L;
@@ -412,12 +412,13 @@ public class WorkFitFrame extends JFrame implements ActionListener
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("txt file (*.txt)", "txt"));
         fileChooser.setAcceptAllFileFilterUsed(true);
-        fileChooser.showOpenDialog(frame);
-        Log.info(WorkFitFrame.class, "Load log from file: " + fileChooser.getSelectedFile());
-        Path path = fileChooser.getSelectedFile().toPath();
-        LogParser.processWorklogFile(path);
-        userPrefs.put(LAST_DIR_PATH, path.toString());
-        
+        if(fileChooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION)
+        {
+            Log.info(WorkFitFrame.class, "Load log from file: " + fileChooser.getSelectedFile());
+            Path path = fileChooser.getSelectedFile().toPath();
+            LogParser.processWorklogFile(path);
+            userPrefs.put(LAST_DIR_PATH, path.toString());
+        }
     }
 
     private static void saveLoginAndPassword(String userName, String userPassword)
