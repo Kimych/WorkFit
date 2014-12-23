@@ -26,11 +26,12 @@
 		<ReLog.menu>Login/Logout</ReLog.menu>
 
 		<Administrationt.menu>Администрирование</Administrationt.menu>
+		<EditCalSpecialDay.menu>Редактировать календарь</EditCalSpecialDay.menu>
 		<EditTable.menu>Редактировать таблицу</EditTable.menu>
 		<EditSpentHoliday.menu>Spent Holiday</EditSpentHoliday.menu>
 		<EditWorker.menu>Worker</EditWorker.menu>
 		<EditHoliday.menu>Holiday</EditHoliday.menu>
-		<EditDofW.menu>Days of Work</EditDofW.menu>
+		<EditDofW.menu>Редактировать Days of Work</EditDofW.menu>
 		<EditMonth.menu>Month</EditMonth.menu>
 		<EditYear.menu>Year</EditYear.menu>
 		<EditUserRole.menu>User Role</EditUserRole.menu>
@@ -161,10 +162,11 @@
 
 	<!-- WorkLogTableModel -->
 	<by.uniterra.udi.model.WorkLogTableModel>
-		<name.column>ФИО</name.column>
+		<name.column>Сотрудник</name.column>
 		<current.column>Текущее</current.column>
 		<toPlane.column>До плана</toPlane.column>
 		<toBonus.column>До премии</toBonus.column>
+		<spentHol.column>Исп. дней отпуска</spentHol.column>
 		<restHoliday.column>Осталось отпуска</restHoliday.column>
 		<updateTime.column>Обновление</updateTime.column>
 	</by.uniterra.udi.model.WorkLogTableModel>

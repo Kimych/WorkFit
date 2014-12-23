@@ -115,9 +115,9 @@ public class DynamicMenuBar extends JMenuBar implements ActionListener, IAuthLis
             itemEditHoliday.setActionCommand(IMenuHelper.MCOMMAND_EDIT_HOLIDAY);
             itemEditHoliday.addActionListener(this);
             // sub element
-            JMenuItem itemEditDaysOfWork = new JMenuItem(UDIPropSingleton.getString(this, "EditDofW.menu"));
-            itemEditDaysOfWork.setActionCommand(IMenuHelper.MCOMMAND_EDIT_DAYS_OF_WORK);
-            itemEditDaysOfWork.addActionListener(this);
+            JMenuItem editCalSpehial = new JMenuItem(UDIPropSingleton.getString(this,"EditCalSpecialDay.menu"));
+            editCalSpehial.setActionCommand(IMenuHelper.MCOMMAND_EDIT_CAL_SPECIAL_DAY);
+            editCalSpehial.addActionListener(this);
             // sub element
             JMenuItem itemEditMOnth = new JMenuItem(UDIPropSingleton.getString(this, "EditMonth.menu"));
             itemEditMOnth.setActionCommand(IMenuHelper.MCOMMAND_EDIT_MONTH);
@@ -132,10 +132,10 @@ public class DynamicMenuBar extends JMenuBar implements ActionListener, IAuthLis
             itemEditUserRole.addActionListener(this);
 
             // build sub menu
+            menuEditTable.add(editCalSpehial);
             menuEditTable.add(itemEditSpentHoliday);
             menuEditTable.add(itemEditWorker);
             menuEditTable.add(itemEditHoliday);
-            menuEditTable.add(itemEditDaysOfWork);
             // separator ---------------------------
             menuEditTable.addSeparator();
             menuEditTable.add(itemEditMOnth);
@@ -148,13 +148,16 @@ public class DynamicMenuBar extends JMenuBar implements ActionListener, IAuthLis
             itemAddFromLOg.setActionCommand(IMenuHelper.MCOMMAND_ADD_FROM_LOG);
             itemAddFromLOg.addActionListener(this);
             
-            JMenuItem editCalSpehial = new JMenuItem("Редактировать календарь");
-            editCalSpehial.setActionCommand(IMenuHelper.MCOMMAND_EDIT_CAL_SPECIAL_DAY);
-            editCalSpehial.addActionListener(this);
+            
+            
+            JMenuItem itemEditDaysOfWork = new JMenuItem(UDIPropSingleton.getString(this, "EditDofW.menu"));
+            itemEditDaysOfWork.setActionCommand(IMenuHelper.MCOMMAND_EDIT_DAYS_OF_WORK);
+            itemEditDaysOfWork.addActionListener(this);
+            
 
             menuAdmin.add(menuEditTable);
             menuAdmin.add(itemAddFromLOg);
-            menuAdmin.add(editCalSpehial);
+            menuAdmin.add(itemEditDaysOfWork);
 
         }
 

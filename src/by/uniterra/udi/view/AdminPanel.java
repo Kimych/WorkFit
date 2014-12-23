@@ -124,7 +124,16 @@ public class AdminPanel extends JPanel implements ActionListener
         table.setDefaultRenderer(Date.class, txrTimestampRenderer);
 
         table.getColumn(wltm.getColIndex(WorkLogTableModel.COL_TO_PLAN)).setCellRenderer(new DoubleTableCellRenderer(SwingConstants.CENTER, 2));
+        table.getColumn(wltm.getColIndex(WorkLogTableModel.COL_TO_PLAN)).setMaxWidth(100);
+        
+        table.getColumn(wltm.getColIndex(WorkLogTableModel.COL_SPENT_HOL_IN_MONT)).setCellRenderer(new DoubleTableCellRenderer(SwingConstants.CENTER, 0));
+        
         table.getColumn(wltm.getColIndex(WorkLogTableModel.COL_TO_BONUS)).setCellRenderer(new DoubleTableCellRenderer(SwingConstants.CENTER, 2));
+        table.getColumn(wltm.getColIndex(WorkLogTableModel.COL_TO_BONUS)).setMaxWidth(100);
+        
+        table.getColumn(wltm.getColIndex(WorkLogTableModel.COL_UPDATE_TIME)).setMinWidth(130);
+        table.getColumn(wltm.getColIndex(WorkLogTableModel.COL_NAME)).setMinWidth(50);
+        
         table.getColumn(wltm.getColIndex(WorkLogTableModel.COL_REST_HOLIDAY)).setCellRenderer(new DoubleTableCellRenderer(SwingConstants.CENTER, 0));
 
         for (final Highlighter curHighlighter : getSpecilHighlighters())

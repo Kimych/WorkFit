@@ -29,6 +29,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.SortOrder;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -45,6 +46,8 @@ public abstract class AbstractFlexTableModel extends AbstractTableModel
     protected final Map<Integer, Integer> mColumnIndexId;// column index/Id pairs
     protected final Map<Integer, Class<?>> mColumnIdClass;// column Id/Class pairs
     private List<?> lstData;
+    private SortOrder soSortOrder;
+    private int iSortColumn;
 
     public AbstractFlexTableModel()
     {
@@ -52,6 +55,7 @@ public abstract class AbstractFlexTableModel extends AbstractTableModel
         mColumnIndexId = new HashMap<Integer, Integer>();
         mColumnIdClass = new HashMap<Integer, Class<?>>();
         lstData = new LinkedList<Object>();
+        soSortOrder = SortOrder.DESCENDING;
     }
     
     /**
@@ -243,5 +247,37 @@ public abstract class AbstractFlexTableModel extends AbstractTableModel
     public Class<?> getColumnClass( int columnIndex )
     {
         return mColumnIdClass.get(mColumnIndexId.get(columnIndex));
+    }
+
+    public int getSortColumn()
+    {
+        return iSortColumn;
+    }
+
+    public SortOrder getSortOrder()
+    {
+        return soSortOrder;
+    }
+
+    /**
+     * @param soSortOrder the soSortOrder to set
+     *
+     * @author Sergio Alecky
+     * @date 23 дек. 2014 г.
+     */
+    public void setSortOrder(SortOrder soSortOrder)
+    {
+        this.soSortOrder = soSortOrder;
+    }
+
+    /**
+     * @param iSortColumn the iSortColumn to set
+     *
+     * @author Sergio Alecky
+     * @date 23 дек. 2014 г.
+     */
+    public void setSortColumn(int iSortColumn)
+    {
+        this.iSortColumn = iSortColumn;
     }
 }

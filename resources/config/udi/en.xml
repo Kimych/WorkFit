@@ -24,11 +24,12 @@
 		<ReLog.menu>Login/Logout</ReLog.menu>
 
 		<Administrationt.menu>Administration</Administrationt.menu>
+		<EditCalSpecialDay.menu>Edit calendar</EditCalSpecialDay.menu>
 		<EditTable.menu>Edit Table</EditTable.menu>
 		<EditSpentHoliday.menu>Spent Holiday</EditSpentHoliday.menu>
 		<EditWorker.menu>Worker</EditWorker.menu>
 		<EditHoliday.menu>Holiday</EditHoliday.menu>
-		<EditDofW.menu>Days of Work</EditDofW.menu>
+		<EditDofW.menu>Edit Days of Work Table</EditDofW.menu>
 		<EditMonth.menu>Month</EditMonth.menu>
 		<EditYear.menu>Year</EditYear.menu>
 		<EditUserRole.menu>User Role</EditUserRole.menu>
@@ -37,6 +38,7 @@
 		<Help.menu>Help</Help.menu>
 		<Welcome.menu>Welcome</Welcome.menu>
 		<About.menu>About</About.menu>
+
 
 		<User.menu>User Menu</User.menu>
 		<Refresh.menu>Refresh</Refresh.menu>
@@ -153,6 +155,7 @@
 		<current.column>Current</current.column>
 		<toPlane.column>To Plane</toPlane.column>
 		<toBonus.column>To Bonus</toBonus.column>
+		<spentHol.column>Use dayOFF</spentHol.column>
 		<restHoliday.column>Rest Holiday</restHoliday.column>
 		<updateTime.column>Update Time</updateTime.column>
 	</by.uniterra.udi.model.WorkLogTableModel>

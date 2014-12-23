@@ -72,7 +72,7 @@ public class WorkLogInfoHelper
             // workingDaysInMonth, toPlan);
             // add to result
             objResult = new WorkLogInfoHolder(WorkLogUtils.roundToString(workLogTime, 2, BigDecimal.ROUND_HALF_UP), toPlan, toBonus, (holiday - timeLeft),
-                    dfwLastDaysOfWork.getTimestamp(), curentWorker.toString());
+                    dfwLastDaysOfWork.getTimestamp(), curentWorker.getAlias().toString(),spentHolidayDayInCurrentMont );
         }
         else
         {

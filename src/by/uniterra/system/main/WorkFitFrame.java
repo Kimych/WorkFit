@@ -324,6 +324,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
                 disposeMainFrame();
                 break;
             case IMenuHelper.MCOMMAND_EDIT_SPENT_HOLIDAY:
+                
                 CommonDataTablePanel panelSpentHoliday = new CommonDataTablePanel(new SpentHolidayTableModel(), new SpentHolidayOptionPanel(),
                         new SpentHolidayEAO(SystemModel.getDefaultEM()));
                 showEditPanel(panelSpentHoliday, UDIPropSingleton.getString(this, "EditSpentHolidayTable.frame"));

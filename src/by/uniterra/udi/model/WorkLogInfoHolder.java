@@ -46,10 +46,11 @@ public class WorkLogInfoHolder
     private double timeLeft;
     private Date lastUpdateDate;
     private String nameWorker;
+    private double spentHollidayInMonth;
 
     // private boolean BeInPlane;
 
-    public WorkLogInfoHolder(String curentTime, double toPlane, double toBonus, double timeLeft, Date lastUpdateDate, String nameWorker)
+    public WorkLogInfoHolder(String curentTime, double toPlane, double toBonus, double timeLeft, Date lastUpdateDate, String nameWorker, double spentHollidayInMonth)
     {
         this.сurentTime = curentTime;
         this.toPlane = toPlane;
@@ -57,6 +58,7 @@ public class WorkLogInfoHolder
         this.timeLeft = timeLeft;
         this.lastUpdateDate = lastUpdateDate;
         this.nameWorker = nameWorker;
+        this.spentHollidayInMonth = spentHollidayInMonth;
     }
 
     public String getCurentTime()
@@ -182,5 +184,27 @@ public class WorkLogInfoHolder
         if (Double.doubleToLongBits(toPlane) != Double.doubleToLongBits(other.toPlane))
             return false;
         return true;
+    }
+
+    /**
+     * @return the spentHollidayInMont
+     *
+     * @author Sergio Alecky
+     * @date 23 дек. 2014 г.
+     */
+    public double getSpentHollidayInMonth()
+    {
+        return spentHollidayInMonth;
+    }
+
+    /**
+     * @param spentHollidayInMont the spentHollidayInMont to set
+     *
+     * @author Sergio Alecky
+     * @date 23 дек. 2014 г.
+     */
+    public void setSpentHollidayInMonth(double spentHollidayInMont)
+    {
+        this.spentHollidayInMonth = spentHollidayInMont;
     }
 }

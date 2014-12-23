@@ -14,8 +14,9 @@ public class WorkLogTableModel extends AbstractFlexTableModel
     public final static int COL_CURRENT = 1;
     public final static int COL_TO_PLAN = 2;
     public final static int COL_TO_BONUS = 3;
-    public final static int COL_REST_HOLIDAY = 4;
-    public final static int COL_UPDATE_TIME = 5;
+    public final static int COL_SPENT_HOL_IN_MONT = 4;
+    public final static int COL_REST_HOLIDAY = 5;
+    public final static int COL_UPDATE_TIME = 6;
 
     private List<WorkLogInfoHolder> dataArrayList;
     public List<String> arrColumnNames;
@@ -26,6 +27,7 @@ public class WorkLogTableModel extends AbstractFlexTableModel
         addColumn(COL_CURRENT, UDIPropSingleton.getString(this, "current.column"), String.class);
         addColumn(COL_TO_PLAN, UDIPropSingleton.getString(this, "toPlane.column"), String.class);
         addColumn(COL_TO_BONUS, UDIPropSingleton.getString(this, "toBonus.column"), String.class);
+        addColumn(COL_SPENT_HOL_IN_MONT, UDIPropSingleton.getString(this, "spentHol.column"), String.class);
         addColumn(COL_REST_HOLIDAY, UDIPropSingleton.getString(this, "restHoliday.column"), String.class);
         addColumn(COL_UPDATE_TIME, UDIPropSingleton.getString(this, "updateTime.column"), Date.class);
     }
@@ -66,6 +68,9 @@ public class WorkLogTableModel extends AbstractFlexTableModel
             break;
         case COL_TO_BONUS:
             objResult = idData.getToBonus();
+            break;
+        case COL_SPENT_HOL_IN_MONT:
+            objResult = idData.getSpentHollidayInMonth();
             break;
         case COL_REST_HOLIDAY:
             objResult = idData.getTimeLeft();
