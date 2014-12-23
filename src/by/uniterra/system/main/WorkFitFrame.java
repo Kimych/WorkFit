@@ -38,6 +38,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.net.URL;
+import java.nio.file.Path;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -110,7 +111,8 @@ public class WorkFitFrame extends JFrame implements ActionListener
     // private static final String UPDATE_LOG = "Update log";
     private static final String LOGIN = "login";
     private static final String PASSWORD = "password";
-    private static final String FLAG_AUT = "flag";
+    private static final String FLAG_AUT = "flag"; 
+    private static final String LAST_DIR_PATH = "";
 
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 165708470997304032L;
@@ -405,17 +407,17 @@ public class WorkFitFrame extends JFrame implements ActionListener
 
     private static void createFileChooser(final JFrame frame) throws ParseException
     {
-        String filename = File.separator + "tmp";
+        String filename = userPrefs.get(LAST_DIR_PATH, File.separator + "tmp");
         JFileChooser fileChooser = new JFileChooser(new File(filename));
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("txt file (*.txt)", "txt"));
         fileChooser.setAcceptAllFileFilterUsed(true);
         fileChooser.showOpenDialog(frame);
-
         Log.info(WorkFitFrame.class, "Load log from file: " + fileChooser.getSelectedFile());
-
-        // LogParser.saveLogInfoToDB(LogParser.getListFromLog(fileChooser.getSelectedFile().toPath()));
-        LogParser.processWorklogFile(fileChooser.getSelectedFile().toPath());
+        Path path = fileChooser.getSelectedFile().toPath();
+        LogParser.processWorklogFile(path);
+        userPrefs.put(LAST_DIR_PATH, path.toString());
+        
     }
 
     private static void saveLoginAndPassword(String userName, String userPassword)
