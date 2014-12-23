@@ -73,13 +73,15 @@
 		<FirstName.column>First name</FirstName.column>
 		<SecondName.column>Second name</SecondName.column>
 		<ThirdName.column>Third name</ThirdName.column>
-		<Alias.column>Alias</Alias.column>
+		<Alias.column></Alias.column>
 	</by.uniterra.udi.model.WorkerTableModel>
 
+	<!-- Worker Option Panel -->
 	<by.uniterra.udi.view.WorkerOptionPanel>
 		<jlFirstName.label>First name</jlFirstName.label>
 		<jlSecondName.label>Second name</jlSecondName.label>
 		<jlThirdName.label>Third name</jlThirdName.label>
+		<jlAlias.label>Alias</jlAlias.label>
 	</by.uniterra.udi.view.WorkerOptionPanel>
 
 	<!-- Holiday Table -->
@@ -111,7 +113,7 @@
 		<jlDays.label>Days</jlDays.label>
 	</by.uniterra.udi.view.HolidayOptionPanel>
 
-	<!-- UserPanel -->  
+	<!-- UserPanel -->
 	<by.uniterra.udi.view.UserPanel>
 		<jlWorker.label>Worker:</jlWorker.label>
 		<jlLastUpdate.label>Last update:</jlLastUpdate.label>
@@ -196,13 +198,13 @@
 		<user.label>Login: </user.label>
 		<password.label>Password: </password.label>
 	</by.uniterra.udi.view.LoginPanel>
-	
+
 	<!-- MonthSpecialCalendar -->
 	<by.uniterra.udi.view.MonthSpecialCalendar>
-	<WrkDay.label>Working day</WrkDay.label>
-	<DayOff.label>Day off</DayOff.label>
-	<Birthday.lqbel>Birthday</Birthday.lqbel>
-	<Wrk.label>Work days:</Wrk.label>
+		<WrkDay.label>Working day</WrkDay.label>
+		<DayOff.label>Day off</DayOff.label>
+		<Birthday.lqbel>Birthday</Birthday.lqbel>
+		<Wrk.label>Work days:</Wrk.label>
 	</by.uniterra.udi.view.MonthSpecialCalendar>
 
 

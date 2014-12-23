@@ -328,12 +328,14 @@ public class WorkFitFrame extends JFrame implements ActionListener
                         new SpentHolidayEAO(SystemModel.getDefaultEM()));
                 showEditPanel(panelSpentHoliday, UDIPropSingleton.getString(this, "EditSpentHolidayTable.frame"));
                 panelSpentHoliday.writeValues();
+                ((AdminPanel) panelToInsert).loadDataInUI();
                 break;
             case IMenuHelper.MCOMMAND_EDIT_WORKER:
                 CommonDataTablePanel panelWorker = new CommonDataTablePanel(new WorkerTableModel(), new WorkerOptionPanel(), new WorkerEAO(
                         SystemModel.getDefaultEM()));
                 showEditPanel(panelWorker, UDIPropSingleton.getString(this, "EditWorkerTable.frame"));
                 panelWorker.writeValues();
+                ((AdminPanel) panelToInsert).loadDataInUI();
                 break;
             case IMenuHelper.MCOMMAND_EDIT_YEAR:
                 CommonDataTablePanel panelYear = new CommonDataTablePanel(new YearTableModel(), new YearOptionPanel(), new YearEAO(SystemModel.getDefaultEM()));
@@ -345,6 +347,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
                         SystemModel.getDefaultEM()));
                 showEditPanel(panelDaysOfWork, UDIPropSingleton.getString(this, "EditDofWTable.frame"));
                 panelDaysOfWork.writeValues();
+                ((AdminPanel) panelToInsert).loadDataInUI();
                 break;
             case IMenuHelper.MCOMMAND_EDIT_MONTH:
                 CommonDataTablePanel panelMonth = new CommonDataTablePanel(new MonthTableModel(), new MonthOptionPanel(), new MonthEAO(
@@ -357,6 +360,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
                         SystemModel.getDefaultEM()));
                 showEditPanel(panelHoliday, UDIPropSingleton.getString(this, "EditHolidayTable.frame"));
                 panelHoliday.writeValues();
+                ((AdminPanel) panelToInsert).loadDataInUI();
                 break;
             case IMenuHelper.MCOMMAND_EDIT_USER_ROLE:
                 CommonDataTablePanel panelUserRole = new CommonDataTablePanel(new UserRoleTableMolel(), new UserRoleOptionPanel(), new AuthorizationEAO(
@@ -369,6 +373,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
                 yscCalendar.setModel(DateUtils.getYearNumber(new Date()));
                 JOptionPane.showMessageDialog(this, yscCalendar, "Calendar", JOptionPane.PLAIN_MESSAGE);
                 yscCalendar.saveChanges();
+                ((AdminPanel) panelToInsert).loadDataInUI();
                 break;
 
             /*

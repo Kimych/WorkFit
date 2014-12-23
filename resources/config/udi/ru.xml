@@ -78,10 +78,12 @@
 		<Alias.column>Псевдоним</Alias.column>
 	</by.uniterra.udi.model.WorkerTableModel>
 
+	<!-- Worker Option Panel -->
 	<by.uniterra.udi.view.WorkerOptionPanel>
 		<jlFirstName.label>Имя</jlFirstName.label>
 		<jlSecondName.label>Фамилия</jlSecondName.label>
 		<jlThirdName.label>Отчество</jlThirdName.label>
+		<jlAlias.label>Псевдоним</jlAlias.label>
 	</by.uniterra.udi.view.WorkerOptionPanel>
 
 	<!-- Holiday Table -->
@@ -208,13 +210,13 @@
 		<user.label>Логин: </user.label>
 		<password.label>Пароль: </password.label>
 	</by.uniterra.udi.view.LoginPanel>
-	
-		<!-- MonthSpecialCalendar -->
+
+	<!-- MonthSpecialCalendar -->
 	<by.uniterra.udi.view.MonthSpecialCalendar>
-	<WrkDay.label>Рабочий день</WrkDay.label>
-	<DayOff.label>Выходной</DayOff.label>
-	<Birthday.lqbel>День рождения</Birthday.lqbel>
-	<Wrk.label>Рабочих дней: </Wrk.label>
+		<WrkDay.label>Рабочий день</WrkDay.label>
+		<DayOff.label>Выходной</DayOff.label>
+		<Birthday.lqbel>День рождения</Birthday.lqbel>
+		<Wrk.label>Рабочих дней: </Wrk.label>
 	</by.uniterra.udi.view.MonthSpecialCalendar>
 
 </root>
