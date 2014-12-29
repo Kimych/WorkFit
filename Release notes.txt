@@ -1,0 +1,13 @@
+WorkFit 1.1 Release Notes
+
+Copyright (C) 2014 by UniTerra Ltd.
+
+ver 1.1 December 29, 2014
+/--------------------------------------------------------------------------------------------------
++ add the calendar of special days
++ refresh AdminPanel data after edition of linked data (DaysOfWork, SpentHolidays and etc. tables)
++ add column "Use dayOFF" showing the value to use vacation days this month in a AdminPanel
++ add panel shows the number of working days in the current month
+* change main menu items: swap "Calendar" and "DaysOfWork"
+* use alias in "Worker" column instead of the full name
+/--------------------------------------------------------------------------------------------------
