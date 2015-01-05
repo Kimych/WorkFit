@@ -25,10 +25,10 @@ public class DaysOfWorkTableModel extends AbstractFlexTableModel
     public DaysOfWorkTableModel()
     {
         addColumn(COL_TIMESTAMP,UDIPropSingleton.getString(this, "timestamp.column"), Date.class);
-        addColumn(COL_WORKLOG, UDIPropSingleton.getString(this, "fromLog.column"), String.class);
-        addColumn(COL_WORKER_ID, UDIPropSingleton.getString(this, "workerID.column"), String.class);
-        addColumn(COL_BONUS_TIME, UDIPropSingleton.getString(this, "bonusTime.column"), String.class);
-        addColumn(COL_AKTUAL_WORKED_DAYS, UDIPropSingleton.getString(this, "actualWorkedDays.column"), String.class);
+        addColumn(COL_WORKLOG, UDIPropSingleton.getString(this, "fromLog.column"), Double.class);
+        addColumn(COL_WORKER_ID, UDIPropSingleton.getString(this, "workerID.column"), Integer.class);
+        addColumn(COL_BONUS_TIME, UDIPropSingleton.getString(this, "bonusTime.column"), Double.class);
+        addColumn(COL_AKTUAL_WORKED_DAYS, UDIPropSingleton.getString(this, "actualWorkedDays.column"), Integer.class);
         //addColumnNames.addColumn(COL_DAYS_OF_WORK_ID, UDIPropSingleton.getString(this, "daysOfWork.column"), String.class);
         //addColumn(COL_MONTH_ID, UDIPropSingleton.getString(this, "montID.column"), String.class);
         addColumn(COL_BONUS_TIME_DESC, UDIPropSingleton.getString(this, "descBonusTime.column"), String.class);
@@ -41,8 +41,8 @@ public class DaysOfWorkTableModel extends AbstractFlexTableModel
     public DaysOfWorkTableModel(boolean flag)
     {
         addColumn(COL_TIMESTAMP,UDIPropSingleton.getString(this, "timestamp.column"), Date.class);
-        addColumn(COL_WORKLOG, UDIPropSingleton.getString(this, "fromLog.column"), String.class);
-        addColumn(COL_BONUS_TIME, UDIPropSingleton.getString(this, "bonusTime.column"), String.class);
+        addColumn(COL_WORKLOG, UDIPropSingleton.getString(this, "fromLog.column"), Double.class);
+        addColumn(COL_BONUS_TIME, UDIPropSingleton.getString(this, "bonusTime.column"), Double.class);
         addColumn(COL_AKTUAL_WORKED_DAYS, UDIPropSingleton.getString(this, "actualWorkedDays.column"), String.class);
     }
 
