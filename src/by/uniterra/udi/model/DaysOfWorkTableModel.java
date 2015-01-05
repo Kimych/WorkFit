@@ -1,8 +1,6 @@
 package by.uniterra.udi.model;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.swing.SortOrder;
 
@@ -23,8 +21,6 @@ public class DaysOfWorkTableModel extends AbstractFlexTableModel
     private final static int COL_MONTH_ID = 6;
     private final static int COL_WORKER_ID = 3;
 
-    private List<DaysOfWork> dataArrayList;
-    public List<String> arrColumnNames;
 
     public DaysOfWorkTableModel()
     {
@@ -49,23 +45,12 @@ public class DaysOfWorkTableModel extends AbstractFlexTableModel
         addColumn(COL_BONUS_TIME, UDIPropSingleton.getString(this, "bonusTime.column"), String.class);
         addColumn(COL_AKTUAL_WORKED_DAYS, UDIPropSingleton.getString(this, "actualWorkedDays.column"), String.class);
     }
-    
-    public void addData(List<DaysOfWork> arrData)
-    {
-        this.dataArrayList = new ArrayList<DaysOfWork>(arrData);
-        fireTableDataChanged();
-    }
 
     @Override
     public boolean isCellEditable(int row, int column)
     {
         return false;
     }
-    public List<DaysOfWork> setData()
-    {
-        return dataArrayList;
-    }
-    
 
     @Override
     public Object getValueById(int rowIndex, int columnId)

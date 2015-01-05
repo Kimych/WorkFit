@@ -181,12 +181,10 @@ public abstract class AbstractFlexTableModel extends AbstractTableModel
      */
     public void addTableData(Object newData )
     {
-        // last record index before insert
-        int iInitialIndex = lstData.size() > 0 ? lstData.size() - 1: 0;
         // add new record
         ((List<Object>)lstData).add(newData);
         // fire data update event
-        fireTableRowsInserted(iInitialIndex, lstData.size() - 1);
+        fireTableRowsInserted(lstData.size() - 1, lstData.size() - 1);
     }
     
     /**

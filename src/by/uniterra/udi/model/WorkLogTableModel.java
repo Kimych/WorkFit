@@ -1,8 +1,6 @@
 package by.uniterra.udi.model;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class WorkLogTableModel extends AbstractFlexTableModel
 {
@@ -18,36 +16,21 @@ public class WorkLogTableModel extends AbstractFlexTableModel
     public final static int COL_REST_HOLIDAY = 5;
     public final static int COL_UPDATE_TIME = 6;
 
-    private List<WorkLogInfoHolder> dataArrayList;
-    public List<String> arrColumnNames;
-
     public WorkLogTableModel()
     {
         addColumn(COL_NAME, UDIPropSingleton.getString(this, "name.column"), String.class);
         addColumn(COL_CURRENT, UDIPropSingleton.getString(this, "current.column"), String.class);
-        addColumn(COL_TO_PLAN, UDIPropSingleton.getString(this, "toPlane.column"), String.class);
-        addColumn(COL_TO_BONUS, UDIPropSingleton.getString(this, "toBonus.column"), String.class);
-        addColumn(COL_SPENT_HOL_IN_MONT, UDIPropSingleton.getString(this, "spentHol.column"), String.class);
-        addColumn(COL_REST_HOLIDAY, UDIPropSingleton.getString(this, "restHoliday.column"), String.class);
+        addColumn(COL_TO_PLAN, UDIPropSingleton.getString(this, "toPlane.column"), Double.class);
+        addColumn(COL_TO_BONUS, UDIPropSingleton.getString(this, "toBonus.column"), Double.class);
+        addColumn(COL_SPENT_HOL_IN_MONT, UDIPropSingleton.getString(this, "spentHol.column"), Double.class);
+        addColumn(COL_REST_HOLIDAY, UDIPropSingleton.getString(this, "restHoliday.column"), Double.class);
         addColumn(COL_UPDATE_TIME, UDIPropSingleton.getString(this, "updateTime.column"), Date.class);
-    }
-
-    public void addData(List<WorkLogInfoHolder> arrData)
-    {
-        this.dataArrayList = new ArrayList<WorkLogInfoHolder>(arrData);
-        // notify "view" about changed model data
-        fireTableDataChanged();
     }
 
     @Override
     public boolean isCellEditable(int row, int column)
     {
         return false;
-    }
-
-    public List<WorkLogInfoHolder> setData()
-    {
-        return dataArrayList;
     }
 
     @Override

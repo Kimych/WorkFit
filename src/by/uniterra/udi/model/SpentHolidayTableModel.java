@@ -29,9 +29,6 @@
 
 package by.uniterra.udi.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import by.uniterra.dai.entity.SpentHoliday;
 
 /**
@@ -51,9 +48,6 @@ public class SpentHolidayTableModel extends AbstractFlexTableModel
     private final static int COL_DATE = 2;
     private final static int COL_DESC = 3;
 
-    private List<SpentHoliday> dataArrayList;
-    public List<String> arrColumnNames;
-
     public SpentHolidayTableModel()
     {
         addColumn(COL_DAYS_COUNT, UDIPropSingleton.getString(this, "DaysCount.column"), Integer.class);
@@ -63,20 +57,9 @@ public class SpentHolidayTableModel extends AbstractFlexTableModel
 
     }
 
-    public void addData(List<SpentHoliday> arrData)
-    {
-        this.dataArrayList = new ArrayList<SpentHoliday>(arrData);
-        fireTableDataChanged();
-    }
-
     public boolean isCellEditable(int row, int column)
     {
         return false;
-    }
-
-    public List<SpentHoliday> setData()
-    {
-        return dataArrayList;
     }
 
     @Override
@@ -90,10 +73,10 @@ public class SpentHolidayTableModel extends AbstractFlexTableModel
             objResult = idData.getCountDays();
             break;
         case COL_WORKER:
-            objResult = idData.getWorker();
+            objResult = idData.getWorker().toString();
             break;
         case COL_DATE:
-            objResult = idData.getMonth();
+            objResult = idData.getMonth().toString();
             break;
         case COL_DESC:
             objResult = idData.getDescription();

@@ -29,7 +29,6 @@
 
 package by.uniterra.udi.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import by.uniterra.dai.entity.Authorization;
@@ -52,20 +51,11 @@ public class UserRoleTableMolel extends AbstractFlexTableModel
     private final static int COL_DESCRIPTIONS = 3;
     private final static int COL_EMAIL = 4;
 
-    private List<Authorization> dataArrayList;
-    public List<String> arrColumnNames;
-
-    public void addData(List<Authorization> arrData)
-    {
-        this.dataArrayList = new ArrayList<Authorization>(arrData);
-        fireTableDataChanged();
-    }
-
     public UserRoleTableMolel()
     {
         addColumn(COL_NAME, UDIPropSingleton.getString(this, "name.column"), String.class);
         addColumn(COL_LOGIN, UDIPropSingleton.getString(this, "login.column"), String.class);
-        addColumn(COL_ROLE_NAME, UDIPropSingleton.getString(this, "roleName.column"), String.class);
+        addColumn(COL_ROLE_NAME, UDIPropSingleton.getString(this, "roleName.column"), List.class);
         addColumn(COL_DESCRIPTIONS, UDIPropSingleton.getString(this, "description.column"), String.class);
         addColumn(COL_EMAIL, UDIPropSingleton.getString(this, "email.column"), String.class);
     }
@@ -76,11 +66,6 @@ public class UserRoleTableMolel extends AbstractFlexTableModel
         return false;
     }
 
-    public List<Authorization> setData()
-    {
-        return dataArrayList;
-    }
-
     @Override
     public Object getValueById(int rowIndex, int columnId)
     {
@@ -89,7 +74,7 @@ public class UserRoleTableMolel extends AbstractFlexTableModel
         switch (columnId)
         {
         case COL_NAME:
-            objResult = idData.getWorker();
+            objResult = idData.getWorker().toString();
             break;
         case COL_LOGIN:
             objResult = idData.getLogin();

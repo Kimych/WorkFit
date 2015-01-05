@@ -1,8 +1,5 @@
 package by.uniterra.udi.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import by.uniterra.dai.entity.Holiday;
 
 public class HolidayTableModel extends AbstractFlexTableModel
@@ -15,21 +12,12 @@ public class HolidayTableModel extends AbstractFlexTableModel
     private final static int COL_ID_YEAR = 1;
     private final static int COL_ID_WORKER = 2;
 
-    private List<Holiday> dataArrayList;
-    public List<String> arrColumnNames;
     
     public HolidayTableModel()
     {
         addColumn(COL_COUNT_DAYS, UDIPropSingleton.getString(this, "ColCountDaysHoliday.column"), Integer.class);
-        addColumn(COL_ID_YEAR, UDIPropSingleton.getString(this, "ColIdYearHoliday.column"), String.class);
+        addColumn(COL_ID_YEAR, UDIPropSingleton.getString(this, "ColIdYearHoliday.column"), Integer.class);
         addColumn(COL_ID_WORKER, UDIPropSingleton.getString(this, "ColIdWorkerHoliday.column"), String.class);
-    }
-
-    public void addData(List<Holiday> arrData)
-    {
-        this.dataArrayList = new ArrayList<Holiday>(arrData);
-        // notify "view" about changed model data
-        fireTableDataChanged();
     }
 
     @Override
@@ -38,10 +26,6 @@ public class HolidayTableModel extends AbstractFlexTableModel
         return false;
     }
 
-    public List<Holiday> setData()
-    {
-        return dataArrayList;
-    }
     @Override
     public Object getValueById(int rowIndex, int columnId)
     {
@@ -53,10 +37,10 @@ public class HolidayTableModel extends AbstractFlexTableModel
             objResult = idData.getCountDays();
             break;
         case COL_ID_YEAR:
-            objResult = idData.getYear();
+            objResult = idData.getYear().toString();
             break;
         case COL_ID_WORKER:
-            objResult = idData.getWorker();
+            objResult = idData.getWorker().toString();
             break;
         default:
             break;

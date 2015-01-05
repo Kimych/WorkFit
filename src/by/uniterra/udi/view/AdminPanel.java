@@ -57,7 +57,7 @@ public class AdminPanel extends JPanel implements ActionListener
 
     private HashMap<Integer, List<CalendarSpecialDay>> mapFlaggetMonthDay = new HashMap<Integer, List<CalendarSpecialDay>>();
     private CalendarSpecialDayEAO eaoCalSpecDay = new CalendarSpecialDayEAO(SystemModel.getDefaultEM());
-    
+
     public AdminPanel()
     {
         super(new GridBagLayout());
@@ -81,10 +81,10 @@ public class AdminPanel extends JPanel implements ActionListener
             {
                 if (SwingUtilities.isLeftMouseButton(e))
                 {
-                    if(!((JXMonthView) e.getSource()).getSelection().isEmpty())
+                    if (!((JXMonthView) e.getSource()).getSelection().isEmpty())
                     {
                         Date date = ((JXMonthView) e.getSource()).getSelection().last();
-                        
+
                         if (date instanceof Date)
                         {
                             List<WorkLogInfoHolder> lstNewData = WorkLogInfoHelper.getLogListUpToDate(date);
@@ -97,7 +97,7 @@ public class AdminPanel extends JPanel implements ActionListener
                         }
                     }
                 }
-             }
+            }
         };
         jxmvCalendar.setZoomable(true);
         jxmvCalendar.getMonthView().addPropertyChangeListener(new PropertyChangeListener()
@@ -125,15 +125,15 @@ public class AdminPanel extends JPanel implements ActionListener
 
         table.getColumn(wltm.getColIndex(WorkLogTableModel.COL_TO_PLAN)).setCellRenderer(new DoubleTableCellRenderer(SwingConstants.CENTER, 2));
         table.getColumn(wltm.getColIndex(WorkLogTableModel.COL_TO_PLAN)).setMaxWidth(100);
-        
+
         table.getColumn(wltm.getColIndex(WorkLogTableModel.COL_SPENT_HOL_IN_MONT)).setCellRenderer(new DoubleTableCellRenderer(SwingConstants.CENTER, 0));
-        
+
         table.getColumn(wltm.getColIndex(WorkLogTableModel.COL_TO_BONUS)).setCellRenderer(new DoubleTableCellRenderer(SwingConstants.CENTER, 2));
         table.getColumn(wltm.getColIndex(WorkLogTableModel.COL_TO_BONUS)).setMaxWidth(100);
-        
+
         table.getColumn(wltm.getColIndex(WorkLogTableModel.COL_UPDATE_TIME)).setMinWidth(130);
         table.getColumn(wltm.getColIndex(WorkLogTableModel.COL_NAME)).setMinWidth(50);
-        
+
         table.getColumn(wltm.getColIndex(WorkLogTableModel.COL_REST_HOLIDAY)).setCellRenderer(new DoubleTableCellRenderer(SwingConstants.CENTER, 0));
 
         for (final Highlighter curHighlighter : getSpecilHighlighters())
@@ -173,15 +173,11 @@ public class AdminPanel extends JPanel implements ActionListener
             jlLastUpdateInMonth.setText(UDIPropSingleton.getString(this, "updateTime.footer") + DATE_FORMAT.format(jxmvCalendar.getFlaggedDates().last()));
         }
     }
-    
-    
+
     public void setNumWorkingDays()
     {
         int yearNumber = jxmvCalendar.getMonthView().getYearNumber();
-        if(!mapFlaggetMonthDay.containsKey(yearNumber))
-        {
-            mapFlaggetMonthDay.put(yearNumber, eaoCalSpecDay.getSpecialDayByYear(yearNumber));
-        }
+        mapFlaggetMonthDay.put(yearNumber, eaoCalSpecDay.getSpecialDayByYear(yearNumber));
         jxmvCalendar.selectCSDforCurrentMonth(mapFlaggetMonthDay.get(yearNumber), false);
         jxmvCalendar.setNumWrkDays();
     }
@@ -189,23 +185,28 @@ public class AdminPanel extends JPanel implements ActionListener
     @Override
     public void actionPerformed(ActionEvent arg0)
     {
-        
+
     }
 
     private List<Highlighter> getSpecilHighlighters()
     {
         final List<Highlighter> lstResult = new ArrayList<Highlighter>();
         final int iStatusColumnIndexToPlane = wltm.getColIndex(WorkLogTableModel.COL_TO_PLAN);
-        //final int iStatusColumnIndexToBonus = wltm.getColIndex(WorkLogTableModel.COL_TO_BONUS);
+        // final int iStatusColumnIndexToBonus =
+        // wltm.getColIndex(WorkLogTableModel.COL_TO_BONUS);
         final int iStatusColumnIndexRestHol = wltm.getColIndex(WorkLogTableModel.COL_REST_HOLIDAY);
         final PatternPredicate patternPredicateToPlane = new PatternPredicate("^[^-]*$", iStatusColumnIndexToPlane, iStatusColumnIndexToPlane);
-       // final PatternPredicate patternPredicateToBonus = new PatternPredicate("-", iStatusColumnIndexToBonus, iStatusColumnIndexToBonus);
+        // final PatternPredicate patternPredicateToBonus = new
+        // PatternPredicate("-", iStatusColumnIndexToBonus,
+        // iStatusColumnIndexToBonus);
         final PatternPredicate patternPredicateToRestHol = new PatternPredicate("-", iStatusColumnIndexRestHol, iStatusColumnIndexRestHol);
         final ColorHighlighter colorHighlighterToPlane = new ColorHighlighter(patternPredicateToPlane, Color.PINK, Color.BLACK, Color.PINK, Color.BLACK);
-        //final ColorHighlighter colorHighlighterToBonus = new ColorHighlighter(patternPredicateToBonus, Color.PINK, Color.BLACK, Color.PINK, Color.BLACK);
+        // final ColorHighlighter colorHighlighterToBonus = new
+        // ColorHighlighter(patternPredicateToBonus, Color.PINK, Color.BLACK,
+        // Color.PINK, Color.BLACK);
         final ColorHighlighter colorHighlighterToRestHol = new ColorHighlighter(patternPredicateToRestHol, Color.PINK, Color.BLACK, Color.PINK, Color.BLACK);
         lstResult.add(colorHighlighterToPlane);
-        //lstResult.add(colorHighlighterToBonus);
+        // lstResult.add(colorHighlighterToBonus);
         lstResult.add(colorHighlighterToRestHol);
 
         return lstResult;

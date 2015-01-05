@@ -1,8 +1,5 @@
 package by.uniterra.udi.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import by.uniterra.dai.entity.Month;
 
 public class MonthTableModel extends AbstractFlexTableModel
@@ -16,34 +13,18 @@ public class MonthTableModel extends AbstractFlexTableModel
     private final static int COL_NAME_MONTH_ID_MONTHS = 2;
     private final static int COL_YEAR_ID_MONTHS = 3;
 
-    private List<Month> dataArrayList;
-    public List<String> arrColumnNames;
-
     public MonthTableModel()
     {
         // addColumn(COL_ID_MONTHS,"#ID" , String.class);
         addColumn(COL_NAME_MONTH_ID_MONTHS, UDIPropSingleton.getString(this, "ColNameMounts.column"), Integer.class);
         addColumn(COL_YEAR_ID_MONTHS, UDIPropSingleton.getString(this, "ColYearMonth.column"), Integer.class);
         addColumn(COL_DESC_MONTHS, UDIPropSingleton.getString(this, "ColDescMonth.column"), String.class);
-
-    }
-
-    public void addData(List<Month> arrData)
-    {
-        this.dataArrayList = new ArrayList<Month>(arrData);
-        // notify "view" about changed model data
-        fireTableDataChanged();
     }
 
     @Override
     public boolean isCellEditable(int row, int column)
     {
         return false;
-    }
-
-    public List<Month> setData()
-    {
-        return dataArrayList;
     }
 
     @Override
@@ -53,6 +34,7 @@ public class MonthTableModel extends AbstractFlexTableModel
         Month idData = (Month) getRowData(rowIndex);
         switch (columnId)
         {
+
         case COL_ID_MONTHS:
             objResult = idData.getMonthId();
             break;

@@ -1,8 +1,6 @@
 package by.uniterra.udi.model;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import by.uniterra.dai.entity.CalendarSpecialDay;
 
@@ -17,8 +15,6 @@ public class CalendarSpecialDayTableModel extends AbstractFlexTableModel
     private final static int COL_TYPE_DAY = 2;
     private final static int COL_DESC = 3;
 
-    private List<CalendarSpecialDay> dataArrayList;
-    public List<String> arrColumnNames;
 
     public CalendarSpecialDayTableModel()
     {
@@ -28,21 +24,10 @@ public class CalendarSpecialDayTableModel extends AbstractFlexTableModel
         addColumn(COL_DESC, "Description", String.class);
     }
 
-    public void addData(List<CalendarSpecialDay> arrData)
-    {
-        this.dataArrayList = new ArrayList<CalendarSpecialDay>(arrData);
-        fireTableDataChanged();
-    }
-
     @Override
     public boolean isCellEditable(int row, int column)
     {
         return false;
-    }
-
-    public List<CalendarSpecialDay> setData()
-    {
-        return dataArrayList;
     }
 
     @Override

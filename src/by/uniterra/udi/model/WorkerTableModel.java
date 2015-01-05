@@ -1,10 +1,5 @@
 package by.uniterra.udi.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.JButton;
-
 import by.uniterra.dai.entity.Worker;
 
 public class WorkerTableModel extends AbstractFlexTableModel
@@ -20,9 +15,6 @@ public class WorkerTableModel extends AbstractFlexTableModel
     private final static int COL_BUTTON_VIEW_HOLIDAY = 4;
     private final static int COL_ALIAS_WORKER = 5;
 
-    private List<Worker> dataArrayList;
-    public List<String> arrColumnNames;
-    JButton button = new JButton("Кнопка");
 
     public WorkerTableModel()
     {
@@ -33,24 +25,12 @@ public class WorkerTableModel extends AbstractFlexTableModel
         addColumn(COL_ALIAS_WORKER, UDIPropSingleton.getString(this, "Alias.column"), String.class);
     }
 
-    public void addData(List<Worker> arrData)
-    {
-        this.dataArrayList = new ArrayList<Worker>(arrData);
-        // notify "view" about changed model data
-        fireTableDataChanged();
-    }
-
     @Override
     public boolean isCellEditable(int row, int column)
     {
 
         return getColIndex(COL_BUTTON_VIEW_HOLIDAY) == column;
 
-    }
-
-    public List<Worker> setData()
-    {
-        return dataArrayList;
     }
 
     @Override

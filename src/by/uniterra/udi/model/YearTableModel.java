@@ -1,8 +1,5 @@
 package by.uniterra.udi.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import by.uniterra.dai.entity.Year;
 
 public class YearTableModel extends AbstractFlexTableModel
@@ -15,9 +12,6 @@ public class YearTableModel extends AbstractFlexTableModel
     private final static int COL_NUMBER_YEAR = 1;
     private final static int COL_DESC_YEAR = 2;
 
-    private List<Year> dataArrayList;
-    public List<String> arrColumnNames;
-
     public YearTableModel()
     {
         // addColumn(COL_ID_YEAR, "#ID", String.class);
@@ -25,22 +19,10 @@ public class YearTableModel extends AbstractFlexTableModel
         addColumn(COL_DESC_YEAR, UDIPropSingleton.getString(this, "ColDescYear.column"), String.class);
     }
 
-    public void addData(List<Year> arrData)
-    {
-        this.dataArrayList = new ArrayList<Year>(arrData);
-        // notify "view" about changed model data
-        fireTableDataChanged();
-    }
-
     @Override
     public boolean isCellEditable(int row, int column)
     {
         return false;
-    }
-
-    public List<Year> setData()
-    {
-        return dataArrayList;
     }
 
     @Override
