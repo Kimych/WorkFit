@@ -8,13 +8,13 @@ public class WorkLogTableModel extends AbstractFlexTableModel
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = -8488583506352518426L;
 
-    public final static int COL_NAME = 0;
-    public final static int COL_CURRENT = 1;
-    public final static int COL_TO_PLAN = 2;
-    public final static int COL_TO_BONUS = 3;
-    public final static int COL_SPENT_HOL_IN_MONT = 4;
-    public final static int COL_REST_HOLIDAY = 5;
-    public final static int COL_UPDATE_TIME = 6;
+    public static final int COL_NAME = 0;
+    public static final int COL_CURRENT = 1;
+    public static final int COL_TO_PLAN = 2;
+    public static final int COL_TO_BONUS = 3;
+    public static final int COL_SPENT_HOL_IN_MONT = 4;
+    public static final int COL_REST_HOLIDAY = 5;
+    public static final int COL_UPDATE_TIME = 6;
 
     public WorkLogTableModel()
     {
@@ -41,7 +41,7 @@ public class WorkLogTableModel extends AbstractFlexTableModel
         switch (columnId)
         {
         case COL_NAME:
-            objResult = idData.getNameWorker();
+            objResult = idData.getWorker().getAlias();
             break;
         case COL_CURRENT:
             objResult = idData.getCurentTime();

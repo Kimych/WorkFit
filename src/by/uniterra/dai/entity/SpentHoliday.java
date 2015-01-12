@@ -2,7 +2,14 @@ package by.uniterra.dai.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 /**
  * The persistent class for the spent_holiday database table.
@@ -14,7 +21,7 @@ import javax.persistence.*;
         @NamedQuery(name = SpentHoliday.NQ_FIND_ALL, query = "SELECT s FROM SpentHoliday s"),
         @NamedQuery(name = SpentHoliday.NQ_FIND_SPEND_HOLIDAY_BY_WORKER_AND_YEAR, query = "SELECT SUM(s.countDays) FROM SpentHoliday s  JOIN s.month m  JOIN m.year y WHERE  y.number = :"
                 + SpentHoliday.PARAMETER_YEAR + " and s.worker = :" + SpentHoliday.PARAMETER_WORKER),
-        @NamedQuery(name = SpentHoliday.NQ_FIND_SPEND_HOLIDAY_BY_WORKER_AND_CURRENT_MONTH_AND_EAR, query = "SELECT s.countDays FROM SpentHoliday s WHERE s.worker = :"
+        @NamedQuery(name = SpentHoliday.NQ_FIND_SPEND_HOLIDAY_BY_WORKER_AND_CURRENT_MONTH_AND_EAR, query = "SELECT s FROM SpentHoliday s WHERE s.worker = :"
                 + SpentHoliday.PARAMETER_WORKER + " AND s.month.nameMonth.nameMonthId = :" + SpentHoliday.PARAMETER_MONTH+ " AND s.month.year.number = :" +SpentHoliday.PARAMETER_YEAR )
 
 })

@@ -15,21 +15,26 @@ import javax.persistence.criteria.Root;
 import by.uniterra.dai.model.AbstractEntityListProcessor;
 import by.uniterra.dai.model.AbstractEntityProcessor;
 
-
 public class ServiceBaseEAO<T extends Serializable>
 {
     // members
-    protected EntityManager emEntityManager;// associated Entity Manager
-    protected boolean bRefreshCachedObjects = false; // objects refresh flag
-    protected Class<T> classEntity; // Additional type information that we can't get from T
-    
+    // associated Entity Manager
+    protected EntityManager emEntityManager;
+    // objects refresh flag
+    protected boolean bRefreshCachedObjects = false;
+    // Additional type information that we can't
+    // get from T
+    protected Class<T> classEntity;
+
     protected class BulkSaver extends AbstractEntityListProcessor<T>
     {
         /**
          * Constructor.
          * 
-         * @param entity - entities list to be processed
-         * @param emManager - associated EntityManager
+         * @param entity
+         *            - entities list to be processed
+         * @param emManager
+         *            - associated EntityManager
          */
         public BulkSaver(List<T> entity, EntityManager emManager)
         {
@@ -55,6 +60,7 @@ public class ServiceBaseEAO<T extends Serializable>
             return lstEntities;
         }
     }
+
     protected class Deleter extends AbstractEntityProcessor<T>
     {
         // members
@@ -69,8 +75,10 @@ public class ServiceBaseEAO<T extends Serializable>
         /**
          * Constructor.
          * 
-         * @param entity - entity to be processed
-         * @param emManager - associated EntityManager
+         * @param entity
+         *            - entity to be processed
+         * @param emManager
+         *            - associated EntityManager
          */
         public Deleter(T entity, EntityManager emManager)
         {
@@ -95,14 +103,17 @@ public class ServiceBaseEAO<T extends Serializable>
             return null;
         }
     }
+
     // inner classes
     protected class Refresher extends AbstractEntityProcessor<T>
     {
         /**
          * Constructor.
          * 
-         * @param entity - entity to be processed
-         * @param emManager - associated EntityManager
+         * @param entity
+         *            - entity to be processed
+         * @param emManager
+         *            - associated EntityManager
          */
         public Refresher(T entity, EntityManager emManager)
         {
@@ -121,13 +132,16 @@ public class ServiceBaseEAO<T extends Serializable>
             return tEntity;
         }
     }
+
     protected class RefresherList extends AbstractEntityListProcessor<T>
     {
         /**
          * Constructor.
          * 
-         * @param entity - entity list to be refreshed
-         * @param emManager - associated entity manager
+         * @param entity
+         *            - entity list to be refreshed
+         * @param emManager
+         *            - associated entity manager
          */
         public RefresherList(List<T> entity, EntityManager emManager)
         {
@@ -148,13 +162,16 @@ public class ServiceBaseEAO<T extends Serializable>
             return lstEntities;
         }
     }
+
     protected class Saver extends AbstractEntityProcessor<T>
     {
         /**
          * Constructor.
          * 
-         * @param entity - entity to be processed
-         * @param emManager - associated EntityManager
+         * @param entity
+         *            - entity to be processed
+         * @param emManager
+         *            - associated EntityManager
          */
         public Saver(T entity, EntityManager emManager)
         {
@@ -191,7 +208,7 @@ public class ServiceBaseEAO<T extends Serializable>
     {
         return emEntityManager.contains(objItem);
     }
-    
+
     /**
      * Get objects count
      * 
@@ -209,7 +226,8 @@ public class ServiceBaseEAO<T extends Serializable>
     /**
      * Remove by PK
      * 
-     * @param id - id of the entity to be removed
+     * @param id
+     *            - id of the entity to be removed
      */
     public void delete(Object id)
     {
@@ -219,7 +237,8 @@ public class ServiceBaseEAO<T extends Serializable>
     /**
      * Remove entity.
      * 
-     * @param entity - entity to remove
+     * @param entity
+     *            - entity to remove
      */
     public void delete(T entity)
     {
@@ -230,8 +249,10 @@ public class ServiceBaseEAO<T extends Serializable>
     /**
      * Remove set of entities by according "where" condition
      * 
-     * @param findByParentId4Types - "where" condition ID
-     * @param objects - parameters for the condition
+     * @param findByParentId4Types
+     *            - "where" condition ID
+     * @param objects
+     *            - parameters for the condition
      */
     public void deleteAll(int findByParentId4Types, Object[] objects)
     {
@@ -246,7 +267,8 @@ public class ServiceBaseEAO<T extends Serializable>
     /**
      * Detach given entities list from current EntityManager
      * 
-     * @param entity - entities list to be detached
+     * @param entity
+     *            - entities list to be detached
      * @return - detached entities list
      */
     public List<T> detach(List<T> lstEntities)
@@ -262,7 +284,8 @@ public class ServiceBaseEAO<T extends Serializable>
     /**
      * Detach given entity from current EntityManager
      * 
-     * @param entity - entity to be detached from current EntityManager
+     * @param entity
+     *            - entity to be detached from current EntityManager
      * @return - detached entity
      */
     public T detach(T entity)
@@ -274,8 +297,10 @@ public class ServiceBaseEAO<T extends Serializable>
     /**
      * Detach given entities list from current EntityManager
      * 
-     * @param entity - entities list to be detached
-     * @param bIsDetachAlloved - a flag which allows detaching
+     * @param entity
+     *            - entities list to be detached
+     * @param bIsDetachAlloved
+     *            - a flag which allows detaching
      */
     protected List<T> detachAuto(List<T> lstEntities, boolean bIsDetachAlloved)
     {
@@ -293,8 +318,10 @@ public class ServiceBaseEAO<T extends Serializable>
     /**
      * Detach given entity from current EntityManager
      * 
-     * @param entity - entity to be detached
-     * @param bIsDetachAlloved - a flag which allows detaching
+     * @param entity
+     *            - entity to be detached
+     * @param bIsDetachAlloved
+     *            - a flag which allows detaching
      */
     protected T detachAuto(T entity, boolean bIsDetachAlloved)
     {
@@ -309,17 +336,16 @@ public class ServiceBaseEAO<T extends Serializable>
     protected void finalize() throws Throwable
     {
         super.finalize();
-        // try to close associated EntityManager
-        if (emEntityManager != null && emEntityManager.isOpen())
-        {
-            emEntityManager.clear();
-        }
+        if (emEntityManager == null || !emEntityManager.isOpen())
+            return;
+        emEntityManager.clear();
     }
 
     /**
      * Find by PK.
      * 
-     * @param id - id to search by
+     * @param id
+     *            - id to search by
      * @return - found object
      */
     public T find(Object id)
@@ -363,7 +389,8 @@ public class ServiceBaseEAO<T extends Serializable>
     /**
      * Get according "where" clause for given search type
      * 
-     * @param findByParentId4Types - search type ID
+     * @param findByParentId4Types
+     *            - search type ID
      * 
      * @return a string with according "where" clause
      * @throws MethodNotSupportedException
@@ -398,8 +425,10 @@ public class ServiceBaseEAO<T extends Serializable>
     /**
      * Load entities by according conditions
      * 
-     * @param findByParentId4Types - search type ID
-     * @param param - array of search argument
+     * @param findByParentId4Types
+     *            - search type ID
+     * @param param
+     *            - array of search argument
      * 
      * @return result list
      */
@@ -426,7 +455,8 @@ public class ServiceBaseEAO<T extends Serializable>
     /**
      * Execute named query.
      * 
-     * @param queryName - query name
+     * @param queryName
+     *            - query name
      * 
      * @return query result list
      */
@@ -446,7 +476,8 @@ public class ServiceBaseEAO<T extends Serializable>
     /**
      * Reload data of the entity from DB.
      * 
-     * @param entity - entity to be refreshed
+     * @param entity
+     *            - entity to be refreshed
      */
     public T refresh(T entity)
     {
@@ -457,8 +488,10 @@ public class ServiceBaseEAO<T extends Serializable>
     /**
      * Make a refresh operation on given entities list.
      * 
-     * @param lstEntities - list of entities to be refreshed
-     * @param bIsRefreshAlloved - refresh resolution flag
+     * @param lstEntities
+     *            - list of entities to be refreshed
+     * @param bIsRefreshAlloved
+     *            - refresh resolution flag
      * 
      * @return - refreshed objects
      */
@@ -471,8 +504,10 @@ public class ServiceBaseEAO<T extends Serializable>
     /**
      * Make a refresh operation on given entity
      * 
-     * @param entity - entity to be refreshed
-     * @param bIsRefreshAlloved - refresh resolution flag
+     * @param entity
+     *            - entity to be refreshed
+     * @param bIsRefreshAlloved
+     *            - refresh resolution flag
      */
     protected T refreshAuto(T entity, boolean bIsRefreshAlloved)
     {
@@ -482,7 +517,8 @@ public class ServiceBaseEAO<T extends Serializable>
     /**
      * Save given entity
      * 
-     * @param entity - entity to be saved
+     * @param entity
+     *            - entity to be saved
      */
     public T save(T entity)
     {
@@ -493,7 +529,8 @@ public class ServiceBaseEAO<T extends Serializable>
     /**
      * Make a batch insert for AbstractBaseJPA objects
      * 
-     * @param lstDataToInsert - list of AbstractEAO entities
+     * @param lstDataToInsert
+     *            - list of AbstractEAO entities
      */
     public List<T> saveBulk(List<T> lstDataToInsert)
     {
@@ -503,7 +540,8 @@ public class ServiceBaseEAO<T extends Serializable>
     /**
      * Sets new state for "refresh each object" flag
      * 
-     * @param refreshObjects The m_bRefreshCacheedObjects to set.
+     * @param refreshObjects
+     *            The m_bRefreshCacheedObjects to set.
      */
     public void setRefreshCachedObjects(boolean refreshObjects)
     {

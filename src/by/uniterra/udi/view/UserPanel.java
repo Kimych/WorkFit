@@ -74,7 +74,7 @@ public class UserPanel extends JPanel implements IModelOwner
         tfCurentTime.setText(woih.getCurentTime());
         jlLastUpdateDate.setText(DateUtils.toGMT(woih.getLastUpdateDate()));
 
-        jlNameWorker.setText(woih.getNameWorker());
+        jlNameWorker.setText(woih.getWorker().getAlias());
         jlNameWorker.setFont(new Font("Serif", Font.PLAIN, 20));
 
         double toPlan = woih.getToPlane();

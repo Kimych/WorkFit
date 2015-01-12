@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -16,8 +17,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
@@ -30,8 +33,11 @@ import org.jdesktop.swingx.decorator.PatternPredicate;
 
 import by.uniterra.dai.eao.CalendarSpecialDayEAO;
 import by.uniterra.dai.eao.DaysOfWorkEAO;
+import by.uniterra.dai.eao.MonthEAO;
+import by.uniterra.dai.eao.SpentHolidayEAO;
 import by.uniterra.dai.entity.CalendarSpecialDay;
 import by.uniterra.dai.entity.DaysOfWork;
+import by.uniterra.dai.entity.SpentHoliday;
 import by.uniterra.system.model.SystemModel;
 import by.uniterra.system.util.DateUtils;
 import by.uniterra.udi.model.UDIPropSingleton;
@@ -62,12 +68,14 @@ public class AdminPanel extends JPanel implements ActionListener
     {
         super(new GridBagLayout());
         jbInit();
-        // loadDataInUI();
     }
 
     private void jbInit()
     {
         Date currentDate = new Date();
+        int currentMontNumber = DateUtils.getMonthNumber(currentDate);
+        int currentYearNumber = DateUtils.getYearNumber(currentDate);
+
         jlUpdatedate = new JLabel(UDIPropSingleton.getString(this, "infoTime.header") + DATE_FORMAT.format(currentDate));
         jlLastUpdateInMonth = new JLabel(UDIPropSingleton.getString(this, "updateTime.footer") + "--.--.--");
         setLayout(new GridBagLayout());
@@ -135,6 +143,48 @@ public class AdminPanel extends JPanel implements ActionListener
         table.getColumn(wltm.getColIndex(WorkLogTableModel.COL_NAME)).setMinWidth(50);
 
         table.getColumn(wltm.getColIndex(WorkLogTableModel.COL_REST_HOLIDAY)).setCellRenderer(new DoubleTableCellRenderer(SwingConstants.CENTER, 0));
+
+        table.addMouseListener(new MouseAdapter()
+        {
+            public void mouseClicked(MouseEvent e)
+            {
+                if (e.getClickCount() == 2)
+                {
+                    JTable target = (JTable) e.getSource();
+                    int column = target.getSelectedColumn();
+                    if (column == wltm.getColIndex(WorkLogTableModel.COL_SPENT_HOL_IN_MONT))
+                    {
+                        try
+                        {
+                            int[] arrSelIndexes = table.getSelectedRows();
+                            int iModelIndex = (table.convertRowIndexToModel(arrSelIndexes[0]));
+                            WorkLogInfoHolder wliHolder = (WorkLogInfoHolder) wltm.getRowData(iModelIndex);
+                            SpentHolidayEAO eaoSpentHoliday = new SpentHolidayEAO(SystemModel.getDefaultEM());
+                            SpentHoliday objSpentHoliday = eaoSpentHoliday.getByWorkerAndMonthAndYear(wliHolder.getWorker(), currentMontNumber,
+                                    currentYearNumber);
+                            if (objSpentHoliday == null)
+                            {
+                                MonthEAO eaoMonth = new MonthEAO(SystemModel.getDefaultEM());
+                                objSpentHoliday = new SpentHoliday(wliHolder.getWorker(), eaoMonth.getMonthByMonthNumberAndYearNumber(currentMontNumber,
+                                        currentYearNumber));
+                            }
+                            SpentHolidayOptionPanel opSpentHoliday = new SpentHolidayOptionPanel();
+                            opSpentHoliday.setModel(objSpentHoliday);
+                            int op = JOptionPane.showConfirmDialog(opSpentHoliday, opSpentHoliday, "Spent holiday", JOptionPane.OK_CANCEL_OPTION);
+                            if (op == JOptionPane.OK_OPTION)
+                            {
+                                eaoSpentHoliday.save((SpentHoliday) opSpentHoliday.getModel());
+                            }
+                            loadDataInUI();
+                        }
+                        catch (Exception e2)
+                        {
+                            Log.error(AdminPanel.class, e2, "Edit Spent Holiday");
+                        }
+                    }
+                }
+            }
+        });
 
         for (final Highlighter curHighlighter : getSpecilHighlighters())
         {

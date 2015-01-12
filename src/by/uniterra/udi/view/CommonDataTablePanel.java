@@ -319,10 +319,6 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
                 Log.error(CommonDataTablePanel.class, "addValuesToModel() numberFormatException");
             }
         }
-        else
-        {
-            // TODO message dialog
-        }
     }
 
     public void removeValuesFromModel()
@@ -384,14 +380,8 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
                 Log.error(CommonDataTablePanel.class, "editValuesFromModel() numberFormatException");
                 showNumberErrorMessage();
             }
-
-        }
-        else
-        {
-            // System.out.println("Input Canceled");
         }
     }
-
     public void showNumberErrorMessage()
     {
         JOptionPane.showMessageDialog(null, UDIPropSingleton.getString(this, "errorMessageDialog.lable"),

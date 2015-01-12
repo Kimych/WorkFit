@@ -21,7 +21,7 @@ public class CalendarSpecialDayOptionPanel extends JPanel
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 8380269231834025937L;
 
-    static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
 
     private UTCheckBoxList chblDayType;
     private JTextArea taDescription;

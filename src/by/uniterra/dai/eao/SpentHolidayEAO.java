@@ -50,7 +50,13 @@ public class SpentHolidayEAO extends ServiceBaseEAO<SpentHoliday>
 
     public int getSpentHolidayByWorkerAndMonthAndYear(Worker wWorker, int nMonth, int nYear)
     {
-        int dResult = 0;
+        SpentHoliday shSpentHoliday = getByWorkerAndMonthAndYear(wWorker, nMonth, nYear);
+        return shSpentHoliday != null ? shSpentHoliday.getCountDays() : 0;
+    }
+    
+    public SpentHoliday getByWorkerAndMonthAndYear(Worker wWorker, int nMonth, int nYear)
+    {
+        SpentHoliday dResult = null;
         try
         {
             // get according query
@@ -64,7 +70,7 @@ public class SpentHolidayEAO extends ServiceBaseEAO<SpentHoliday>
             Object objResult = queryDeleteByDSId.getSingleResult();
             if (objResult != null)
             {
-                dResult = (int) objResult ;
+                dResult = (SpentHoliday) objResult ;
             }
         }
         catch(NoResultException ex)

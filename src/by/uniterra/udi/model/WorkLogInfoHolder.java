@@ -31,6 +31,8 @@ package by.uniterra.udi.model;
 
 import java.util.Date;
 
+import by.uniterra.dai.entity.Worker;
+
 /**
  * The <code>WorklogInfoHolder</code> is used to hold all necessary worklog
  * statistics for one Worker
@@ -45,19 +47,19 @@ public class WorkLogInfoHolder
     private double toBonus;
     private double timeLeft;
     private Date lastUpdateDate;
-    private String nameWorker;
+    private Worker objWorker;
     private double spentHollidayInMonth;
 
     // private boolean BeInPlane;
 
-    public WorkLogInfoHolder(String curentTime, double toPlane, double toBonus, double timeLeft, Date lastUpdateDate, String nameWorker, double spentHollidayInMonth)
+    public WorkLogInfoHolder(String curentTime, double toPlane, double toBonus, double timeLeft, Date lastUpdateDate, Worker objWorker, double spentHollidayInMonth)
     {
         this.сurentTime = curentTime;
         this.toPlane = toPlane;
         this.toBonus = toBonus;
         this.timeLeft = timeLeft;
         this.lastUpdateDate = lastUpdateDate;
-        this.nameWorker = nameWorker;
+        this.objWorker = objWorker;
         this.spentHollidayInMonth = spentHollidayInMonth;
     }
 
@@ -111,21 +113,21 @@ public class WorkLogInfoHolder
         this.lastUpdateDate = lastUpdateDate;
     }
 
-    public String getNameWorker()
+    public Worker getWorker()
     {
-        return nameWorker;
+        return objWorker;
     }
 
-    public void setNameWorker(String nameWorker)
+    public void setWorker(Worker objWorker)
     {
-        this.nameWorker = nameWorker;
+        this.objWorker = objWorker;
     }
 
     @Override
     public String toString()
     {
         return "WorkLogInfoHolder [CurentTime=" + сurentTime + ", ToPlane=" + toPlane + ", ToBonus=" + toBonus + ", TimeLeft=" + timeLeft + ", LastUpdateDate="
-                + lastUpdateDate + ", NameWorker=" + nameWorker + "]";
+                + lastUpdateDate + ", NameWorker=" + objWorker.getAlias() + "]";
     }
 
     @Override
@@ -135,7 +137,7 @@ public class WorkLogInfoHolder
         int result = 1;
         result = prime * result + ((сurentTime == null) ? 0 : сurentTime.hashCode());
         result = prime * result + ((lastUpdateDate == null) ? 0 : lastUpdateDate.hashCode());
-        result = prime * result + ((nameWorker == null) ? 0 : nameWorker.hashCode());
+        result = prime * result + ((objWorker == null) ? 0 : objWorker.hashCode());
         long temp;
         temp = Double.doubleToLongBits(timeLeft);
         result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -170,12 +172,12 @@ public class WorkLogInfoHolder
         }
         else if (!lastUpdateDate.equals(other.lastUpdateDate))
             return false;
-        if (nameWorker == null)
+        if (objWorker == null)
         {
-            if (other.nameWorker != null)
+            if (other.objWorker != null)
                 return false;
         }
-        else if (!nameWorker.equals(other.nameWorker))
+        else if (!objWorker.equals(other.objWorker))
             return false;
         if (Double.doubleToLongBits(timeLeft) != Double.doubleToLongBits(other.timeLeft))
             return false;
