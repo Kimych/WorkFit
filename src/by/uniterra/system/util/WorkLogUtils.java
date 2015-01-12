@@ -92,12 +92,14 @@ public class WorkLogUtils
 
     public static double getTimeRemainsToBonusInMonth(int workDayInMonth, double worklog, double bonustime)
     {
-        return workDayInMonth * WORK_HOUR_IN_DAY * PERCENT_REMAINS_TO_BONUS - (worklog + bonustime);
+        // bonus means +1 day to amount of working days in current month
+        return (workDayInMonth + 1) * WORK_HOUR_IN_DAY - (worklog + bonustime);
     }
 
     public static double getTimeRemainsToBonusToDay(int actualWorkeDays, double worklog, double bonustime, double spentholiday)
     {
-        return actualWorkeDays * WORK_HOUR_IN_DAY * PERCENT_REMAINS_TO_BONUS - (worklog + bonustime + spentholiday * WORK_HOUR_IN_DAY);
+        // bonus means +1 day to amount of working days in current month
+        return (actualWorkeDays + 1) * WORK_HOUR_IN_DAY - (worklog + bonustime + spentholiday * WORK_HOUR_IN_DAY);
     }
 
     /**

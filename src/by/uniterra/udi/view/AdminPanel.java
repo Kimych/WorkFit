@@ -170,12 +170,12 @@ public class AdminPanel extends JPanel implements ActionListener
                             }
                             SpentHolidayOptionPanel opSpentHoliday = new SpentHolidayOptionPanel();
                             opSpentHoliday.setModel(objSpentHoliday);
-                            int op = JOptionPane.showConfirmDialog(opSpentHoliday, opSpentHoliday, "Spent holiday", JOptionPane.OK_CANCEL_OPTION);
+                            int op = JOptionPane.showConfirmDialog(AdminPanel.this, opSpentHoliday, "Spent holiday", JOptionPane.OK_CANCEL_OPTION);
                             if (op == JOptionPane.OK_OPTION)
                             {
                                 eaoSpentHoliday.save((SpentHoliday) opSpentHoliday.getModel());
+                                loadDataInUI();
                             }
-                            loadDataInUI();
                         }
                         catch (Exception e2)
                         {
