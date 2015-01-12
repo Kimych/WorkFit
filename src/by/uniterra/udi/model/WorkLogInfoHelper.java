@@ -48,11 +48,9 @@ public class WorkLogInfoHelper
         {
             DaysOfWork dfwLastDaysOfWork = lstDaysOfWork.get(0);
             int calculatedMonth = DateUtils.getMonthNumber(dfwLastDaysOfWork.getTimestamp());
-            //int calculatedYear = DateUtils.getYearNumber(dfwLastDaysOfWork.getTimestamp());
-            int currentMontNumber = DateUtils.getMonthNumber(date);
-            int currentYearNumber = DateUtils.getYearNumber(date);
+            int calculatedYear = DateUtils.getYearNumber(dfwLastDaysOfWork.getTimestamp());
 
-            double spentHolidayDayInCurrentMont = eaoSpentHoliday.getSpentHolidayByWorkerAndMonthAndYear(curentWorker, currentMontNumber, currentYearNumber);
+            double spentHolidayDayInCurrentMont = eaoSpentHoliday.getSpentHolidayByWorkerAndMonthAndYear(curentWorker, calculatedMonth, calculatedYear);
 
             int dayPassed = dfwLastDaysOfWork.getAktualWorkedDays();
             // get work log time
@@ -64,9 +62,9 @@ public class WorkLogInfoHelper
             // get time to bonus
             double toBonus = WorkLogUtils.getTimeRemainsToBonusToDay(dayPassed, workLogTime, curentSumBonus, spentHolidayDayInCurrentMont);
             // get rest of the holiday
-            double holiday = eaoHoliday.getHolidayDaysCountForWorkerAndYear(curentWorker, currentYearNumber);
+            double holiday = eaoHoliday.getHolidayDaysCountForWorkerAndYear(curentWorker, calculatedYear);
             // get spend holiday
-            double timeLeft = eaoSpentHoliday.getSpentHolidayWorkerAndYear(curentWorker, currentYearNumber);
+            double timeLeft = eaoSpentHoliday.getSpentHolidayWorkerAndYear(curentWorker, calculatedYear);
             // add to result
             objResult = new WorkLogInfoHolder(WorkLogUtils.roundToString(workLogTime, 2, BigDecimal.ROUND_HALF_UP), toPlan, toBonus, (holiday - timeLeft),
                     dfwLastDaysOfWork.getTimestamp(), curentWorker,spentHolidayDayInCurrentMont );
