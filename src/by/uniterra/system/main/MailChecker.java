@@ -29,8 +29,10 @@
 
 package by.uniterra.system.main;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -49,11 +51,15 @@ import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.search.FlagTerm;
 
+import org.apache.commons.io.IOUtils;
+
 import by.uniterra.system.iface.IGlobalProperties;
 import by.uniterra.system.model.SystemModel;
 import by.uniterra.system.util.DateUtils;
 import by.uniterra.udi.util.Log;
 import by.uniterra.udi.util.LogParser;
+
+import com.sun.mail.util.BASE64DecoderStream;
 
 /**
  * The <code>MailChecker</code> is used for read new mail
@@ -84,9 +90,9 @@ public class MailChecker
     public static void main(String[] args)
     {
         SystemModel.initJPA();
-        
+
         Log.info(MailChecker.class, MailChecker.class.getSimpleName() + " started");
-        
+
         MailChecker mcEngine = new MailChecker();
         // initial check
         mcEngine.checkMail();
@@ -98,26 +104,29 @@ public class MailChecker
         calNow.set(Calendar.MINUTE, MINUTE_PR);
         // scheduler start time
         long lSchedulerTime = calNow.getTimeInMillis();
-        Log.info(MailChecker.class,"Scheduler start time is " + DateUtils.toUTC(lSchedulerTime) + ", check interval = " + Duration.ofMillis(INTERVAL).toString());
+        Log.info(MailChecker.class, "Scheduler start time is " + DateUtils.toUTC(lSchedulerTime) + ", check interval = "
+                + Duration.ofMillis(INTERVAL).toString());
         // increase scheduler time to do not check mail twice at startup
-        for (; lSchedulerTime < lLastMailCheck - INTERVAL; lSchedulerTime += INTERVAL);
+        for (; lSchedulerTime < lLastMailCheck - INTERVAL; lSchedulerTime += INTERVAL)
+            ;
         // check in additional every CHACK_MAIL_INTERVAL
         while (!Thread.interrupted())
         {
             try
             {
                 long lNow = System.currentTimeMillis();
-                Log.info(MailChecker.class,"Alive message at " + DateUtils.toUTC(lNow));
+                Log.info(MailChecker.class, "Alive message at " + DateUtils.toUTC(lNow));
                 // check if it time to check mail again
                 if (lNow - lSchedulerTime > INTERVAL)
                 {
                     // increase scheduler time
-                    for (; lSchedulerTime < lNow - INTERVAL; lSchedulerTime += INTERVAL);
+                    for (; lSchedulerTime < lNow - INTERVAL; lSchedulerTime += INTERVAL)
+                        ;
                     // check mail
                     mcEngine.checkMail();
                     Log.info(MailChecker.class, "Mail checked at: " + DateUtils.toUTC(lNow));
                 }
-                Log.info(MailChecker.class,"Next check in: " + Duration.ofMillis(INTERVAL + lSchedulerTime - lNow).toString());
+                Log.info(MailChecker.class, "Next check in: " + Duration.ofMillis(INTERVAL + lSchedulerTime - lNow).toString());
                 Thread.sleep(sleepTime);
             }
             catch (InterruptedException e)
@@ -163,6 +172,13 @@ public class MailChecker
                 {
                     createFileFromMail(((String) objMp).getBytes());
                 }
+                else if (objMp instanceof BASE64DecoderStream)
+                {
+                    BASE64DecoderStream base64DecoderStream = (BASE64DecoderStream) objMp;
+                    byte[] byteArray = IOUtils.toByteArray(base64DecoderStream);
+                    createFileFromMail(byteArray);
+                }
+
             }
             // close
             inbox.close(false);
@@ -172,6 +188,14 @@ public class MailChecker
         {
             Log.error(this, mex);
         }
+    }
+
+    public static byte[] serialize(Object obj) throws IOException
+    {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        ObjectOutputStream os = new ObjectOutputStream(out);
+        os.writeObject(obj);
+        return out.toByteArray();
     }
 
     private boolean createFileFromMail(byte[] strToSave) throws IOException
