@@ -91,7 +91,6 @@ public class SpentHolidayOptionPanel extends JPanel implements IModelOwner
                     break;
                 }
             }
-            //cbDate.setSelectedIndex(0);
             cbWorker.setSelectedIndex(0);
         }
         else

@@ -103,7 +103,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
 
     static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
 
-    JPanel panelToInsert;
+    private JPanel panelToInsert;
     private Authorization auth;
 
     static Preferences userPrefs = Preferences.userNodeForPackage(WorkFitFrame.class);;

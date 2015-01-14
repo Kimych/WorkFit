@@ -121,7 +121,6 @@ public class MonthSpecialCalendar extends JPanel implements MouseListener
     
     public void setNumWrkDays()
     {
-        //numWorkingDay = 0;
         numWorkingDay = monthView.getNumWorkingDays();
         int iDelta = 0;
         for (Integer iIndex : mapFlaggetMonthDay.keySet())

@@ -5,6 +5,11 @@ import java.security.NoSuchAlgorithmException;
 
 public  class Cryptor
 {
+    private Cryptor()
+    {
+        // TODO Auto-generated constructor stub
+    }
+    
     private static String SALT = "UniTerra";
     
     /**
@@ -25,8 +30,7 @@ public  class Cryptor
             md.update(SALT.getBytes());
             //Get the hash's bytes 
             byte[] bytes = md.digest(passwordToHash.getBytes());
-            //This bytes[] has bytes in decimal format;
-            //Convert it to hexadecimal format
+            //This bytes[] has bytes in decimal format, Convert it to hexadecimal format
             StringBuilder sb = new StringBuilder();
             for(int i=0; i< bytes.length ;i++)
             {

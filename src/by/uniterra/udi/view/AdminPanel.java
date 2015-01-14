@@ -54,7 +54,7 @@ public class AdminPanel extends JPanel implements ActionListener
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = -6399838252872491307L;
 
-    static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+    private static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
 
     private WorkLogTableModel wltm;
     private MonthSpecialCalendar jxmvCalendar;
@@ -121,10 +121,8 @@ public class AdminPanel extends JPanel implements ActionListener
         });
 
         wltm = new WorkLogTableModel();
-        // wltm.setTableData(WorkLogInfoHelper.getLogListUpToDate(currentDate));
         JXTable table = new JXTable(wltm);
         table.setColumnControlVisible(true);
-        // table.setHorizontalScrollEnabled(true);
         table.addHighlighter(HighlighterFactory.createSimpleStriping(new Color(234, 234, 234)));
         // swt custom renderers
         TimestampTableCellRenderer txrTimestampRenderer = new TimestampTableCellRenderer(SwingConstants.CENTER, DateUtils.EUROP_FULL_DATETIMEFORMAT, "UTC");

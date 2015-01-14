@@ -98,7 +98,6 @@ public class DaysOfWorkOptionPanel extends JPanel implements IModelOwner
                 }
             }
         });
-
         taBonusDesc.setColumns(20);
         taBonusDesc.setRows(5);
         taBonusDesc.setLineWrap(true);
