@@ -29,10 +29,8 @@
 
 package by.uniterra.system.main;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -76,16 +74,16 @@ public class MailChecker
      * @author Sergio Alecky
      * @date 28 окт. 2014 г.
      */
-    private static String SERVER = SystemModel.getString(IGlobalProperties.ML_SERVER, "");
-    private static String EMAIL = SystemModel.getString(IGlobalProperties.ML_EMAIL, "");
-    private static String PASSWORD = SystemModel.getString(IGlobalProperties.ML_PWD, "");
-    private static int HOUR_PR = SystemModel.getInt(IGlobalProperties.MC_HOUR, 0);
-    private static int MINUTE_PR = SystemModel.getInt(IGlobalProperties.MC_MINUTE, 0);
-    private static int INTERVAL_PR = SystemModel.getInt(IGlobalProperties.MC_INTERVAL, 30);
+    private static final String SERVER = SystemModel.getString(IGlobalProperties.ML_SERVER, "");
+    private static final String EMAIL = SystemModel.getString(IGlobalProperties.ML_EMAIL, "");
+    private static final String PASSWORD = SystemModel.getString(IGlobalProperties.ML_PWD, "");
+    private static final int HOUR_PR = SystemModel.getInt(IGlobalProperties.MC_HOUR, 0);
+    private static final int MINUTE_PR = SystemModel.getInt(IGlobalProperties.MC_MINUTE, 0);
+    private static final int INTERVAL_PR = SystemModel.getInt(IGlobalProperties.MC_INTERVAL, 30);
 
-    private static long INTERVAL = DateUtils.ONE_MINUTE * INTERVAL_PR;
+    private static final long INTERVAL = DateUtils.ONE_MINUTE * INTERVAL_PR;
 
-    private static int sleepTime = 300000;
+    private static  final int sleepTime = 300000;
 
     public static void main(String[] args)
     {
@@ -107,8 +105,10 @@ public class MailChecker
         Log.info(MailChecker.class, "Scheduler start time is " + DateUtils.toUTC(lSchedulerTime) + ", check interval = "
                 + Duration.ofMillis(INTERVAL).toString());
         // increase scheduler time to do not check mail twice at startup
-        for (; lSchedulerTime < lLastMailCheck - INTERVAL; lSchedulerTime += INTERVAL)
-            ;
+        while (lSchedulerTime < lLastMailCheck - INTERVAL)
+        {
+            lSchedulerTime += INTERVAL;
+        }
         // check in additional every CHACK_MAIL_INTERVAL
         while (!Thread.interrupted())
         {
@@ -120,8 +120,10 @@ public class MailChecker
                 if (lNow - lSchedulerTime > INTERVAL)
                 {
                     // increase scheduler time
-                    for (; lSchedulerTime < lNow - INTERVAL; lSchedulerTime += INTERVAL)
-                        ;
+                    while (lSchedulerTime < lNow - INTERVAL)
+                    {
+                        lSchedulerTime += INTERVAL;
+                    }
                     // check mail
                     mcEngine.checkMail();
                     Log.info(MailChecker.class, "Mail checked at: " + DateUtils.toUTC(lNow));
@@ -178,7 +180,6 @@ public class MailChecker
                     byte[] byteArray = IOUtils.toByteArray(base64DecoderStream);
                     createFileFromMail(byteArray);
                 }
-
             }
             // close
             inbox.close(false);
@@ -188,14 +189,6 @@ public class MailChecker
         {
             Log.error(this, mex);
         }
-    }
-
-    public static byte[] serialize(Object obj) throws IOException
-    {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        ObjectOutputStream os = new ObjectOutputStream(out);
-        os.writeObject(obj);
-        return out.toByteArray();
     }
 
     private boolean createFileFromMail(byte[] strToSave) throws IOException
@@ -232,30 +225,12 @@ public class MailChecker
         {
             BodyPart part = (BodyPart) multiPart.getBodyPart(partCount);
             Object objBodyPartContent = part.getContent();
-            if (objBodyPartContent instanceof Multipart)
-            {
-                if (findLogInMultipart((Multipart) objBodyPartContent))
+            if (objBodyPartContent instanceof Multipart && findLogInMultipart((Multipart) objBodyPartContent)
+                    || objBodyPartContent instanceof byte[] && createFileFromMail((byte[]) objBodyPartContent)
+                    || objBodyPartContent instanceof String && createFileFromMail(((String) objBodyPartContent).getBytes()))
                 {
                     return true;
                 }
-            }
-            else
-            {
-                if (objBodyPartContent instanceof byte[])
-                {
-                    if (createFileFromMail((byte[]) objBodyPartContent))
-                    {
-                        return true;
-                    }
-                }
-                if (objBodyPartContent instanceof String)
-                {
-                    if (createFileFromMail(((String) objBodyPartContent).getBytes()))
-                    {
-                        return true;
-                    }
-                }
-            }
         }
         return false;
     }
