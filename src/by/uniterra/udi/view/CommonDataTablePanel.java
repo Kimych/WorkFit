@@ -242,7 +242,6 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
             {
                 if (e.isPopupTrigger())
                 {
-                    // popup.show(e.getComponent(), e.getX(), e.getY());
                     // get the coordinates of the mouse click
                     Point p = e.getPoint();
                     // get source
@@ -282,7 +281,6 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
                 editValuesFromModel();
                 break;
             case ACTION_BUTTON_EDITOR:
-                System.out.println("Button pressed");
                 break;
             default:
                 break;
@@ -382,6 +380,7 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
             }
         }
     }
+
     public void showNumberErrorMessage()
     {
         JOptionPane.showMessageDialog(null, UDIPropSingleton.getString(this, "errorMessageDialog.lable"),

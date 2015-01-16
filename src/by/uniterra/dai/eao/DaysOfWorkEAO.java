@@ -38,6 +38,7 @@ public class DaysOfWorkEAO extends ServiceBaseEAO<DaysOfWork>
      * @author Anton Nedbailo
      * @date Aug 20, 2014
      */
+    @SuppressWarnings("unchecked")
     public List<DaysOfWork> getLastDataForWorkerAndMonthNum(Worker wWorker, int namedMonthId)
     {
         List<DaysOfWork> lstResult = null;
@@ -97,6 +98,7 @@ public class DaysOfWorkEAO extends ServiceBaseEAO<DaysOfWork>
         return lstResult;
     }
     
+    @SuppressWarnings("unchecked")
     public List<DaysOfWork> getLastForWorkerAndTimestamp(Worker wWorker, Timestamp timestamp)
     {
         List<DaysOfWork> lstResult = null;
@@ -144,6 +146,7 @@ public class DaysOfWorkEAO extends ServiceBaseEAO<DaysOfWork>
         return lstResult;
     }
     
+    @SuppressWarnings("unchecked")
     public List<DaysOfWork> finAllByWorker(Worker wWorker)
     {
         List<DaysOfWork> lstResult = null;

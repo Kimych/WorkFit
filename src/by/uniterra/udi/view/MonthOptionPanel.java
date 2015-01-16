@@ -24,7 +24,7 @@ public class MonthOptionPanel extends JPanel implements IModelOwner
 {
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 3210721310184243056L;
-    
+
     private JTextArea tfDeskription;
     private JComboBox cbMonth;
     private JComboBox cbYear;
@@ -65,7 +65,6 @@ public class MonthOptionPanel extends JPanel implements IModelOwner
     public void setModel(Object objMonth)
     {
         this.month = (Month) objMonth;
-        //tfNumber.setText(String.valueOf(month.getWorkingDaysCount()));
         tfDeskription.setText(month.getDescription());
         cbYear.setSelectedItem(month.getYear());
         cbMonth.setSelectedItem(month.getNameMonth());
@@ -83,7 +82,6 @@ public class MonthOptionPanel extends JPanel implements IModelOwner
         {
             month = new Month();
         }
-        //month.setWorkingDaysCount(Integer.valueOf(tfNumber.getText()));
         month.setDescription(tfDeskription.getText());
         month.setYear((Year) cbYear.getSelectedItem());
         month.setNameMonth((NameMonth) cbMonth.getSelectedItem());

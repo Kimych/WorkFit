@@ -10,11 +10,10 @@ public class CalendarSpecialDayTableModel extends AbstractFlexTableModel
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 3411488034611667141L;
 
-    private final static int COL_CS_ID = 0;
-    private final static int COL_DATE = 1;
-    private final static int COL_TYPE_DAY = 2;
-    private final static int COL_DESC = 3;
-
+    private static final int COL_CS_ID = 0;
+    private static final int COL_DATE = 1;
+    private static final int COL_TYPE_DAY = 2;
+    private static final int COL_DESC = 3;
 
     public CalendarSpecialDayTableModel()
     {

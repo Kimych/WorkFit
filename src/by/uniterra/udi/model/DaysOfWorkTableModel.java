@@ -12,35 +12,30 @@ public class DaysOfWorkTableModel extends AbstractFlexTableModel
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = -5815300635044440198L;
 
-    private final static int COL_WORKLOG = 1;
-    private final static int COL_TIMESTAMP = 0;
-    private final static int COL_BONUS_TIME = 2;
-    private final static int COL_BONUS_TIME_DESC = 7;
-    private final static int COL_AKTUAL_WORKED_DAYS = 4;
-    private final static int COL_DAYS_OF_WORK_ID = 5;
-    private final static int COL_MONTH_ID = 6;
-    private final static int COL_WORKER_ID = 3;
-
+    private static final int COL_WORKLOG = 1;
+    private static final int COL_TIMESTAMP = 0;
+    private static final int COL_BONUS_TIME = 2;
+    private static final int COL_BONUS_TIME_DESC = 7;
+    private static final int COL_AKTUAL_WORKED_DAYS = 4;
+    private static final int COL_DAYS_OF_WORK_ID = 5;
+    private static final int COL_MONTH_ID = 6;
+    private static final int COL_WORKER_ID = 3;
 
     public DaysOfWorkTableModel()
     {
-        addColumn(COL_TIMESTAMP,UDIPropSingleton.getString(this, "timestamp.column"), Date.class);
+        addColumn(COL_TIMESTAMP, UDIPropSingleton.getString(this, "timestamp.column"), Date.class);
         addColumn(COL_WORKLOG, UDIPropSingleton.getString(this, "fromLog.column"), Double.class);
         addColumn(COL_WORKER_ID, UDIPropSingleton.getString(this, "workerID.column"), Integer.class);
         addColumn(COL_BONUS_TIME, UDIPropSingleton.getString(this, "bonusTime.column"), Double.class);
         addColumn(COL_AKTUAL_WORKED_DAYS, UDIPropSingleton.getString(this, "actualWorkedDays.column"), Integer.class);
-        //addColumnNames.addColumn(COL_DAYS_OF_WORK_ID, UDIPropSingleton.getString(this, "daysOfWork.column"), String.class);
-        //addColumn(COL_MONTH_ID, UDIPropSingleton.getString(this, "montID.column"), String.class);
         addColumn(COL_BONUS_TIME_DESC, UDIPropSingleton.getString(this, "descBonusTime.column"), String.class);
-        
         setSortColumn(getColIndex(COL_TIMESTAMP));
         setSortOrder(SortOrder.DESCENDING);
-        
     }
-    
+
     public DaysOfWorkTableModel(boolean flag)
     {
-        addColumn(COL_TIMESTAMP,UDIPropSingleton.getString(this, "timestamp.column"), Date.class);
+        addColumn(COL_TIMESTAMP, UDIPropSingleton.getString(this, "timestamp.column"), Date.class);
         addColumn(COL_WORKLOG, UDIPropSingleton.getString(this, "fromLog.column"), Double.class);
         addColumn(COL_BONUS_TIME, UDIPropSingleton.getString(this, "bonusTime.column"), Double.class);
         addColumn(COL_AKTUAL_WORKED_DAYS, UDIPropSingleton.getString(this, "actualWorkedDays.column"), String.class);
@@ -87,7 +82,7 @@ public class DaysOfWorkTableModel extends AbstractFlexTableModel
             break;
         }
         return objResult;
-        
+
     }
 
 }

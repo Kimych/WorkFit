@@ -35,10 +35,10 @@ import by.uniterra.system.util.WorkLogUtils;
 
 public class LogParser
 {
-    private final static String SEPARATOR_TO_ALIAS = "Hours of ";
-    private final static String SEPARATOR_TO_HOURS = " = ";
-    private final static String SEPARATOR_TO_DATE = "startdate = ";
-    private final static String DATE_FORMAT_FROM_LOG = "yyyy-MM-dd HH:mm:ss";
+    private static final String SEPARATOR_TO_ALIAS = "Hours of ";
+    private static final String SEPARATOR_TO_HOURS = " = ";
+    private static final String SEPARATOR_TO_DATE = "startdate = ";
+    private static final String DATE_FORMAT_FROM_LOG = "yyyy-MM-dd HH:mm:ss";
 
     public static List<DaysOfWork> getListFromLog(Path path)
     {
@@ -58,9 +58,10 @@ public class LogParser
                 line = bufferedReader.readLine();
             }
             bufferedReader.close();
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
-           Log.error(LogParser.class, e);
+            Log.error(LogParser.class, e);
         }
 
         Date dParsedDate = null;
@@ -83,7 +84,7 @@ public class LogParser
                     // add data in a Map
                     mapAliasHours.put(aliasName, hours);
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     Log.error(LogParser.class, e);
                 }
@@ -105,13 +106,12 @@ public class LogParser
         if (dParsedDate != null && !mapAliasHours.isEmpty())
         {
             Date curentMonthStart = DateUtils.getDateMonthStart(dParsedDate);
-            //Date curenDate = new Date();
             // get actual worked days
             int actualWorkedDays = WorkLogUtils.getAсtualWorkedDays(curentMonthStart, dParsedDate);
-            
-            Log.info(LogParser.class, "getListFromLog: Curent month start at: " + DateUtils.toGMT(curentMonthStart) 
-                    + ", worklog date is " + DateUtils.toGMT(dParsedDate) + ", ActualWorkedDays: " +  actualWorkedDays);
-            
+
+            Log.info(LogParser.class,
+                    "getListFromLog: Curent month start at: " + DateUtils.toGMT(curentMonthStart) + ", worklog date is " + DateUtils.toGMT(dParsedDate)
+                            + ", ActualWorkedDays: " + actualWorkedDays);
             // get month object
             int curentMonth = YearMonth.now(Clock.systemUTC()).getMonthValue();
             int numberYear = YearMonth.now(Clock.systemUTC()).getYear();
@@ -157,7 +157,10 @@ public class LogParser
 
     /**
      * 
-     * FIXME we should return "true" only in case of all values in the list successfully inserted. If any item failed to save - we should rollback others. 
+     * FIXME we should return "true" only in case of all values in the list
+     * successfully inserted. If any item failed to save - we should rollback
+     * others.
+     * 
      * @param lstDoWfromLog
      * @return
      *
@@ -176,16 +179,17 @@ public class LogParser
                 if (dofEAO.getCountForTimestamp(dow.getTimestamp(), dow.getWorker()) == 0)
                 {
                     dofEAO.save(dow);
-                    Log.info(LogParser.class,
-                            "New worklog data inserted for \"" + dow.getWorker()+ "\" with timestamp " + DateUtils.toGMT(dow.getTimestamp()));
-                } else
+                    Log.info(LogParser.class, "New worklog data inserted for \"" + dow.getWorker() + "\" with timestamp " + DateUtils.toGMT(dow.getTimestamp()));
+                }
+                else
                 {
                     Log.warning(LogParser.class, "Detected attempt to insert existing worklog data (for worker \"" + dow.getWorker() + "\" with date "
                             + DateUtils.toGMT(dow.getTimestamp()) + "). ");
                 }
             }
             bResult = true;
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             Log.error(LogParser.class, e, "save info from log to DB problems");
         }
@@ -193,22 +197,21 @@ public class LogParser
 
     }
 
-
-
     public static Path createDestinationPath(Path pathBaseDestDir, String strDestFolder, Date dDateFromFile)
     {
         // create dest directory name
-        String strDestDir = pathBaseDestDir.toString() + File.separatorChar + strDestFolder + File.separatorChar + DateUtils.getYearNumber(dDateFromFile) + File.separatorChar +DateUtils.getMonthNumber(dDateFromFile) + File.separatorChar;
+        String strDestDir = pathBaseDestDir.toString() + File.separatorChar + strDestFolder + File.separatorChar + DateUtils.getYearNumber(dDateFromFile)
+                + File.separatorChar + DateUtils.getMonthNumber(dDateFromFile) + File.separatorChar;
         File fileDestDir = new File(strDestDir);
         // check if the directory exists
-        if(!(fileDestDir.exists()))
+        if (!(fileDestDir.exists()))
         {
             fileDestDir.mkdirs();
         }
         // add file name
         return Paths.get(strDestDir + DateUtils.toUTCString(dDateFromFile.getTime(), DateUtils.FILENAME_DATETIMEFORMAT) + ".txt");
     }
-    
+
     public static boolean processWorklogFile(Path path)
     {
         boolean bResult = false;
@@ -222,13 +225,13 @@ public class LogParser
                 if (LogParser.saveLogInfoToDB(lstWorklogDtaa))
                 {
                     // 3 save into archive with renaming
-                    Files.copy(path, 
+                    Files.copy(path,
                             LogParser.createDestinationPath(Paths.get(new File("").getAbsolutePath()), "WorkLogStorage", lstWorklogDtaa.get(0).getTimestamp()),
                             StandardCopyOption.REPLACE_EXISTING);
                 }
                 bResult = true;
             }
-            catch ( Exception e)
+            catch (Exception e)
             {
                 Log.error(MailChecker.class, e, "createFileFromMail error ");
             }

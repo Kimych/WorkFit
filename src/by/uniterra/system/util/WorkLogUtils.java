@@ -12,9 +12,8 @@ import by.uniterra.udi.util.Log;
 
 public class WorkLogUtils
 {
-    private static int WORK_HOUR_IN_DAY = 8;
-    private static double PERCENT_REMAINS_TO_BONUS = 1.05;
-
+    private static final int WORK_HOUR_IN_DAY = 8;
+    
     /**
      * 
      * @param workDayInMonth
@@ -164,14 +163,7 @@ public class WorkLogUtils
 
     public static boolean beInPlaneAtTime(int actualWorkingDays, int workingDaysInMonth, double toPlane)
     {
-        if (WORK_HOUR_IN_DAY * (workingDaysInMonth - actualWorkingDays) >= toPlane)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return WORK_HOUR_IN_DAY * (workingDaysInMonth - actualWorkingDays) >= toPlane;
     }
 
 }

@@ -46,13 +46,14 @@ public class EncryptedProperties extends Properties
 {
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 148177474462720964L;
-    
+
     private static sun.misc.BASE64Decoder decoder = new sun.misc.BASE64Decoder();
     private static sun.misc.BASE64Encoder encoder = new sun.misc.BASE64Encoder();
     private static Cipher encrypter;
 
     private static Cipher decrypter;
-    private static byte[] salt = { (byte) 0x03, (byte) 0x33, (byte) 0x33, (byte) 0x33, (byte) 0x33, (byte) 0x33, (byte) 0x33, (byte) 0x33}; // make up your own
+    // make up your own
+    private static byte[] salt = { (byte) 0x03, (byte) 0x33, (byte) 0x33, (byte) 0x33, (byte) 0x33, (byte) 0x33, (byte) 0x33, (byte) 0x33 };
 
     private String strCryptedKeyPostfix;
 
@@ -83,7 +84,8 @@ public class EncryptedProperties extends Properties
     }
 
     /**
-     * @return the previous value of the specified key in this property list, or null if it did not have one. 
+     * @return the previous value of the specified key in this property list, or
+     *         null if it did not have one.
      */
     public synchronized Object setProperty(String key, String value)
     {
@@ -97,14 +99,14 @@ public class EncryptedProperties extends Properties
         }
     }
 
-    public synchronized  String decrypt(String str) throws Exception
+    public synchronized String decrypt(String str) throws Exception
     {
         byte[] dec = decoder.decodeBuffer(str);
         byte[] utf8 = decrypter.doFinal(dec);
         return new String(utf8, "UTF-8");
     }
 
-    public synchronized  String encrypt(String str) throws Exception
+    public synchronized String encrypt(String str) throws Exception
     {
         byte[] utf8 = str.getBytes("UTF-8");
         byte[] enc = encrypter.doFinal(utf8);

@@ -14,22 +14,20 @@ import javax.swing.JTextField;
 
 import org.jdesktop.swingx.JXLabel;
 
-import by.uniterra.udi.util.Cryptor;
-import by.uniterra.udi.util.SelectAllFocusAdapter;
 import by.uniterra.udi.model.RequestFocusListener;
 import by.uniterra.udi.model.UDIPropSingleton;
+import by.uniterra.udi.util.Cryptor;
+import by.uniterra.udi.util.SelectAllFocusAdapter;
 
 public class LoginPanel extends JPanel
 {
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 7067901994049701935L;
 
-    
     private JTextField tfUserName;
     private JPasswordField ptfPwd;
     private JCheckBox cbSave;
-    boolean flag = false;
-
+    private boolean flag = false;
 
     public LoginPanel(String strDefaultUser)
     {
@@ -39,27 +37,29 @@ public class LoginPanel extends JPanel
         {
             // set default user
             tfUserName.setText(strDefaultUser);
-            //set focus on password
-            ptfPwd.addAncestorListener( new RequestFocusListener(true) );
+            // set focus on password
+            ptfPwd.addAncestorListener(new RequestFocusListener(true));
         }
     }
 
     private void jbUnit()
     {
         tfUserName = new JTextField();
-        cbSave = new JCheckBox(UDIPropSingleton.getString(this, "save.label") ,false);
+        cbSave = new JCheckBox(UDIPropSingleton.getString(this, "save.label"), false);
         tfUserName.addFocusListener(new SelectAllFocusAdapter(tfUserName));
         tfUserName.addAncestorListener(new RequestFocusListener(true));
         ptfPwd = new JPasswordField();
         ptfPwd.addFocusListener(new SelectAllFocusAdapter(ptfPwd));
 
-        //Add the components to the JPanel        
-        add(new JXLabel(UDIPropSingleton.getString(this, "user.label")), new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+        // Add the components to the JPanel
+        add(new JXLabel(UDIPropSingleton.getString(this, "user.label")), new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.WEST,
+                GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
         add(tfUserName, new GridBagConstraints(1, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-        add(new JXLabel(UDIPropSingleton.getString(this, "password.label")), new GridBagConstraints(0, 1, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-        add(ptfPwd,new GridBagConstraints(1, 1, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-        add(cbSave,new GridBagConstraints(1, 2, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-        
+        add(new JXLabel(UDIPropSingleton.getString(this, "password.label")), new GridBagConstraints(0, 1, 1, 1, 0, 0, GridBagConstraints.WEST,
+                GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+        add(ptfPwd, new GridBagConstraints(1, 1, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+        add(cbSave, new GridBagConstraints(1, 2, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+
         cbSave.addItemListener(new ItemListener()
         {
             @Override
@@ -69,9 +69,10 @@ public class LoginPanel extends JPanel
             }
         });
     }
-    
+
     /**
      * Compare valid password with user input
+     * 
      * @return true if password equals, false otherwise
      *
      * @author Anton Nedbailo
@@ -80,16 +81,18 @@ public class LoginPanel extends JPanel
     public boolean isCorrectPwdEntered(char[] arrValidPassword)
     {
         boolean bResult = false;
-        //Retrieve entered password
+        // Retrieve entered password
         char[] arrEnteredPwd = ptfPwd.getPassword();
         bResult = Arrays.equals(arrValidPassword, arrEnteredPwd);
-        // it's recommended for added security to zero out the returned char array containing the password:
+        // it's recommended for added security to zero out the returned char
+        // array containing the password:
         Arrays.fill(arrEnteredPwd, '0');
         return bResult;
     }
 
     /**
      * Get entered user name
+     * 
      * @return String object with entered user name
      *
      * @author Anton Nedbailo
@@ -99,17 +102,15 @@ public class LoginPanel extends JPanel
     {
         return tfUserName.getText();
     }
-    
+
     public String getPassword()
     {
         return Cryptor.getSecureString(ptfPwd.getText());
     }
-    
+
     public boolean getStatmentFlag()
     {
         return flag;
     }
-    
-
 
 }

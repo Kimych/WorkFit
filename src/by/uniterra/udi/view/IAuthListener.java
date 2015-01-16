@@ -39,5 +39,5 @@ import by.uniterra.dai.entity.Authorization;
  */
 public interface IAuthListener
 {
-    public void authUpdated(Authorization newAuth);
+    void authUpdated(Authorization newAuth);
 }

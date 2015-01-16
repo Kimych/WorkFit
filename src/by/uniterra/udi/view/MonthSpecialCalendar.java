@@ -34,7 +34,7 @@ public class MonthSpecialCalendar extends JPanel implements MouseListener
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 6315005613998935370L;
 
-    private static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
     private JXMonthViewExt monthView;
     private JLabel jlWorkingDay;
     public int numWorkingDay = 0;

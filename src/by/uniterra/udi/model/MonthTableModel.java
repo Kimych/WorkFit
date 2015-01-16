@@ -8,14 +8,13 @@ public class MonthTableModel extends AbstractFlexTableModel
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = -711301084307271936L;
 
-    private final static int COL_ID_MONTHS = 0;
-    private final static int COL_DESC_MONTHS = 1;
-    private final static int COL_NAME_MONTH_ID_MONTHS = 2;
-    private final static int COL_YEAR_ID_MONTHS = 3;
+    private static final int COL_ID_MONTHS = 0;
+    private static final int COL_DESC_MONTHS = 1;
+    private static final int COL_NAME_MONTH_ID_MONTHS = 2;
+    private static final int COL_YEAR_ID_MONTHS = 3;
 
     public MonthTableModel()
     {
-        // addColumn(COL_ID_MONTHS,"#ID" , String.class);
         addColumn(COL_NAME_MONTH_ID_MONTHS, UDIPropSingleton.getString(this, "ColNameMounts.column"), Integer.class);
         addColumn(COL_YEAR_ID_MONTHS, UDIPropSingleton.getString(this, "ColYearMonth.column"), Integer.class);
         addColumn(COL_DESC_MONTHS, UDIPropSingleton.getString(this, "ColDescMonth.column"), String.class);

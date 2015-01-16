@@ -62,21 +62,23 @@ import com.toedter.calendar.JDateChooser;
 
 /**
  * 
- * The <code>UIUtils</code> is used for UI components creation and initialisation
+ * The <code>UIUtils</code> is used for UI components creation and
+ * initialisation
  *
  * @author Anton Nedbailo
  * @since Sep 19, 2013
  */
 public class UIUtils
 {
-    //constants
+    // constants
     public static final int LARGE_FIELD_WIDTH_PREFFERED = 120;
     public static final int MEDIUM_FIELD_WIDTH_PREFFERED = 60;
     public static final int SMALL_FIELD_WIDTH_PREFFERED = 20;
     
+
     static
     {
-        //check a flag for "Enter as Tab"
+        // check a flag for "Enter as Tab"
         if (SystemFactory.getSysBool("udi.view.tranferfocustonenter"))
         {
             // 1. Get default keys
@@ -90,11 +92,14 @@ public class UIUtils
             KeyboardFocusManager.getCurrentKeyboardFocusManager().setDefaultFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, ftk);
         }
     }
+
     /**
      * Create JXTextField
      * 
-     * @param strName - initial text
-     * @param iMaxWidth- max width size
+     * @param strName
+     *            - initial text
+     * @param iMaxWidth
+     *            - max width size
      * 
      * @return initialized JXTextField
      *
@@ -105,14 +110,17 @@ public class UIUtils
     {
         return createTextField(strText, iMaxWidth, "");
     }
-    
+
     /**
      * 
      * Create JXTextField
      * 
-     * @param strName - initial text
-     * @param iMaxWidth - max width size
-     * @param strPrompt - prompt text
+     * @param strName
+     *            - initial text
+     * @param iMaxWidth
+     *            - max width size
+     * @param strPrompt
+     *            - prompt text
      * 
      * @return initialized JXTextField
      * @date 15 окт. 2013 г.
@@ -120,32 +128,35 @@ public class UIUtils
     public static JXTextField createTextField(String strText, int iMaxWidth, String strPrompt)
     {
         JXTextField tfResult = new JXTextField();
-        //set text
+        // set text
         if (strText != null && !strText.isEmpty())
         {
             tfResult.setText(strText);
         }
-        //set prefeffed width
+        // set prefeffed width
         if (iMaxWidth > 0)
         {
             tfResult.setPreferredSize(new Dimension(iMaxWidth, tfResult.getPreferredSize().height));
         }
-        //set prompt text
+        // set prompt text
         if (strPrompt != null && !strPrompt.isEmpty())
         {
             tfResult.setPrompt(strPrompt);
         }
-        //add focus listener
+        // add focus listener
         tfResult.addFocusListener(new SelectAllFocusAdapter(tfResult));
-        return tfResult; 
+        return tfResult;
     }
-    
+
     /**
      * Create JXComboBox
      * 
-     * @param strActionCommand - action command name
-     * @param alListener - action listener
-     * @param iPreferredWidth - max width size
+     * @param strActionCommand
+     *            - action command name
+     * @param alListener
+     *            - action listener
+     * @param iPreferredWidth
+     *            - max width size
      * 
      * @return initialized JXComboBox
      *
@@ -156,13 +167,16 @@ public class UIUtils
     {
         return createXComboBox(strActionCommand, alListener, iPreferredWidth, false);
     }
-    
+
     /**
      * Create editable JXComboBox
      * 
-     * @param strActionCommand - action command name
-     * @param alListener - action listener
-     * @param iPreferredWidth - max width size
+     * @param strActionCommand
+     *            - action command name
+     * @param alListener
+     *            - action listener
+     * @param iPreferredWidth
+     *            - max width size
      * 
      * @return initialized JXComboBox
      *
@@ -173,13 +187,16 @@ public class UIUtils
     {
         return createXComboBox(strActionCommand, alListener, iPreferredWidth, true);
     }
-    
+
     /**
      * Create editable JComboBox
      * 
-     * @param strActionCommand - action command name
-     * @param alListener - action listener
-     * @param iPreferredWidth - max width size
+     * @param strActionCommand
+     *            - action command name
+     * @param alListener
+     *            - action listener
+     * @param iPreferredWidth
+     *            - max width size
      * 
      * @return initialized JComboBox
      *
@@ -189,32 +206,37 @@ public class UIUtils
     public static JComboBox<?> createEditableComboBox(String strActionCommand, ActionListener alListener, int iPreferredWidth)
     {
         JComboBox<?> cbResult = new JComboBox<Object>();
-        //set preffered width
+        // set preffered width
         if (iPreferredWidth != 0)
         {
             cbResult.setPreferredSize(new Dimension(iPreferredWidth, cbResult.getPreferredSize().height));
         }
-        //set action command
+        // set action command
         if (strActionCommand != null && !strActionCommand.isEmpty())
         {
             cbResult.setActionCommand(strActionCommand);
         }
-        //check editable flag
+        // check editable flag
         cbResult.setEditable(true);
-        //add action listener
+        // add action listener
         if (alListener != null)
         {
             cbResult.addActionListener(alListener);
         }
         return cbResult;
     }
-    
+
     /**
      * 
-     * @param strActionCommand - action command name
-     * @param alListener - action listener
-     * @param iPreferredWidth - max width size
-     * @param bEditable - if true - create with editable mode, false - use regular mode with autocomplete
+     * @param strActionCommand
+     *            - action command name
+     * @param alListener
+     *            - action listener
+     * @param iPreferredWidth
+     *            - max width size
+     * @param bEditable
+     *            - if true - create with editable mode, false - use regular
+     *            mode with autocomplete
      * 
      * @return initialized JXComboBox
      *
@@ -224,38 +246,41 @@ public class UIUtils
     private static JXComboBox createXComboBox(String strActionCommand, ActionListener alListener, int iPreferredWidth, boolean bEditable)
     {
         JXComboBox cbResult = new JXComboBox();
-        //set preffered width
+        // set preffered width
         if (iPreferredWidth != 0)
         {
             cbResult.setPreferredSize(new Dimension(iPreferredWidth, cbResult.getPreferredSize().height));
         }
-        //set action command
+        // set action command
         if (strActionCommand != null && !strActionCommand.isEmpty())
         {
             cbResult.setActionCommand(strActionCommand);
         }
-        //check editable flag
+        // check editable flag
         if (bEditable)
         {
             cbResult.setEditable(true);
-        } else
+        }
+        else
         {
             AutoCompleteDecorator.decorate(cbResult);
         }
-        //add action listener
+        // add action listener
         if (alListener != null)
         {
             cbResult.addActionListener(alListener);
         }
         return cbResult;
     }
-    
+
     /**
      * 
      * Create JXComboBox
      * 
-     * @param strActionCommand - action command name
-     * @param alListener - action listener
+     * @param strActionCommand
+     *            - action command name
+     * @param alListener
+     *            - action listener
      * 
      * @return initialized JXTextField
      *
@@ -264,13 +289,14 @@ public class UIUtils
      */
     public static JXComboBox createXComboBox(String strActionCommand, ActionListener alListener)
     {
-        return  createXComboBox(strActionCommand, alListener, 0);
+        return createXComboBox(strActionCommand, alListener, 0);
     }
-    
+
     /**
      * Create JXComboBox
      * 
-     * @param iPreferredWidth - preferred width size
+     * @param iPreferredWidth
+     *            - preferred width size
      * 
      * @return initialized JXTextField
      *
@@ -279,15 +305,18 @@ public class UIUtils
      */
     public static JXComboBox createXComboBox(int iPreferredWidth)
     {
-        return  createXComboBox("", null, iPreferredWidth);
+        return createXComboBox("", null, iPreferredWidth);
     }
-    
+
     /**
      * Create and return new JXButton
      * 
-     * @param strText - title
-     * @param strActionCommand - action command
-     * @param alListener - ActionListener
+     * @param strText
+     *            - title
+     * @param strActionCommand
+     *            - action command
+     * @param alListener
+     *            - ActionListener
      * 
      * @return a new instance of JXButton
      *
@@ -298,14 +327,18 @@ public class UIUtils
     {
         return createButton(null, strText, strActionCommand, alListener);
     }
-    
+
     /**
      * Create and return new JXButton
      * 
-     * @param icoCion icon for the button
-     * @param strText - title
-     * @param strActionCommand - action command
-     * @param alListener - ActionListener
+     * @param icoCion
+     *            icon for the button
+     * @param strText
+     *            - title
+     * @param strActionCommand
+     *            - action command
+     * @param alListener
+     *            - ActionListener
      * 
      * @return a new instance of JXButton
      *
@@ -316,15 +349,20 @@ public class UIUtils
     {
         return createButton(icoImage, strText, strActionCommand, alListener, "");
     }
-    
+
     /**
      * Create and return new JXButton
      * 
-     * @param icoCion icon for the button
-     * @param strText - title
-     * @param strActionCommand - action command
-     * @param alListener - ActionListener
-     * @param strTooltip - tooltip for the button
+     * @param icoCion
+     *            icon for the button
+     * @param strText
+     *            - title
+     * @param strActionCommand
+     *            - action command
+     * @param alListener
+     *            - ActionListener
+     * @param strTooltip
+     *            - tooltip for the button
      * 
      * @return a new instance of JXButton
      *
@@ -334,38 +372,42 @@ public class UIUtils
     public static JXButton createButton(ImageIcon icoImage, String strText, String strActionCommand, ActionListener alListener, String strTooltip)
     {
         JXButton btnNewButton = new JXButton();
-        //set icon
+        // set icon
         if (icoImage != null)
         {
             btnNewButton.setIcon(icoImage);
         }
-        //set text 
+        // set text
         if (strText != null && !strText.isEmpty())
         {
             btnNewButton.setText(strText);
         }
-        //set action command
+        // set action command
         if (strActionCommand != null && !strActionCommand.isEmpty())
         {
             btnNewButton.setActionCommand(strActionCommand);
         }
-        //set action listener
+        // set action listener
         if (alListener != null)
         {
             btnNewButton.addActionListener(alListener);
         }
-        //set tooltip
-        if (strTooltip!= null && !strTooltip.isEmpty())
+        // set tooltip
+        if (strTooltip != null && !strTooltip.isEmpty())
         {
             btnNewButton.setToolTipText(strTooltip);
         }
         return btnNewButton;
     }
-    
+
     /**
-     * Create a date selection component 
-     * @param dfFormat - used format patter for the component
-     * @param bEnableSelectOnFocus - if true - all contect will be selected on focus gained action
+     * Create a date selection component
+     * 
+     * @param dfFormat
+     *            - used format patter for the component
+     * @param bEnableSelectOnFocus
+     *            - if true - all contect will be selected on focus gained
+     *            action
      * 
      * @return initialozed JDateChooser
      *
@@ -373,15 +415,15 @@ public class UIUtils
      * @date 29 окт. 2013 г.
      * 
      */
-    public static JDateChooser createDatePicker(Date dateInitial, String dfFormat, int iPrefWidth,  boolean bEnableSelectOnFocus, TimeZone tzSystemTimeZone)
+    public static JDateChooser createDatePicker(Date dateInitial, String dfFormat, int iPrefWidth, boolean bEnableSelectOnFocus, TimeZone tzSystemTimeZone)
     {
-        JDateChooser dChooser = new JDateChooser(new JCalendar(Calendar.getInstance(tzSystemTimeZone)), dateInitial, dfFormat, null);// new UTDateChooser(tzSystemTimeZone, dateInitial, dfFormat);
+        JDateChooser dChooser = new JDateChooser(new JCalendar(Calendar.getInstance(tzSystemTimeZone)), dateInitial, dfFormat, null);
         dChooser.setMaxSelectableDate(new Date(System.currentTimeMillis() + DateUtils.ONE_YEAR * 20));
         if (iPrefWidth != 0)
         {
             dChooser.setPreferredSize(new Dimension(iPrefWidth, dChooser.getPreferredSize().height));
         }
-        //check "select all on focus gained" flag
+        // check "select all on focus gained" flag
         if (bEnableSelectOnFocus)
         {
             IDateEditor teEditor = dChooser.getDateEditor();
@@ -393,10 +435,12 @@ public class UIUtils
         }
         return dChooser;
     }
-    
+
     /**
-     * Create a date selection component 
-     * @param dfFormat - used format patter for the component
+     * Create a date selection component
+     * 
+     * @param dfFormat
+     *            - used format patter for the component
      * 
      * @return initialozed JDateChooser
      *
@@ -408,11 +452,13 @@ public class UIUtils
     {
         return createDatePicker(dateInitial, dfFormat, iPrefWidth, false, TimeZone.getDefault());
     }
-    
+
     /**
      * Create a date formatted text filed
-     * @param dfFormat - DateFormatter for the field
-     * @param  - enable or not transferring a focus on ENTER key events
+     * 
+     * @param dfFormat
+     *            - DateFormatter for the field
+     * @param - enable or not transferring a focus on ENTER key events
      * 
      * @return created JFormattedTextField object
      *
@@ -424,27 +470,33 @@ public class UIUtils
         DateFormatter dfDateFormatter = new DateFormatter(dfFormat);
         dfDateFormatter.setValueClass(Date.class);
         dfDateFormatter.setOverwriteMode(bOverwriteMode);
-        // If you want the value to be committed on each keystroke instead of focus lost
+        // If you want the value to be committed on each keystroke instead of
+        // focus lost
         dfDateFormatter.setCommitsOnValidEdit(true);
         JFormattedTextField ftfResult = new JFormattedTextField(dfDateFormatter);
-        //contract from
+        // contract from
         return ftfResult;
     }
-    
+
     /**
      * Create formatted text field for some sum values
      * 
-     * @param alActionListener - action listener
-     * @param flFocusListener - focus listener
-     * @param strActionCommand - action command
-     * @param bUseGrouping - use grouping
+     * @param alActionListener
+     *            - action listener
+     * @param flFocusListener
+     *            - focus listener
+     * @param strActionCommand
+     *            - action command
+     * @param bUseGrouping
+     *            - use grouping
      * 
      * @return initialized JFormattedTextField object
      *
      * @author Anton Nedbailo
      * @date 18.10.2013
      */
-    public static JFormattedTextField createFormattedSumField(ActionListener alActionListener, PropertyChangeListener pclPropertyListener, String strActionCommand, boolean bUseGrouping) //SystemFactory.getSysBool("udi.view.usegroupingintextfields")
+    public static JFormattedTextField createFormattedSumField(ActionListener alActionListener, PropertyChangeListener pclPropertyListener,
+            String strActionCommand, boolean bUseGrouping)
     {
         // create decimal format
         DecimalFormat format = new DecimalFormat();
@@ -455,11 +507,13 @@ public class UIUtils
         customSymbols.setGroupingSeparator(' ');
         format.setDecimalFormatSymbols(customSymbols);
         format.setGroupingUsed(bUseGrouping);
-        // If you want the value to be committed on each keystroke instead of focus lost
+        // If you want the value to be committed on each keystroke instead of
+        // focus lost
         NumberFormatter formatter = new NumberFormatter(format);
         formatter.setValueClass(Double.class);
         formatter.setAllowsInvalid(false);
-        // If you want the value to be committed on each keystroke instead of focus lost
+        // If you want the value to be committed on each keystroke instead of
+        // focus lost
         formatter.setCommitsOnValidEdit(true);
         JFormattedTextField tfResult = new JFormattedTextField(formatter);
         tfResult.setHorizontalAlignment(SwingUtilities.RIGHT);
@@ -467,27 +521,30 @@ public class UIUtils
         {
             tfResult.setActionCommand(strActionCommand);
         }
-        //add action listener
+        // add action listener
         if (alActionListener != null)
         {
             tfResult.addActionListener(alActionListener);
         }
         // select all text on focus gained event
         tfResult.addFocusListener(new SelectAllFocusAdapter(tfResult));
-        //add other focus listener (to react on each "value changed" event)
+        // add other focus listener (to react on each "value changed" event)
         if (pclPropertyListener != null)
         {
             tfResult.addPropertyChangeListener("value", pclPropertyListener);
         }
         return tfResult;
     }
-    
+
     /**
      * Create a popup menu item
      * 
-     * @param strTitle - title
-     * @param strActionCommand - action command
-     * @param alListener - action listener
+     * @param strTitle
+     *            - title
+     * @param strActionCommand
+     *            - action command
+     * @param alListener
+     *            - action listener
      * @return JMenuItem
      *
      * @author Anton Nedbailo
@@ -496,17 +553,17 @@ public class UIUtils
     public static JMenuItem createMenuItem(String strTitle, String strActionCommand, ActionListener alListener)
     {
         JMenuItem deleteItem = new JMenuItem();
-        //set title
+        // set title
         if (strTitle != null && !strTitle.isEmpty())
         {
-            deleteItem.setText(strTitle); 
+            deleteItem.setText(strTitle);
         }
-        //set action command
+        // set action command
         if (strActionCommand != null && !strActionCommand.isEmpty())
         {
             deleteItem.setActionCommand(strActionCommand);
         }
-        //set action listener
+        // set action listener
         if (alListener != null)
         {
             deleteItem.addActionListener(alListener);

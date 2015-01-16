@@ -8,13 +8,12 @@ public class YearTableModel extends AbstractFlexTableModel
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = -5232340455887109379L;
 
-    private final static int COL_ID_YEAR = 0;
-    private final static int COL_NUMBER_YEAR = 1;
-    private final static int COL_DESC_YEAR = 2;
+    private static final int COL_ID_YEAR = 0;
+    private static final int COL_NUMBER_YEAR = 1;
+    private static final int COL_DESC_YEAR = 2;
 
     public YearTableModel()
     {
-        // addColumn(COL_ID_YEAR, "#ID", String.class);
         addColumn(COL_NUMBER_YEAR, UDIPropSingleton.getString(this, "ColNumberYear.column"), Integer.class);
         addColumn(COL_DESC_YEAR, UDIPropSingleton.getString(this, "ColDescYear.column"), String.class);
     }

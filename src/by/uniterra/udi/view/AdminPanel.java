@@ -54,7 +54,7 @@ public class AdminPanel extends JPanel implements ActionListener
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = -6399838252872491307L;
 
-    private static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
 
     private WorkLogTableModel wltm;
     private MonthSpecialCalendar jxmvCalendar;
@@ -92,17 +92,9 @@ public class AdminPanel extends JPanel implements ActionListener
                     if (!((JXMonthView) e.getSource()).getSelection().isEmpty())
                     {
                         Date date = ((JXMonthView) e.getSource()).getSelection().last();
-
-                        if (date instanceof Date)
-                        {
-                            List<WorkLogInfoHolder> lstNewData = WorkLogInfoHelper.getLogListUpToDate(date);
-                            jlUpdatedate.setText(UDIPropSingleton.getString(this, "infoTime.header") + DATE_FORMAT.format(date));
-                            wltm.setTableData(lstNewData);
-                        }
-                        else
-                        {
-                            Log.error(AdminPanel.class, "actionPerformed(ActionEvent e)");
-                        }
+                        List<WorkLogInfoHolder> lstNewData = WorkLogInfoHelper.getLogListUpToDate(date);
+                        jlUpdatedate.setText(UDIPropSingleton.getString(this, "infoTime.header") + DATE_FORMAT.format(date));
+                        wltm.setTableData(lstNewData);
                     }
                 }
             }
@@ -240,23 +232,13 @@ public class AdminPanel extends JPanel implements ActionListener
     {
         final List<Highlighter> lstResult = new ArrayList<Highlighter>();
         final int iStatusColumnIndexToPlane = wltm.getColIndex(WorkLogTableModel.COL_TO_PLAN);
-        // final int iStatusColumnIndexToBonus =
-        // wltm.getColIndex(WorkLogTableModel.COL_TO_BONUS);
         final int iStatusColumnIndexRestHol = wltm.getColIndex(WorkLogTableModel.COL_REST_HOLIDAY);
         final PatternPredicate patternPredicateToPlane = new PatternPredicate("^[^-]*$", iStatusColumnIndexToPlane, iStatusColumnIndexToPlane);
-        // final PatternPredicate patternPredicateToBonus = new
-        // PatternPredicate("-", iStatusColumnIndexToBonus,
-        // iStatusColumnIndexToBonus);
         final PatternPredicate patternPredicateToRestHol = new PatternPredicate("-", iStatusColumnIndexRestHol, iStatusColumnIndexRestHol);
         final ColorHighlighter colorHighlighterToPlane = new ColorHighlighter(patternPredicateToPlane, Color.PINK, Color.BLACK, Color.PINK, Color.BLACK);
-        // final ColorHighlighter colorHighlighterToBonus = new
-        // ColorHighlighter(patternPredicateToBonus, Color.PINK, Color.BLACK,
-        // Color.PINK, Color.BLACK);
         final ColorHighlighter colorHighlighterToRestHol = new ColorHighlighter(patternPredicateToRestHol, Color.PINK, Color.BLACK, Color.PINK, Color.BLACK);
         lstResult.add(colorHighlighterToPlane);
-        // lstResult.add(colorHighlighterToBonus);
         lstResult.add(colorHighlighterToRestHol);
-
         return lstResult;
     }
 }

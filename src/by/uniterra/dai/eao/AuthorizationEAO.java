@@ -19,6 +19,7 @@ public class AuthorizationEAO extends ServiceBaseEAO<Authorization>
         super(em, Authorization.class);
     }
 
+    @SuppressWarnings("unchecked")
     public List<Authorization> getAuthorizationsByLogin(String login)
     {
         List<Authorization> lstResult = null;
@@ -39,6 +40,7 @@ public class AuthorizationEAO extends ServiceBaseEAO<Authorization>
 
     }
 
+    @SuppressWarnings("unchecked")
     public List<Role> getRoleByLoginAndPassword(String login, String password)
     {
         List<Role> lstResult = null;

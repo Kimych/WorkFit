@@ -28,7 +28,7 @@ public class YearSpecialCalendar extends JPanel implements ActionListener
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 8139179633704002297L;
 
-    private static int MAX_ITEMS_IN_LINE = 4;
+    private static final int MAX_ITEMS_IN_LINE = 4;
     private static final String ACTION_NEXT_YEAR = "Next Year";
     private static final String ACTION_PREVIOUS_YEAR = "Previous Year";
 
@@ -164,7 +164,7 @@ public class YearSpecialCalendar extends JPanel implements ActionListener
         {
             csdEAO.save(mapFlaggetDay.get(iIndex));
         }
-        //remove from db
+        // remove from db
         for (Integer iIndex : mapYearCalSpecDay.keySet())
         {
             csdEAO.delete(mapYearCalSpecDay.get(iIndex));

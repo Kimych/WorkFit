@@ -44,6 +44,7 @@ public class CalendarSpecialDayEAO extends ServiceBaseEAO<CalendarSpecialDay>
      * @author Anton Nedbailo
      * @date Dec 12, 2014
      */
+    @SuppressWarnings("unchecked")
     public List<CalendarSpecialDay> getSpecialDayByYear(int yearNumber, boolean bReturnDetachedObjects)
     {
         List<CalendarSpecialDay> lstResult = null;

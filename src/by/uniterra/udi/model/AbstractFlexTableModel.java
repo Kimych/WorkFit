@@ -42,9 +42,9 @@ public abstract class AbstractFlexTableModel extends AbstractTableModel
 {
     private static final long serialVersionUID = -1171102376299957729L;
     //members
-    private final Map<Integer, String> mColumnNames; // column index/name pairs
-    protected final Map<Integer, Integer> mColumnIndexId;// column index/Id pairs
-    protected final Map<Integer, Class<?>> mColumnIdClass;// column Id/Class pairs
+    private final Map<Integer, String> mColumnNames; 
+    protected final Map<Integer, Integer> mColumnIndexId;
+    protected final Map<Integer, Class<?>> mColumnIdClass;
     private List<?> lstData;
     private SortOrder soSortOrder;
     private int iSortColumn;
@@ -139,6 +139,7 @@ public abstract class AbstractFlexTableModel extends AbstractTableModel
      *
      * @param newData list with a new data
      */
+    @SuppressWarnings("unchecked")
     public void setTableData( List<?> newData )
     {
         if (newData == null)
@@ -158,7 +159,7 @@ public abstract class AbstractFlexTableModel extends AbstractTableModel
                 {
                     ((List<Object>)lstData).add(newData.get(i));
                     fireTableRowsInserted(lstData.size() - 1, lstData.size() - 1);
-                } else if (!newData.get(i).equals(lstData.get(i))) //compare
+                } else if (!newData.get(i).equals(lstData.get(i)))
                 {
                     ((List<Object>)lstData).set(i, newData.get(i));
                     fireTableRowsUpdated(i, i);

@@ -37,7 +37,6 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListModel;
 
-//import by.uniterra.armparis.dai.iface.IUserRole;
 
 /**
  * An extended JList that contains CheckBoxes. If necessary a CheckBoxListItem

@@ -23,8 +23,8 @@ import javax.persistence.Table;
 @Table(name = "months")
 @NamedQueries({
         @NamedQuery(name = Month.NQ_FIND_ALL, query = "SELECT m FROM Month m"),
-        @NamedQuery(name = Month.NQ_FIND_MONTH_BY_MONTH_NUMBER_AND_YEAR_NUMBER, query = "SELECT m from Month m WHERE m.year.number = :" + Month.PARAMETER_YEAR_NUMBER + " AND m.nameMonth.nameMonthId = :" + Month.PARAMETER_MONTH_NUMBER )
-        })
+        @NamedQuery(name = Month.NQ_FIND_MONTH_BY_MONTH_NUMBER_AND_YEAR_NUMBER, query = "SELECT m from Month m WHERE m.year.number = :"
+                + Month.PARAMETER_YEAR_NUMBER + " AND m.nameMonth.nameMonthId = :" + Month.PARAMETER_MONTH_NUMBER) })
 public class Month implements Serializable
 {
     private static final long serialVersionUID = 1L;
@@ -35,7 +35,6 @@ public class Month implements Serializable
     public static final String PARAMETER_MONTH = "month";
     public static final String PARAMETER_MONTH_NUMBER = "monthNumber";
     public static final String PARAMETER_YEAR_NUMBER = "yearNumber";
-    
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,9 +42,6 @@ public class Month implements Serializable
     private int monthId;
 
     private String description;
-
-  /*  @Column(name = "WORKING_DAYS_COUNT")
-    private int workingDaysCount;*/
 
     // bi-directional many-to-one association to DaysOfWork
     @OneToMany(mappedBy = "month")
@@ -93,16 +89,6 @@ public class Month implements Serializable
     {
         this.description = description;
     }
-
- /*   public int getWorkingDaysCount()
-    {
-        return this.workingDaysCount;
-    }
-
-    public void setWorkingDaysCount(int workingDaysCount)
-    {
-        this.workingDaysCount = workingDaysCount;
-    }*/
 
     public List<DaysOfWork> getDaysOfWorks()
     {
@@ -182,7 +168,9 @@ public class Month implements Serializable
         return String.valueOf(nameMonth + " " + year);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -197,7 +185,9 @@ public class Month implements Serializable
         return result;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override

@@ -1,12 +1,21 @@
 package by.uniterra.dai.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 import by.uniterra.udi.util.Cryptor;
-
-import java.util.List;
 
 /**
  * The persistent class for the authorization database table.
@@ -54,8 +63,7 @@ public class Authorization implements Serializable
     private List<Role> roles;;
 
     /*
-     * // bi-directional many-to-many association to Role
-     * 
+     * bi-directional many-to-many association to Role
      * @ManyToMany(mappedBy = "authorizations") private List<Role> roles;
      */
 
@@ -139,8 +147,6 @@ public class Authorization implements Serializable
         result = prime * result + ((email == null) ? 0 : email.hashCode());
         result = prime * result + ((login == null) ? 0 : login.hashCode());
         result = prime * result + ((password == null) ? 0 : password.hashCode());
-        // result = prime * result + ((roles == null) ? 0 : roles.hashCode());
-        // result = prime * result + ((worker == null) ? 0 : worker.hashCode());
         return result;
     }
 

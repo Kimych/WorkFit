@@ -17,6 +17,7 @@ public class RoleEAO extends ServiceBaseEAO<Role>
         super(em, Role.class);
     }
 
+    @SuppressWarnings("unchecked")
     public List<Role> getRoleByName(String roleName)
     {
         List<Role> lstResult = null;

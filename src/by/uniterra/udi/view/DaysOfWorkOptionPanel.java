@@ -128,7 +128,6 @@ public class DaysOfWorkOptionPanel extends JPanel implements IModelOwner
         {
             cbWorker.setSelectedIndex(0);
             dpDateTime.setDate(curentDate);
-
             // set curent month
             int curentMonth = YearMonth.now(Clock.systemUTC()).getMonthValue();
             int numberYear = YearMonth.now(Clock.systemUTC()).getYear();
@@ -174,7 +173,6 @@ public class DaysOfWorkOptionPanel extends JPanel implements IModelOwner
         daysOfWork.setTimestamp(dpDateTime.getDate());
         daysOfWork.setMonth((Month) cbMonth.getSelectedItem());
         daysOfWork.setWorker((Worker) cbWorker.getSelectedItem());
-
         return daysOfWork;
     }
 

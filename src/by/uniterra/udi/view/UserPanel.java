@@ -28,12 +28,12 @@ public class UserPanel extends JPanel implements IModelOwner
     private static final Color COLOR_WARNING_PINK = Color.PINK;
 
     private WorkLogInfoHolder woih;
-    JTextField tfCurentTime;
-    JTextField tfToPlane;
-    JTextField tfToBonus;
-    JTextField tfTimeLeft;
-    JLabel jlLastUpdateDate;
-    JLabel jlNameWorker;
+    private JTextField tfCurentTime;
+    private JTextField tfToPlane;
+    private JTextField tfToBonus;
+    private JTextField tfTimeLeft;
+    private JLabel jlLastUpdateDate;
+    private JLabel jlNameWorker;
 
     public UserPanel()
     {

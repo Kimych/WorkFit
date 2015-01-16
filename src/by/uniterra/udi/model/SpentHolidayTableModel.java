@@ -43,10 +43,10 @@ public class SpentHolidayTableModel extends AbstractFlexTableModel
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 862518620915258199L;
 
-    private final static int COL_DAYS_COUNT = 0;
-    private final static int COL_WORKER = 1;
-    private final static int COL_DATE = 2;
-    private final static int COL_DESC = 3;
+    private static final int COL_DAYS_COUNT = 0;
+    private static final int COL_WORKER = 1;
+    private static final int COL_DATE = 2;
+    private static final int COL_DESC = 3;
 
     public SpentHolidayTableModel()
     {

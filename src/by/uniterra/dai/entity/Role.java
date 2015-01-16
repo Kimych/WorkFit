@@ -1,10 +1,16 @@
 package by.uniterra.dai.entity;
 
 import java.io.Serializable;
-
-import javax.persistence.*;
-
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  * The persistent class for the role database table.
@@ -31,14 +37,6 @@ public class Role implements Serializable
 
     private String name;
 
-    // bi-directional many-to-many association to Authorization
-    /*
-     * @ManyToMany
-     * 
-     * @JoinTable(name = "authorization_to_role", joinColumns = {
-     * @JoinColumn(name = "ROLE_ID") }, inverseJoinColumns = { @JoinColumn(name
-     * = "AUTHORIZATION_ID") }) private List<Authorization> authorizations;
-     */
     // bi-directional many-to-many association to Role
     @ManyToMany(mappedBy = "roles")
     private List<Authorization> authorizations;;

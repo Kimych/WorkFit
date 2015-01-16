@@ -45,11 +45,11 @@ public class UserRoleTableMolel extends AbstractFlexTableModel
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = -3926145395315621807L;
 
-    private final static int COL_NAME = 0;
-    private final static int COL_LOGIN = 1;
-    private final static int COL_ROLE_NAME = 2;
-    private final static int COL_DESCRIPTIONS = 3;
-    private final static int COL_EMAIL = 4;
+    private static final int COL_NAME = 0;
+    private static final int COL_LOGIN = 1;
+    private static final int COL_ROLE_NAME = 2;
+    private static final int COL_DESCRIPTIONS = 3;
+    private static final int COL_EMAIL = 4;
 
     public UserRoleTableMolel()
     {

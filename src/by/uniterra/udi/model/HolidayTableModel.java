@@ -8,11 +8,10 @@ public class HolidayTableModel extends AbstractFlexTableModel
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 1263328037014654761L;
 
-    private final static int COL_COUNT_DAYS = 0;
-    private final static int COL_ID_YEAR = 1;
-    private final static int COL_ID_WORKER = 2;
+    private static final int COL_COUNT_DAYS = 0;
+    private static final int COL_ID_YEAR = 1;
+    private static final int COL_ID_WORKER = 2;
 
-    
     public HolidayTableModel()
     {
         addColumn(COL_COUNT_DAYS, UDIPropSingleton.getString(this, "ColCountDaysHoliday.column"), Integer.class);

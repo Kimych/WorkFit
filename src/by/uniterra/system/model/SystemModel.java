@@ -18,7 +18,7 @@ import by.uniterra.udi.util.EncryptedProperties;
 import by.uniterra.udi.util.Log;
 import by.uniterra.udi.view.IAuthListener;
 
-public class SystemModel
+public final class SystemModel
 {
     // constants
     private static final String PERSISTENCE_UNIT_NAME = "WorkFit";
@@ -54,52 +54,6 @@ public class SystemModel
         setAuthListeners = new LinkedHashSet<IAuthListener>();
     }
 
- /*   public static void main(String[] args)
-    {
-        // properties holder
-        try
-        {
-            EncryptedProperties property = new EncryptedProperties(APP_KEY);
-            String strIN = property.encrypt("testdb");
-            String strOut = property.decrypt(strIN);
-            System.out.println(strIN);
-            System.out.println(strOut);
-            boolean b = false;
-        }
-        catch (Exception e)
-        {
-            Log.error(SystemModel.class, e, "SystemModel error ");
-        }
-    }*/
- /*   private SystemModel(String strURLtoProperties, String strURLtoCryptProperties)
-    {
-        File f = new File(strURLtoProperties);
-        try {
-            EncryptedProperties ep = new EncryptedProperties(strURLtoCryptProperties);
-                if (f.exists()) {
-                        FileInputStream in = new FileInputStream(f);
-                        ep.load(in);
-                }
-
-                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-                FileOutputStream out = new FileOutputStream(f);
-                ep.store(out, "Encrypted Properties File");
-                out.close();
-
-                System.out.println("Dump");
-                Iterator i = ep.keySet().iterator();
-                while (i.hasNext()) {
-                        String k = (String) i.next();
-                        String value = (String) ep.get(k);
-                        System.out.println("   " + k + "=" + value);
-                }
-        }
-        catch (Exception e) {
-                System.out.println("Couldn't access encrypted properties file: " + f.getAbsolutePath());
-                e.printStackTrace();
-        }
-    
-    }*/
 
     public static SystemModel getInstance()
     {
@@ -126,8 +80,6 @@ public class SystemModel
         // the correct way to disable the shared cache (L2 cache)
         mapCustomProp.put("eclipselink.cache.shared.default", "false");
         // enable SQL lqueries logging
-        // mapCustomProp.put("eclipselink.logging.level","FINE");
-        // Specify an EclipseLink session customizer class: a Java
         mapCustomProp.put(PersistenceUnitProperties.SESSION_CUSTOMIZER, JPASessionCustomizer.class.getName());
         // a new connection (factory) to target DB
         emfFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME, mapCustomProp);

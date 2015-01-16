@@ -256,6 +256,7 @@ public class ServiceBaseEAO<T extends Serializable>
      */
     public void deleteAll(int findByParentId4Types, Object[] objects)
     {
+        @SuppressWarnings("unchecked")
         List<T> lstItemsToDelete = (List<T>) loadAll(findByParentId4Types, objects);
         if (!lstItemsToDelete.isEmpty())
         {
@@ -336,7 +337,7 @@ public class ServiceBaseEAO<T extends Serializable>
     protected void finalize() throws Throwable
     {
         super.finalize();
-        if (emEntityManager == null || !emEntityManager.isOpen())
+        if ((emEntityManager == null) || (!emEntityManager.isOpen()))
             return;
         emEntityManager.clear();
     }
@@ -432,6 +433,7 @@ public class ServiceBaseEAO<T extends Serializable>
      * 
      * @return result list
      */
+    @SuppressWarnings("unchecked")
     public List<?> loadAll(int findByParentId4Types, Object[] param)
     {
         final List<T> lstObjects = new ArrayList<T>();

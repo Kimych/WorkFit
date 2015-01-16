@@ -8,10 +8,6 @@ import java.awt.Insets;
 import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 
-
-
-
-
 import by.uniterra.system.model.SystemModel;
 
 /**
@@ -44,7 +40,6 @@ public class AboutPanel extends JXPanel
                 "&copy UniTerra 2014<br> " +
                 "<a href='http://www.uniterra.by'>http://www.uniterra.by</a>" +
                 "</html>");
-        //lblCopyright.setIcon(ImageLoader.createImageIcon("uniterra360x120.png", 100, 30));
         int iXpos = 0;
         int iYpos = 0;
         add(lblCopyright, new GridBagConstraints(iXpos++, iYpos, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));

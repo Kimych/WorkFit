@@ -52,10 +52,8 @@ public class DateUtils
     public static final String STRAVITA_CSV_FILENAME_DATEFORMAT = "yyyyMMdd";
     public static final String FULL_MONTH_NAME_DATEFORMAT = "dd MMMM yyyy";
     public static final String FILENAME_DATETIMEFORMAT = "yyyyMMdd HH_mm";
-
     public static final String TZ_GMTplus3 = "GMT+3";
     public static final String TZ_UTC = "UTC";
-
     /** a hour in ms . */
     public static final long ONE_HOUR = 3600000;
     /** count of hours oer day */
@@ -72,7 +70,6 @@ public class DateUtils
     public static final long ONE_WEEK = 7 * ONE_DAY;
     /** a month in ms . */
     public static final long ONE_MONTH = 30 * ONE_DAY;
-
     public static final long ONE_MINUTE = 60 * ONE_SECOND;
 
     /**
@@ -163,8 +160,7 @@ public class DateUtils
         {
             date = new java.util.Date();
         }
-        Timestamp ts = new Timestamp(date.getTime());
-        return ts;
+        return new Timestamp(date.getTime());
     }
 
     /**
@@ -279,8 +275,7 @@ public class DateUtils
             tsNewBeginTime.setTime(getRoundToBeginTime(tsPeriod, tsOffset, tzTimeZone).getTime());
         }
         else
-        { // BeginTime = (Now + Offset) + ( - Period)
-          // make ( - Period)
+        {
             final TimePeriodEx extpNegPeriod = new TimePeriodEx(tsPeriod.getTime());
             extpNegPeriod.setNegative(!extpNegPeriod.isNegative());
             tsNewBeginTime.setTime(TimePeriodEx.getTimeWithOffset(getNowPlusOffset(tsOffset), extpNegPeriod).getTime());
@@ -316,11 +311,11 @@ public class DateUtils
         final Timestamp tsNewEndTime = new Timestamp(new Date().getTime());
         // check RoundTo flag
         if (bRoundTo)
-        { // EndTime = RoundToBeginTime + till end of unit (years, months...)
+        {
             tsNewEndTime.setTime(getRoundToEndTime(tsPeriod, tsOffset, tzTimeZone).getTime());
         }
         else
-        { // EndTime = (Now + Offset)
+        {
             tsNewEndTime.setTime(getNowPlusOffset(tsOffset).getTime());
         }
         return tsNewEndTime;
@@ -464,7 +459,6 @@ public class DateUtils
         return new Timestamp(calNow.getTimeInMillis());
     }
 
-    // TODO убрать костыль
     public static int getMonthNumber(Date date)
     {
         Calendar cal = Calendar.getInstance();
@@ -478,7 +472,7 @@ public class DateUtils
         cal.setTime(date);
         return cal.get(Calendar.YEAR);
     }
-   
+
     public static Timestamp upToEndDayDate(Date currentDate)
     {
         Calendar cal = Calendar.getInstance();
@@ -489,17 +483,16 @@ public class DateUtils
         cal.set(Calendar.MILLISECOND, 59);
         return new Timestamp(cal.getTimeInMillis());
     }
-    
+
     public static Date getMonthStartDate(int numMonth, int numYear)
     {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.MONTH, numMonth);
         calendar.set(Calendar.YEAR, numYear);
         calendar.set(Calendar.DAY_OF_MONTH, 1);
-        //CalendarUtils.startOfMonth(calendar);
         return calendar.getTime();
     }
-    
+
     public static Date getMonthEndDate(int numMonth, int numYear)
     {
         Calendar calendar = Calendar.getInstance();
@@ -511,14 +504,14 @@ public class DateUtils
 
     public static Date getDateMonthStart(Date dateFromLog)
     {
-        
+
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         calendar.setTime(dateFromLog);
         calendar.set(Calendar.DAY_OF_MONTH, 1);
-        calendar.set(Calendar.HOUR, 0 );
+        calendar.set(Calendar.HOUR, 0);
         calendar.set(Calendar.MINUTE, 1);
         calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND,0);           
+        calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTime();
     }
 
@@ -531,34 +524,27 @@ public class DateUtils
         endCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         endCal.setTime(endDate);
         int workDays = 0;
-    
         // Return 0 if start and end are the same
         if (startCal.getTimeInMillis() == endCal.getTimeInMillis())
         {
             return workDays;
         }
-    
         if (startCal.getTimeInMillis() > endCal.getTimeInMillis())
         {
             startCal.setTime(endDate);
             endCal.setTime(startDate);
         }
-        
-       /* Log.debug(WorkLogUtils.class, DateUtils.toUTC(startCal.getTimeInMillis()) + " is a start time, " 
-                + DateUtils.toUTC(endCal.getTimeInMillis()) + " is an end time.");*/
-        
         while (startCal.getTimeInMillis() < endCal.getTimeInMillis())
         {
             if (startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY)
             {
                 ++workDays;
-                //Log.debug(WorkLogUtils.class, DateUtils.toUTC(startCal.getTimeInMillis()) + " added to working days (" + workDays + ")");
             }
             startCal.add(Calendar.DAY_OF_MONTH, 1);
         }
         return workDays;
     }
-    
+
     /**
      * 
      * @param dDate
@@ -571,13 +557,12 @@ public class DateUtils
     {
         return getDayOfYear(dDate, TimeZone.getTimeZone("UTC"));
     }
-    
-    public static int getDayOfYear(Date dDate, TimeZone tzTimeZone )
+
+    public static int getDayOfYear(Date dDate, TimeZone tzTimeZone)
     {
         Calendar calMonthCal = Calendar.getInstance(tzTimeZone);
         calMonthCal.setTime(dDate);
         return calMonthCal.get(Calendar.DAY_OF_YEAR);
     }
-
 
 }

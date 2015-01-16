@@ -101,17 +101,18 @@ import by.uniterra.udi.view.YearSpecialCalendar;
 public class WorkFitFrame extends JFrame implements ActionListener
 {
 
-    static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+    static final int FRAME_START_WIDHT = 800;
+    static final int FRAME_START_HEIGHT = 400;
+    static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
 
     private JPanel panelToInsert;
     private Authorization auth;
 
-    static Preferences userPrefs = Preferences.userNodeForPackage(WorkFitFrame.class);;
+    private static final Preferences userPrefs = Preferences.userNodeForPackage(WorkFitFrame.class);;
 
-    // private static final String UPDATE_LOG = "Update log";
     private static final String LOGIN = "login";
     private static final String PASSWORD = "password";
-    private static final String FLAG_AUT = "flag"; 
+    private static final String FLAG_AUT = "flag";
     private static final String LAST_DIR_PATH = "lastDirPass";
 
     /** TODO document <code>serialVersionUID</code> */
@@ -139,7 +140,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
         }
 
         wfFrame.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        wfFrame.setSize(800, 400);
+        wfFrame.setSize(FRAME_START_WIDHT, FRAME_START_HEIGHT);
         wfFrame.setLocationRelativeTo(null);
         wfFrame.setVisible(true);
         wfFrame.addWindowListener(new WindowAdapter()
@@ -155,8 +156,6 @@ public class WorkFitFrame extends JFrame implements ActionListener
                 }
             }
         });
-
-        // args==[login=admin ,password=admin]
         // Disable
         if (userPrefs.getBoolean(FLAG_AUT, false))
         {
@@ -208,7 +207,6 @@ public class WorkFitFrame extends JFrame implements ActionListener
 
             if (auth != null)
             {
-                // JMenuBar panelMenu = null;
                 SystemModel.setAuthorization(auth);
                 // create UI for Admin or User
                 if (isContainsRole(auth, IRole.ADMIN))
@@ -251,7 +249,6 @@ public class WorkFitFrame extends JFrame implements ActionListener
 
     private Authorization checkLogin(String strUserName, String strPassword, AuthorizationEAO autEAO)
     {
-
         Authorization authUser = autEAO.getAuthorizationByLoginAndPassword(strUserName, strPassword);
         if (authUser != null)
         {
@@ -298,7 +295,6 @@ public class WorkFitFrame extends JFrame implements ActionListener
         return null;
     }
 
-    @Override
     public void actionPerformed(ActionEvent arg0)
     {
         try
@@ -317,57 +313,47 @@ public class WorkFitFrame extends JFrame implements ActionListener
                 setEmtyLoginAndPassword();
                 doLogin("", "");
                 break;
-            /*
-             * case UPDATE_LOG: // createUserUI(); break;
-             */
             case IMenuHelper.MCOMMAND_EXIT:
                 disposeMainFrame();
                 break;
             case IMenuHelper.MCOMMAND_EDIT_SPENT_HOLIDAY:
-                
                 CommonDataTablePanel panelSpentHoliday = new CommonDataTablePanel(new SpentHolidayTableModel(), new SpentHolidayOptionPanel(),
                         new SpentHolidayEAO(SystemModel.getDefaultEM()));
                 showEditPanel(panelSpentHoliday, UDIPropSingleton.getString(this, "EditSpentHolidayTable.frame"));
-                panelSpentHoliday.writeValues();
                 ((AdminPanel) panelToInsert).loadDataInUI();
                 break;
             case IMenuHelper.MCOMMAND_EDIT_WORKER:
                 CommonDataTablePanel panelWorker = new CommonDataTablePanel(new WorkerTableModel(), new WorkerOptionPanel(), new WorkerEAO(
                         SystemModel.getDefaultEM()));
+                
                 showEditPanel(panelWorker, UDIPropSingleton.getString(this, "EditWorkerTable.frame"));
-                panelWorker.writeValues();
                 ((AdminPanel) panelToInsert).loadDataInUI();
                 break;
             case IMenuHelper.MCOMMAND_EDIT_YEAR:
                 CommonDataTablePanel panelYear = new CommonDataTablePanel(new YearTableModel(), new YearOptionPanel(), new YearEAO(SystemModel.getDefaultEM()));
                 showEditPanel(panelYear, UDIPropSingleton.getString(this, "EditYearTable.frame"));
-                panelYear.writeValues();
                 break;
             case IMenuHelper.MCOMMAND_EDIT_DAYS_OF_WORK:
                 CommonDataTablePanel panelDaysOfWork = new CommonDataTablePanel(new DaysOfWorkTableModel(), new DaysOfWorkOptionPanel(), new DaysOfWorkEAO(
                         SystemModel.getDefaultEM()));
                 showEditPanel(panelDaysOfWork, UDIPropSingleton.getString(this, "EditDofWTable.frame"));
-                panelDaysOfWork.writeValues();
                 ((AdminPanel) panelToInsert).loadDataInUI();
                 break;
             case IMenuHelper.MCOMMAND_EDIT_MONTH:
                 CommonDataTablePanel panelMonth = new CommonDataTablePanel(new MonthTableModel(), new MonthOptionPanel(), new MonthEAO(
                         SystemModel.getDefaultEM()));
                 showEditPanel(panelMonth, UDIPropSingleton.getString(this, "EditMonth.frame"));
-                panelMonth.writeValues();
                 break;
             case IMenuHelper.MCOMMAND_EDIT_HOLIDAY:
                 CommonDataTablePanel panelHoliday = new CommonDataTablePanel(new HolidayTableModel(), new HolidayOptionPanel(), new HolidayEAO(
                         SystemModel.getDefaultEM()));
                 showEditPanel(panelHoliday, UDIPropSingleton.getString(this, "EditHolidayTable.frame"));
-                panelHoliday.writeValues();
                 ((AdminPanel) panelToInsert).loadDataInUI();
                 break;
             case IMenuHelper.MCOMMAND_EDIT_USER_ROLE:
                 CommonDataTablePanel panelUserRole = new CommonDataTablePanel(new UserRoleTableMolel(), new UserRoleOptionPanel(), new AuthorizationEAO(
                         SystemModel.getDefaultEM()));
                 showEditPanel(panelUserRole, UDIPropSingleton.getString(this, "EditUserRole.frame"));
-                panelUserRole.writeValues();
                 break;
             case IMenuHelper.MCOMMAND_EDIT_CAL_SPECIAL_DAY:
                 YearSpecialCalendar yscCalendar = new YearSpecialCalendar();
@@ -376,10 +362,6 @@ public class WorkFitFrame extends JFrame implements ActionListener
                 yscCalendar.saveChanges();
                 ((AdminPanel) panelToInsert).loadDataInUI();
                 break;
-
-            /*
-             * case IMenuHelper.MCOMMAND_WELCOME: // TODO break;
-             */
             case IMenuHelper.MCOMMAND_ABOUT:
                 JOptionPane.showMessageDialog(this, new AboutPanel(), "About", JOptionPane.PLAIN_MESSAGE);
                 break;
@@ -401,7 +383,6 @@ public class WorkFitFrame extends JFrame implements ActionListener
         {
             Log.error(WorkFitFrame.class, e, "actionPerformed expressions");
         }
-
     }
 
     private void showEditPanel(CommonDataTablePanel commonPanel, String frameTitle)
@@ -409,6 +390,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
         JPanel panelCommon = new JPanel();
         panelCommon.add(commonPanel);
         JOptionPane.showConfirmDialog(this, panelCommon, frameTitle, JOptionPane.OK_CANCEL_OPTION);
+        commonPanel.writeValues();
     }
 
     private static void createFileChooser(final JFrame frame) throws ParseException
@@ -418,7 +400,7 @@ public class WorkFitFrame extends JFrame implements ActionListener
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("txt file (*.txt)", "txt"));
         fileChooser.setAcceptAllFileFilterUsed(true);
-        if(fileChooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION)
+        if (fileChooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION)
         {
             Log.info(WorkFitFrame.class, "Load log from file: " + fileChooser.getSelectedFile());
             Path path = fileChooser.getSelectedFile().toPath();
@@ -440,5 +422,4 @@ public class WorkFitFrame extends JFrame implements ActionListener
         userPrefs.put(PASSWORD, "");
         userPrefs.putBoolean(FLAG_AUT, false);
     }
-
 }

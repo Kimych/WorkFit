@@ -39,30 +39,28 @@ package by.uniterra.udi.iface;
 public interface IMenuHelper
 {
 
-    //menuNoUser
-     static final String MCOMMAND_LOGIN = "Login";
-     static final String MCOMMAND_LOGOUT = "Logout";
-     static final String MCOMMAND_EXIT = "Exit";
-     
-     //menuAmin
-     static final String MCOMMAND_EDIT_SPENT_HOLIDAY = "Edit spent holiday";
-     static final String MCOMMAND_EDIT_WORKER = "Edit worker";
-     static final String MCOMMAND_EDIT_HOLIDAY = "Edit holiday";
-     static final String MCOMMAND_EDIT_DAYS_OF_WORK = "Edit DofW";
-     static final String MCOMMAND_EDIT_MONTH = "Edit month";
-     static final String MCOMMAND_EDIT_YEAR = "Edit year";
-     static final String MCOMMAND_EDIT_USER_ROLE = "Edit user role";
-     static final String MCOMMAND_ADD_FROM_LOG = "Add from Log";
-     static final String MCOMMAND_EDIT_CAL_SPECIAL_DAY = "Edit cal spesial day";
-     
-     
-     //menuUser
-     static final String MCOMMAND_REFRESH = "Refresh";
-     static final String MCOMMAND_VIEW_HISTORY = "View History";
-    
-     //menuHelp
-     static final String MCOMMAND_WELCOME = "Welcome";
-     static final String MCOMMAND_ABOUT = "About";
-     
+    // menuNoUser
+    String MCOMMAND_LOGIN = "Login";
+    String MCOMMAND_LOGOUT = "Logout";
+    String MCOMMAND_EXIT = "Exit";
+
+    // menuAmin
+    String MCOMMAND_EDIT_SPENT_HOLIDAY = "Edit spent holiday";
+    String MCOMMAND_EDIT_WORKER = "Edit worker";
+    String MCOMMAND_EDIT_HOLIDAY = "Edit holiday";
+    String MCOMMAND_EDIT_DAYS_OF_WORK = "Edit DofW";
+    String MCOMMAND_EDIT_MONTH = "Edit month";
+    String MCOMMAND_EDIT_YEAR = "Edit year";
+    String MCOMMAND_EDIT_USER_ROLE = "Edit user role";
+    String MCOMMAND_ADD_FROM_LOG = "Add from Log";
+    String MCOMMAND_EDIT_CAL_SPECIAL_DAY = "Edit cal spesial day";
+
+    // menuUser
+    String MCOMMAND_REFRESH = "Refresh";
+    String MCOMMAND_VIEW_HISTORY = "View History";
+
+    // menuHelp
+    String MCOMMAND_WELCOME = "Welcome";
+    String MCOMMAND_ABOUT = "About";
 
 }

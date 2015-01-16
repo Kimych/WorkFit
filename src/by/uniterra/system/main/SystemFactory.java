@@ -29,7 +29,8 @@ import by.uniterra.system.util.StringUtils;
 
 /**
  * 
- * The <code>SystemFactory</code> is used to give a fast access to some global objects
+ * The <code>SystemFactory</code> is used to give a fast access to some global
+ * objects
  *
  * @author Anton Nedbailo
  * @since Sep 1, 2013
@@ -39,7 +40,7 @@ public abstract class SystemFactory
     private static SystemFactory currentFactory;
 
     protected String strProcessName = StringUtils.getClassName(this).toLowerCase();
-    
+
     /**
      * @return the strProcessName
      *
@@ -52,7 +53,7 @@ public abstract class SystemFactory
     }
 
     /**
-     * Get current factory 
+     * Get current factory
      * 
      * @return system factory
      */
@@ -64,7 +65,8 @@ public abstract class SystemFactory
     /**
      * Set current system factory
      * 
-     * @param systemFactory - to be set
+     * @param systemFactory
+     *            - to be set
      */
     public static void setSystemFactory(SystemFactory systemFactory)
     {
@@ -78,13 +80,14 @@ public abstract class SystemFactory
     {
         super();
     }
-    
+
     public static boolean getSysBool(final String key)
     {
         try
         {
             return Boolean.valueOf(currentFactory.getSystemModel().getSysString(key).trim()).booleanValue();
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             return false;
         }
@@ -95,14 +98,16 @@ public abstract class SystemFactory
         if (currentFactory != null)
         {
             return (currentFactory.getSystemModel()).getSysInt(key, defaultValue);
-        } else
+        }
+        else
         {
             return defaultValue;
         }
     }
 
     /**
-     * @param key the key of the sysprop
+     * @param key
+     *            the key of the sysprop
      * @return the sysprop, a blank String if where are no match
      */
     public static String getSysProp(final String key)
@@ -111,7 +116,8 @@ public abstract class SystemFactory
     }
 
     /**
-     * @param key the key of the sysprop
+     * @param key
+     *            the key of the sysprop
      * @return the sysprop, alternate String if where are no match
      */
     public static String getSysProp(String key, String alter)
@@ -120,16 +126,17 @@ public abstract class SystemFactory
         if (tmp.isEmpty())
         {
             return alter;
-        } else
+        }
+        else
         {
             return tmp;
         }
     }
-    
+
     public static boolean isDebugMode()
     {
         return getSysBool(IGlobalSystemModel.PARAM_DEBUGMODE);
     }
-    
+
     public abstract IGlobalSystemModel getSystemModel();
 }

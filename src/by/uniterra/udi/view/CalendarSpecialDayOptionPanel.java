@@ -3,7 +3,6 @@ package by.uniterra.udi.view;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,8 +19,6 @@ public class CalendarSpecialDayOptionPanel extends JPanel
 
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = 8380269231834025937L;
-
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
 
     private UTCheckBoxList chblDayType;
     private JTextArea taDescription;

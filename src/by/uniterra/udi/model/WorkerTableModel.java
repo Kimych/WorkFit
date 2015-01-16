@@ -8,17 +8,15 @@ public class WorkerTableModel extends AbstractFlexTableModel
     /** TODO document <code>serialVersionUID</code> */
     private static final long serialVersionUID = -7240846608397488776L;
 
-    private final static int COL_ID_WORKER = 0;
-    private final static int COL_FIRST_NAME_WORKER = 1;
-    private final static int COL_SECOND_NAME_WORKER = 2;
-    private final static int COL_THIRD_NAME_WORKER = 3;
-    private final static int COL_BUTTON_VIEW_HOLIDAY = 4;
-    private final static int COL_ALIAS_WORKER = 5;
-
+    private static final int COL_ID_WORKER = 0;
+    private static final int COL_FIRST_NAME_WORKER = 1;
+    private static final int COL_SECOND_NAME_WORKER = 2;
+    private static final int COL_THIRD_NAME_WORKER = 3;
+    private static final int COL_BUTTON_VIEW_HOLIDAY = 4;
+    private static final int COL_ALIAS_WORKER = 5;
 
     public WorkerTableModel()
     {
-        // addColumn(COL_ID_WORKER, "#ID", String.class);
         addColumn(COL_FIRST_NAME_WORKER, UDIPropSingleton.getString(this, "FirstName.column"), String.class);
         addColumn(COL_SECOND_NAME_WORKER, UDIPropSingleton.getString(this, "SecondName.column"), String.class);
         addColumn(COL_THIRD_NAME_WORKER, UDIPropSingleton.getString(this, "ThirdName.column"), String.class);
@@ -54,7 +52,7 @@ public class WorkerTableModel extends AbstractFlexTableModel
             break;
         case COL_ALIAS_WORKER:
             objResult = idData.getAlias();
-            break;    
+            break;
         default:
             break;
         }

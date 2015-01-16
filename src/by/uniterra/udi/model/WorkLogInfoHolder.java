@@ -50,8 +50,6 @@ public class WorkLogInfoHolder
     private Worker objWorker;
     private double spentHollidayInMonth;
 
-    // private boolean BeInPlane;
-
     public WorkLogInfoHolder(String curentTime, double toPlane, double toBonus, double timeLeft, Date lastUpdateDate, Worker objWorker, double spentHollidayInMonth)
     {
         this.сurentTime = curentTime;
