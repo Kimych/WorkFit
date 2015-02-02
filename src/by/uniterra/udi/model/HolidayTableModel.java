@@ -14,9 +14,10 @@ public class HolidayTableModel extends AbstractFlexTableModel
 
     public HolidayTableModel()
     {
-        addColumn(COL_COUNT_DAYS, UDIPropSingleton.getString(this, "ColCountDaysHoliday.column"), Integer.class);
         addColumn(COL_ID_YEAR, UDIPropSingleton.getString(this, "ColIdYearHoliday.column"), Integer.class);
+        addColumn(COL_COUNT_DAYS, UDIPropSingleton.getString(this, "ColCountDaysHoliday.column"), Integer.class);
         addColumn(COL_ID_WORKER, UDIPropSingleton.getString(this, "ColIdWorkerHoliday.column"), String.class);
+        setSortColumnId(COL_ID_YEAR);
     }
 
     @Override

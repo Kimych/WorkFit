@@ -26,11 +26,10 @@ public class DaysOfWorkTableModel extends AbstractFlexTableModel
         addColumn(COL_TIMESTAMP, UDIPropSingleton.getString(this, "timestamp.column"), Date.class);
         addColumn(COL_WORKLOG, UDIPropSingleton.getString(this, "fromLog.column"), Double.class);
         addColumn(COL_WORKER_ID, UDIPropSingleton.getString(this, "workerID.column"), Integer.class);
-        addColumn(COL_BONUS_TIME, UDIPropSingleton.getString(this, "bonusTime.column"), Double.class);
         addColumn(COL_AKTUAL_WORKED_DAYS, UDIPropSingleton.getString(this, "actualWorkedDays.column"), Integer.class);
+        addColumn(COL_BONUS_TIME, UDIPropSingleton.getString(this, "bonusTime.column"), Double.class);
         addColumn(COL_BONUS_TIME_DESC, UDIPropSingleton.getString(this, "descBonusTime.column"), String.class);
-        setSortColumn(getColIndex(COL_TIMESTAMP));
-        setSortOrder(SortOrder.DESCENDING);
+        setSortColumnId(COL_TIMESTAMP);
     }
 
     public DaysOfWorkTableModel(boolean flag)
@@ -39,6 +38,7 @@ public class DaysOfWorkTableModel extends AbstractFlexTableModel
         addColumn(COL_WORKLOG, UDIPropSingleton.getString(this, "fromLog.column"), Double.class);
         addColumn(COL_BONUS_TIME, UDIPropSingleton.getString(this, "bonusTime.column"), Double.class);
         addColumn(COL_AKTUAL_WORKED_DAYS, UDIPropSingleton.getString(this, "actualWorkedDays.column"), String.class);
+        setSortColumnId(COL_TIMESTAMP);
     }
 
     @Override

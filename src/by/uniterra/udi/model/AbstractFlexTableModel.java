@@ -47,7 +47,7 @@ public abstract class AbstractFlexTableModel extends AbstractTableModel
     protected final Map<Integer, Class<?>> mColumnIdClass;
     private List<?> lstData;
     private SortOrder soSortOrder;
-    private int iSortColumn;
+    private Integer iSortColumn;
 
     public AbstractFlexTableModel()
     {
@@ -248,9 +248,9 @@ public abstract class AbstractFlexTableModel extends AbstractTableModel
         return mColumnIdClass.get(mColumnIndexId.get(columnIndex));
     }
 
-    public int getSortColumn()
+    public int getSortColumnIndex()
     {
-        return iSortColumn;
+        return iSortColumn != null ? getColIndex(iSortColumn) : (int) mColumnIndexId.keySet().toArray()[0];
     }
 
     public SortOrder getSortOrder()
@@ -270,13 +270,13 @@ public abstract class AbstractFlexTableModel extends AbstractTableModel
     }
 
     /**
-     * @param iSortColumn the iSortColumn to set
+     * @param iSortColumnId the iSortColumn to set
      *
      * @author Sergio Alecky
      * @date 23 дек. 2014 г.
      */
-    public void setSortColumn(int iSortColumn)
+    public void setSortColumnId(int iSortColumnId)
     {
-        this.iSortColumn = iSortColumn;
+        this.iSortColumn = iSortColumnId;
     }
 }

@@ -29,6 +29,8 @@
 
 package by.uniterra.udi.model;
 
+import javax.swing.SortOrder;
+
 import by.uniterra.dai.entity.SpentHoliday;
 
 /**
@@ -50,11 +52,10 @@ public class SpentHolidayTableModel extends AbstractFlexTableModel
 
     public SpentHolidayTableModel()
     {
+        addColumn(COL_DATE, UDIPropSingleton.getString(this, "Date.column"), String.class);
         addColumn(COL_DAYS_COUNT, UDIPropSingleton.getString(this, "DaysCount.column"), Integer.class);
         addColumn(COL_WORKER, UDIPropSingleton.getString(this, "Worker.column"), String.class);
-        addColumn(COL_DATE, UDIPropSingleton.getString(this, "Date.column"), String.class);
         addColumn(COL_DESC, UDIPropSingleton.getString(this, "Desc.column"), String.class);
-
     }
 
     public boolean isCellEditable(int row, int column)

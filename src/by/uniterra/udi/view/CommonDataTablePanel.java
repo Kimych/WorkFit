@@ -162,7 +162,7 @@ public class CommonDataTablePanel extends JPanel implements ActionListener
         TimestampTableCellRenderer txrTimestampRenderer = new TimestampTableCellRenderer(SwingConstants.CENTER, DateUtils.EUROP_FULL_DATETIMEFORMAT, "UTC");
         tTable.setDefaultRenderer(Timestamp.class, txrTimestampRenderer);
         tTable.setDefaultRenderer(Date.class, txrTimestampRenderer);
-        tTable.setSortOrder(model.getSortColumn(), model.getSortOrder());
+        tTable.setSortOrder(model.getSortColumnIndex(), model.getSortOrder());
 
         // popup menu del row
         final JPopupMenu popup = new JPopupMenu();
