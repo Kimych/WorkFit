@@ -24,7 +24,7 @@ import java.util.Date;
 	    @NamedQuery(name = DaysOfWork.NQ_GET_COUNT_BY_TIMESTAMP_AND_WORKER, query = "SELECT COUNT(d) FROM DaysOfWork d WHERE d.timestamp = :" + DaysOfWork.PARAMETER_TIMESTAMP + " and d.worker = :" + DaysOfWork.PARAMETER_WORKER), 
             @NamedQuery(name = DaysOfWork.NQ_FIND_ALL_BY_WORKER_ID, query ="SELECT d FROM DaysOfWork d where d.worker = :" + DaysOfWork.PARAMETER_WORKER )             
 	})
-public class DaysOfWork implements Serializable
+public class DaysOfWork implements Serializable, Comparable<DaysOfWork>
 {
     private static final long serialVersionUID = 1L;
     
@@ -165,6 +165,12 @@ public class DaysOfWork implements Serializable
     {
 	return "DaysOfWork [daysOfWorkId=" + daysOfWorkId + ", aktualWorkedDays=" + aktualWorkedDays + ", bonusTime=" + bonusTime + ", bonusTimeDescription="
 		+ bonusTimeDescription + ", timestamp=" + timestamp + ", worklog=" + worklog + ", worker=" + worker + ", month=" + month + "]";
+    }
+
+    @Override
+    public int compareTo(DaysOfWork o)
+    {
+        return timestamp.compareTo(o.getTimestamp());
     }
 
 }
