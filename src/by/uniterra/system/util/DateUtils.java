@@ -385,7 +385,7 @@ public class DateUtils
             calNow.set(Calendar.SECOND, 0);
             calNow.set(Calendar.MILLISECOND, 0);
             // startTime + Hours
-            calNow.add(Calendar.HOUR, tsPeriod.getHours());
+            calNow.add(Calendar.HOUR_OF_DAY, tsPeriod.getHours());
         }
         return new Timestamp(calNow.getTimeInMillis());
     }
@@ -450,7 +450,7 @@ public class DateUtils
         else if (tsPeriod.getHours() != 0)
         {
             // startTime - (Hours - 1)
-            calNow.add(Calendar.HOUR, -(tsPeriod.getHours() - 1));
+            calNow.add(Calendar.HOUR_OF_DAY, -(tsPeriod.getHours() - 1));
             // set beginning of the hour
             calNow.set(Calendar.MINUTE, 0);
             calNow.set(Calendar.SECOND, 0);
@@ -508,7 +508,7 @@ public class DateUtils
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         calendar.setTime(dateFromLog);
         calendar.set(Calendar.DAY_OF_MONTH, 1);
-        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 1);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
